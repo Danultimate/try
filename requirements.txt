@@ -1,0 +1,14 @@
+click==6.7
+Flask==0.12.2
+Flask-SQLAlchemy==2.2
+Flask-SSLify==0.1.5
+gunicorn==19.7.1
+itsdangerous==0.24
+Jinja2==2.9.6
+MarkupSafe==1.0
+marshmallow==2.13.5
+psycopg2==2.7.2
+pytz==2017.2
+SQLAlchemy==1.1.11
+webargs==1.8.1
+Werkzeug==0.12.2
