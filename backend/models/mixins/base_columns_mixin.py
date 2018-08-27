@@ -1,7 +1,6 @@
 from backend.helpers.time import utcnow_with_utc_timezone
 from backend import db
 
-
 def created_by_default():
     return 0
 
@@ -18,7 +17,7 @@ def updated_at_default():
     return utcnow_with_utc_timezone()
 
 
-class BaseColumnsMixin(db.Model):
+class BaseColumnsMixin:
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     
     created_at = db.Column(db.DateTime(timezone=True), default=created_at_default, nullable=False,

@@ -1,8 +1,8 @@
 from backend import *
 from backend.models.mixins import *
-
+from sqlalchemy.dialects.postgresql.json import JSONB
 # Content
-class Content(BaseColumnsMixin):
+class Content(db.Model, BaseColumnsMixin):
     __tablename__ = 'content'
 
     name = db.Column(db.String(255), nullable=False, unique=True)
@@ -10,7 +10,7 @@ class Content(BaseColumnsMixin):
     created_at = db.Column(db.DateTime(True), nullable=False)
 
 # Social Media
-class Somepost(BaseColumnsMixin):
+class Somepost(db.Model, BaseColumnsMixin):
     __tablename__ = 'somepost'
 
     created_at = db.Column(db.DateTime(True), nullable=False)
@@ -22,22 +22,22 @@ class Somepost(BaseColumnsMixin):
     shared_content = db.relationship('Content')
     social_network = db.relationship('Socialnetwork')
 
-class Quiz(BaseColumnsMixin):
+class Quiz(db.Model, BaseColumnsMixin):
     __tablename__ = 'quiz'
 
     form_id = db.Column(db.String(255), nullable=False, unique=True)
     quiz_type = db.Column(db.String(255), nullable=False)
-    questions = db.Column(db.JSONB(astext_type=db.Text()), nullable=False)
-    raw_data = db.Column(db.JSONB(astext_type=db.Text()), nullable=False)
+    questions = db.Column(JSONB(astext_type=db.Text()), nullable=False)
+    raw_data = db.Column(JSONB(astext_type=db.Text()), nullable=False)
     client_id_question_id = db.Column(db.String(255), nullable=False)
 
-class Quizresult(BaseColumnsMixin):
+class Quizresult(db.Model, BaseColumnsMixin):
     __tablename__ = 'quizresult'
 
-    time_taken = db.Column(db.INTERVAL, nullable=False)
+    time_taken = db.Column(db.Interval, nullable=False)
     network_id = db.Column(db.String(255), nullable=False)
-    answers = db.Column(db.JSONB(astext_type=db.Text()), nullable=False)
-    raw_data = db.Column(db.JSONB(astext_type=db.Text()), nullable=False)
+    answers = db.Column(JSONB(astext_type=db.Text()), nullable=False)
+    raw_data = db.Column(JSONB(astext_type=db.Text()), nullable=False)
     client_id = db.Column(db.ForeignKey('client.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
     quiz_id = db.Column(db.ForeignKey('quiz.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
     result_id = db.Column(db.ForeignKey('profile.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)

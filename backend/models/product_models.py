@@ -1,33 +1,23 @@
 from backend import *
 from backend.models.mixins import *
 
-class Profile(BaseColumnsMixin):
+class Profile(db.Model, BaseColumnsMixin):
     __tablename__ = 'profile'
 
     name = db.Column(db.String(255), nullable=False)
 
-class Category(BaseColumnsMixin):
+class Category(db.Model, BaseColumnsMixin):
     __tablename__ = 'category'
 
     name = db.Column(db.String(255), nullable=False)
     parentID = db.Column(db.Integer, nullable=False)
 
-class Catalog(BaseColumnsMixin):
+class Catalog(db.Model, BaseColumnsMixin):
     __tablename__ = 'catalog'
 
     name = db.Column(db.String(255), nullable=False)
 
-class Productprofileweight(BaseColumnsMixin):
-    __tablename__ = 'productprofileweight'
-
-    weight = db.Column(db.Float(53), nullable=False)
-    product_id = db.Column(db.ForeignKey('product.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
-    profile_id = db.Column(db.ForeignKey('profile.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
-
-    product = db.relationship('Product')
-    profile = db.relationship('Profile')
-
-class Product(BaseColumnsMixin):
+class Product(db.Model, BaseColumnsMixin):
     __tablename__ = 'product'
 
     name = db.Column(db.String(255), nullable=False)
@@ -43,7 +33,17 @@ class Product(BaseColumnsMixin):
     catalog = db.relationship('Catalog')
     category = db.relationship('Category')
 
-class ContentProduct(BaseColumnsMixin):
+class Productprofileweight(db.Model, BaseColumnsMixin):
+    __tablename__ = 'productprofileweight'
+
+    weight = db.Column(db.Float(53), nullable=False)
+    product_id = db.Column(db.ForeignKey('product.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
+    profile_id = db.Column(db.ForeignKey('profile.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
+
+    product = db.relationship('Product')
+    profile = db.relationship('Profile')
+
+class ContentProduct(db.Model, BaseColumnsMixin):
     __tablename__ = 'content_products'
     __table_args__ = (
         db.UniqueConstraint('content_id', 'product_id'),

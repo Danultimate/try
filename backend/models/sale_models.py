@@ -1,7 +1,7 @@
 from backend import *
 from backend.models.mixins import *
 
-class Order(BaseColumnsMixin):
+class Order(db.Model, BaseColumnsMixin):
     __tablename__ = 'order'
 
     date = db.Column(db.DateTime(True), nullable=False)
@@ -9,7 +9,7 @@ class Order(BaseColumnsMixin):
 
     user = db.relationship('User')
 
-class OrderProduct(BaseColumnsMixin):
+class OrderProduct(db.Model, BaseColumnsMixin):
     __tablename__ = 'order_products'
 
     quantity = db.Column(db.Integer, nullable=False)

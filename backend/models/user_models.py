@@ -11,7 +11,7 @@ from passlib.apps import custom_app_context as pwd_context
 
 secret_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(32))
 
-class User(BaseColumnsMixin):
+class User(BaseColumnsMixin, db.Model):
     __tablename__ = 'user'
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String, nullable=False)
@@ -45,12 +45,12 @@ class User(BaseColumnsMixin):
         user_id = data['id']
         return user_id
 
-class Socialnetwork(BaseColumnsMixin):
+class Socialnetwork(BaseColumnsMixin, db.Model):
     __tablename__ = 'socialnetwork'
 
     name = db.Column(db.String(255), nullable=False)
 
-class Usersocialnetwork(BaseColumnsMixin):
+class Usersocialnetwork(BaseColumnsMixin, db.Model):
     __tablename__ = 'usersocialnetwork'
 
     social_network = db.Column(db.String(255), nullable=False)
@@ -59,12 +59,12 @@ class Usersocialnetwork(BaseColumnsMixin):
 
     user = db.relationship('User')
 
-class Segment(BaseColumnsMixin):
+class Segment(BaseColumnsMixin, db.Model):
     __tablename__ = 'segment'
 
     name = db.Column(db.String(255), nullable=False)
 
-class Seller(BaseColumnsMixin):
+class Seller(BaseColumnsMixin, db.Model):
     __tablename__ = 'seller'
 
     time_investment = db.Column(db.Interval, nullable=False)
@@ -73,7 +73,7 @@ class Seller(BaseColumnsMixin):
     user_id = db.Column(db.ForeignKey('user.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
 
 
-class Client(BaseColumnsMixin):
+class Client(BaseColumnsMixin, db.Model):
     __tablename__ = 'client'
 
     old_consumer = db.Column(db.Boolean, nullable=False)

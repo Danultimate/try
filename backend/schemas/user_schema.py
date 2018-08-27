@@ -1,12 +1,21 @@
 from marshmallow import Schema, fields
 from backend.helpers import marshmellow_fields
+from backend.models import *
 
 
-class UserSchema(Schema):
-    email = fields.Email(required=True)
-    email_confirm = fields.Email(required=False, missing=None)
-    password = marshmellow_fields.Password(required=True)
-    password_confirm = marshmellow_fields.Password(required=False, missing=None)
-
+class UserSchema(ma.ModelSchema):
     class Meta:
-        strict = True
+        model = User
+
+class SocialnetworkSchema(ma.ModelSchema):
+    class Meta:
+        model = Socialnetwork
+
+class UsersocialnetworkSchema(ma.ModelSchema):
+    class Meta:
+        model = Usersocialnetwork
+
+class SegmentSchema(ma.ModelSchema):
+    class Meta:
+        model = Segment
+

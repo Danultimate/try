@@ -1,12 +1,12 @@
 from backend import *
 from backend.models.mixins import *
 
-class Activity(BaseColumnsMixin):
+class Activity(db.Model, BaseColumnsMixin):
     __tablename__ = 'activity'
     
     type_of = db.Column(db.String(255), nullable=False)
 
-class Activityregister(BaseColumnsMixin):
+class Activityregister(db.Model, BaseColumnsMixin):
     __tablename__ = 'activityregister'
 
     activity_description = db.Column(db.Text, nullable=False)
@@ -21,7 +21,7 @@ class Activityregister(BaseColumnsMixin):
     client = db.relationship('Client')
     seller = db.relationship('Seller')
 
-class Recommendation(BaseColumnsMixin):
+class Recommendation(db.Model, BaseColumnsMixin):
     __tablename__ = 'recommendation'
 
     created_at = db.Column(db.DateTime(True), nullable=False)
@@ -34,7 +34,7 @@ class Recommendation(BaseColumnsMixin):
     seller = db.relationship('Seller')
 
 
-class RecommendationProduct(BaseColumnsMixin):
+class RecommendationProduct(db.Model, BaseColumnsMixin):
     __tablename__ = 'recommendation_products'
     __table_args__ = (
         db.UniqueConstraint('recommendation_id', 'product_id'),
