@@ -1,12 +1,9 @@
-from sqlalchemy.orm import lazyload
+from flask import g as flask_globals
+from flask import request
 
 from backend import app
-from flask import g as flask_globals, request
-
-from backend.models import AppClientModel, UserModel
-from backend.models.device_model import DeviceModel
-
 from backend.helpers import itsdangerous
+from sqlalchemy.orm import lazyload
 
 
 @app.after_request

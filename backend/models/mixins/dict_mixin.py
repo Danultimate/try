@@ -2,7 +2,7 @@ import enum
 from collections import Iterable
 from enum import Enum
 
-from sqlalchemy import inspect
+from flask_sqlalchemy import inspect
 
 
 class DictMixin:

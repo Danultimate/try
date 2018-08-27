@@ -3,16 +3,18 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_sslify import SSLify
+import config
 
 app = Flask(__name__)
 sslify = SSLify(app)
 
-app.config.from_object(os.environ['SETTINGS'])
+env = os.environ.get('SETTINGS', config.Development)
+app.config.from_object(env)
 
 db = SQLAlchemy(app)
-
-import backend.core
 
 __all__ = [
     'app', 'db'
 ]
+
+import backend.core
