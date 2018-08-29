@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 
 export function encodeURIComponentHelper(params/*, hash*/) {
   return encodeURIComponent(params);
 }
 
-export default Ember.Helper.helper(encodeURIComponentHelper);
+export default buildHelper(encodeURIComponentHelper);
