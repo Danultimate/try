@@ -1,0 +1,24 @@
+num clients {{model.length}}
+
+<table>
+	<tr>
+  	<th>name</th>
+    <th>phone</th>
+    <th></th>
+    <th># orders</th>
+
+  </tr>
+{{#each model as |client|}}
+	<tr>
+		<td>
+      {{#link-to "client" client.id}}
+      	{{client.name}}
+      {{/link-to}}
+		</td>
+		<td>{{client.phone}}</td>
+    <td><a href="whatsapp://send?phone={{client.phone}}"><img src="https://cdn2.iconfinder.com/data/icons/social-icons-color/512/whatsapp-512.png" height="16" width="16"></a><a href="tel:{{client.phone}}">
+    <img src="https://cdn4.iconfinder.com/data/icons/social-icons-6/40/phone-128.png" height="16" width="16"></a></td>
+    <td>{{client.orders.length}}</td>
+	</tr>
+{{/each}}
+</table>

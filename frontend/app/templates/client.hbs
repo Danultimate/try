@@ -1,0 +1,14 @@
+<h1>{{model.name}}</h1>
+<p><img src="https://cdn4.iconfinder.com/data/icons/social-icons-6/40/phone-128.png" height="16" width="16"><a href="tel:{{model.phone}}">{{model.phone}}</a></p>
+
+<br>
+<h2>orders:</h2>
+<ul>
+	{{#each model.orders as |order|}}
+    <li>
+      {{#link-to "order" order.id}}
+      {{order.name}} - {{to-locale-string order.date}}
+      {{/link-to}}
+    </li>
+	{{/each}}
+</ul>

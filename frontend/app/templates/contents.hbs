@@ -1,0 +1,16 @@
+<table >
+	<tr>
+  	<th>img</th>
+  	<th>name</th>
+  </tr>
+{{#each model as |content|}}
+	<tr>
+  	<td><img src={{content.thumbnailUrl}} /></td>
+		<td>
+      {{#link-to "content" content.id}}
+      	{{content.name}}
+      {{/link-to}}
+    </td>    
+	</tr>
+{{/each}}
+</table>
