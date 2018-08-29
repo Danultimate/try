@@ -7,17 +7,19 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function() {
-    this.route('index', { path: '/' });	
-    this.route('orders');
-    this.route('order', { path: '/orders/:orderId' })
-    this.route('clients');
-    this.route('client', { path: '/clients/:clientId' });
-    this.route('items');
-    this.route('item', { path: '/items/:itemId' });
-    this.route('tasks');
-    this.route('task', { path: '/tasks/:taskId' });
-    this.route('contents');
-    this.route('content', { path: '/contents/:contentId' });
+  //this.route('index', { path: '/' });
+  this.route('orders', { path: '/' });
+  this.route('order', { path: '/orders/:order_id' })
+  this.route('clients');
+  this.route('client', { path: '/clients/:client_id' });
+  this.route('items');
+  this.route('item', { path: '/items/:item_id' });
+  this.route('tasks');
+  this.route('task', { path: '/tasks/:task_id' });
+  this.route('contents');
+  this.route('content', { path: '/contents/:content_id' });
+  this.route('seller', { path: '/seller' });
+  this.route('notification');
 });
 
 export default Router;

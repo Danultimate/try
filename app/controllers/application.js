@@ -1,18 +1,38 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
 
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   
   
   init(){
     this._super();
     // create demo entries
-    let c1 = this.store.createRecord('client', {"id": 1, 'name': "ana", "phone": 12312123123});
-     let c2 = this.store.createRecord('client', {"id": 2, 'name': "victor", "phone": 1234213123});
-     let c3 = this.store.createRecord('client', {"id": 3, 'name': "cristy", "phone": 1234213123});
-     let c4 = this.store.createRecord('client', {"id": 4, 'name': "nico", "phone": 1234213123});
-     let c5 = this.store.createRecord('client', {"id": 5, 'name': "thomas", "phone": 1234213123});
-     let c6 = this.store.createRecord('client', {"id": 6, 'name': "juli", "phone": 1234213123});
+    let u1 = this.store.createRecord('user', {"id": 1, 'name': "ana",
+     "phone": 12312123123, 
+     "avatarUrl": "https://images.clipartlogo.com/files/istock/previews/9984/99842419-happy-asian-girls-icon-vector-young-woman-icon-illustration.jpg"});
+    let u2 = this.store.createRecord('user', {"id": 2, 'name': "victor",
+     "phone": 1234213123, 
+     "avatarUrl": "https://cdn2.vectorstock.com/i/1000x1000/49/86/man-character-face-avatar-in-glasses-vector-17074986.jpg"});
+    let u3 = this.store.createRecord('user', {"id": 3, 'name': "cristy",
+     "phone": 1234213123, 
+     "avatarUrl": "https://images.clipartlogo.com/files/istock/previews/9984/99842419-happy-asian-girls-icon-vector-young-woman-icon-illustration.jpg"});
+    let u4 = this.store.createRecord('user', {"id": 4, 'name': "nico",
+     "phone": 1234213123, 
+     "avatarUrl": "https://cdn2.vectorstock.com/i/1000x1000/49/86/man-character-face-avatar-in-glasses-vector-17074986.jpg"});
+    let u5 = this.store.createRecord('user', {"id": 5, 'name': "thomas",
+     "phone": 1234213123, 
+     "avatarUrl": "https://cdn2.vectorstock.com/i/1000x1000/49/86/man-character-face-avatar-in-glasses-vector-17074986.jpg"});
+    let u6 = this.store.createRecord('user', {"id": 6, 'name': "juli",
+     "phone": 1234213123, 
+     "avatarUrl": "https://images.clipartlogo.com/files/istock/previews/9984/99842419-happy-asian-girls-icon-vector-young-woman-icon-illustration.jpg"});
+
+    let s1 = this.store.createRecord('seller', {"id": 1, "user": u6, "commision": 0.20})
+
+    let c1 = this.store.createRecord('client', {"id": 1, "user":u1, "seller": s1, "old_consumer": true})
+    let c2 = this.store.createRecord('client', {"id": 2, "user":u2, "seller": s1, "old_consumer": true})
+    let c3 = this.store.createRecord('client', {"id": 3, "user":u3, "seller": s1, "old_consumer": true})
+    let c4 = this.store.createRecord('client', {"id": 4, "user":u4, "seller": s1, "old_consumer": true})
+    let c5 = this.store.createRecord('client', {"id": 5, "user":u5, "seller": s1, "old_consumer": true})
     
     
     let i1 = this.store.createRecord('item', {"id": 1, "name": "some thing", "price": 3, "imageUrl": "https://via.placeholder.com/150x150"})
@@ -22,6 +42,7 @@ export default Ember.Controller.extend({
    
     this.store.createRecord('order', {
         "id": 1, 
+        "seller": s1,
         "name": "order 1", 
         "date": new Date(2018, 4, 10),
         "client": c1,
@@ -29,6 +50,7 @@ export default Ember.Controller.extend({
     });	
     this.store.createRecord('order', {
         "id": 2, 
+        "seller": s1,
         "name": "order 2", 
         "date": new Date(2018, 6, 12),
         "client": c2,
@@ -36,6 +58,7 @@ export default Ember.Controller.extend({
     });	
     this.store.createRecord('order', {
         "id": 3, 
+        "seller": s1,
         "name": "order 3", 
         "quantity": 3, 
         "date": new Date(2018, 5, 3),
@@ -44,6 +67,7 @@ export default Ember.Controller.extend({
     });	
     this.store.createRecord('order', {
         "id": 4, 
+        "seller": s1,
         "name": "order 4", 
         "date": new Date(2018, 3, 12),
         "client": c1,
@@ -57,6 +81,7 @@ export default Ember.Controller.extend({
      
      let task1 = this.store.createRecord('task', {
         "id": 1, 
+        "seller": s1,
         "description": "Envia a 2 personas", 
         "date": new Date(2018, 3, 12),
         "num_to_send": 2,
@@ -66,6 +91,7 @@ export default Ember.Controller.extend({
      
      this.store.createRecord('task', {
         "id": 2, 
+        "seller": s1,
         "description": "Comparte el catalogo por SoMe", 
         "date": new Date(2018, 3, 12),
         "num_to_send": 0,
@@ -75,6 +101,7 @@ export default Ember.Controller.extend({
     
     this.store.createRecord('task', {
         "id": 3, 
+        "seller": s1,
         "description": "Comparte el video intro 2 por SoMe", 
         "date": new Date(2018, 3, 12),
         "num_to_send": 0,

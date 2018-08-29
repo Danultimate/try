@@ -10,5 +10,6 @@ export default Model.extend({
     done: attr('boolean', { defaultValue: false }),
     when_done: attr('date'),
     suggested_clients: hasMany('suggested_client'),
+    seller: belongsTo('seller'),
     content: belongsTo('content')
 });

@@ -1,0 +1,23 @@
+
+<h1>{{model.user.name}}</h1>
+<img src="{{model.user.avatarUrl}}" height="100" width="100">
+
+<br>
+<h2>Tareas:</h2>
+{{!-- TODO: How to count done tasks??? --}}
+{{!-- {{#var num_done = 0 }}
+{{#each model.tasts as |task|}}
+    {{#if task.done}}
+    <p>{{ num_done }}</p>
+    {{/if}}
+{{/each}}
+{{/var}} --}}
+
+<h3>2/{{model.tasks.length}}</h3>
+
+<h2>Ganancias:</h2>
+<h3>{{mult model.total model.commision}}</h3>
+
+{{#link-to "tasks"}}Tus tareas pendientes{{/link-to}}
+
+
