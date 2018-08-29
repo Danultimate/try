@@ -1,0 +1,29 @@
+num orders {{model.length}}
+
+<table >
+	<tr>
+  	<th>name</th>
+    <th>date</th>
+    <th># items</th>
+    <th>purchase sum</th>
+    <th>client</th>
+
+  </tr>
+{{#each model as |order|}}
+	<tr>
+		<td>
+    {{#link-to "order" order.id}}
+			{{order.name}}
+    {{/link-to}}
+		</td>
+		<td>{{to-locale-string order.date}}</td>
+		<td>{{order.items.length}}</td>
+    <td>${{order.purchaseSum}}</td>
+    <td>
+    {{#link-to "client" order.client.id}}
+    	{{order.client.name}}
+    {{/link-to}}
+    </td>
+	</tr>
+{{/each}}
+</table>

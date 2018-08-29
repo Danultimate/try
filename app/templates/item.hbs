@@ -1,0 +1,16 @@
+<h1>{{model.name}}</h1>
+<img src={{model.imageUrl}}>
+
+<h2>Bought in orders</h2>
+
+<ul>
+	{{#each model.orders as |order|}}
+		<li> 
+			{{#link-to "order" order.id}}
+        {{order.name}}, 
+        {{to-locale-string order.date}},
+        {{order.client.name}}  
+			{{/link-to}}
+		</li>
+	{{/each}}
+</ul>

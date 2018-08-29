@@ -1,0 +1,20 @@
+
+<h1>{{model.name}}</h1>
+<p>order date: {{to-locale-string model.date}}</p>
+
+<h2>Client</h2>
+  <p> 
+    {{#link-to "client" model.client.id}}
+    {{model.client.name}}, {{model.client.phone}}  
+    {{/link-to}}
+  </p>
+<h2>Items in order</h2>
+ <ul>
+  {{#each model.items as |item|}}
+  <li> 
+    {{#link-to "item" item.id}}
+    {{item.name}}, ${{item.price}}  
+    {{/link-to}}
+  </li>
+  {{/each}}
+</ul>

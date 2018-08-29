@@ -1,0 +1,21 @@
+num items {{model.length}}
+
+<table >
+	<tr>
+  	<th>img</th>
+  	<th>name</th>
+    <th>price</th>
+  </tr>
+{{#each model as |item|}}
+	<tr>
+  	<td><img src={{item.imageUrl}} /></td>
+		<td>
+      {{#link-to "item" item.id}}
+        {{item.name}}
+      {{/link-to}}
+		</td>
+    <td>${{item.price}}</td>
+    
+	</tr>
+{{/each}}
+</table>
