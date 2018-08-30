@@ -15,6 +15,10 @@
     {{content-for "head-footer"}}
   </head>
   <body>
+    <script src="js/push.min.js"></script>
+    <script>
+      Push.create("Hola este es manual")
+    </script>
     {{content-for "body"}}
 
     <script src="{{rootURL}}assets/vendor.js"></script>
