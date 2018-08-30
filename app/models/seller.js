@@ -1,6 +1,6 @@
 import DS from 'ember-data';
 import { hasMany, belongsTo } from 'ember-data/relationships';
-import { mapBy, sum } from '@ember/object/computed';
+import { mapBy, sum, filterBy } from '@ember/object/computed';
 import attr from 'ember-data/attr';
 
 export default DS.Model.extend({
@@ -13,6 +13,10 @@ export default DS.Model.extend({
 
     // TODO: Computed each update or retreive?
     total_per_order:  mapBy('orders', 'purchaseSum'),
-    total: sum('total_per_order')
+    total: sum('total_per_order'),
+
+    tasksCompleted: filterBy('tasks', 'done', true),
+
+    ordersActive: filterBy('orders', 'status', 0),
 
 });

@@ -1,5 +1,7 @@
 num orders {{model.length}}
 
+{{!-- {{simple-table modelName="orders"}} --}}
+
 <table >
 	<tr>
   	<th>name</th>
@@ -21,7 +23,7 @@ num orders {{model.length}}
     <td>${{order.purchaseSum}}</td>
     <td>
     {{#link-to "client" order.client.id}}
-    	{{order.client.name}}
+    	{{order.client.user.name}}
     {{/link-to}}
     </td>
 	</tr>

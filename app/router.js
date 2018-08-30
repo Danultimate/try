@@ -20,6 +20,7 @@ Router.map(function() {
   this.route('content', { path: '/contents/:content_id' });
   this.route('seller', { path: '/seller' });
   this.route('notification');
+  this.route('referral');
 });
 
 export default Router;
