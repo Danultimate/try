@@ -1,7 +1,7 @@
 from marshmallow import Schema, fields
 from backend.helpers import marshmellow_fields
+from backend import ma
 from backend.models import *
-
 
 class UserSchema(ma.ModelSchema):
     class Meta:

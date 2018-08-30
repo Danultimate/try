@@ -5,6 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_sslify import SSLify
 import config
+from sqlalchemy_jsonapi import JSONAPI
+
 
 app = Flask(__name__)
 sslify = SSLify(app)
@@ -20,3 +22,4 @@ __all__ = [
 ]
 
 import backend.core
+
