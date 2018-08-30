@@ -11,7 +11,7 @@ from passlib.apps import custom_app_context as pwd_context
 
 secret_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(32))
 
-class User(db.Model, BaseColumnsMixin):
+class User(db.Model, BaseColumnsMixin, DictMixin):
     __tablename__ = 'user'
     first_name = db.Column(db.String, nullable=False)
     last_name = db.Column(db.String, nullable=False)

@@ -21,6 +21,7 @@ Router.map(function() {
   this.route('seller', { path: '/seller' });
   this.route('notification');
   this.route('referral');
+  this.route('login', { path: '/login' });
 });
 
 export default Router;

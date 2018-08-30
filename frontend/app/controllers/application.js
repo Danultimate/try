@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-
+import { inject as injectService } from '@ember/service';
 
 export default Controller.extend({
   
@@ -135,25 +135,18 @@ export default Controller.extend({
     });
 
   },
-
-  transitionHistory: [],
-  transitioningToBack: false,
-  
-  actions: {
-    // Note that an action, like 'back', may be called from any child!  Like back below, for example.
-
-    willTransition: function(transition) {
-      if (!this.get('transitioningToBack')) {
-        this.get('transitionHistory').push(window.location.pathname);
-      }
-      this.set('transitioningToBack', false);
-    },
     
-    back: function() {
-      var last = this.get('transitionHistory').pop();
-      last = last ? last : '/dash';
-      this.set('transitioningToBack', true);
-      this.transitionTo(last);
-    }
+  push: injectService('push'),
+
+  actions: {
+    sendPush() {
+        this.get('push').create("Hello world!");
+      },
+    
+    save(){
+        this.get("model").save().then(()=>{
+          this.transitionToRoute(this.get("model"), this.get("model"))
+        })
+      },
   }
 });
