@@ -1,5 +1,9 @@
 <nav>nav:
-<a href="#" {{action 'back'}} class="active ember-view">Back</a>
+{{#if session.isAuthenticated}}
+    <a {{action 'invalidateSession'}}>Logout</a>
+  {{else}}
+    {{#link-to 'login'}}Login{{/link-to}}
+{{/if}} |
 {{#link-to "seller"}}Mi perfil{{/link-to}} |
 {{#link-to "orders"}}Ordenes{{/link-to}} |
 {{#link-to "clients"}}Mis clientes{{/link-to}} |
@@ -9,6 +13,7 @@
 
 </nav>
 <br>
+<button {{action "sendPush"}}>ember-cli-push</button>
 <br>
 {{outlet}}
 <br>
