@@ -16,7 +16,7 @@
   <li>
   		{{input type="checkbox" checked=(readonly s_client.priorized)}}
     	{{#link-to "client" s_client.client.id}}
-        {{s_client.client.name}}
+        {{s_client.client.user.name}}
 			{{/link-to}}
    </li>
 	{{/each}}

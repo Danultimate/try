@@ -43,14 +43,16 @@ export default Controller.extend({
     this.store.createRecord('order', {
         "id": 1, 
         "seller": s1,
+        "status": 0,
         "name": "order 1", 
         "date": new Date(2018, 4, 10),
         "client": c1,
-       "items": [i1, i3]
+        "items": [i1, i3]
     });	
     this.store.createRecord('order', {
         "id": 2, 
         "seller": s1,
+        "status": 0,
         "name": "order 2", 
         "date": new Date(2018, 6, 12),
         "client": c2,
@@ -59,6 +61,7 @@ export default Controller.extend({
     this.store.createRecord('order', {
         "id": 3, 
         "seller": s1,
+        "status": 2,
         "name": "order 3", 
         "quantity": 3, 
         "date": new Date(2018, 5, 3),
@@ -68,6 +71,7 @@ export default Controller.extend({
     this.store.createRecord('order', {
         "id": 4, 
         "seller": s1,
+        "status": 1,
         "name": "order 4", 
         "date": new Date(2018, 3, 12),
         "client": c1,
@@ -128,8 +132,8 @@ export default Controller.extend({
     this.store.createRecord('suggested_client', {
         "id": 4, "task": task1, "client": c1, "priorized": false,
          "text": "Hola, mira este contenido para ti :D"
-    });	
-    
+    });
+
   },
 
   transitionHistory: [],

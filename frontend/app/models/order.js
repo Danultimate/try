@@ -9,9 +9,11 @@ export default DS.Model.extend({
     client: belongsTo('client'),
     items: hasMany('item'),
     seller: belongsTo('seller'),
+    status: attr('number'),
     
     // get prices of all related items (automatically updated when added/removed)
     purchasePrices:  mapBy('items', 'price'),
     // calculate sum of items
     purchaseSum: sum('purchasePrices')
+
 });
