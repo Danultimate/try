@@ -16,4 +16,4 @@ def register_route(view, endpoint, url, pk='id', pk_type='int'):
 NAME_SPACE = '/api/v1'
 
 register_route(TestMethodView, 'test', '/')
-register_route(UserMethodView, 'user_model', '/user', pk='user_id')
+register_route(UserMethodView, 'user_model', '/users', pk='user_id')
