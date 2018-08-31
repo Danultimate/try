@@ -18,7 +18,12 @@ def after_request(response):
 
 @app.before_request
 def before_request():
-
-
-
-    return None
+    # if not (flask_globals.user or request.endpoint == 'login'):
+    #     #return login_manager.unauthorized()
+    #     return 'lala'
+    # TODO: except login
+    token = request.headers.get('token')
+    # verify the token
+    data = itsdangerous.get_data(token)
+    user_id = data['id']
+    return user_id

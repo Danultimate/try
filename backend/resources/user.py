@@ -15,3 +15,6 @@ class UserMethodView(MethodView):
         users = [user.to_dict() for user in users]
 
         return jsonify({'users': users})
+
+    def post(self):
+        pass

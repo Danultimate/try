@@ -19,6 +19,6 @@ def sign(obj):
 def get_data(token):
     try:
         return serializer.loads(token)
-    except BadSignature:
+    except BadSignature or SignatureExpired:
         print("Bad Signature")
     return None
