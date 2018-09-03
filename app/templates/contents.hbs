@@ -5,7 +5,7 @@
   </tr>
 {{#each model as |content|}}
 	<tr>
-  	<td><img src={{content.thumbnailUrl}} /></td>
+  	<td><img src={{content.thumbnailUrl}} height="50" width="50"></td>
 		<td>
       {{#link-to "content" content.id}}
       	{{content.name}}

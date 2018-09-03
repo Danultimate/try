@@ -5,15 +5,19 @@ import { belongsTo, hasMany } from 'ember-data/relationships';
 
 export default DS.Model.extend({
     name: attr('string'),
-    date: attr('date'),
+    status: attr('date'),
     client: belongsTo('client'),
-    items: hasMany('item'),
+    products: hasMany('product'),
     seller: belongsTo('seller'),
     status: attr('number'),
+    date: attr('date'),
     
     // get prices of all related items (automatically updated when added/removed)
-    purchasePrices:  mapBy('items', 'price'),
+    purchasePrices:  mapBy('product', 'price'),
     // calculate sum of items
-    purchaseSum: sum('purchasePrices')
+    purchaseSum: sum('purchasePrices'),
+
+    purchasePoints:  mapBy('product', 'point'),
+    purchasePointsSum: sum('purchasePoints')
 
 });

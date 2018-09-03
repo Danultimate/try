@@ -1,14 +1,14 @@
-<h1>{{model.user.name}}</h1>
-<img src="{{model.user.avatarUrl}}" height="50" width="50">
+<h1>{{model.user.first_name}} {{model.user.last_name}}</h1>
+<img src="{{model.user.picture}}" height="50" width="50">
 <p><img src="https://cdn4.iconfinder.com/data/icons/social-icons-6/40/phone-128.png" height="16" width="16"><a href="tel:{{model.user.phone}}">{{model.user.phone}}</a></p>
 
 <br>
-<h2>orders:</h2>
+<h2>Ordenes:</h2>
 <ul>
 	{{#each model.orders as |order|}}
     <li>
       {{#link-to "order" order.id}}
-      {{order.name}} - {{to-locale-string order.date}}
+      {{order.name}} - {{to-locale-string order.status}}
       {{/link-to}}
     </li>
 	{{/each}}
