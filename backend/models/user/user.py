@@ -17,7 +17,7 @@ class User(db.Model, BaseColumnsMixin, DictMixin):
     last_name = db.Column(db.String, nullable=False)
     cellphone = db.Column(db.BigInteger, nullable=False, unique=True, index=True)
     #TODO: change to required!
-    password_hash = db.Column(db.String(64))#, nullable=False)
+    password_hash = db.Column(db.String(64), nullable=False, info={'hidden': True})
     picture = db.Column(db.String)
     email = db.Column(db.String, index=True)
     birth = db.Column(db.DateTime)

@@ -4,11 +4,11 @@ import attr from 'ember-data/attr';
 import { belongsTo, hasMany } from 'ember-data/relationships';
 
 export default Model.extend({
-    description: attr('string'),
+    task_description: attr('string'),
     date: attr('date'),
     num_to_send: attr('number'),
     done: attr('boolean', { defaultValue: false }),
-    when_done: attr('date'),
+    excuted_date: attr('date'),
     suggested_clients: hasMany('suggested_client'),
     seller: belongsTo('seller'),
     content: belongsTo('content')

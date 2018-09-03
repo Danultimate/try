@@ -13,3 +13,5 @@ class Seller(db.Model, BaseColumnsMixin, DictMixin):
     income_from_DS = db.Column(db.Numeric(10, 2), nullable=False)
     segment_id = db.Column(db.ForeignKey('segment.id', deferrable=True, initially='DEFERRED'), index=True)
     user_id = db.Column(db.ForeignKey('user.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
+    goal =  db.Column(db.Numeric(10, 2), nullable=False)
+    comission =  db.Column(db.Numeric(0, 2), nullable=False)

@@ -11,9 +11,11 @@ export default DS.Model.extend({
     notifications: hasMany('notification'),
     commision: attr('number'),
 
-    // TODO: Computed each update or retreive?
     total_per_order:  mapBy('orders', 'purchaseSum'),
     total: sum('total_per_order'),
+
+    total_points_per_order:  mapBy('orders', 'purchasePointsSum'),
+    total_points: sum('total_per_order'),
 
     tasksCompleted: filterBy('tasks', 'done', true),
 

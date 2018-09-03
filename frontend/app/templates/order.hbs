@@ -10,10 +10,10 @@
   </p>
 <h2>Items in order</h2>
  <ul>
-  {{#each model.items as |item|}}
+  {{#each model.products as |product|}}
   <li> 
-    {{#link-to "item" item.id}}
-    {{item.name}}, ${{item.price}}  
+    {{#link-to "product" product.id}}
+    {{product.name}}, ${{product.price}}
     {{/link-to}}
   </li>
   {{/each}}

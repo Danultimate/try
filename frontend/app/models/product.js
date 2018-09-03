@@ -5,7 +5,7 @@ import { belongsTo, hasMany } from 'ember-data/relationships';
 export default Model.extend({
   name: attr('string'),
   price: attr('number'),
-  imageUrl: attr('string'),
+  image: attr('string'),
   orders: hasMany('order')
   
 });

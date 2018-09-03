@@ -8,16 +8,16 @@
 {{#each model as |task|}}
 	<tr>
   	{{#if task.done}}
-      <td style="text-decoration:line-through">{{task.description}}</td>
+      <td style="text-decoration:line-through">{{task.task_description}}</td>
     {{else}}
       <td>
       	{{#if task.num_to_send}}
           {{#link-to "task" task.id}}
-            {{task.description}}
+            {{task.task_description}}
           {{/link-to}}
         {{else}}
           {{#link-to "content" task.content.id}}
-              {{task.description}}
+              {{task.task_description}}
           {{/link-to}}
         {{/if}}
       </td>

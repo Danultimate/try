@@ -4,9 +4,4 @@ import { hasMany } from 'ember-data/relationships';
 
 export default Model.extend({
   name: attr('string'),
-  imageUrl: attr('string'),
-  thumbnailUrl: attr('string'),
-  media_type: attr('string')
-  // Type (video, horoscopo..)
-  // 
 });
