@@ -1,28 +1,10 @@
-from backend import *
-from backend.models.mixins import *
 from sqlalchemy.dialects.postgresql.json import JSONB
-# Content
-class Content(db.Model, BaseColumnsMixin):
-    __tablename__ = 'content'
 
-    name = db.Column(db.String(255), nullable=False, unique=True)
-    description = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime(True), nullable=False)
+from backend import db
+from backend.models import BaseColumnsMixin, DictMixin
 
-# Social Media
-class Somepost(db.Model, BaseColumnsMixin):
-    __tablename__ = 'somepost'
 
-    created_at = db.Column(db.DateTime(True), nullable=False)
-    seller_id = db.Column(db.ForeignKey('seller.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
-    shared_content_id = db.Column(db.ForeignKey('content.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
-    social_network_id = db.Column(db.ForeignKey('socialnetwork.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
-
-    seller = db.relationship('Seller')
-    shared_content = db.relationship('Content')
-    social_network = db.relationship('Socialnetwork')
-
-class Quiz(db.Model, BaseColumnsMixin):
+class Quiz(db.Model, BaseColumnsMixin, DictMixin):
     __tablename__ = 'quiz'
 
     form_id = db.Column(db.String(255), nullable=False, unique=True)
@@ -31,7 +13,8 @@ class Quiz(db.Model, BaseColumnsMixin):
     raw_data = db.Column(JSONB(astext_type=db.Text()), nullable=False)
     client_id_question_id = db.Column(db.String(255), nullable=False)
 
-class Quizresult(db.Model, BaseColumnsMixin):
+
+class QuizResult(db.Model, BaseColumnsMixin, DictMixin):
     __tablename__ = 'quizresult'
 
     time_taken = db.Column(db.Interval, nullable=False)

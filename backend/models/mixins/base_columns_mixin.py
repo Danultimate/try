@@ -2,7 +2,7 @@ from backend.helpers.time import utcnow_with_utc_timezone
 from backend import db
 
 def created_by_default():
-    return 0
+    return 1
 
 
 def created_at_default():
@@ -10,7 +10,7 @@ def created_at_default():
 
 
 def updated_by_default():
-    return 0
+    return 1
 
 
 def updated_at_default():

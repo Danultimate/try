@@ -27,4 +27,5 @@ def before_request():
     # data = itsdangerous.get_data(token)
     # user_id = data['id']
     # return user_id
+    print('heeeeeeeeeeeeeeeeey si entra aqui ')
     return None

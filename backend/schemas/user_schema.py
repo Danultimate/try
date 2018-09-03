@@ -9,11 +9,11 @@ class UserSchema(ma.ModelSchema):
 
 class SocialnetworkSchema(ma.ModelSchema):
     class Meta:
-        model = Socialnetwork
+        model = SocialNetwork
 
 class UsersocialnetworkSchema(ma.ModelSchema):
     class Meta:
-        model = Usersocialnetwork
+        model = UserSocialNetwork
 
 class SegmentSchema(ma.ModelSchema):
     class Meta:

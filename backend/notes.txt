@@ -1,0 +1,33 @@
+GET
+X H   'User',
+    'SocialNetwork',
+I I   'UserSocialNetwork',
+    'Segment',
+X H   'Seller',
+I    'SellerCatalogs',
+X H*   'Client',
+I    'Profile',
+I    'ProductSuggestions',
+
+    'Topic',
+H    'Content',
+I    'ContentProduct',
+    'SoMePost',
+    'Quiz',
+    'QuizResult',
+
+
+    'Category',
+    'Catalog',
+
+H    'Product',
+I    'ProductProfileWeight',
+
+
+H    'Order',
+I    'OrderDetail',
+
+H H*   'Task',
+I    'ClientSuggestions',
+
+H H*    'NotificationRegister'

@@ -1,38 +1,39 @@
-from backend import *
 from backend.models.mixins import *
 
-from backend.models.user_models import *
-from backend.models.content_models import *
-from backend.models.product_models import *
-from backend.models.sale_models import *
-from backend.models.activity_models import *
-
+from backend.models.user import *
+from backend.models.content import *
+from backend.models.product import *
+from backend.models.order import *
+from backend.models.task import *
 
 __all__ = [
     'User',
-    'Socialnetwork',
-    'Usersocialnetwork',
+    'SocialNetwork',
+    'UserSocialNetwork',
     'Segment',
     'Seller',
     'Client',
 
+    'Topic',
     'Content',
-    'Somepost',
+    'SoMePost',
     'Quiz',
-    'Quizresult',
+    'QuizResult',
 
     'Profile',
     'Category',
     'Catalog',
+    'SellerCatalogs',
     'Product',
-    'Productprofileweight',
+    'ProductProfileWeight',
     'ContentProduct',
 
     'Order',
-    'OrderProduct',
-
-    'Activity',
-    'Activityregister',
-    'Recommendation'
+    'OrderDetail',
+    
+    'Task',
+    'ClientSuggestions',
+    'ProductSuggestions',
+    'NotificationRegister'
 
 ]

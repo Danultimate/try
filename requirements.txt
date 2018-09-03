@@ -12,3 +12,5 @@ pytz==2018.5
 SQLAlchemy==1.2.11
 webargs==4.0.0
 Werkzeug==0.14.1
+simplejson
+bcrypt
