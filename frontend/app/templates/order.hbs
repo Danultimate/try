@@ -1,11 +1,11 @@
 
-<h1>{{model.name}}</h1>
+<h1>{{model.order_number}}</h1>
 <p>order date: {{to-locale-string model.date}}</p>
 
 <h2>Client</h2>
   <p> 
     {{#link-to "client" model.client.id}}
-    {{model.client.user.name}}, {{model.client.user.phone}}  
+    {{model.client.user.first_name}}, {{model.client.user.cellphone}}  
     {{/link-to}}
   </p>
 <h2>Items in order</h2>

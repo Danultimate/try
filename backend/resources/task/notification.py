@@ -8,7 +8,6 @@ from flask import request
 
 notification_method_view_post_body = {
     'read': fields.Boolean(required=True, validate=lambda x: x is True),
-    #TODO: FECHAS
 }
 
 

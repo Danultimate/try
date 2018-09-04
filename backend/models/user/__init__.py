@@ -2,6 +2,7 @@ from backend.models.user.user import *
 from backend.models.user.social_media import *
 from backend.models.user.seller import *
 from backend.models.user.client import *
+from backend.models.user.referral import *
 
 
 __all__ = [
@@ -10,5 +11,6 @@ __all__ = [
     'UserSocialNetwork',
     'Segment',
     'Seller',
-    'Client'
+    'Client',
+    'Referral'
 ]

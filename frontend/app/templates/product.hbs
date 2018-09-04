@@ -1,5 +1,5 @@
 <h1>{{model.name}}</h1>
-<img src={{model.imageUrl}}>
+<img src={{model.image}} height="50" width="50">
 
 <h2>Bought in orders</h2>
 
@@ -7,9 +7,9 @@
 	{{#each model.orders as |order|}}
 		<li> 
 			{{#link-to "order" order.id}}
-        {{order.name}}, 
+        {{order.order_number}}, 
         {{to-locale-string order.status}},
-        {{order.client.name}}  
+        {{order.client.user.first_name}}  
 			{{/link-to}}
 		</li>
 	{{/each}}

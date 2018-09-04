@@ -14,4 +14,4 @@ class Seller(db.Model, BaseColumnsMixin, DictMixin):
     segment_id = db.Column(db.ForeignKey('segment.id', deferrable=True, initially='DEFERRED'), index=True)
     user_id = db.Column(db.ForeignKey('user.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
     goal =  db.Column(db.Numeric(10, 2))
-    comission =  db.Column(db.Numeric(2, 2))#, nullable=False)
+    commission =  db.Column(db.Numeric(2, 2))#, nullable=False)

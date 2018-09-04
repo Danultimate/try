@@ -1,3 +1,6 @@
+1) POST Task Done!
+2) Debug flask/ember
+
 GET
 X H   'User',
     'SocialNetwork',
