@@ -2,7 +2,6 @@ num clients {{model.length}}
 
 <table>
 	<tr>
-    <th></th>
   	<th>name</th>
     <th>phone</th>
     <th></th>
@@ -12,14 +11,13 @@ num clients {{model.length}}
   </tr>
 {{#each model as |client|}}
 	<tr>
-    <td><img src="{{client.user.avatarUrl}}" height="50" width="50"></td>
 		<td>
       {{#link-to "client" client.id}}
-      	{{client.user.name}}
+      	{{client.user.first_name}} {{client.user.last_name}}
       {{/link-to}}
 		</td>
-		<td>{{client.user.phone}}</td>
-    <td><a href="whatsapp://send?phone={{client.phone}}"><img src="https://cdn2.iconfinder.com/data/icons/social-icons-color/512/whatsapp-512.png" height="16" width="16"></a><a href="tel:{{client.phone}}">
+		<td>{{client.user.cellphone}}</td>
+    <td><a href="whatsapp://send?phone={{client.cellphone}}"><img src="https://cdn2.iconfinder.com/data/icons/social-icons-color/512/whatsapp-512.png" height="16" width="16"></a><a href="tel:{{client.cellphone}}">
     <img src="https://cdn4.iconfinder.com/data/icons/social-icons-6/40/phone-128.png" height="16" width="16"></a></td>
     <td>{{client.orders.length}}</td>
 	</tr>

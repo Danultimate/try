@@ -2,9 +2,11 @@ num orders {{model.length}}
 
 {{!-- {{simple-table modelName="orders"}} --}}
 
+
+
 <table >
 	<tr>
-  	<th>name</th>
+  	<th># order</th>
     <th>date</th>
     <th># items</th>
     <th>purchase sum</th>
@@ -15,7 +17,7 @@ num orders {{model.length}}
 	<tr>
 		<td>
     {{#link-to "order" order.id}}
-			{{order.name}}
+			{{order.order_number}}
     {{/link-to}}
 		</td>
 		<td>{{to-locale-string order.date}}</td>
@@ -23,7 +25,7 @@ num orders {{model.length}}
     <td>${{order.purchaseSum}}</td>
     <td>
     {{#link-to "client" order.client.id}}
-    	{{order.client.user.name}}
+    	{{order.client.user.first_name}} {{order.client.user.last_name}}
     {{/link-to}}
     </td>
 	</tr>
