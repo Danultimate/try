@@ -16,7 +16,7 @@ class Category(db.Model, BaseColumnsMixin, DictMixin):
 
 
 class FavoriteClientCategory(db.Model, BaseColumnsMixin, DictMixin):
-    __tablename__ = 'category'
+    __tablename__ = 'client_category'
 
     category_id = db.Column(db.ForeignKey('category.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
     client_id = db.Column(db.ForeignKey('client.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
