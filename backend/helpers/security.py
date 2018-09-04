@@ -3,6 +3,7 @@ import functools
 from flask import g as flask_globals
 from webargs.flaskparser import abort
 from backend import app
+from backend.models import User
 
 
 def authorized(f):
@@ -21,5 +22,5 @@ def authorized(f):
 class SecurityUtils:
 
     @staticmethod
-    def get_current_user():
+    def get_current_user() -> User:
         return flask_globals.user
