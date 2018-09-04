@@ -5,14 +5,11 @@ from webargs.flaskparser import abort
 from backend import app
 
 
-def authorized(f=None, require_user=True, require_device=True):
-
-    if not f:
-        return functools.partial(authorized, require_user=require_user, require_device=require_device)
+def authorized(f):
 
     def _wrap(*args, **kwargs):
 
-        if not app.config.get('DEVELOPMENT') and require_user and flask_globals.user is None:
+        if not app.config.get('DEVELOPMENT') and flask_globals.user is None:
             abort(401)
             return None
 

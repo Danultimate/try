@@ -5,6 +5,8 @@ from backend import app
 from backend.helpers import itsdangerous
 from sqlalchemy.orm import lazyload
 
+from backend.models import User
+
 
 @app.after_request
 def after_request(response):
@@ -18,14 +20,16 @@ def after_request(response):
 
 @app.before_request
 def before_request():
-    # if not (flask_globals.user or request.endpoint == 'login'):
-    #     #return login_manager.unauthorized()
-    #     return 'lala'
-    # # TODO: except login
-    # token = request.headers.get('token')
-    # # verify the token
-    # data = itsdangerous.get_data(token)
-    # user_id = data['id']
-    # return user_id
-    print('heeeeeeeeeeeeeeeeey si entra aqui ')
+    if 'Authorization' in request.headers:
+        deserialized = itsdangerous.get_data(request.headers['Authorization'].replace("Bearer ", ""))
+
+        if 'user_id' in deserialized and deserialized['user_id'] is not None:
+            flask_globals.user = User.query.options(lazyload('*')).get(deserialized['user_id'])
+
+    else:
+        if app.config.get('DEVELOPMENT'):
+            flask_globals.user = User.query.options(lazyload('*')).get(1)
+        else:
+            flask_globals.user = None
+
     return None

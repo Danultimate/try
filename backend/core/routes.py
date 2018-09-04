@@ -3,6 +3,9 @@ from flask import abort, g, jsonify
 from backend.helpers.itsdangerous import *
 from backend.resources import *
 
+NAME_SPACE = '/api/v1'
+
+
 def register_route(view, endpoint, url, pk='id', pk_type='int'):
     url = NAME_SPACE + url
     view_func = view.as_view(endpoint)
@@ -13,9 +16,10 @@ def register_route(view, endpoint, url, pk='id', pk_type='int'):
     app.add_url_rule('%s/<%s:%s>' % (url, pk_type, pk), view_func=view_func,
                      methods=['GET', 'PUT', 'DELETE'])
 
-NAME_SPACE = '/api/v1'
 
 register_route(TestMethodView, 'test', '/')
+register_route(UserLoginMethodView, 'login', '/login')
+
 register_route(UserMethodView, 'user_model', '/users', pk='user_id')
 register_route(SellerMethodView, 'seller_model', '/sellers', pk='seller_id')
 register_route(ClientMethodView, 'client_model', '/clients', pk='client_id')

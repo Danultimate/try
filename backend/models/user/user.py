@@ -1,5 +1,5 @@
 from backend import db
-from backend.models import BaseColumnsMixin, DictMixin
+from backend.models.mixins import BaseColumnsMixin, DictMixin
 import random
 import string
 
@@ -10,6 +10,7 @@ from passlib.hash import bcrypt as pwd_context
 
 #TODO: replace this secret_key
 secret_key = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in range(32))
+
 
 class User(db.Model, BaseColumnsMixin, DictMixin):
     __tablename__ = 'user'
@@ -30,7 +31,7 @@ class User(db.Model, BaseColumnsMixin, DictMixin):
         return pwd_context.verify(password, self.password_hash)
 
     def generate_auth_token(self, expiration=600):
-        s = Serializer(secret_key, expires_in = expiration)
+        s = Serializer(secret_key, expires_in=expiration)
         return s.dumps({'id': self.id })
 
     @staticmethod
