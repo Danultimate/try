@@ -13,6 +13,7 @@ __all__ = [
     'Segment',
     'Seller',
     'Client',
+    'Referral',
 
     'Topic',
     'Content',

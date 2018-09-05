@@ -5,7 +5,7 @@ from marshmallow import fields
 from backend import db
 from backend.models import *
 from flask import request
-from webargs.flaskparser import parser as flask_parser
+from webargs.flaskparser import parser as flaskparser
 
 user_method_view_post_body = {
     'first_name': fields.String(required=True),
@@ -32,9 +32,9 @@ class UserMethodView(MethodView):
         return jsonify({'users': users})
 
     def post(self):
-        dataDict = flask_parser(user_method_view_post_body, request)
+        dataDict = flaskparser.parse(user_method_view_post_body, request, locations=['json', 'form'])
 
         user = User.from_dict(dataDict)
         db.session.add(user)
         db.session.commit()
-        #TODO: return 200?
+        return jsonify({'users': [user.to_dict()]})

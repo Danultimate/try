@@ -2,7 +2,7 @@ from flask.views import MethodView
 from flask import jsonify
 from backend.models import *
 
-from webargs.flaskparser import parser as flask_parser
+from webargs.flaskparser import parser as flaskparser
 from marshmallow import fields
 from flask import request
 
@@ -31,7 +31,7 @@ class TaskMethodView(MethodView):
         })
 
     def post(self):
-        dataDict = flask_parser(task_method_view_post_body, request)
+        dataDict = flaskparser(task_method_view_post_body, request)
 
         task = Task.from_dict(dataDict)
         db.session.add(task)

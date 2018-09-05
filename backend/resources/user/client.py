@@ -5,7 +5,7 @@ from marshmallow import fields
 from backend import db
 from backend.models import *
 from flask import request
-from webargs.flaskparser import parser as flask_parser
+from webargs.flaskparser import parser as flaskparser
 
 #TODO: terminar esto
 client_method_view_post_body = {
@@ -29,7 +29,7 @@ class ClientMethodView(MethodView):
                        })
 
     def post(self):
-        dataDict = flask_parser(client_method_view_post_body, request)
+        dataDict = flaskparser(client_method_view_post_body, request)
 
         client = Client.from_dict(dataDict)
         db.session.add(client)

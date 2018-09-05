@@ -10,8 +10,8 @@ import { isPresent } from '@ember/utils';
 // });
 
 export default DS.RESTAdapter.extend(DataAdapterMixin, {
-    host: 'http://localhost:5000',
-    namespace: 'api/v1',
+    host: 'https://localhost:5000',
+    namespace: 'api',
     session: service(), 
     authorize(xhr) {
       let { access_token } = this.get('session.data.authenticated');

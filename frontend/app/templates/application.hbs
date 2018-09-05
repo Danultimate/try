@@ -1,4 +1,6 @@
+
 <nav>nav:
+  
 {{#if session.isAuthenticated}}
     <a {{action 'invalidateSession'}}>Logout</a>
   {{else}}
@@ -13,7 +15,7 @@
 
 </nav>
 <br>
-<button {{action "sendPush"}}>ember-cli-push</button>
+
 <br>
 {{outlet}}
 <br>

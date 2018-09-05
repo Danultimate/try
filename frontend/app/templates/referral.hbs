@@ -1,12 +1,14 @@
 <form>
   <div class="form-group">
+    <label for="formGroupExampleInput">Nombre</label>
+    {{input type="text" class="form-control" value=first_name}}
+    
+    <label for="formGroupExampleInput">Apellido</label>
+    {{input type="text" class="form-control" value=last_name}}
+
     <label for="formGroupExampleInput">Example label</label>
-    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
-  </div>
-  <div class="form-group">
-    <label for="formGroupExampleInput2">Another label</label>
-    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
+    {{input type="number" class="form-control" value=cellphone}}
   </div>
 </form>
 
-<button {{action "save"}}>ember-cli-push</button>
+<button {{action 'save'}}>Enviar</button>

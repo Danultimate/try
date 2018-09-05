@@ -2,7 +2,7 @@ from flask.views import MethodView
 from flask import jsonify
 from backend.models import *
 
-from webargs.flaskparser import parser as flask_parser
+from webargs.flaskparser import parser as flaskparser
 from marshmallow import fields
 from flask import request
 
@@ -28,7 +28,7 @@ class NotificationMethodView(MethodView):
         })
 
     def post(self):
-        dataDict = flask_parser(notification_method_view_post_body, request)
+        dataDict = flaskparser(notification_method_view_post_body, request)
 
         nofification = NotificationRegister.from_dict(dataDict)
         db.session.add(nofification)

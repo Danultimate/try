@@ -16,6 +16,7 @@ __all__ = [
     'UserMethodView',
     'SellerMethodView',
     'ClientMethodView',
+    'ReferralMethodView',
 
     'ProductMethodView',
 
