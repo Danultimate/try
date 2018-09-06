@@ -1,0 +1,32 @@
+<form {{action 'save' on='submit' }}>
+    <div class="form-group">
+        <label for="formGroupExampleInput">Nombre</label>
+        {{input type="text" class="form-control" value=first_name required=true}}
+
+        <label for="formGroupExampleInput">Apellido</label>
+        {{input type="text" class="form-control" value=last_name required=true}}
+
+        <label for="formGroupExampleInput">Cédula</label>
+        {{input type="number" class="form-control" value=identification required=true}}
+
+        <label for="formGroupExampleInput">Celular</label>
+        {{input type="number" class="form-control" value=cellphone required=true}}
+
+        <label for="formGroupExampleInput">Contraseña</label>
+        {{input id='password' class="form-control" placeholder='Enter Password' type='password' value=password required=true}}
+
+        <label for="formGroupExampleInput">Por cuanto tiempo has hecho venta directa</label>
+        {{input id='ds_experience' class="form-control" type='checkbox'}}
+
+        <label for="formGroupExampleInput">He leído y acepto los {{#link-to "term_conditions"}}Términos y Condiciones de uso{{/link-to}}</label>
+        
+        {{input id='terms_conditions' class="form-control" type='checkbox' required=true}}
+
+    </div>
+
+    <button type="submit">Registrarse</button>
+
+    {{#if errorMessage}}
+    <p>{{errorMessage}}</p>
+    {{/if}}
+</form>

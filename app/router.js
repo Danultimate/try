@@ -22,6 +22,8 @@ Router.map(function() {
   this.route('notification');
   this.route('referral');
   this.route('login', { path: '/login' });
+  this.route('signup', { path: '/sign_up' });
+  this.route('term_conditions');
 });
 
 export default Router;

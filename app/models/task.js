@@ -5,7 +5,7 @@ import { belongsTo, hasMany } from 'ember-data/relationships';
 
 export default Model.extend({
     task_description: attr('string'),
-    date: attr('date'),
+    planned_date: attr('date'),
     num_to_send: attr('number'),
     done: attr('boolean', { defaultValue: false }),
     excuted_date: attr('date'),
