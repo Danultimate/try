@@ -31,7 +31,7 @@ __all__ = [
 
     'Order',
     'OrderDetail',
-    
+
     'Task',
     'ClientSuggestions',
     'ProductSuggestions',

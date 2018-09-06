@@ -1,5 +1,6 @@
-from flask.views import MethodView
 from flask import jsonify
+from flask.views import MethodView
+
 from backend.models import *
 
 
@@ -29,5 +30,3 @@ class OrderMethodView(MethodView):
         return jsonify({
             'orders': orders_dict_list
         })
-
-# TODO: POST?

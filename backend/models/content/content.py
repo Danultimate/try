@@ -9,10 +9,12 @@ class Content(db.Model, BaseColumnsMixin, DictMixin):
     description = db.Column(db.Text, nullable=False)
     url = db.Column(db.String, nullable=False)
     thumbnailUrl = db.Column(db.String, nullable=False)
-    
+
     media_type = db.Column(db.String)
-    topic_id =  db.Column(db.ForeignKey('topic.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
-    profile_id = db.Column(db.ForeignKey('profile.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
+    topic_id = db.Column(db.ForeignKey(
+        'topic.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
+    profile_id = db.Column(db.ForeignKey(
+        'profile.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
 
     topic = db.relationship('Topic')
     profile = db.relationship('Profile')
@@ -24,8 +26,10 @@ class ContentProduct(db.Model, BaseColumnsMixin):
         db.UniqueConstraint('content_id', 'product_id'),
     )
 
-    content_id = db.Column(db.ForeignKey('content.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
-    product_id = db.Column(db.ForeignKey('product.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
+    content_id = db.Column(db.ForeignKey(
+        'content.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
+    product_id = db.Column(db.ForeignKey(
+        'product.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
 
     content = db.relationship('Content')
     product = db.relationship('Product')

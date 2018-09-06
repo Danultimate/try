@@ -1,14 +1,15 @@
+from flask import jsonify, request
 from flask.views import MethodView
-from flask import jsonify
-from backend.models import *
-
-from webargs.flaskparser import parser as flaskparser
 from marshmallow import fields
-from flask import request
+from webargs.flaskparser import parser as flaskparser
 
-task_method_view_post_body = {
-    'done': fields.Boolean(required=True, validate=lambda x: x is True),
-    #TODO: FECHAS
+from backend import db
+from backend.models import *
+from backend.schemas import TaskSchema
+
+# Only Puts when 'done' is True
+task_method_view_put_body = {
+    'task': fields.Nested(TaskSchema)
 }
 
 
@@ -30,10 +31,13 @@ class TaskMethodView(MethodView):
             'tasks': [task.to_dict() for task in tasks]
         })
 
-    def post(self):
-        dataDict = flaskparser(task_method_view_post_body, request)
+    def put(self, task_id=None):
+        if task_id is not None:
+            dataDict = flaskparser.parse(
+                task_method_view_put_body, request, locations=['json', 'form'])
+            task = Task.query.get_or_404(task_id)
+            task.from_dict(dataDict['task'])
+            db.session.commit()
+            return TaskMethodView.get(task_id)
 
-        task = Task.from_dict(dataDict)
-        db.session.add(task)
-        db.session.commit()
-        # TODO: return 200? 
+        abort(401)

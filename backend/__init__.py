@@ -9,6 +9,7 @@ import datetime
 from flask.json import JSONEncoder
 from flask_migrate import Migrate
 
+
 class CustomJSONEncoder(JSONEncoder):
     def default(self, obj):
         try:
@@ -21,6 +22,7 @@ class CustomJSONEncoder(JSONEncoder):
             return list(iterable)
         return JSONEncoder.default(self, obj)
 
+
 app = Flask(__name__)
 app.json_encoder = CustomJSONEncoder
 sslify = SSLify(app)
@@ -30,10 +32,9 @@ app.config.from_object(env)
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
-migrate = Migrate(app, db) # this
+migrate = Migrate(app, db)  # this
 __all__ = [
     'app', 'db', 'ma'
 ]
 
 import backend.core
-

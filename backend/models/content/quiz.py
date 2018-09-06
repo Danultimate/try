@@ -21,9 +21,12 @@ class QuizResult(db.Model, BaseColumnsMixin, DictMixin):
     network_id = db.Column(db.String(255), nullable=False)
     answers = db.Column(JSONB(astext_type=db.Text()), nullable=False)
     raw_data = db.Column(JSONB(astext_type=db.Text()), nullable=False)
-    client_id = db.Column(db.ForeignKey('client.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
-    quiz_id = db.Column(db.ForeignKey('quiz.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
-    result_id = db.Column(db.ForeignKey('profile.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
+    client_id = db.Column(db.ForeignKey(
+        'client.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
+    quiz_id = db.Column(db.ForeignKey(
+        'quiz.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
+    result_id = db.Column(db.ForeignKey(
+        'profile.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
 
     client = db.relationship('Client')
     quiz = db.relationship('Quiz')

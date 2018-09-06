@@ -1,8 +1,9 @@
-from backend.schemas.user_schema import *
+from backend.schemas.user.user import UserSchema
 from backend.schemas.user.referral import *
+from backend.schemas.task.task import *
 
 __all__ = [
     'UserSchema',
-    'SocialnetworkSchema',
-    'ReferralSchema'
+    'ReferralSchema',
+    'TaskSchema'
 ]

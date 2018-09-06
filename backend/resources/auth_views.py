@@ -17,12 +17,14 @@ class UserLoginMethodView(MethodView):
 
     # noinspection PyMethodMayBeStatic
     def post(self):
-        body = flaskparser.parse(user_login_method_view, request, locations=['json', 'form'])
+        body = flaskparser.parse(
+            user_login_method_view, request, locations=['json', 'form'])
         user = User.query.filter(User.cellphone == body['username']).first()
 
         if user is not None and user.verify_password(body['password']):
             return jsonify(
-                access_token=itsdangerous.sign({"user_id": user.id, "name": user.first_name}).decode('ascii'),
+                access_token=itsdangerous.sign(
+                    {"user_id": user.id, "name": user.first_name}).decode('ascii'),
                 user=user.to_dict()
             )
 

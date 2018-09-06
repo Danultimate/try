@@ -1,9 +1,8 @@
-import functools
-
 from flask import g as flask_globals
 from webargs.flaskparser import abort
+
 from backend import app
-from backend.models import User
+from backend.models import User, Seller
 
 
 def authorized(f):
@@ -24,3 +23,9 @@ class SecurityUtils:
     @staticmethod
     def get_current_user() -> User:
         return flask_globals.user
+
+    @staticmethod
+    def get_current_seller() -> Seller:
+        user = flask_globals.user
+        if user is not None:
+            return Seller.query.filter_by(user_id=user.id).first()

@@ -1,11 +1,7 @@
 from itsdangerous import (JSONWebSignatureSerializer
-                          as Serializer, BadSignature, SignatureExpired)
-
-import random
-import string
+                          as Serializer, BadSignature)
 
 from backend import app
-
 
 serializer = Serializer(app.config.get('SECRET_KEY'))
 
@@ -17,6 +13,6 @@ def sign(obj):
 def get_data(token):
     try:
         return serializer.loads(token)
-    except BadSignature or SignatureExpired:
+    except BadSignature:
         print("Bad Signature")
     return None

@@ -1,29 +1,22 @@
-
-<table >
-	<tr>
-  	<th>name</th>
+<table>
+  <tr>
+    <th>name</th>
     <th>lala</th>
   </tr>
- 
-{{#each model as |task|}}
-	<tr>
-  	{{#if task.done}}
-      <td style="text-decoration:line-through">{{task.task_description}}</td>
+
+  {{#each model as |task|}}
+  <tr>
+    {{#if task.done}}
+    <td style="text-decoration:line-through">{{task.task_description}}</td>
     {{else}}
-      <td>
-      	{{#if task.num_to_send}}
-          {{#link-to "task" task.id}}
-            {{task.task_description}}
-          {{/link-to}}
-        {{else}}
-          {{#link-to "content" task.content.id}}
-              {{task.task_description}}
-          {{/link-to}}
-        {{/if}}
-      </td>
+    <td>
+      {{#if task.num_to_send}} {{#link-to "task" task.id}} {{task.task_description}} {{/link-to}} {{else}} {{#link-to "content"
+      task.content.id}} {{task.task_description}} {{/link-to}} {{/if}}
+    </td>
     {{/if}}
-    
-		<td>{{input type="checkbox" checked=(readonly task.done)}}</td>
-	</tr>
-{{/each}}
+    <td>
+      <input type="checkbox" checked={{task.done}} disabled={{task.done}} onchange={{action 'updateTask' task}} />
+    </td>
+  </tr>
+  {{/each}}
 </table>

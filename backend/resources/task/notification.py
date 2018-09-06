@@ -15,7 +15,8 @@ class NotificationMethodView(MethodView):
 
     def get(self, notification_id=None):
         if notification_id is not None:
-            notification = NotificationRegister.query.get_or_404(notification_id)
+            notification = NotificationRegister.query.get_or_404(
+                notification_id)
             task = notification.task
             return jsonify({
                 'notifications': [notification.to_dict()],
@@ -33,4 +34,6 @@ class NotificationMethodView(MethodView):
         nofification = NotificationRegister.from_dict(dataDict)
         db.session.add(nofification)
         db.session.commit()
-        # TODO: return 200?
+        return jsonify({
+            'notifications': [notification.to_dict()]
+        })

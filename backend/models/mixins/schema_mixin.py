@@ -1,4 +1,3 @@
-
 class SchemaMixin:
 
     def from_schema(self, schema):

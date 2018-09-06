@@ -4,7 +4,8 @@
 {{#if session.isAuthenticated}}
     <a {{action 'invalidateSession'}}>Logout</a>
   {{else}}
-    {{#link-to 'login'}}Login{{/link-to}}
+    {{#link-to 'login'}}Login{{/link-to}} |
+    {{#link-to 'signup'}}Registrarse{{/link-to}}
 {{/if}} |
 {{#link-to "seller"}}Mi perfil{{/link-to}} |
 {{#link-to "orders"}}Ordenes{{/link-to}} |

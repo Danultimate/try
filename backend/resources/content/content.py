@@ -20,13 +20,13 @@ class ContentMethodView(MethodView):
                 'products': [product.to_dict() for product in products],
 
             })
-        
+
         contents = Content.query.all()
-        output = {'contents': [], 'profiles': [],'topics': []}
+        output = {'contents': [], 'profiles': [], 'topics': []}
 
         for content in contents:
             output['contents'].append(content.to_dict())
             output['profiles'].append(content.profile.to_dict())
             output['topics'].append(content.topic.to_dict())
-        
+
         return jsonify(output)
