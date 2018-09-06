@@ -1,9 +1,26 @@
 from marshmallow import Schema, fields
-from backend.helpers import marshmellow_fields
-from backend import ma
 from backend.models import User
 
 
-class UserSchema(ma.ModelSchema):
+class Password(fields.Field):
+    def _deserialize(self, value, attr, data):
+        if not value or not isinstance(value, str):  # or len(value) < 8:
+            self.fail('invalid')
+        u = User()
+        u.hash_password(value)
+        return u.password_hash
+
+
+class UserSchema(Schema):
+    identification = fields.Int(required=True)
+    first_name = fields.String(required=True)
+    last_name = fields.String(required=True)
+    password = Password(attribute="password_hash")
+    email = fields.String(required=True)
+    cellphone = fields.Integer(
+        required=True, validate=lambda x: x > 3000000000)
+    # picture = fields.String(required=False, default='')
+    # birth = fields.Date(required=False, default='')
+
     class Meta:
-        model = User
+        strict = True

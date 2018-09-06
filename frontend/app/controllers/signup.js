@@ -18,14 +18,22 @@ export default Controller.extend({
         identification: this.get('identification'),
         cellphone: this.get('cellphone'),
         email: this.get('email'),
-        ds_experience: this.get('ds_experience'),
         password: this.get('password')
       });
       record.save().then(() => {
-        // this.loader.setLoading(false);
-        // this.transitionToRoute(record, 'record')
+        let seller_record = this.store.createRecord('seller', {
+          user: record,
+          ds_experience: this.get('ds_experience')
+        });
+        record.save().then(() => {
+          //redirect to Intro pages
+          // this.transitionToRoute(record, 'intro_pages')
+        }).catch((reason) => {
+          // Error saving seller
+          this.set('isError', true);
+        })
       }).catch((reason) => {
-        //   this.loader.setLoading(false);
+        // Error saving user
         this.set('isError', true);
       });
     },

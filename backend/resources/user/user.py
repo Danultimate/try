@@ -11,16 +11,6 @@ user_method_view_post_body = {
     'user': fields.Nested(UserSchema)
 }
 
-user_method_view_post_body = {
-    'first_name': fields.String(required=True),
-    'last_name': fields.String(required=True),
-    'password_hash': fields.String(required=True, validate=lambda x: len(x) > 0),
-    'picture': fields.String(required=False),
-    'email': fields.String(required=True),
-    'birth': fields.Date(required=False),
-    'cellphone': fields.Integer(required=True, validate=lambda x: x > 3000000000),
-}
-
 
 class UserMethodView(MethodView):
 
@@ -38,14 +28,9 @@ class UserMethodView(MethodView):
     def post(self):
         dataDict = flaskparser.parse(
             user_method_view_post_body, request, locations=['json', 'form'])
-
-        user = User.from_dict(dataDict)
+        print('-----el diccionario es: ', dataDict)
+        user = User()
+        user.from_dict(dataDict['user'])
         db.session.add(user)
-        db.session.commit()
-
-        # Seller creation
-        seller_code = generate_unique_code(user.first_name, user.id)
-        seller = Seller(user_id=user.id, seller_code=seller_code)
-
         db.session.commit()
         return jsonify({'users': [user.to_dict()]})
