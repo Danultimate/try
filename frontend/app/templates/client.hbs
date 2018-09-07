@@ -1,6 +1,105 @@
-<h1>{{model.user.first_name}} {{model.user.last_name}}</h1>
+{{!-- Hey revisar porque funciona raro cuando link-to vs /clients/1 --}}
+
+    <section class="dr-contenido3">
+        <nav class="navbar navbar-light bg-white fixed-top">
+
+            <a class="dr-atras" href="#" data-toggle="modal" data-target="#menu"><i class="material-icons">arrow_back</i></a>
+
+            <a class="navbar-brand detalles" href=""> Detalles Clientes</a>
+
+            <div class="navbar-collapse collapse" id="navbarsExample01" style="">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li> 
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Disabled</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">Dropdown</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown01">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                </ul>
+                <form class="form-inline my-2 my-md-0">
+                    <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+                </form>
+            </div>
+        </nav>
+        <article class="dr-dashcliente">
+            <div class="container">
+                <div class="header">
+                    <div class="row align-items-center">
+                        <div class="col-6 p-0">
+                            <div class="dr-fondopersona2">
+                                <img class="" src="{{model.user.picture}}" alt="">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="nombre">
+                                <h4>{{model.user.first_name}}</h4>
+                                <h5>{{model.user.last_name}}</h5>
+                                <p>Tipo:Naturalia</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dr-categoria">
+                    <h4>Categoria mas compradas</h4>
+                    <div class="row">
+                        <div class="col-6">
+                            <a class="btn-fragancias btn" href=""> Fragancias</a>
+                        </div>
+                        <div class="col-6">
+                            <a class="btn-maquilla btn" href=""> Maquillaje</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="dr-tabs">
+                    <h4>Historial de ordenes</h4>
+                    <!-- <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#activa" aria-controls="activa" role="tab" data-toggle="tab">Activas</a></li>
+                        <li role="presentation"><a href="#entrega" aria-controls="entrega" role="tab" data-toggle="tab">Entregadas</a></li>
+                        <li role="presentation"><a href="#canceladas" aria-controls="canceladas" role="tab" data-toggle="tab">Canceladas</a></li>
+                
+                    </ul> -->
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="activa">
+                            
+                            <!--  -->
+
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="profile">
+
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="canceladas">
+
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+
+
+
+
+
+
+
+{{!-- <h1>{{model.user.first_name}} {{model.user.last_name}}</h1>
 <img src="{{model.user.picture}}" height="50" width="50">
-<p><img src="https://cdn4.iconfinder.com/data/icons/social-icons-6/40/phone-128.png" height="16" width="16"><a href="tel:{{model.user.phone}}">{{model.user.phone}}</a></p>
+<p><img src="https://cdn4.iconfinder.com/data/icons/social-icons-6/40/cellphone-128.png" height="16" width="16"><a href="tel:{{model.user.cellphone}}">{{model.user.cellphone}}</a></p>
 
 <br>
 <h2>Ordenes:</h2>
@@ -12,4 +111,4 @@
       {{/link-to}}
     </li>
 	{{/each}}
-</ul>
+</ul> --}}

@@ -1,11 +1,32 @@
-<form {{action 'authenticate' on='submit'}}>
-  <label for="cellphone">Login</label>
-  
-  {{input id='cellphone' placeholder='Enter Login' value=cellphone}}
-  <label for="password">Password</label>
-  {{input id='password' placeholder='Enter Password' type='password' value=password}}
-  <button type="submit">Login</button>
-  {{#if errorMessage}}
-    <p>{{errorMessage}}</p>
-  {{/if}}
-</form>
+<section class="dr-contenido align-items-center">
+  <article class="titulo">
+    <img class="img-fluid" src="images/descubre.png" alt="">
+  </article>
+  <form>
+    <div class="input-group mb-2">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1"><i class="material-icons">phonelink_ring</i></span>
+      </div>
+      <input id="cellphone" type="text" class="form-control" placeholder="Ingresa tu número celular" aria-label="Username" aria-describedby="basic-addon1">
+    </div>
+    <div class="input-group mb-2">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1"><i class="material-icons">lock</i></span>
+      </div>
+      <input id="password" type="password" class="form-control" placeholder="Digita la contraseña" aria-label="Username" aria-describedby="basic-addon1">
+    </div>
+    <a href="" class="dr-olvido">¿Olvidó su contraseña?</a>
+    <div class="col-auto">
+      <a class="dr-enviar" {{action 'authenticate'}}>
+        <img class="img-fluid" src="images/btningresar.png" alt="">
+        <div class="btn-ingresar">
+          Ingresar
+        </div>
+      </a>
+    </div>
+    <div class="dr-loginface">
+      <p>O puedes ingresar con tus datos de:</p>
+      <a href="" class="btn-face"><img src="images/facebook.png" alt=""></a>
+    </div>
+  </form>
+</section>

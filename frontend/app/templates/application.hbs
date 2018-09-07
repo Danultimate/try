@@ -1,23 +1,16 @@
-
+{{#if show_nav}}
 <nav>nav:
-  
-{{#if session.isAuthenticated}}
-    <a {{action 'invalidateSession'}}>Logout</a>
-  {{else}}
-    {{#link-to 'login'}}Login{{/link-to}} |
-    {{#link-to 'signup'}}Registrarse{{/link-to}}
-{{/if}} |
-{{#link-to "seller"}}Mi perfil{{/link-to}} |
-{{#link-to "orders"}}Ordenes{{/link-to}} |
-{{#link-to "clients"}}Mis clientes{{/link-to}} |
-{{#link-to "products"}}Productos{{/link-to}}|
-{{#link-to "tasks"}}Mis Tareas{{/link-to}}|
-{{#link-to "contents"}}Contenido{{/link-to}}
+    {{#if session.isAuthenticated}}
+        <a {{action 'invalidateSession'}}>Logout</a>
+    {{/if}}
+    {{#link-to "seller"}}Mi perfil{{/link-to}} |
+    {{#link-to "orders"}}Ordenes{{/link-to}} |
+    {{#link-to "clients"}}Mis clientes{{/link-to}} |
+    {{#link-to "products"}}Productos{{/link-to}}|
+    {{#link-to "tasks"}}Mis Tareas{{/link-to}}|
+    {{#link-to "contents"}}Contenido{{/link-to}}
 
 </nav>
-<br>
+{{/if}}
 
-<br>
 {{outlet}}
-<br>
-<br>
