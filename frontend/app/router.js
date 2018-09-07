@@ -2,7 +2,8 @@ import EmberRouter from '@ember/routing/router';
 import config from './config/environment';
 
 const Router = EmberRouter.extend({
-  location: 'none',
+  // location: 'none',
+  location: 'auto',
   rootURL: config.rootURL
 });
 
