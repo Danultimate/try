@@ -2,7 +2,7 @@ import EmberRouter from '@ember/routing/router';
 import config from './config/environment';
 
 const Router = EmberRouter.extend({
-  location: 'none',
+  location: 'auto',
   rootURL: config.rootURL
 });
 
@@ -24,6 +24,7 @@ Router.map(function() {
   this.route('login', { path: '/login' });
   this.route('signup', { path: '/sign_up' });
   this.route('term_conditions');
+  this.route('landing', { path: '/' });
 });
 
 export default Router;
