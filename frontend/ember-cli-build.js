@@ -20,5 +20,7 @@ module.exports = function(defaults) {
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
 
+  //Manual custom import for firebase:
+  app.import('vendor/js/firebase.js');
   return app.toTree();
 };

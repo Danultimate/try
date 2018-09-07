@@ -1,6 +1,6 @@
 
 <nav>nav:
-  
+
 {{#if session.isAuthenticated}}
     <a {{action 'invalidateSession'}}>Logout</a>
   {{else}}
@@ -21,3 +21,4 @@
 {{outlet}}
 <br>
 <br>
+{{push-notification}}

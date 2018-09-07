@@ -49,5 +49,7 @@
   "engines": {
     "node": "6.* || 8.* || >= 10.*"
   },
-  "dependencies": {}
+  "dependencies": {
+    "firebase": "^5.4.2"
+  }
 }
