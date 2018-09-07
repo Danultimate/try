@@ -1,11 +1,28 @@
 <style>
+    .carousel-indicators li {
+        border-radius: 10px;
+        width: 10px;
+        height: 10px;
+        background-color: #c2c2c2;
+    }
+    .carousel-indicators .active {
+        background-color: #f8f9fa;
+    }
     .landing {
-        background-image: url({{urlRoot}}/images/landing_background.jpg);
+        background-image: url(http://www.designbolts.com/wp-content/uploads/2014/03/Blue-Blur-Background1.jpg);
         background-repeat: no-repeat;
+        background-position-x: left;
         background-size: cover;
+        overflow: "hidden";
         height: 100%;
     }
     .container {
+        padding-right: 35px;
+        padding-left: 35px;
+        height: 70% !important;
+        width:100%;
+    }
+    .button-container {
         padding-right: 35px;
         padding-left: 35px;
     }
@@ -14,7 +31,7 @@
         font-size: 1.5rem;
     }
     .carousel.slide{
-        height: 85%;
+        height: 100%;
     }
 </style>
 
@@ -64,28 +81,30 @@
                 {{!-- Screen info --}}
             </div>
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        {{!-- <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
         </a>
         <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
-        </a>
+        </a> --}}
+
+        <div class="container" style="padding-top: 15px;">
+            <button type="button" class="btn btn-outline-primary btn-block" style="position: fixed;">
+                {{!-- {{#link-to 'signup'}} --}}
+                Crear perfil
+                {{!-- {{/link-to}} --}}
+            </button>
+            {{!-- <button type="button" class="btn btn-outline-primary btn-block">
+                {{#link-to 'login'}}
+                Ya tengo uno
+                {{/link-to}}
+            </button> --}}
+        </div>
     </div>
 
-    <div class="container" style="padding-top: 15px;">
-        <button type="button" class="btn btn-outline-primary btn-block">
-            {{#link-to 'signup'}}
-            Crear perfil
-            {{/link-to}}
-        </button>
-        <button type="button" class="btn btn-outline-primary btn-block">
-            {{#link-to 'login'}}
-            Ya tengo uno
-            {{/link-to}}
-        </button>
-    </div>
+
 
 </section>
 

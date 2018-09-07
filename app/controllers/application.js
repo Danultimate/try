@@ -144,7 +144,7 @@ export default Controller.extend({
     },
 
     currentUrl: null,
-    hide_nav_endpoints: ['/landing', '/sign_up', '/login', '/'],
+    hide_nav_endpoints: ['/landing', '/sign_up', '/login', '/', '/term_conditions'],
     show_nav: true,
 
     onPathChanged: Ember.observer('currentPath', function () {

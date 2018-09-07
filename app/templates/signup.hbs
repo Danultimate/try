@@ -14,6 +14,7 @@ body {
     font-family: $font-family;
     font-size: $font-size;
     background-size: 200% 100% !important;
+    background-repeat: no-repeat;
     animation: move 10s ease infinite;
     transform: translate3d(0, 0, 0);
     background: linear-gradient(45deg, #49D49D 10%, #A2C7E5 90%);
@@ -161,13 +162,13 @@ body {
         <div class="form__group">
             {{input id='password' class="form__input" type='password' value=password required=true placeholder="Contraseña"}}
         </div>
-        {{!-- <div class="form__group">
+        <div>
             <label for="form__group">Por cuanto tiempo has hecho venta directa</label>
-            {{input id='ds_experience' class="form__input" type='checkbox'}}
-        </div> --}}
+            {{input id='ds_experience' type='checkbox'}}
+        </div>
         
         <label for="form__group">He leído y acepto los {{#link-to "term_conditions"}}Términos y Condiciones de uso{{/link-to}}
-            {{input id='terms_conditions' class="form__input" type='checkbox' required=true}}
+            {{input id='terms_conditions' type='checkbox' required=true}}
         </label>
         
         <button class="btn" type="submit">Registrarse</button>

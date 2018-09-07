@@ -1,3 +1,4 @@
 body > .ember-view {
   height: 100%;
+  /* position: fixed; */
 }
