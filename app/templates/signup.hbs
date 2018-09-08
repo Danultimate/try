@@ -141,11 +141,11 @@ body {
     
     <form class="form" {{action 'save' on='submit' }}>
         <div class="form__group">
-            {{input type="text" class="form__input" value=first_name required=true placeholder="Nombre" pattern="[A-Za-z]+"}}
+            {{input type="text" class="form__input" value=first_name required=true placeholder="Nombre" pattern="[A-Z][a-zA-Z][^#&<>\"~,;@$^%{}?1234567890]{1,50}$"}}
         </div>
         
         <div class="form__group">
-            {{input type="text" class="form__input" value=last_name required=true placeholder="Apellido" pattern="[A-Za-z]+"}}
+            {{input type="text" class="form__input" value=last_name required=true placeholder="Apellido" pattern="[A-Z][a-zA-Z][^#&<>\"~,;@$^%{}?1234567890]{1,50}$"}}
         </div>
         
         {{!-- <div class="form__group">
