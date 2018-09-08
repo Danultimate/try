@@ -2,6 +2,7 @@ import DS from 'ember-data';
 import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 import { inject as service } from '@ember/service';
 import { isPresent } from '@ember/utils';
+import ENV from 'frontend/config/environment';
 
 export default DS.RESTAdapter.extend(DataAdapterMixin, {
     host: ENV.host,
