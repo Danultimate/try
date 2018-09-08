@@ -9,3 +9,24 @@
 
 * Share Social Media
 <iframe src="https://www.facebook.com/plugins/share_button.php?href={{encodeURIComponentHelper model.imageUrl}}&layout=button&size=large&mobile_iframe=true&appId=313787846053184&width=99&height=28" width="99" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+
+<br><br>
+
+<button class="btn btn-lg btn-default" onclick="share()">Share whatwebcando.today<br>with <b>Web Share</b></button>
+
+<script>
+    function share() {
+        if (!("share" in navigator)) {
+            alert('Web Share API not supported.');
+            return;
+        }
+
+        navigator.share({
+            title: 'What Web Can Do Today',
+            text: 'Can I rely on the Web Platform features to build my app? An overview of the device integration HTML5 APIs',
+            url: 'https://whatwebcando.today/'
+            })
+            .then(() => console.log('Successful share'))
+            .catch(error => console.log('Error sharing:', error));
+    }
+</script>
