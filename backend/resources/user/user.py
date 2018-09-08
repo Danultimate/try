@@ -28,7 +28,7 @@ class UserMethodView(MethodView):
     def post(self):
         dataDict = flaskparser.parse(
             user_method_view_post_body, request, locations=['json', 'form'])
-        print('-----el diccionario es: ', dataDict)
+
         user = User()
         user.from_dict(dataDict['user'])
         db.session.add(user)

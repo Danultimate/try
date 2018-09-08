@@ -12,13 +12,13 @@ class Password(fields.Field):
 
 
 class UserSchema(Schema):
-    identification = fields.Int(required=True)
     first_name = fields.String(required=True)
     last_name = fields.String(required=True)
     password = Password(attribute="password_hash")
-    email = fields.String(required=True)
     cellphone = fields.Integer(
         required=True, validate=lambda x: x > 3000000000)
+    # email = fields.String(required=True)
+    # identification = fields.Int(required=True)
     # picture = fields.String(required=False, default='')
     # birth = fields.Date(required=False, default='')
 

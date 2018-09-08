@@ -1,7 +1,7 @@
 from backend import app, db
-from backend.models import  *
+from backend.models import *
 
-#db.drop_all()
+# db.drop_all()
 
 try:
     db.create_all()

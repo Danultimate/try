@@ -16,7 +16,7 @@ class Production(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SECRET_KEY = 'this is a secret key'
+    SECRET_KEY = b'OL{\x80\xb1YG\x87`\xc4xc.Odu'
 
 
 # noinspection SpellCheckingInspection

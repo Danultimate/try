@@ -1,6 +1,16 @@
+from flask import jsonify, request
 from flask.views import MethodView
-from flask import jsonify
+from marshmallow import fields
+from webargs.flaskparser import parser as flaskparser
+
+from backend import db
+from backend.helpers.gen_unique_code import generate_unique_code
 from backend.models import *
+from backend.schemas import *
+
+seller_method_view_post_body = {
+    'seller': fields.Nested(SellerSchema)
+}
 
 
 class SellerMethodView(MethodView):
@@ -21,5 +31,14 @@ class SellerMethodView(MethodView):
         })
 
     def post(self):
-        seller_code = generate_unique_code(user.first_name, user.id)
-        seller = Seller(user_id=user.id, seller_code=seller_code)
+        dataDict = flaskparser.parse(
+            seller_method_view_post_body, request, locations=['json', 'form'])
+        print('el dataDICTTTTTTTT', dataDict)
+        seller = Seller()
+        seller.from_dict(dataDict['seller'])
+        user = User.query.get_or_404(seller.user_id)
+        seller.code = generate_unique_code(user.first_name, user.id)
+        db.session.add(seller)
+        db.session.commit()
+
+        return jsonify({'sellers': [seller.to_dict()]})
