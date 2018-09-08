@@ -27,12 +27,12 @@ app = Flask(__name__)
 app.json_encoder = CustomJSONEncoder
 sslify = SSLify(app)
 
-env = os.environ.get('SETTINGS', config.Development)
-app.config.from_object(env)
+app.config.from_object(os.environ['SETTINGS'])
 
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
-migrate = Migrate(app, db)  # this
+migrate = Migrate(app, db)
+
 __all__ = [
     'app', 'db', 'ma'
 ]
