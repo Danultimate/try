@@ -29,11 +29,13 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
+    ENV.host = 'https://localhost:5000';
   }
 
   if (environment === 'test') {
     // Testem prefers this...
     ENV.locationType = 'none';
+    ENV.host = 'https://localhost:5000';
 
     // keep test console output quieter
     ENV.APP.LOG_ACTIVE_GENERATION = false;
@@ -44,6 +46,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
+    ENV.host = 'https://seller-server.herokuapp.com';
     // here you can enable a production-specific feature
   }
 
