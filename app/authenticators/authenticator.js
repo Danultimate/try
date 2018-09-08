@@ -2,8 +2,9 @@ import Oauth2PasswordGrant from 'ember-simple-auth/authenticators/oauth2-passwor
 
 export default Oauth2PasswordGrant.extend({
 
-    // serverTokenEndpoint: 'api/login',
-    serverTokenEndpoint: 'https://localhost:5000/api/login',
-    serverTokenRevocationEndpoint: 'https://localhost:5000/api/logout'
+    serverTokenEndpoint: 'api/login',
+    serverTokenRevocationEndpoint: 'api/login',
+    // serverTokenEndpoint: 'https://localhost:5000/api/login',
+    // serverTokenRevocationEndpoint: 'https://localhost:5000/api/logout'
 
 });
