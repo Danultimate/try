@@ -143,14 +143,14 @@ template {
 }
 @font-face {
   font-family: 'FontAwesome';
-  src: url("../fonts/fontawesome-webfont.eot?v=4.7.0");
-  src: url("../fonts/fontawesome-webfont.eot?#iefix&v=4.7.0") format('embedded-opentype'), url("../fonts/fontawesome-webfont.woff2?v=4.7.0") format('woff2'), url("../fonts/fontawesome-webfont.woff?v=4.7.0") format('woff'), url("../fonts/fontawesome-webfont.ttf?v=4.7.0") format('truetype'), url("../fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular") format('svg');
+  src: url("../assets/fonts/fontawesome-webfont.eot?v=4.7.0");
+  src: url("../assets/fonts/fontawesome-webfont.eot?#iefix&v=4.7.0") format('embedded-opentype'), url("../assets/fonts/fontawesome-webfont.woff2?v=4.7.0") format('woff2'), url("../assets/fonts/fontawesome-webfont.woff?v=4.7.0") format('woff'), url("../assets/fonts/fontawesome-webfont.ttf?v=4.7.0") format('truetype'), url("../assets/fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular") format('svg');
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: WhitnHTFBolSC;
-  src: url("../fonts/WhitnHTFBolSC.otf");
+  src: url("../assets/fonts/WhitnHTFBolSC.otf");
 }
 html {
   height: 100%;
@@ -164,7 +164,7 @@ body {
   overflow-x: hidden;
 }
 .dr-contenido {
-  background-image: url("../images/fondo.png");
+  background-image: url("../assets/images/fondo.png");
   background-repeat: no-repeat;
   background-size: cover;
   height: 100%;
@@ -254,7 +254,7 @@ body {
 }
 .dr-contenido2 .logo,
 .dr-contenido3 .logo {
-  background-image: url("../images/logo.png");
+  background-image: url("../assets/images/logo.png");
   background-size: 100%;
   display: block;
   width: 50%;
@@ -339,7 +339,7 @@ body {
   background-color: #b7237e;
 }
 .dr-contenido3 .dr-dashcliente .header .dr-fondopersona2 {
-  background-image: url("../images/fondopersona2.png");
+  background-image: url("../assets/images/fondopersona2.png");
   background-size: 100%;
   background-repeat: no-repeat;
   width: 100%;
@@ -507,7 +507,7 @@ body {
 .dr-dashboard .dashboard-dialog .dashboard-content .dashboard-body .header {
   background-color: #fff;
   padding: 15px;
-  background-image: url("../images/labial.png");
+  background-image: url("../assets/images/labial.png");
   background-position: 111%;
   background-repeat: no-repeat;
   background-size: 20%;
@@ -521,7 +521,7 @@ body {
   border-right: 1px solid #d3d3d3;
 }
 .dr-dashboard .dashboard-dialog .dashboard-content .dashboard-body .header .dr-fondopersona {
-  background-image: url("../images/fondopersona.png");
+  background-image: url("../assets/images/fondopersona.png");
   background-size: 100%;
   background-repeat: no-repeat;
   width: 100%;
@@ -631,7 +631,7 @@ body {
   font-size: 14px;
 }
 .circle-img {
-  background-image: url(../images/circle.png);
+  background-image: url(../assets/images/circle.png);
   position: absolute;
   background-size: 100%;
   background-repeat: no-repeat;

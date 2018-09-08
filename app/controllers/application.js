@@ -8,7 +8,7 @@ export default Controller.extend({
         let u1 = this.store.createRecord('user', {
             "id": 1, 'first_name': "ana", 'last_name': 'Apellido XYZ',
             "cellphone": 12312123123,
-            "picture": "https://images.clipartlogo.com/files/istock/previews/9984/99842419-happy-asian-girls-icon-vector-young-woman-icon-illustration.jpg"
+            "picture": "https://assets/images.clipartlogo.com/files/istock/previews/9984/99842419-happy-asian-girls-icon-vector-young-woman-icon-illustration.jpg"
         });
         let u2 = this.store.createRecord('user', {
             "id": 2, 'first_name': "victor", 'last_name': 'Apellido XYZ',
@@ -18,7 +18,7 @@ export default Controller.extend({
         let u3 = this.store.createRecord('user', {
             "id": 3, 'first_name': "cristy", 'last_name': 'Apellido XYZ',
             "cellphone": 1234213123,
-            "picture": "https://images.clipartlogo.com/files/istock/previews/9984/99842419-happy-asian-girls-icon-vector-young-woman-icon-illustration.jpg"
+            "picture": "https://assets/images.clipartlogo.com/files/istock/previews/9984/99842419-happy-asian-girls-icon-vector-young-woman-icon-illustration.jpg"
         });
         let u4 = this.store.createRecord('user', {
             "id": 4, 'first_name': "nico", 'last_name': 'Apellido XYZ',
@@ -33,7 +33,7 @@ export default Controller.extend({
         let u6 = this.store.createRecord('user', {
             "id": 6, 'first_name': "juli", 'last_name': 'Apellido XYZ',
             "cellphone": 1234213123,
-            "picture": "https://images.clipartlogo.com/files/istock/previews/9984/99842419-happy-asian-girls-icon-vector-young-woman-icon-illustration.jpg"
+            "picture": "https://assets/images.clipartlogo.com/files/istock/previews/9984/99842419-happy-asian-girls-icon-vector-young-woman-icon-illustration.jpg"
         });
         let s1 = this.store.createRecord('seller', { "id": 1, "user": u6, "commision": 0.20 })
         let c1 = this.store.createRecord('client', { "id": 1, "user": u1, "seller": s1, "old_consumer": true })
