@@ -9,7 +9,7 @@
         background-color: #f8f9fa;
     }
     .landing {
-        background-image: url({{rootURL}}images/landing_background.jpg);
+        background-image: url({{rootURL}}assets/images/landing_background.jpg);
         background-repeat: no-repeat;
         background-position-x: left;
         background-size: cover;
@@ -56,7 +56,7 @@
                 {{!-- Screen info --}}
                 <div class="container">
                     <p class="lead" style="padding-bottom:10px;">Con Descubre ganas más en menos tiempo</p>
-                    <img class="img-fluid" src="{{rootURL}}images/screen1.png">
+                    <img class="img-fluid" src="{{rootURL}}assets/images/screen1.png">
                 </div>
                 {{!-- Screen info --}}
             </div>
@@ -65,7 +65,7 @@
                 {{!-- Screen info --}}
                 <div class="container">
                     <p class="lead" style="padding-bottom: 25px;">Enfocate en lo que te gusta, nos encargamos de lo demás</p>
-                    <img class="img-fluid" src="{{rootURL}}images/screen2.png">
+                    <img class="img-fluid" src="{{rootURL}}assets/images/screen2.png">
                 </div>
                 {{!-- Screen info --}}
             </div>
@@ -74,7 +74,7 @@
                 {{!-- Screen info --}}
                 <div class="container">
                     <p class="lead">Vende los productos que ya conoces - de forma diferente</p>
-                    <img class="img-fluid" src="{{rootURL}}images/landing_celebridad.png">
+                    <img class="img-fluid" src="{{rootURL}}assets/images/landing_celebridad.png">
                 </div>
                 {{!-- Screen info --}}
             </div>
@@ -83,8 +83,8 @@
                 {{!-- Screen info --}}
                 <div class="container">
                     <p class="lead" style="padding-bottom: 0px;">Registrate ya y te llamaremos con más información</p>
-                    <img class="img-fluid" src="{{rootURL}}images/screen3.png">
-                    {{!-- <img class="img-fluid" src="{{rootURL}}images/landing_woman.png"> --}}
+                    <img class="img-fluid" src="{{rootURL}}assets/images/screen3.png">
+                    {{!-- <img class="img-fluid" src="{{rootURL}}assets/images/landing_woman.png"> --}}
                 </div>
                 {{!-- Screen info --}}
             </div>
@@ -101,11 +101,10 @@
         </a>
 
         <div class="button-container" style="padding-top: 15px;">
-            <button type="button" class="btn btn-primary btn-block" style="background-color:#220c71; border-color:#220c71;">
-                {{!-- {{#link-to 'signup'}} --}}
-                Crear perfil
-                {{!-- {{/link-to}} --}}
-            </button>
+
+            {{#link-to 'signup' role="button" style="background-color:#220c71; border-color:#220c71;" class="btn btn-primary btn-block"}}
+            Registrame ya!
+            {{/link-to}}
             {{!-- <button type="button" class="btn btn-outline-primary btn-block">
                 {{#link-to 'login'}}
                 Ya tengo uno

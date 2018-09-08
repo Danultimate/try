@@ -1,0 +1,65 @@
+<style>
+    .landing {
+        background-image: url({{rootURL}}assets/images/landing_background.jpg);
+        background-repeat: no-repeat;
+        background-position-x: left;
+        background-size: cover;
+        overflow: "hidden";
+        height: 100%;
+        display: flex;
+    }
+    .container {
+        padding-right: 35px;
+        padding-left: 35px;
+        height: 75vh !important;
+        vertical-align:middle;
+        width:100%;
+        align-items: center;
+    }
+    .button-container {
+        padding-right: 35px;
+        padding-left: 35px;
+    }
+    p.lead {
+        padding-top: 10vh;
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: bolder;
+        padding-bottom: 20px;
+    }
+</style>
+
+<section class="landing">
+   {{!-- Screen info --}}
+    <div class="container">
+        
+        <p class="lead" style="padding-bottom:10px;">Gracias, pronto te contactaremos</p>
+        
+        <img class="img-fluid" src="{{rootURL}}assets/images/landing_woman.png">
+
+        <div class="button-container" style="padding-top: 25px;">
+            {{#link-to 'signup' role="button" style="background-color:#220c71; border-color:#220c71;" class="btn btn-primary btn-block"}}
+                ¡Cuéntale a todos!
+            {{/link-to}}
+        </div>
+
+    </div>  
+</section>
+
+<script>
+    function share() {
+        if (!("share" in navigator)) {
+            alert('Lo sentimos, no puedes compartir desde este navegador.');
+            return;
+        }
+
+        navigator.share({
+            title: 'Descubre la manera de vender más',
+            text: 'Hola, acabé de registrarme en una app que me permitirá vender más y más fácil. ¡Regístrate tu también!',
+            url: 'https://seller-client.herokuapp.com'
+            })
+            .then(() => console.log('Successful share'))
+            .catch(error => console.log('Error sharing:', error));
+    }
+</script>
+

@@ -81,7 +81,7 @@ body {
     outline: 0;
     border: 0;
     color: white;
-    background: $color-primary;
+    background: #220C71;
     transition: 0.3s;
     
     &:hover {
@@ -135,17 +135,17 @@ body {
 
 <div class="user">
     <header class="user__header">
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3219/logo.svg" alt="" />
+        <img src="{{rootURL}}assets/images/logo_blanco.png" class="img-fluid" />
         <h5 class="user__title">Descubre la manera de vender mas en menos tiempo</h5>
     </header>
     
     <form class="form" {{action 'save' on='submit' }}>
         <div class="form__group">
-            {{input type="text" class="form__input" value=first_name required=true placeholder="Nombre"}}
+            {{input type="text" class="form__input" value=first_name required=true placeholder="Nombre" pattern="[A-Za-z]+"}}
         </div>
         
         <div class="form__group">
-            {{input type="text" class="form__input" value=last_name required=true placeholder="Apellido"}}
+            {{input type="text" class="form__input" value=last_name required=true placeholder="Apellido" pattern="[A-Za-z]+"}}
         </div>
         
         {{!-- <div class="form__group">
@@ -168,9 +168,9 @@ body {
             {{input id='ds_experience' type='checkbox'}}
         </div> --}}
         <div class="form__group">
-            <div class="form__input" style="background-color:white">
+            <div class="form__input" style="background-color:white; text-align: center;">
                 {{input id='terms_conditions' type='checkbox' required=true}}
-                He leído y acepto los {{#link-to "term_conditions"}}T&C{{/link-to}}
+                <label for="terms_conditions" style="color: #636363;">He leído y acepto los {{#link-to "term_conditions"}}T&C{{/link-to}}</label>
             </div>
             
         </div>
