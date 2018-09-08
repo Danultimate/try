@@ -25,6 +25,7 @@ Router.map(function() {
   this.route('signup', { path: '/sign_up' });
   this.route('term_conditions');
   this.route('landing', { path: '/' });
+  this.route('thanks');
 });
 
 export default Router;

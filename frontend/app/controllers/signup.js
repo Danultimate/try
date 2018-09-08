@@ -23,11 +23,13 @@ export default Controller.extend({
       record.save().then(() => {
         let seller_record = this.store.createRecord('seller', {
           user: record,
-          ds_experience: this.get('ds_experience')
+          ds_experience: this.get('ds_experience'),
+          commission: 0.15,
         });
-        record.save().then(() => {
+        seller_record.save().then(() => {
           //redirect to Intro pages
-          // this.transitionToRoute(record, 'intro_pages')
+          // this.transitionToRoute('landing')
+          this.transitionToRoute('thanks')
         }).catch((reason) => {
           // Error saving seller
           this.set('isError', true);
