@@ -119,6 +119,10 @@
 
 
 <script>
+    $('.carousel').carousel({
+        interval: 5000,
+        wrap: false
+    });
     $('.carousel').each(function () {
         var $carousel = $(this);
         var hammertime = new Hammer(this, {
