@@ -136,7 +136,7 @@ body {
 <div class="user">
     <header class="user__header">
         <img src="{{rootURL}}assets/images/logo_blanco.png" class="img-fluid" />
-        <h5 class="user__title">Descubre la manera de vender mas en menos tiempo</h5>
+        <h5 class="user__title">Descubre la manera de vender más en menos tiempo</h5>
     </header>
     
     <form class="form" {{action 'save' on='submit' }}>
@@ -153,7 +153,7 @@ body {
         </div> --}}
 
         <div class="form__group">
-            {{input type="number" class="form__input" value=cellphone required=true placeholder="Celular"}}
+            {{input type="number" class="form__input" value=cellphone required=true placeholder="Celular" min="3000000000" max="3999999999"}}
         </div>
 
         {{!-- <div class="form__group">

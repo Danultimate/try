@@ -142,7 +142,8 @@ export default Controller.extend({
             "text": "Hola, mira este contenido para ti :D"
         });
     },
-
+    
+    session: service('session'),    
     currentUrl: null,
     hide_nav_endpoints: ['/landing', '/sign_up', '/login', '/', '/term_conditions', '/thanks'],
     show_nav: true,
@@ -151,12 +152,28 @@ export default Controller.extend({
         Ember.run.next(this, function () {
             if (this.hide_nav_endpoints.includes(window.location.pathname)){
                 this.set('show_nav', false);
-            }
+            }            
+            // Interaction Tracker
+            Ember.$.getJSON('https://json.geoiplookup.io').then((data) => {
+                let browser_info = JSON.stringify(data, null, 2);
+                let record = this.store.createRecord('interaction', {
+                    action: 'watched',
+                    current_url: window.location.href,
+                    browser_info: browser_info,
+                    session_info: JSON.stringify(this.get('session').data)
+                  });
+                record.save().then(() => {
+                    // this.loader.setLoading(false);
+                    // this.transitionToRoute(record, 'record')
+                }).catch((reason) => {
+                    // this.loader.setLoading(false);
+                    this.set('isError', true);
+                });
+            });
+            
         });
     }),
     
-
-    session: service('session'),
 
     actions: {
         invalidateSession() {

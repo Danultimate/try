@@ -5,6 +5,7 @@ from backend.models.content import *
 from backend.models.product import *
 from backend.models.order import *
 from backend.models.task import *
+from backend.models.interactions import *
 
 __all__ = [
     'User',
@@ -35,6 +36,8 @@ __all__ = [
     'Task',
     'ClientSuggestions',
     'ProductSuggestions',
-    'NotificationRegister'
+    'NotificationRegister',
+
+    'Interaction'
 
 ]

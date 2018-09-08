@@ -5,6 +5,7 @@ from backend.resources.order import *
 from backend.resources.task import *
 from backend.resources.content import *
 from backend.resources.auth_views import *
+from backend.resources.interactions import *
 
 
 __all__ = [
@@ -25,7 +26,9 @@ __all__ = [
     'OrderMethodView',
 
     'TaskMethodView',
-    'NotificationMethodView'
+    'NotificationMethodView',
+
+    'InteractionMethodView'
 
 
 ]
