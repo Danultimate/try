@@ -18,6 +18,7 @@ body {
     animation: move 10s ease infinite;
     transform: translate3d(0, 0, 0);
     background: linear-gradient(45deg, #49D49D 10%, #A2C7E5 90%);
+    /* background-image: url({{rootURL}}images/landing_background.jpg); */
     height: 100vh
 }
 
@@ -135,7 +136,7 @@ body {
 <div class="user">
     <header class="user__header">
         <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3219/logo.svg" alt="" />
-        <h3 class="user__title">Descubre la manera de vender mas</h3>
+        <h5 class="user__title">Descubre la manera de vender mas en menos tiempo</h5>
     </header>
     
     <form class="form" {{action 'save' on='submit' }}>
@@ -147,31 +148,34 @@ body {
             {{input type="text" class="form__input" value=last_name required=true placeholder="Apellido"}}
         </div>
         
-        <div class="form__group">
+        {{!-- <div class="form__group">
             {{input type="number" class="form__input" value=identification required=true placeholder="Cédula"}}
-        </div>
+        </div> --}}
 
         <div class="form__group">
             {{input type="number" class="form__input" value=cellphone required=true placeholder="Celular"}}
         </div>
 
-        <div class="form__group">
+        {{!-- <div class="form__group">
             {{input type="email" class="form__input" value=email required=true placeholder="Correo Electronico"}}
-        </div>
+        </div> --}}
 
         <div class="form__group">
             {{input id='password' class="form__input" type='password' value=password required=true placeholder="Contraseña"}}
         </div>
-        <div>
+        {{!-- <div>
             <label for="form__group">Por cuanto tiempo has hecho venta directa</label>
             {{input id='ds_experience' type='checkbox'}}
+        </div> --}}
+        <div class="form__group">
+            <div class="form__input" style="background-color:white">
+                {{input id='terms_conditions' type='checkbox' required=true}}
+                He leído y acepto los {{#link-to "term_conditions"}}T&C{{/link-to}}
+            </div>
+            
         </div>
         
-        <label for="form__group">He leído y acepto los {{#link-to "term_conditions"}}Términos y Condiciones de uso{{/link-to}}
-            {{input id='terms_conditions' type='checkbox' required=true}}
-        </label>
-        
-        <button class="btn" type="submit">Registrarse</button>
+        <button class="btn" type="submit">Registrame ya</button>
         {{#if errorMessage}}
         <p>{{errorMessage}}</p>
         {{/if}}

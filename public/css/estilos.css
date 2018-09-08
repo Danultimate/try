@@ -148,6 +148,10 @@ template {
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: WhitnHTFBolSC;
+  src: url("../fonts/WhitnHTFBolSC.otf");
+}
 html {
   height: 100%;
 }
