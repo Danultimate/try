@@ -2,7 +2,6 @@ import Controller from '@ember/controller';
 
 export default Controller.extend({
   actions: {
-
     share(params) {
       console.log('params', params)
       if (!("share" in navigator)) {

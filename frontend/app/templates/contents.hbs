@@ -4,6 +4,7 @@
   	<th>name</th>
   </tr>
 {{#each model as |content|}}
+{{!-- {{#each-in (filter-by 'category' activeCategory model) as |content|}} --}}
 	<tr>
   	<td><img src={{content.thumbnailUrl}} height="50" width="50"></td>
 		<td>

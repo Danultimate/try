@@ -1,6 +1,0 @@
-{
-  "name": "frontend",
-  "dependencies": {
-    "push.js": "^1.0.7"
-  }
-}

@@ -1,5 +1,8 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+import { observer } from '@ember/object';
+import { next } from '@ember/runloop';
+import $ from 'jquery';
 
 export default Controller.extend({
     init() {
@@ -143,18 +146,19 @@ export default Controller.extend({
         });
     },
     
-    session: service('session'),    
+    session: service('session'),
+    
     currentUrl: null,
     hide_nav_endpoints: ['/landing', '/sign_up', '/login', '/', '/term_conditions', '/thanks'],
     show_nav: true,
 
-    onPathChanged: Ember.observer('currentPath', function () {
-        Ember.run.next(this, function () {
+    onPathChanged: observer('currentPath', function () {
+        next(this, function () {
             if (this.hide_nav_endpoints.includes(window.location.pathname)){
                 this.set('show_nav', false);
             }            
             // Interaction Tracker
-            Ember.$.getJSON('https://json.geoiplookup.io').then((data) => {
+            $.getJSON('https://json.geoiplookup.io').then((data) => {
                 let browser_info = JSON.stringify(data, null, 2);
                 let record = this.store.createRecord('interaction', {
                     action: 'watched',
@@ -178,6 +182,9 @@ export default Controller.extend({
     actions: {
         invalidateSession() {
             this.get('session').invalidate();
+        },
+        goBack(){
+            window.history.back();
         }
     }
 });

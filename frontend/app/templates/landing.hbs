@@ -6,21 +6,28 @@
         background-color: #c2c2c2;
     }
     .carousel-indicators .active {
-        background-color: #f8f9fa;
+        background-color: #000000;
+    }
+    .carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+    }
+    .carousel-control-next-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
     }
     .landing {
-        background-image: url({{rootURL}}assets/images/landing_background.jpg);
+        /* background-image: url({{rootURL}}assets/images/landing_background.jpg);*/
         background-repeat: no-repeat;
         background-position-x: left;
         background-size: cover;
         overflow: "hidden";
         height: 100%;
         display: flex;
+        align-items: center;
     }
     .container {
         padding-right: 35px;
         padding-left: 35px;
-        height: 75vh !important;
+        height: 60vh !important;
         vertical-align:middle;
         width:100%;
         align-items: center;
@@ -30,7 +37,6 @@
         padding-left: 35px;
     }
     p.lead {
-        padding-top: 10vh;
         text-align: center;
         font-size: 1.2rem;
         font-weight: bolder;
@@ -42,13 +48,15 @@
 </style>
 
 <section class="landing">
-
+    
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <div style="text-align: center; padding-top: 3vh; padding-bottom: 20px;">
+            <img class="img-fluid" style="max-width: 35%;" src="{{rootURL}}assets/images/logo_flower.png">
+        </div>
         <ol class="carousel-indicators">
             <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
             <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
         </ol>
         <div class="carousel-inner">
 
@@ -79,15 +87,6 @@
                 {{!-- Screen info --}}
             </div>
 
-            <div class="carousel-item">
-                {{!-- Screen info --}}
-                <div class="container">
-                    <p class="lead" style="padding-bottom: 0px;">Registrate ya y te llamaremos con más información</p>
-                    <img class="img-fluid" src="{{rootURL}}assets/images/screen3.png">
-                    {{!-- <img class="img-fluid" src="{{rootURL}}assets/images/landing_woman.png"> --}}
-                </div>
-                {{!-- Screen info --}}
-            </div>
 
         </div>
         
@@ -95,14 +94,14 @@
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
         </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next" >
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
 
         <div class="button-container" style="padding-top: 15px;">
 
-            {{#link-to 'signup' role="button" style="background-color:#220c71; border-color:#220c71;" class="btn btn-primary btn-block"}}
+            {{#link-to 'signup' role="button" style="background-color:#2196f3; border-color:#2196f3;" class="btn btn-primary btn-block"}}
             Registrame ya!
             {{/link-to}}
             {{!-- <button type="button" class="btn btn-outline-primary btn-block">
