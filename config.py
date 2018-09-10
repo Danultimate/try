@@ -1,7 +1,6 @@
 import os
 
 
-# noinspection SpellCheckingInspection
 class Production(object):
     # Location of Flask app
     PROJECT_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -21,11 +20,15 @@ class Production(object):
 
 # noinspection SpellCheckingInspection
 class Development(Production):
+    ENV = 'development'
     DEBUG = True
-    DEVELOPMENT = False
+    DEVELOPMENT = True
 
     SQLALCHEMY_DATABASE_URI = 'postgres://postgres:control1234@localhost:5432/poc_content'
     REDIS_URL = ''
+
+    KEY = '../ssl/server.key'
+    CERT = '../ssl/server.crt'
 
     SQLALCHEMY_ECHO = True
 

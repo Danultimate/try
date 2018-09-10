@@ -19,7 +19,8 @@ class ClientMethodView(MethodView):
         if client_id is not None:
             client = Client.query.get_or_404(client_id)
             products = ProductSuggestions.query.filter_by(client_id=client_id)
-            return jsonify({'clients':[client.to_dict()],
+            return jsonify({'clients': [client.to_dict()],
+                            'profiles': [client.profile.to_dict()],
                             'products': [product.to_dict() for product in products]
                             })
 
