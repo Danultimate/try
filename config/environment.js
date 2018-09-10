@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = function(environment) {
+  console.log('environment', environment)
   let ENV = {
     modulePrefix: 'frontend',
     environment,
@@ -22,7 +23,7 @@ module.exports = function(environment) {
       // when it is created
     }, 
 
-    host: ''
+    host: 'http://localhost:5000'
   };
 
   if (environment === 'development') {
@@ -31,6 +32,7 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS = true;
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
+
   }
 
   if (environment === 'test') {

@@ -1,9 +1,9 @@
 {{!-- Hey revisar porque funciona raro cuando link-to vs /clients/1 --}}
 
-    <section class="dr-contenido3">
+    <section class="dr-contenido3" style="padding-top: 30px">
         <nav class="navbar navbar-light bg-white fixed-top">
 
-            <a class="dr-atras" href="#" data-toggle="modal" data-target="#menu"><i class="material-icons">arrow_back</i></a>
+            <a class="dr-atras" onclick="goBack()" data-toggle="modal" data-target="#menu"><i class="material-icons">arrow_back</i></a>
 
             <a class="navbar-brand detalles" href=""> Detalles Clientes</a>
 
@@ -46,7 +46,7 @@
                             <div class="nombre">
                                 <h4>{{model.user.first_name}}</h4>
                                 <h5>{{model.user.last_name}}</h5>
-                                <p>Tipo:Naturalia</p>
+                                <p>Tipo: {{model.profile.name}}</p>
                             </div>
                         </div>
                     </div>

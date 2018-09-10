@@ -1,6 +1,5 @@
 <style>
     .landing {
-        background-image: url({{rootURL}}assets/images/landing_background.jpg);
         background-repeat: no-repeat;
         background-position-x: left;
         background-size: cover;
@@ -38,7 +37,9 @@
         <img class="img-fluid" src="{{rootURL}}assets/images/landing_woman.png">
 
         <div class="button-container" style="padding-top: 35px;">
-            <button class="btn btn-primary btn-block" onclick="share()" style="background-color:#220c71; border-color:#220c71;">
+            <button class="btn btn-primary btn-block" 
+            onclick="{{action 'share' []}}" 
+            style="background-color:#2196f3; border-color:#2196f3;">
                 ¡Cuéntale a todos!
             </button>
         </div>
@@ -46,22 +47,4 @@
     </div>  
 </section>
 
-<script>
-    function share() {
-        if (!("share" in navigator)) {
-            //alert('Lo sentimos, no puedes compartir desde este navegador.');
-            console.log('hey no sirve el share api')
-            window.location = 'whatsapp://send?text=https%3A%2F%2Fseller-client.herokuapp.com%0AHola%2C%20acab%C3%A9%20de%20registrarme%20en%20una%20app%20que%20me%20permitir%C3%A1%20vender%20m%C3%A1s%20y%20m%C3%A1s%20f%C3%A1cil.%20%C2%A1Reg%C3%ADstrate%20tu%20tambi%C3%A9n!'
-            return;
-        }
-
-        navigator.share({
-            title: 'Descubre la manera de vender más',
-            text: 'Hola, acabé de registrarme en una app que me permitirá vender más y más fácil. ¡Regístrate tu también!',
-            url: 'https://seller-client.herokuapp.com'
-            })
-            .then(() => console.log('Successful share'))
-            .catch(error => console.log('Error sharing:', error));
-    }
-</script>
 

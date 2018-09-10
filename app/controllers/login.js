@@ -1,5 +1,7 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+import { computed } from '@ember/object';
+import { isEmpty } from '@ember/utils';
 
 export default Controller.extend({
 
@@ -9,8 +11,8 @@ export default Controller.extend({
   
     session: service('session'),
   
-    isLoginButtonDisabled: Ember.computed('cellphone', 'password', function(){
-      return Ember.isEmpty(this.get('cellphone')) || Ember.isEmpty(this.get('password'));
+    isLoginButtonDisabled: computed('cellphone', 'password', function(){
+      return isEmpty(this.get('cellphone')) || isEmpty(this.get('password'));
     }).readOnly(),
   
   

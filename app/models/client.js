@@ -7,6 +7,7 @@ export default Model.extend({
   user: belongsTo('user'),
   old_consumer: attr('boolean', { defaultValue: false }),
   seller: belongsTo('seller'),
+  profile: belongsTo('profile'),
   orders: hasMany('order'),
 
   ordersActive: filterBy('orders', 'status', 0),

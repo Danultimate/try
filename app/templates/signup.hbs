@@ -17,7 +17,8 @@ body {
     background-repeat: no-repeat;
     animation: move 10s ease infinite;
     transform: translate3d(0, 0, 0);
-    background: linear-gradient(45deg, #49D49D 10%, #A2C7E5 90%);
+    background: #f1f1f1;
+    /* background: linear-gradient(45deg, #49D49D 10%, #A2C7E5 90%); */
     /* background-image: url({{rootURL}}images/landing_background.jpg); */
     height: 100vh
 }
@@ -39,7 +40,7 @@ body {
     font-size: $font-size;
     margin-bottom: -10px;
     font-weight: 500;
-    color: white;
+    color: black;
 }
 
 .form {
@@ -81,7 +82,7 @@ body {
     outline: 0;
     border: 0;
     color: white;
-    background: #220C71;
+    background: #2196f3;
     transition: 0.3s;
     
     &:hover {
@@ -135,17 +136,17 @@ body {
 
 <div class="user">
     <header class="user__header">
-        <img src="{{rootURL}}assets/images/logo_blanco.png" class="img-fluid" />
-        <h5 class="user__title">Descubre la manera de vender más en menos tiempo</h5>
+        <img src="{{rootURL}}assets/images/logo_flower.png" class="img-fluid" />
+        <h5 class="user__title">Registrate ya y te llamaremos con más información</h5>
     </header>
     
     <form class="form" {{action 'save' on='submit' }}>
         <div class="form__group">
-            {{input type="text" class="form__input" value=first_name required=true placeholder="Nombre" pattern="[A-Z][a-zA-Z][^#&<>\"~,;@$^%{}?1234567890]{1,50}$"}}
+            {{input type="text" class="form__input" value=first_name required=true placeholder="Nombre" pattern="[a-zA-Z][^#&<>\"~,;@$^%{}?1234567890]{1,50}$"}}
         </div>
         
         <div class="form__group">
-            {{input type="text" class="form__input" value=last_name required=true placeholder="Apellido" pattern="[A-Z][a-zA-Z][^#&<>\"~,;@$^%{}?1234567890]{1,50}$"}}
+            {{input type="text" class="form__input" value=last_name required=true placeholder="Apellido" pattern="[a-zA-Z][^#&<>\"~,;@$^%{}?1234567890]{1,50}$"}}
         </div>
         
         {{!-- <div class="form__group">
