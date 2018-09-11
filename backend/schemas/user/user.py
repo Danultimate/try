@@ -14,7 +14,7 @@ class Password(fields.Field):
 class UserSchema(Schema):
     first_name = fields.String(required=True)
     last_name = fields.String(required=True)
-    password = Password(attribute="password_hash")
+    # password = Password(attribute="password_hash")
     cellphone = fields.Integer(
         required=True, validate=lambda x: x > 3000000000)
     # email = fields.String(required=True)

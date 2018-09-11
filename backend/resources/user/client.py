@@ -21,7 +21,8 @@ class ClientMethodView(MethodView):
             products = ProductSuggestions.query.filter_by(client_id=client_id)
             return jsonify({'clients': [client.to_dict()],
                             'profiles': [client.profile.to_dict()],
-                            'products': [product.to_dict() for product in products]
+                            'products': [product.to_dict() for product in products],
+                            'orders': [order.to_dict() for order in client.orders]
                             })
 
         clients = Client.query.all()

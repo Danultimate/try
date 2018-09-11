@@ -240,7 +240,7 @@ body {
 }
 .dr-contenido2,
 .dr-contenido3 {
-  background-color: #eee;
+  background-color: #f5f3f3;
   height: 100%;
 }
 .dr-contenido2 .navbar,
@@ -308,11 +308,11 @@ body {
   padding-bottom: 10px;
 }
 .dr-contenido3 {
-  background-color: #ffffff;
+  background-color: #f5f3f3;
   padding-top: 80px;
 }
 .dr-contenido3 .dr-dashcliente .header {
-  background-color: #d5dfe1;
+  background-color: #fff;
   border-radius: 10px;
   padding: 10px;
 }
@@ -329,10 +329,10 @@ body {
   font-size: 14px;
 }
 .dr-contenido3 .dr-dashcliente .header .nombre p {
-  font-weight: 1000;
+  font-weight: 700;
   margin: 10px 0 0 0;
   padding: 0;
-  font-size: 14px;
+  font-size: 10px;
   color: #6e8b63;
 }
 .dr-contenido3 .dr-dashcliente .header .nombre .progress-bar {
@@ -347,9 +347,8 @@ body {
   text-align: center;
 }
 .dr-contenido3 .dr-dashcliente .header .dr-fondopersona2 img {
-  width: 100%;
-  margin-top: 10px;
-  margin-left:  25px;
+  width: 70%;
+  margin-top: 20px;
 }
 .dr-contenido3 .dr-dashcliente .dr-categoria {
   margin-top: 30px;
@@ -365,10 +364,10 @@ body {
   color: #fff;
 }
 .dr-contenido3 .dr-dashcliente .dr-categoria .btn-fragancias {
-  background-color: #17a2b8;
+  background-color: #69e2db;
 }
 .dr-contenido3 .dr-dashcliente .dr-categoria .btn-maquilla {
-  background-color: #e25ebe;
+  background-color: #e269c4;
 }
 .dr-contenido3 .dr-dashcliente .dr-tabs {
   margin-top: 30px;
@@ -401,6 +400,36 @@ body {
 }
 .dr-contenido3 .dr-dashcliente .dr-tabs .nav-tabs .active a {
   color: #da2b42;
+}
+.dr-contenido3 .dr-dashcliente .dr-tabs .tab-content .item {
+  background-color: #fff;
+  padding: 20px 10px;
+  border-radius: 10px;
+  margin: 10px 0;
+}
+.dr-contenido3 .dr-dashcliente .dr-tabs .tab-content .item p {
+  color: #da2b42;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+}
+.dr-contenido3 .dr-dashcliente .dr-tabs .tab-content .item span {
+  font-weight: 700;
+}
+.dr-contenido3 .dr-table-orders .item {
+  background-color: #fff;
+  padding: 20px 10px;
+  border-radius: 10px;
+  margin: 10px 0;
+}
+.dr-contenido3 .dr-table-orders .item p {
+  color: #da2b42;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+}
+.dr-contenido3 .dr-table-orders .item span {
+  font-weight: 700;
 }
 .dr-searchmodal {
   background-color: rgba(0,0,0,0.6);

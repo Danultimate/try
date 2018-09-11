@@ -1,9 +1,50 @@
 num orders {{model.length}}
-
-{{!-- {{simple-table modelName="orders"}} --}}
-
-
-
+<section class="dr-contenido3" style="padding-top: 30px">
+  <article class="dr-dashcliente">
+    <div class="container">
+  <div class="dr-tabs">
+    <h4>Historial de ordenes</h4>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="row">
+        <div class="col-3" style="font-size: smaller">No Orden</div>
+        <div class="col-2" style="font-size: smaller">Fecha</div>
+        <div class="col-3" style="font-size: smaller">Valor</div>
+        <div class="col-4" style="font-size: smaller">Estado</div>
+        </div>
+        {{#each model as |order|}}
+            <div class="item">
+                <div class="row">
+                    <div class="col-3">
+                        <p>{{#link-to "order" order.id}}
+                        {{order.order_number}}
+                        {{/link-to}}</p>                                    
+                    </div>
+                    <div class="col-2">
+                        {{to-day-month order.date}}
+                    </div>
+                    <div class="col-3">
+                        <span>${{order.purchaseSum}}</span>
+                    </div>
+                    <div class="col-4">
+                        {{#if (eq order.status 3)}}
+                            <span class="badge badge-pill badge-success">Completada</span>
+                        {{else if (eq order.status 2)}}
+                            <span class="badge badge-pill badge-danger">Cancelada</span>
+                        {{else if (eq order.status 1)}}
+                            <span class="badge badge-pill badge-primary">Distribucion</span>
+                        {{else if (eq order.status 0)}}
+                            <span class="badge badge-pill badge-info">Ordenado</span>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>  
+        {{/each}}               
+    </div>
+  </div>
+  </div>
+  </article>
+</section>
 <table >
 	<tr>
   	<th># order</th>

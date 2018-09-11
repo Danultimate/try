@@ -5,7 +5,7 @@ import { belongsTo, hasMany } from 'ember-data/relationships';
 
 export default DS.Model.extend({
     order_number: attr('number'),
-    status: attr('date'),
+    date: attr('date'),
     client: belongsTo('client'),
     products: hasMany('product'),
     seller: belongsTo('seller'),

@@ -16,3 +16,4 @@ class Client(db.Model, BaseColumnsMixin, DictMixin):
     seller = db.relationship('Seller')
     user = db.relationship('User')
     profile = db.relationship('Profile')
+    orders = db.relationship('Order')
