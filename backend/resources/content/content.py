@@ -15,7 +15,6 @@ class ContentMethodView(MethodView):
             return jsonify({
                 'contents': [content.to_dict()],
                 'topics': [content.topic.to_dict()],
-                'categories': [content.category.to_dict()],
                 'profiles': [profile.to_dict()],
                 'products': [product.to_dict() for product in products],
 

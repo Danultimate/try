@@ -1,3 +1,12 @@
+{{#if isError}}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{isError}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+{{/if}}
+
 <section class="dr-contenido align-items-center">
   <article class="titulo">
     <img class="img-fluid" src="assets/images/descubre.png" alt="">
@@ -7,13 +16,13 @@
       <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1"><i class="material-icons">phonelink_ring</i></span>
       </div>
-      <input id="cellphone" type="text" class="form-control" placeholder="Ingresa tu número celular" aria-label="Username" aria-describedby="basic-addon1">
+      {{input type="number" class="form-control" value=cellphone required=true placeholder="Ingresa tu número celular" min="3000000000" max="3999999999"}}
     </div>
     <div class="input-group mb-2">
       <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1"><i class="material-icons">lock</i></span>
       </div>
-      <input id="password" type="password" class="form-control" placeholder="Digita la contraseña" aria-label="Username" aria-describedby="basic-addon1">
+      {{input type="password" class="form-control" value=password required=true placeholder="Digita la contraseña" aria-label="Username" aria-describedby="basic-addon1"}}
     </div>
     <a href="" class="dr-olvido">¿Olvidó su contraseña?</a>
     <div class="col-auto">
@@ -24,9 +33,9 @@
         </div>
       </a>
     </div>
-    <div class="dr-loginface">
+    {{!-- <div class="dr-loginface">
       <p>O puedes ingresar con tus datos de:</p>
       <a href="" class="btn-face"><img src="assets/images/facebook.png" alt=""></a>
-    </div>
+    </div> --}}
   </form>
 </section>
