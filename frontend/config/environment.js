@@ -45,6 +45,7 @@ module.exports = function(environment) {
 
     ENV.APP.rootElement = '#ember-testing';
     ENV.APP.autoboot = false;
+    ENV.host = 'https://seller-server-dev.herokuapp.com';
   }
 
   if (environment === 'production') {

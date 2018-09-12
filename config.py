@@ -36,5 +36,5 @@ class Development(Production):
 # noinspection SpellCheckingInspection
 class Testing(Development):
     TESTING = True
-    SQLALCHEMY_ECHO = False
-    SQLALCHEMY_DATABASE_URI = 'postgresql://descubre@/descubre-test'
+    SQLALCHEMY_ECHO = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
