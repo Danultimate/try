@@ -19,12 +19,13 @@ export default Controller.extend({
     actions: {
       authenticate(){
         // this.loader.setLoading(true);
+        console.log(this.get('cellphone'), this.get('password'))
         this.get('session').authenticate('authenticator:authenticator',
           this.get('cellphone'), this.get('password')).then(()=>{
             // this.loader.setLoading(false);
         }).catch((reason) => {
-        //   this.loader.setLoading(false);
-          this.set('isError', true);
+          console.log(reason)
+          this.set('isError', reason);
         });
       }
     }
