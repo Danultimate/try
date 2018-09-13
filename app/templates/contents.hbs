@@ -1,17 +1,15 @@
-<table >
-	<tr>
-  	<th>img</th>
-  	<th>name</th>
-  </tr>
-{{#each model as |content|}}
-{{!-- {{#each-in (filter-by 'category' activeCategory model) as |content|}} --}}
-	<tr>
-  	<td><img src={{content.thumbnailUrl}} height="50" width="50"></td>
-		<td>
-      {{#link-to "content" content.id}}
-      	{{content.name}}
-      {{/link-to}}
-    </td>    
-	</tr>
-{{/each}}
-</table>
+<section class="dr-contenido2">
+ <article class="dr-dash">
+            <div class="container">
+                <ul>
+									{{#each model as |content|}}
+										<li>
+											{{#link-to "content" content.id}}
+												<img class="img-fluid" src="{{content.thumbnailUrl}}" alt="">
+											{{/link-to}}
+										</li>
+									{{/each}}
+                </ul>
+            </div>
+        </article>
+</section>

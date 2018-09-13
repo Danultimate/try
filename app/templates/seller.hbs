@@ -1,15 +1,93 @@
-<h1>{{model.user.first_name}} {{model.user.last_name}}</h1>
-<img src="{{model.user.avatarUrl}}" height="100" width="100">
+<section class="dr-contenidologros">
+    
+    <div class="dr-headerlogros">
+        <div class="dr-persona">
+            <img src="assets/images/profile_pic.png" alt="">
+            {{!-- <span class="dr-editar">Editar</span> --}}
+            <h4>{{model.firstObject.user.first_name}} </h4>
+            <p>{{model.firstObject.user.last_name}}</p>
+            <h6>Codigo {{model.firstObject.code}}</h6>
+        </div>
 
-<br>
-<h2>Tareas:</h2>
-<h3>{{model.tasksCompleted.length}}/{{model.tasks.length}}</h3>
+    </div>
+    <div class="dr-ventas">
+        <h2>${{model.firstObject.total}}</h2>
+        <p>Ventas de este mes</p>
+        <div class="dr-ganancias">
+            <div class="row">
+                <div class="col-6 text-center">
+                    <h6>
+                        ${{mult model.firstObject.total model.firstObject.commission}}
+                    </h6>
+                    <span>Ganacias del mes</span>
+                </div>
+                <div class="col-6 text-center">
+                    <h6>
+                        +40
+                    </h6>
+                    <span>Ventas mes anterior</span>
+                </div>
+            </div>
+        </div>
+        <div class="dr-listitems">
+            <ul>
+                <li>
+                    {{#link-to 'tasks'}}
+                        <div class="row align-items-center">
+                            <div class="col-2"><i class="material-icons">assignment</i></div>
+                            <div class="col-6">Mis Tareas</div>
+                            <div class="col-2">
+                                <span>
+                                    {{model.firstObject.tasksUncompleted.length}}
+                                </span>
+                            </div>
+                            <div class="col-2"><i class="material-icons">
+                                    keyboard_arrow_right
+                                </i></div>
+                        </div>
+                    {{/link-to}}
+                </li>
+                <li>
+                    {{#link-to 'orders'}}
+                        <div class="row align-items-center">
+                            <div class="col-2"><i class="material-icons">shopping_cart</i></div>
+                            <div class="col-6">Mis ordenes</div>
+                            <div class="col-2">
+                                <span>
+                                    {{model.firstObject.ordersActive.length}}
+                                </span>
+                            </div>
+                            <div class="col-2"><i class="material-icons">
+                                    keyboard_arrow_right
+                                </i></div>
+                        </div>
+                    {{/link-to}}
+                </li>
+                <li>
+                    {{#link-to 'clients'}}
+                        <div class="row align-items-center">
+                            <div class="col-2"><i class="material-icons">contacts</i></div>
+                            <div class="col-8">Mis Clientes</div>
+                            <div class="col-2"><i class="material-icons">
+                                    keyboard_arrow_right
+                                </i></div>
+                        </div>
+                    {{/link-to}}
+                </li>
+                <li>
+                    {{#link-to 'contents'}}
+                        <div class="row align-items-center">
+                            <div class="col-2"><i class="material-icons">dashboard</i></div>
+                            <div class="col-8">Mi Contenido</div>
+                            <div class="col-2"><i class="material-icons">
+                                    keyboard_arrow_right
+                                </i></div>
+                        </div>
+                    {{/link-to}}
+                </li>
 
-<h2>Ganancias:</h2>
+            </ul>
+        </div>
 
-<h3>{{mult model.total model.commission}}</h3>
-
-{{#link-to "tasks"}}Tus tareas pendientes{{/link-to}}
-<br>
-{{#link-to "referral"}}Referir{{/link-to}}
-
+    </div>
+</section>

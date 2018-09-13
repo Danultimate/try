@@ -1,22 +1,101 @@
-<table>
-  <tr>
-    <th>name</th>
-    <th>lala</th>
-  </tr>
+<section class="dr-contenido3">
+  <article class="dr-dashclientetareas">
+    <div class="container">
+      <div id="accordion">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+              <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                aria-controls="collapseOne">
+                Pendientes por hacer
+              </button>
+            </h5>              
+          </div>
 
-  {{#each model as |task|}}
-  <tr>
-    {{#if task.done}}
-    <td style="text-decoration:line-through">{{task.task_description}}</td>
-    {{else}}
-    <td>
-      {{#if task.num_to_send}} {{#link-to "task" task.id}} {{task.task_description}} {{/link-to}} {{else}} {{#link-to "content"
-      task.content.id}} {{task.task_description}} {{/link-to}} {{/if}}
-    </td>
-    {{/if}}
-    <td>
-      <input type="checkbox" checked={{task.done}} disabled={{task.done}} onchange={{action 'updateTask' task}} />
-    </td>
-  </tr>
-  {{/each}}
-</table>
+          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body">
+              {{!-- TODO: THE EMBER WAY PLEASE --}}
+              {{#each model as |task|}}
+                {{#if task.done}}
+                {{else if task.num_of_clients}}
+                  <div class="dr-che">
+                    <div class="row">
+                      <div class="col-10">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" checked={{task.done}} disabled={{task.done}} onchange={{action 'updateTask' task}} />
+                          <label class="form-check-label" for="exampleRadios1">
+                            {{task.task_description}}
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-2">
+                        {{#link-to "task" task.id}}
+                        <i class="material-icons">keyboard_arrow_right</i>
+                        {{/link-to}}
+                      </div>
+                    </div>
+                  </div>
+                {{else}} 
+                  <div class="dr-che">
+                    <div class="row">
+                      <div class="col-10">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" checked={{task.done}} disabled={{task.done}} onchange={{action 'updateTask' task}} />
+                          <label class="form-check-label" for="exampleRadios1">
+                            {{task.task_description}}
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-2">
+                        {{#link-to "content" task.content.id}}
+                          <i class="material-icons">keyboard_arrow_right</i>
+                        {{/link-to}}
+                      </div>
+                    </div>
+                  </div>
+                {{/if}}
+              {{/each}}
+
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingTwo">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+                aria-controls="collapseTwo">
+                Tareas ya ejecutadas
+              </button>
+            </h5>
+          </div>
+          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="card-body">
+
+              {{#each model as |task|}}
+                {{#if task.done}}
+                  <div class="dr-che">
+                    <div class="row">
+                      <div class="col-10">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" name="exampleRadios" id="exampleRadios1" value="option1"
+                            checked>
+                          <label class="form-check-label" for="exampleRadios1">
+                            {{task.task_description}}
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-2">
+                        <i class="material-icons">keyboard_arrow_right</i>
+                      </div>
+                    </div>
+                  </div>
+                  {{/if}}
+              {{/each}}
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</section>

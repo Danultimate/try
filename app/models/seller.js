@@ -5,6 +5,7 @@ import attr from 'ember-data/attr';
 
 export default DS.Model.extend({
     commission: attr('number'),
+    code: attr('string'),
     user: belongsTo('user'),
     orders: hasMany('order'),
     clients: hasMany('client'),
@@ -18,6 +19,7 @@ export default DS.Model.extend({
     // total_points: sum('total_points_per_order'),
 
     tasksCompleted: filterBy('tasks', 'done', true),
+    tasksUncompleted: filterBy('tasks', 'done', false),
 
     ordersActive: filterBy('orders', 'status', 0),
 

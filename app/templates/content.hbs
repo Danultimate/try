@@ -1,18 +1,29 @@
-<h1>{{model.name}}</h1>
-<img src={{model.imageUrl}}>
+<section class="dr-contenido3">
 
-<br>
+    <article class="dr-dashclientedeta">
+            <div class="container">
+                <div class="dr-quiz">
+                    <img class="img-fluid" src="{{model.thumbnailUrl}}" alt="">
+                </div>
+                <div class="dr-share">
+                    <p>
+                        Este contenido deberias enviarlo a:
+                    </p>
+                    <a class="drbtn drbt1" href="">Luisa Maria</a>
+                    <a class="drbtn drbt2" href="">Luisa Maria</a>
+                    <a class="drbtn drbt3" href="">Luisa Maria</a>
+                    <a class="drbtn drbt4" href="">Luisa Maria</a>
+                    <p>
+                        Esto le encantaria a tus clientes:
+                    </p>
 
-* Intro Text
+                    <button class="dr-comparbtn" onclick="share()">Compartir</button>
 
-<br>
+                </div>
+            </div>
+    </article>
 
-* Share Social Media
-<iframe src="https://www.facebook.com/plugins/share_button.php?href={{encodeURIComponentHelper model.imageUrl}}&layout=button&size=large&mobile_iframe=true&appId=313787846053184&width=99&height=28" width="99" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
-
-<br><br>
-
-<button class="btn btn-lg btn-default" onclick="share()">Share whatwebcando.today<br>with <b>Web Share</b></button>
+</section>
 
 <script>
     function share() {
@@ -22,9 +33,9 @@
         }
 
         navigator.share({
-            title: 'What Web Can Do Today',
-            text: 'Can I rely on the Web Platform features to build my app? An overview of the device integration HTML5 APIs',
-            url: 'https://whatwebcando.today/'
+            title: 'Descubre tu belleza',
+            text: 'Mira este contenido ',
+            url: 'http://descubrecosmeticos.com/'
             })
             .then(() => console.log('Successful share'))
             .catch(error => console.log('Error sharing:', error));
