@@ -8,8 +8,8 @@ from backend.models import User, Seller
 def authorized(f):
 
     def _wrap(*args, **kwargs):
-
-        if not app.config.get('DEVELOPMENT') and flask_globals.user is None:
+        print('Este es flask globals', flask_globals.user)
+        if flask_globals.user is None:
             abort(401)
             return None
 
@@ -28,4 +28,5 @@ class SecurityUtils:
     def get_current_seller() -> Seller:
         user = flask_globals.user
         if user is not None:
+            
             return Seller.query.filter_by(user_id=user.id).first()

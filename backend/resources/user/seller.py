@@ -1,12 +1,13 @@
-from flask import jsonify, request
-from flask.views import MethodView
 from marshmallow import fields
 from webargs.flaskparser import parser as flaskparser
 
 from backend import db
 from backend.helpers.gen_unique_code import generate_unique_code
+from backend.helpers.security import SecurityUtils, authorized
 from backend.models import *
 from backend.schemas import *
+from flask import jsonify, request
+from flask.views import MethodView
 
 seller_method_view_post_body = {
     'seller': fields.Nested(SellerSchema)
@@ -15,6 +16,7 @@ seller_method_view_post_body = {
 
 class SellerMethodView(MethodView):
 
+    @authorized
     def get(self, seller_id=None):
         if seller_id is not None:
             seller = Seller.query.get_or_404(seller_id)
@@ -25,9 +27,9 @@ class SellerMethodView(MethodView):
                 'catalogs': [catalog.to_dict() for catalog in catalogs],
             })
 
-        sellers = Seller.query.all()
+        sellers = SecurityUtils.get_current_seller()  # Seller.query.all()
         return jsonify({
-            'sellers': [seller.to_dict() for seller in sellers]
+            'sellers': [sellers.to_dict()]
         })
 
     def post(self):

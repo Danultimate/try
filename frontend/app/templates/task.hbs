@@ -1,25 +1,48 @@
 {{#if model.done}}
 	Ya hiciste esta tarea
 {{else}}
+<section class="dr-contenido3">
 
-<h1>{{model.content.name}}</h1>
-<img src={{model.content.imageUrl}}>
+    <article class="dr-dashclientedeta">
+            <div class="container">
+                <div class="dr-quiz">
+                    <img class="img-fluid" src="{{model.content.thumbnailUrl}}" alt="">
+                </div>
+                <div class="dr-share">
+                    <p>
+                        Este contenido deberias enviarlo a:
+                    </p>
+					{{#each model.clients as |s_client index|}}
+						{{#link-to "client" s_client.client.id class="drbtn drbt1"}}
+							{{s_client.client.user.first_name}} {{s_client.client.user.last_name}}
+						{{/link-to}}
+					{{/each}}
+                    <p>
+                        Esto le encantaria a tus clientes:
+                    </p>
 
-<br>
+                    <button class="dr-comparbtn" onclick="share()">Compartir</button>
 
-* Input Text
+                </div>
+            </div>
+    </article>
 
-<br>
-
-<ul>
-	{{#each model.suggested_clients as |s_client index|}}
-  <li>
-  		{{input type="checkbox" checked=(readonly s_client.priorized)}}
-    	{{#link-to "client" s_client.client.id}}
-        {{s_client.client.user.name}}
-			{{/link-to}}
-   </li>
-	{{/each}}
-</ul>
-
+</section>
 {{/if}}
+
+<script>
+    function share() {
+        if (!("share" in navigator)) {
+            alert('Web Share API not supported.');
+            return;
+        }
+
+        navigator.share({
+            title: 'Descubre tu belleza',
+            text: 'Mira este contenido',
+            url: model.content.url
+            })
+            .then(() => console.log('Successful share'))
+            .catch(error => console.log('Error sharing:', error));
+    }
+</script>

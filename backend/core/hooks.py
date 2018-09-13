@@ -29,7 +29,7 @@ def before_request():
                 lazyload('*')).get(deserialized['user_id'])
 
     else:
-        if app.config.get('DEVELOPMENT'):
+        if app.config.get('DEVELOPMENT') and False:
             flask_globals.user = User.query.options(lazyload('*')).get(1)
         else:
             flask_globals.user = None

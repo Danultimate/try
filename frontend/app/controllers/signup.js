@@ -28,8 +28,7 @@ export default Controller.extend({
         });
         seller_record.save().then(() => {
           //redirect to Intro pages
-          // this.transitionToRoute('landing')
-          this.transitionToRoute('thanks')
+          this.transitionToRoute('login')
         }).catch((reason) => {
           // Error saving seller
           this.set('isError', true);
