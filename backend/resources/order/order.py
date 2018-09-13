@@ -21,5 +21,5 @@ class OrderMethodView(MethodView):
 
         orders = Order.query.filter_by(seller_id=SecurityUtils.get_current_seller().id)
         return jsonify({
-            'orders': [order.to_dict() in orders]
+            'orders': [order.to_dict() for order in orders]
         })
