@@ -1,5 +1,41 @@
 <section class="dr-contenidologros">
-    
+    <nav class="navbar navbar-light bg-white fixed-top">
+
+        <!-- <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button> -->
+        <a class="dr-menu" href="#" data-toggle="modal" data-target="#menu"><i class="material-icons">menu</i></a>
+
+        <a class="navbar-brand" href="index.html"></a>
+
+
+        <div class="navbar-collapse collapse" id="navbarsExample01">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown01" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-md-0">
+                <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+            </form>
+        </div>
+    </nav>
     <div class="dr-headerlogros">
         <div class="dr-persona">
             <img src="assets/images/profile_pic.png" alt="">
@@ -11,13 +47,13 @@
 
     </div>
     <div class="dr-ventas">
-        <h2>${{model.firstObject.total}}</h2>
+        <h2>${{sub model.firstObject.total model.firstObject.total_shipping}}</h2>
         <p>Ventas de este mes</p>
         <div class="dr-ganancias">
             <div class="row">
                 <div class="col-6 text-center">
                     <h6>
-                        ${{mult model.firstObject.total model.firstObject.commission}}
+                        ${{mult (sub model.firstObject.total model.firstObject.total_shipping model.firstObject.total_tax) model.firstObject.commission}}
                     </h6>
                     <span>Ganacias del mes</span>
                 </div>
@@ -54,7 +90,7 @@
                             <div class="col-6">Mis ordenes</div>
                             <div class="col-2">
                                 <span>
-                                    {{model.firstObject.ordersActive.length}}
+                                    {{add model.firstObject.ordersActive.length model.firstObject.ordersDitribution.length}}
                                 </span>
                             </div>
                             <div class="col-2"><i class="material-icons">
