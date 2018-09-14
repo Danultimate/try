@@ -13,6 +13,8 @@ class Order(db.Model, BaseColumnsMixin, DictMixin):
     status = db.Column(db.String, nullable=False, default='ordered')
     order_number = db.Column(db.String, nullable=False)
     total = db.Column(db.Numeric(10, 2), nullable=False)
+    tax = db.Column(db.Numeric(10, 2), nullable=False)
+    shipping = db.Column(db.Numeric(10, 2), nullable=False)
 
     seller = db.relationship('Seller')
     client = db.relationship('Client')

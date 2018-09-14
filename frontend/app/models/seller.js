@@ -13,7 +13,9 @@ export default DS.Model.extend({
     notifications: hasMany('notification'),
 
     total_per_order:  mapBy('orders', 'total'),
-    total: sum('total_per_order'),
+    tax_per_order:  mapBy('orders', 'total'),
+    shipping_per_order:  mapBy('orders', 'total'),
+    total: sum('total_per_order') ,
 
     // total_points_per_order:  mapBy('orders', 'purchasePointsSum'),
     // total_points: sum('total_points_per_order'),
