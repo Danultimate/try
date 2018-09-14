@@ -1,74 +1,51 @@
-num orders {{model.length}}
-<section class="dr-contenido3" style="padding-top: 30px">
-  <article class="dr-dashcliente">
-    <div class="container">
-  <div class="dr-tabs">
-    <h4>Historial de ordenes</h4>
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div class="row">
-        <div class="col-3" style="font-size: smaller">No Orden</div>
-        <div class="col-2" style="font-size: smaller">Fecha</div>
-        <div class="col-3" style="font-size: smaller">Valor</div>
-        <div class="col-4" style="font-size: smaller">Estado</div>
-        </div>
-        {{#each model as |order|}}
-            <div class="item">
-                <div class="row">
-                    <div class="col-3">
-                        <p>{{#link-to "order" order.id}}
-                        {{order.order_number}}
-                        {{/link-to}}</p>                                    
+<section class="dr-contenido3" style="padding-top: 40px">
+    <article class="dr-dashcliente">
+        <div class="container">
+            <small>Visualice sus ordenes de compra para hacer seguimiento a sus pedidos Si tienes preguntas o dudas, llamanos (de 8am a 6pm) o escribenos por WhatsApp (3053506867)</small>
+            <div class="dr-tabs">
+                <h4>Historial de ordenes</h4>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="row">
+                        <div class="col-2" style="font-size: smaller">Fecha</div>
+                        <div class="col-3" style="font-size: smaller">Cliente</div>
+                        <div class="col-3" style="font-size: smaller">Valor</div>
+                        <div class="col-4" style="font-size: smaller">Estado</div>
                     </div>
-                    <div class="col-2">
-                        {{to-day-month order.date}}
+                    {{#each model as |order|}}
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-2">
+                                <p>{{#link-to "order" order.id}}
+                                    {{to-day-month order.date}}
+                                    {{/link-to}}</p>
+                            </div>
+                            <div class="col-3">
+                                <small>
+                                    {{#link-to "client" order.client.id}}
+                                    {{order.client.user.first_name}} {{order.client.user.last_name}}
+                                    {{/link-to}}
+                                </small>
+                            </div>
+                            <div class="col-3">
+                                <span>${{sub order.total order.shipping}}</span>
+                            </div>
+                            <div class="col-4">
+                                {{#if (eq order.status 3)}}
+                                <span class="badge badge-pill badge-success">Completada</span>
+                                {{else if (eq order.status 2)}}
+                                <span class="badge badge-pill badge-danger">Cancelada</span>
+                                {{else if (eq order.status 'distribution')}}
+                                <span class="badge badge-pill badge-primary">Distribucion</span>
+                                {{else if (eq order.status 'ordered')}}
+                                <span class="badge badge-pill badge-info">Ordenado</span>
+                                {{/if}}
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-3">
-                        <span>${{order.purchaseSum}}</span>
-                    </div>
-                    <div class="col-4">
-                        {{#if (eq order.status 3)}}
-                            <span class="badge badge-pill badge-success">Completada</span>
-                        {{else if (eq order.status 2)}}
-                            <span class="badge badge-pill badge-danger">Cancelada</span>
-                        {{else if (eq order.status 1)}}
-                            <span class="badge badge-pill badge-primary">Distribucion</span>
-                        {{else if (eq order.status 0)}}
-                            <span class="badge badge-pill badge-info">Ordenado</span>
-                        {{/if}}
-                    </div>
+                    {{/each}}
                 </div>
-            </div>  
-        {{/each}}               
-    </div>
-  </div>
-  </div>
-  </article>
+            </div>
+        </div>
+    </article>
 </section>
-<table >
-	<tr>
-  	<th># order</th>
-    <th>date</th>
-    <th># items</th>
-    <th>purchase sum</th>
-    <th>client</th>
-
-  </tr>
-{{#each model as |order|}}
-	<tr>
-		<td>
-    {{#link-to "order" order.id}}
-			{{order.order_number}}
-    {{/link-to}}
-		</td>
-		<td>{{to-locale-string order.date}}</td>
-		<td>{{order.products.length}}</td>
-    <td>${{order.purchaseSum}}</td>
-    <td>
-    {{#link-to "client" order.client.id}}
-    	{{order.client.user.first_name}} {{order.client.user.last_name}}
-    {{/link-to}}
-    </td>
-	</tr>
-{{/each}}
-</table>

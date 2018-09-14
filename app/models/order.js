@@ -7,7 +7,9 @@ export default DS.Model.extend({
     order_number: attr('number'),
     client: belongsTo('client'),
     seller: belongsTo('seller'),
-    status: attr('number'),
+    status: attr('string'),
     date: attr('date'),
-    total: attr('number')
+    total: attr('number'),
+    tax: attr('number'),
+    shipping: attr('number')
 });

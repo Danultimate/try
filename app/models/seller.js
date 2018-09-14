@@ -13,9 +13,12 @@ export default DS.Model.extend({
     notifications: hasMany('notification'),
 
     total_per_order:  mapBy('orders', 'total'),
-    tax_per_order:  mapBy('orders', 'total'),
-    shipping_per_order:  mapBy('orders', 'total'),
+    tax_per_order:  mapBy('orders', 'tax'),
+    shipping_per_order:  mapBy('orders', 'shipping'),
+
     total: sum('total_per_order') ,
+    total_shipping: sum('shipping_per_order'),
+    total_tax: sum('tax_per_order'),
 
     // total_points_per_order:  mapBy('orders', 'purchasePointsSum'),
     // total_points: sum('total_points_per_order'),
@@ -23,6 +26,7 @@ export default DS.Model.extend({
     tasksCompleted: filterBy('tasks', 'done', true),
     tasksUncompleted: filterBy('tasks', 'done', false),
 
-    ordersActive: filterBy('orders', 'status', 0),
-
+    ordersActive: filterBy('orders', 'status', 'ordered'),
+    ordersDitribution: filterBy('orders', 'status', 'distribution'),
+    
 });

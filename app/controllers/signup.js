@@ -24,10 +24,21 @@ export default Controller.extend({
         let seller_record = this.store.createRecord('seller', {
           user: record,
           ds_experience: this.get('ds_experience'),
-          commission: 0.15,
+          commission: 0.3,
         });
         seller_record.save().then(() => {
           //redirect to Intro pages
+          mixpanel.people.set({
+              "$email": record.email,    // only special properties need the $
+              
+              "$created": new Date(),
+              "$last_login": new Date(),         // properties can be dates...
+              
+              "$cellphone": record.cellphone,
+              "first_name": record.first_name,
+              "last_name": record.first_name,
+              "seller_code": seller_record.code,
+          });
           this.transitionToRoute('login')
         }).catch((reason) => {
           // Error saving seller
