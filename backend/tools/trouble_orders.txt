@@ -1,0 +1,2 @@
+593491296307,The phone number into order is not a valid number
+593464393779,The phone number into order is not a valid number
