@@ -2,6 +2,7 @@
 
     <article class="dr-dashclientedeta">
             <div class="container">
+                <p hidden id="myInput" value="{{model.url}}">{{model.url}}</p>
                 <div class="dr-quiz">
                     <img class="img-fluid" src="{{model.thumbnailUrl}}" alt="">
                 </div>
@@ -35,7 +36,7 @@
         navigator.share({
             title: 'Descubre tu belleza',
             text: 'Mira este contenido ',
-            url: model.url
+            url: document.getElementById("myInput").value;
             })
             .then(() => console.log('Successful share'))
             .catch(error => console.log('Error sharing:', error));
