@@ -64,14 +64,17 @@ def update_order_table(orders):
                 user_client_id = user_client_id[0]
             seller_id = db.session.query(Seller.id).filter_by(
                             code=order.to_dict()['discount_applications'][0]['code']).first()
-            print(seller_id)
+            if seller_id is None:
+                continue
+            else:
+                seller_id = seller_id[0]
             print('Processing order {0}'.format(order.to_dict()['id']))
             print('-------------------------- End Order --------------------------')
             print("Before if user_client_id is None")
             if user_client_id is None:
                 u = User(
-                    first_name = order.to_dict()['first_name']
-                    , last_name = order.to_dict()['last_name']
+                    first_name = order.to_dict()['billing_address']['first_name']
+                    , last_name = order.to_dict()['billing_address']['last_name']
                     , cellphone = order.to_dict()['billing_address'].get('phone', 1234).replace(' ', '')
                     , password_hash = ''
                 )
