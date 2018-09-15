@@ -151,12 +151,12 @@ export default Controller.extend({
     currentUrl: null,
     hide_nav_endpoints: ['/landing', '/sign_up', '/login', '/', '/term_conditions', '/thanks'],
     show_nav: true,
-
+    
     onPathChanged: observer('currentPath', function () {
         next(this, function () {
             if (this.hide_nav_endpoints.includes(window.location.pathname)){
                 this.set('show_nav', false);
-            }            
+            }
             // Interaction Tracker
             $.getJSON('https://json.geoiplookup.io').then((data) => {
                 let browser_info = JSON.stringify(data, null, 2);
