@@ -7,7 +7,7 @@
   </div>
 {{/if}}
 
-{{#if false}}
+{{#if show_nav}}
 <nav class="navbar navbar-light bg-white fixed-top">
   <a class="dr-menu" href="#" data-toggle="modal" data-target="#menu"><i class="material-icons">menu</i></a>
 </nav>
@@ -16,7 +16,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="menu_close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>

@@ -5,6 +5,7 @@
 
     <article class="dr-dashclientedeta">
             <div class="container">
+                <p hidden id="myInput" value="{{encodeURIComponentHelper model.content.url}}"></p>
                 <div class="dr-quiz">
                     <img class="img-fluid" src="{{model.content.thumbnailUrl}}" alt="">
                 </div>
@@ -33,14 +34,16 @@
 <script>
     function share() {
         if (!("share" in navigator)) {
-            alert('Web Share API not supported.');
+            //alert('Web Share API not supported.');
+            window.location = 'whatsapp://send?text='+document.getElementById("myInput").value;+"'"
+
             return;
         }
 
         navigator.share({
             title: 'Descubre tu belleza',
-            text: 'Mira este contenido',
-            url: model.content.url
+            text: 'Mira este contenido ',
+            url: document.getElementById("myInput").value;
             })
             .then(() => console.log('Successful share'))
             .catch(error => console.log('Error sharing:', error));
