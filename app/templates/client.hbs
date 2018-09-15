@@ -1,36 +1,11 @@
-<section class="dr-contenido3" style="padding-top: 40px">
+<section class="dr-contenido3">
     <nav class="navbar navbar-light bg-white fixed-top">
 
         <a class="dr-atras" onclick="goBack()" data-toggle="modal" data-target="#menu"><i class="material-icons">arrow_back</i></a>
 
-        <a class="navbar-brand detalles" href=""> Detalles Clientes</a>
-
-        <div class="navbar-collapse collapse" id="navbarsExample01" style="">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li> 
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">Dropdown</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown01">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-md-0">
-                <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-            </form>
-        </div>
+        <a class="navbar-brand detalles"> Detalle Cliente</a>
     </nav>
+
     <article class="dr-dashcliente">
         <div class="container">
             <div class="header">
@@ -86,17 +61,17 @@
                                     {{to-day-month order.date}}
                                 </div>
                                 <div class="col-3">
-                                    <span>${{order.purchaseSum}}</span>
+                                    <span>${{sub order.total order.shipping}}</span>
                                 </div>
                                 <div class="col-4">
-                                    {{#if (eq order.status 3)}}
-                                        <span class="badge badge-pill badge-success">Completada</span>
-                                    {{else if (eq order.status 2)}}
-                                        <span class="badge badge-pill badge-danger">Cancelada</span>
-                                    {{else if (eq order.status 1)}}
-                                        <span class="badge badge-pill badge-primary">Distribucion</span>
-                                    {{else if (eq order.status 0)}}
-                                        <span class="badge badge-pill badge-info">Ordenado</span>
+                                    {{#if (eq order.status 'completed')}}
+                                    <span class="badge badge-pill badge-success">Completada</span>
+                                    {{else if (eq order.status 'cancelled')}}
+                                    <span class="badge badge-pill badge-danger">Cancelada</span>
+                                    {{else if (eq order.status 'distribution')}}
+                                    <span class="badge badge-pill badge-primary">Distribucion</span>
+                                    {{else if (eq order.status 'ordered')}}
+                                    <span class="badge badge-pill badge-info">Ordenado</span>
                                     {{/if}}
                                 </div>
                             </div>
