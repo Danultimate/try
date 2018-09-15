@@ -1,25 +1,44 @@
-num clients {{model.length}}
-
-<table>
-	<tr>
-  	<th>name</th>
-    <th>phone</th>
-    <th></th>
-    <th># orders</th>
-
-
-  </tr>
-{{#each model as |client|}}
-	<tr>
-		<td>
-      {{#link-to "client" client.id}}
-      	{{client.user.first_name}} {{client.user.last_name}}
-      {{/link-to}}
-		</td>
-		<td>{{client.user.cellphone}}</td>
-    <td><a href="whatsapp://send?phone={{client.cellphone}}"><img src="https://cdn2.iconfinder.com/data/icons/social-icons-color/512/whatsapp-512.png" height="16" width="16"></a><a href="tel:{{client.cellphone}}">
-    <img src="https://cdn4.iconfinder.com/data/icons/social-icons-6/40/phone-128.png" height="16" width="16"></a></td>
-    <td>{{client.orders.length}}</td>
-	</tr>
-{{/each}}
-</table>
+<section class="dr-contenido3" style="padding-top: 8vh">
+    <article class="dr-dashcliente">
+        <div class="container">
+            <h4>Mis Clientes</h4>
+            <small style="color: gray;">Visualice sus clientes.</small>
+            <div class="dr-tabs">
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="row">
+                        <div class="col-4" style="font-size: smaller">Nombre</div>
+                        <div class="col-3" style="font-size: smaller">Celular</div>
+                        <div class="col-1" style="font-size: smaller"></div>
+                        <div class="col-3" style="font-size: smaller"># Ordenes</div>
+                    </div>
+                    {{#each model as |client|}}
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-4">
+                                <small>{{#link-to "client" client.id}}
+                                      {{client.user.first_name}} {{client.user.last_name}}
+                                    {{/link-to}}</small>
+                            </div>
+                            <div class="col-3">
+                                <small>
+                                    {{client.user.cellphone}}
+                                </small>
+                            </div>
+                            <div class="col-3">
+                                <a href="whatsapp://send?phone=+57 {{client.cellphone}}">
+                                <img src="https://cdn2.iconfinder.com/data/icons/social-icons-color/512/whatsapp-512.png" height="16" width="16"></a>
+                                <a href="tel:{{client.cellphone}}">
+                                <img src="https://cdn4.iconfinder.com/data/icons/social-icons-6/40/phone-128.png" height="16" width="16"></a>
+                            </div>
+                            <div class="col-2">
+                                {{client.orders.length}}
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </article>
+</section>

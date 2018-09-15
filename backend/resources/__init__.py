@@ -11,6 +11,7 @@ from backend.resources.interactions import *
 __all__ = [
 
     'UserLoginMethodView',
+    'UserLogoutMethodView',
 
     'TestMethodView',
 

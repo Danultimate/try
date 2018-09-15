@@ -22,7 +22,7 @@ export default Controller.extend({
         console.log(this.get('cellphone'), this.get('password'))
         this.get('session').authenticate('authenticator:authenticator',
           this.get('cellphone'), this.get('password')).then(()=>{
-            window.location = '/seller'
+            window.location = '/'
         }).catch((reason) => {
           console.log(reason)
           this.set('isError', reason);
