@@ -23,6 +23,12 @@ module.exports = function(environment) {
       // when it is created
     }, 
 
+    'ember-simple-auth': {
+      authenticationRoute: 'landing',
+      routeAfterAuthentication: 'seller',
+      routeIfAlreadyAuthenticated: 'seller'
+    },
+
     host: 'http://localhost:5000'
   };
 

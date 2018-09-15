@@ -9,7 +9,7 @@
 
 {{#if show_nav}}
 <nav class="navbar navbar-light bg-white fixed-top">
-  <a class="dr-menu" href="#" data-toggle="modal" data-target="#menu"><i class="material-icons">menu</i></a>
+  <a class="dr-menu" data-toggle="modal" data-target="#menu" id="menu_button"><i class="material-icons">menu</i></a>
 </nav>
    <!-- Modal -->
     <div class="modal fade dr-menumodalmenu" id="menu" tabindex="-1" role="dialog" aria-labelledby="menu1" aria-hidden="true">
@@ -21,7 +21,6 @@
                     </button>
                 </div>
 
-
                 <div class="modal-body">
                     <div class="header">
                         <div class="row align-items-center">
@@ -30,30 +29,40 @@
                                     <img class="" src="{{rootURL}}assets/images/profile_pic.png" alt="">
                                     <h4>{{session.data.authenticated.user.first_name}}</h4>
                                     <p>{{session.data.authenticated.user.last_name}}</p>
-                                    <h6>Codigo {{session.data.authenticated.user.seller.code}}</h6>
+                                    {{!-- <h6>Codigo {{session.data.authenticated.user.seller.code}}</h6> --}}
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="igmenulist">
                         <ul>
-                          <li class="nav-item active">
-                              {{#link-to "seller" class="nav-link"}}Home<span class="sr-only">(current)</span>{{/link-to}}
-                          </li>
-                          <li class="nav-item">
-                              {{#link-to "tasks" class="nav-link"}}Mis Tareas{{/link-to}}
-                          </li>
-                          <li class="nav-item">
-                              {{#link-to "orders" class="nav-link"}}Mis ordenes{{/link-to}}
-                          </li>
-                          <li class="nav-item">
-                              {{#link-to "clients" class="nav-link"}}Mis clientes{{/link-to}}
-                          </li>
-                          <li class="nav-item">
-                              {{#link-to "contents" class="nav-link"}}Mi contenido{{/link-to}}
-                          </li>
+                            <li class="nav-item" onclick="closeMenu()">
+                                {{#link-to "seller" class="nav-link"}}
+                                    Home<span class="sr-only">(current)</span>
+                                {{/link-to}}
+                            </li>
+                            <li class="nav-item" onclick="closeMenu()">
+                                {{#link-to "tasks" class="nav-link"}}
+                                    Mis Tareas
+                                {{/link-to}}
+                            </li>
+                            <li class="nav-item" onclick="closeMenu()">
+                                {{#link-to "orders" class="nav-link"}}
+                                    Mis ordenes
+                                {{/link-to}}
+                            </li>
+                            <li class="nav-item" onclick="closeMenu()">
+                                {{#link-to "clients" class="nav-link"}}
+                                    Mis clientes
+                                {{/link-to}}
+                            </li>
+                            <li class="nav-item" onclick="closeMenu()">
+                                {{#link-to "contents" class="nav-link"}}
+                                    Mi contenido
+                                {{/link-to}}
+                            </li>
                           {{#if session.isAuthenticated}}
-                          <li class="nav-item">
+                          <li class="nav-item" onclick="closeMenu()">
                               <a {{action 'invalidateSession'}} class="nav-link">Cerrar sesion</a>
                           </li>
                           {{/if}}

@@ -847,7 +847,7 @@ body {
   border: none;
 }
 .dr-dashclientetareas {
-  background-image: url("../assets/images/fondotareas.png");
+  /* background-image: url("../assets/images/fondotareas.png"); */
   background-repeat: no-repeat;
   background-size: 100%;
   height: 100%;
