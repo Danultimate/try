@@ -13,13 +13,6 @@ from flask_admin.contrib import sqla
 from flask_admin.contrib.sqla import filters
 
 
-from backend.tools.shopify_sniffer import main as shopify_sniffer
-from rq import Queue
-from worker import conn
-
-q = Queue(connection=conn)
-q.enqueue(shopify_sniffer)
-
 
 class CustomJSONEncoder(JSONEncoder):
     def default(self, obj):
@@ -58,3 +51,11 @@ admin.add_view(sqla.ModelView(Client, db.session))
 admin.add_view(sqla.ModelView(Content, db.session))
 admin.add_view(sqla.ModelView(Task, db.session))
 admin.add_view(sqla.ModelView(Order, db.session))
+
+
+from backend.tools.shopify_sniffer import main as shopify_sniffer
+from rq import Queue
+from worker import conn
+
+q = Queue(connection=conn)
+q.enqueue(shopify_sniffer)
