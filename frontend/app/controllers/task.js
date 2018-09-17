@@ -4,7 +4,7 @@ export default Controller.extend({
   actions: {
     share(content) {
         if (!("share" in navigator)) {
-            if (content.get('media_type') === "image") {
+            if (content.get('media_type') === "imagen") {
                 Android.share(content.description, content.url);
             }
             else {
