@@ -13,6 +13,14 @@ from flask_admin.contrib import sqla
 from flask_admin.contrib.sqla import filters
 
 
+from backend.tools.shopify_sniffer import main as shopify_sniffer
+from rq import Queue
+from worker import conn
+
+q = Queue(connection=conn)
+q.enqueue(shopify_sniffer)
+
+
 class CustomJSONEncoder(JSONEncoder):
     def default(self, obj):
         try:
