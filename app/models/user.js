@@ -1,5 +1,6 @@
 import DS from 'ember-data';
 import attr from 'ember-data/attr';
+import { belongsTo, hasMany } from 'ember-data/relationships';
 
 export default DS.Model.extend({
    first_name: attr('string'),
@@ -8,5 +9,6 @@ export default DS.Model.extend({
    identification: attr('number'),
    picture: attr('string'),
    password: attr('string'),
-   email: attr('string')
+   email: attr('string'),
+   birth: attr('string'),
 });
