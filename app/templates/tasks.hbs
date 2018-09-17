@@ -34,9 +34,11 @@
                         </div>
                       </div>
                       <div class="col-2">
+                        {{#if task.content.id}}
                         {{#link-to "task" task.id}}
                         <i class="material-icons">keyboard_arrow_right</i>
                         {{/link-to}}
+                        {{/if}}
                       </div>
                     </div>
                   </div>
@@ -52,9 +54,11 @@
                         </div>
                       </div>
                       <div class="col-2">
+                        {{#if task.content.id}}
                         {{#link-to "content" task.content.id}}
                           <i class="material-icons">keyboard_arrow_right</i>
                         {{/link-to}}
+                        {{/if}}
                       </div>
                     </div>
                   </div>
