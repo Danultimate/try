@@ -19,14 +19,31 @@ class TaskMethodView(MethodView):
     def get(self, task_id=None):
         if task_id is not None:
             task = Task.query.get_or_404(task_id)
-            if task.seller == SecurityUtils.get_current_seller():
-                clients = ClientSuggestions.query.filter_by(task_id=task_id)
-                medium = task.medium
-                return jsonify({
-                    'tasks': [task.to_dict()],
-                    'social_media': [medium.to_dict()],
-                    'clients': [client.to_dict() for client in clients]
-                })
+            if task.seller == SecurityUtils.get_current_seller(): #?
+                client_suggestions = ClientSuggestions.query.filter_by(task_id=task_id).all()
+                users = []
+                for cs in client_suggestions:
+                    client = Client.query.filter_by(id=cs.client.id).first()
+                    user = User.query.filter_by(id=client.user_id).first()
+                    users.append(user)
+                #medium = task.medium
+                #FIXME: The users dict returned here is not the client_suggestions, we need to put the correct names!
+                res = {'tasks': [], 'users': []}
+                res['tasks'] = [task.to_dict()]
+                res['users'] = [u.to_dict() for u in users]
+                res['client_suggestions'] = [cs.to_dict() for cs in client_suggestions]
+
+                # Add users' info
+                res['tasks'][0]['users'] = []
+                for user in users:
+                    res['tasks'][0]['users'].append(user.id)
+
+                # Add client_suggestions
+                res['tasks'][0]['client_suggestions'] = []
+                for cs in client_suggestions:
+                    res['tasks'][0]['client_suggestions'].append(cs.id)
+                res =  jsonify(res)
+                return res
             abort(401)
 
         tasks = Task.query.filter_by(seller=SecurityUtils.get_current_seller())
