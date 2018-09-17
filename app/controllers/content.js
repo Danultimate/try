@@ -12,7 +12,7 @@ export default Controller.extend({
         share(content) {
             if (!("share" in navigator)) {
                 console.log('este es el print ' + content.url + ' '+ content.description);
-                if (content.get('media_type') === "image") {
+                if (content.media_type == "imagen") {
                     Android.share(content.description, content.url);
                 }
                 else {
