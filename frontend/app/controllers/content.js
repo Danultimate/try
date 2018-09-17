@@ -3,15 +3,15 @@ import { filterBy } from '@ember/object/computed';
 
 export default Controller.extend({
 
-    naturalia_clients: filterby(this.get('clients'), 'profile', 'Naturalia'),
-    trendy_clients: filterby(this.get('clients'), 'profile', 'Trendy'),
-    autentica_clients: filterby(this.get('clients'), 'profile', 'Autentica'),
-    general_clients: filterby(this.get('clients'), 'profile', 'General'),
+    //naturalia_clients: filterby(this.get('clients'), 'profile', 'Naturalia'),
+    // trendy_clients: filterby(this.get('clients'), 'profile', 'Trendy'),
+    // autentica_clients: filterby(this.get('clients'), 'profile', 'Autentica'),
+    // general_clients: filterby(this.get('clients'), 'profile', 'General'),
 
     actions: {
         share(content) {
             if (!("share" in navigator)) {
-                console.log('este es el print ', )
+                console.log('este es el print ' + model.url + ' '+ model.description);
                 // if (content.get('media_type') === "image") {
                 //     Android.share(content.description, content.url);
                 // }
