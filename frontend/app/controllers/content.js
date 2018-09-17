@@ -11,7 +11,7 @@ export default Controller.extend({
     actions: {
         share(content) {
             if (!("share" in navigator)) {
-                console.log('este es el print ' + model.url + ' '+ model.description);
+                console.log('este es el print ' + content.url + ' '+ content.description);
                 // if (content.get('media_type') === "image") {
                 //     Android.share(content.description, content.url);
                 // }
