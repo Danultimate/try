@@ -22,7 +22,7 @@
                         Esto le encantaria a tus clientes:
                     </p>
 
-                    <button class="dr-comparbtn" onclick="share()">Compartir</button>
+                    <button class="dr-comparbtn" onclick={{action 'share' model.content}}>Compartir</button>
 
                 </div>
             </div>
@@ -31,21 +31,4 @@
 </section>
 {{/if}}
 
-<script>
-    function share() {
-        if (!("share" in navigator)) {
-            //alert('Web Share API not supported.');
-            window.location = 'whatsapp://send?text='+document.getElementById("myInput").value;+"'"
 
-            return;
-        }
-
-        navigator.share({
-            title: 'Descubre tu belleza',
-            text: 'Mira este contenido ',
-            url: document.getElementById("myInput").value;
-            })
-            .then(() => console.log('Successful share'))
-            .catch(error => console.log('Error sharing:', error));
-    }
-</script>

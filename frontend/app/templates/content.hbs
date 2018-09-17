@@ -8,7 +8,11 @@
 
     <article class="dr-dashclientedeta">
             <div class="container">
+
+                {{!-- TODO: Replace with ember --}}
                 <p hidden id="myInput" value="{{encodeURIComponentHelper model.url}}">{{model.url}}</p>
+
+
                 <div class="dr-quiz">
                     <img class="img-fluid" src="{{model.thumbnailUrl}}" alt="">
                 </div>
@@ -21,7 +25,7 @@
                     <a class="drbtn drbt3" href="">Luisa Maria</a>
                     <a class="drbtn drbt4" href="">Luisa Maria</a>
 
-                    <button class="dr-comparbtn" onclick="share()">Compartir</button>
+                    <button class="dr-comparbtn" onclick={{action 'share' model}}>Compartir</button>
 
                 </div>
             </div>
@@ -30,7 +34,7 @@
 </section>
 
 <script>
-    function share() {
+    function share(text, url) {
         if (!("share" in navigator)) {
             //alert('Web Share API not supported.');
             window.location = 'whatsapp://send?text='+document.getElementById("myInput").value;+"'"
@@ -45,5 +49,9 @@
             })
             .then(() => console.log('Successful share'))
             .catch(error => console.log('Error sharing:', error));
+    }
+
+    function share_image(toast) {
+        Android.share("holi esto es un link: https://upload.wikimedia.org/wikipedia/commons/2/21/Flag_of_Colombia.svg");
     }
 </script>
