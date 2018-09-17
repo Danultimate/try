@@ -13,11 +13,11 @@
                     <p>
                         Este contenido deberias enviarlo a:
                     </p>
-					{{#each model.clients as |s_client index|}}
-						{{#link-to "client" s_client.client.id class="drbtn drbt1"}}
-							{{s_client.client.user.first_name}} {{s_client.client.user.last_name}}
-						{{/link-to}}
-					{{/each}}
+										<div class="drbtn drbt1">
+											{{#each model.users as |u|}}
+												{{u.first_name}} {{u.last_name}}
+											{{/each}}
+										</div>
                     <p>
                         Esto le encantaria a tus clientes:
                     </p>
@@ -30,5 +30,3 @@
 
 </section>
 {{/if}}
-
-
