@@ -18,6 +18,7 @@ def register_route(view, endpoint, url, pk='id', pk_type='int'):
 
 register_route(TestMethodView, 'test', '/')
 register_route(UserLoginMethodView, 'login', '/login')
+register_route(UserLogoutMethodView, 'logout', '/logout')
 
 register_route(UserMethodView, 'user_model', '/users', pk='user_id')
 register_route(SellerMethodView, 'seller_model', '/sellers', pk='seller_id')

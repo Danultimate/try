@@ -1,9 +1,15 @@
-<section class="dr-contenido3" style="padding-top: 40px">
+<section class="dr-contenido3" style="padding-top: 8vh">
     <article class="dr-dashcliente">
         <div class="container">
-            <small>Visualice sus ordenes de compra para hacer seguimiento a sus pedidos Si tienes preguntas o dudas, llamanos (de 8am a 6pm) o escribenos por WhatsApp (3053506867)</small>
+            <h4>Historial de ordenes</h4>
+            <small style="color: gray;">Visualice sus ordenes de compra para hacer seguimiento a sus pedidos 
+                Si tienes preguntas o dudas, llamanos (de 8am a 6pm) o 
+                escribenos por WhatsApp 
+                <a href="whatsapp://send?phone=+573053506867">
+                    <img src="https://cdn2.iconfinder.com/data/icons/social-icons-color/512/whatsapp-512.png" height="16" width="16">
+                </a>
+            </small>
             <div class="dr-tabs">
-                <h4>Historial de ordenes</h4>
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div class="row">
@@ -16,9 +22,11 @@
                     <div class="item">
                         <div class="row">
                             <div class="col-2">
-                                <p>{{#link-to "order" order.id}}
+                                <p>
+                                    {{!-- {{#link-to "order" order.id}} --}}
                                     {{to-day-month order.date}}
-                                    {{/link-to}}</p>
+                                    {{!-- {{/link-to}} --}}
+                                </p>
                             </div>
                             <div class="col-3">
                                 <small>
@@ -31,9 +39,9 @@
                                 <span>${{sub order.total order.shipping}}</span>
                             </div>
                             <div class="col-4">
-                                {{#if (eq order.status 3)}}
+                                {{#if (eq order.status 'completed')}}
                                 <span class="badge badge-pill badge-success">Completada</span>
-                                {{else if (eq order.status 2)}}
+                                {{else if (eq order.status 'cancelled')}}
                                 <span class="badge badge-pill badge-danger">Cancelada</span>
                                 {{else if (eq order.status 'distribution')}}
                                 <span class="badge badge-pill badge-primary">Distribucion</span>

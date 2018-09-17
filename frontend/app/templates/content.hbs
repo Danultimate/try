@@ -1,8 +1,14 @@
 <section class="dr-contenido3">
+    <nav class="navbar navbar-light bg-white fixed-top">
+
+        <a class="dr-atras" onclick="goBack()" data-toggle="modal" data-target="#menu"><i class="material-icons">arrow_back</i></a>
+
+        <a class="navbar-brand detalles">Detalle Contenido</a>
+    </nav>
 
     <article class="dr-dashclientedeta">
             <div class="container">
-                <p hidden id="myInput" value="{{model.url}}">{{model.url}}</p>
+                <p hidden id="myInput" value="{{encodeURIComponentHelper model.url}}">{{model.url}}</p>
                 <div class="dr-quiz">
                     <img class="img-fluid" src="{{model.thumbnailUrl}}" alt="">
                 </div>
@@ -14,9 +20,6 @@
                     <a class="drbtn drbt2" href="">Luisa Maria</a>
                     <a class="drbtn drbt3" href="">Luisa Maria</a>
                     <a class="drbtn drbt4" href="">Luisa Maria</a>
-                    <p>
-                        Esto le encantaria a tus clientes:
-                    </p>
 
                     <button class="dr-comparbtn" onclick="share()">Compartir</button>
 
@@ -29,7 +32,9 @@
 <script>
     function share() {
         if (!("share" in navigator)) {
-            alert('Web Share API not supported.');
+            //alert('Web Share API not supported.');
+            window.location = 'whatsapp://send?text='+document.getElementById("myInput").value;+"'"
+
             return;
         }
 

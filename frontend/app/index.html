@@ -33,13 +33,7 @@ mixpanel.init("7c5582209ad60d202024e04001bf8af6");</script><!-- end Mixpanel -->
   <body>
     {{content-for "body"}}
 
-    <script>
-      function goBack() {
-        window.history.back();
-      }
 
-      mixpanel.track("Video play");
-    </script>
 
     <script src="{{rootURL}}assets/vendor.js"></script>
     <script src="{{rootURL}}assets/frontend.js"></script>
@@ -47,6 +41,29 @@ mixpanel.init("7c5582209ad60d202024e04001bf8af6");</script><!-- end Mixpanel -->
     <script src="https://hammerjs.github.io/dist/hammer.js"></script>
     <script src="{{rootURL}}js/jquery.js"></script>
     <script src="{{rootURL}}js/bootstrap.min.js"></script>
+
+
+    <script>
+      function goBack() {
+        window.history.back();
+      }
+
+      function closeMenu() {
+        $("#menu_close").click()
+      }
+
+      mixpanel.track("Video play");
+
+      $(document).click(function(event) {
+      //if you click on anything except the modal itself or the "open modal" link, close the modal
+      if (!$(event.target).closest("#menu").length) {
+        $("#menu_close").click()
+      }
+      
+    });
+
+    </script>
+
 
     {{content-for "body-footer"}}
   </body>

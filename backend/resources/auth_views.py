@@ -29,3 +29,9 @@ class UserLoginMethodView(MethodView):
             )
 
         abort(401)
+
+
+class UserLogoutMethodView(MethodView):
+
+    def post(self):
+        return jsonify(success=True)

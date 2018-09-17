@@ -7,25 +7,31 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function() {
-  //this.route('index', { path: '/' });
-  this.route('seller', { path: '/seller' });
+  this.route('index', { path: '/index' });
+  this.route('login', { path: '/login' });
+  this.route('signup', { path: '/sign_up' });
+  this.route('landing', { path: '/landing' });
+  this.route('term_conditions');
+  this.route('thanks');
+
+  // all routes that require the session to be authenticated
+  this.route('seller', { path: '/' });
   this.route('orders');
-  this.route('order', { path: '/orders/:order_id' })
+  // this.route('order', { path: '/orders/:order_id' })
   this.route('clients');
   this.route('client', { path: '/clients/:client_id' });
-  this.route('products');
-  this.route('product', { path: '/products/:product_id' });
   this.route('tasks');
   this.route('task', { path: '/tasks/:task_id' });
   this.route('contents');
   this.route('content', { path: '/contents/:content_id' });
-  this.route('notification');
-  this.route('referral');
-  this.route('login', { path: '/login' });
-  this.route('signup', { path: '/sign_up' });
-  this.route('term_conditions');
-  this.route('landing', { path: '/' });
-  this.route('thanks');
+  // this.route('notification');
+  // this.route('referral');
+  // this.route('products');
+  // this.route('product', { path: '/products/:product_id' });
+
 });
 
 export default Router;
+
+
+// export default SimpleAuthConfig;
