@@ -12,13 +12,12 @@ export default Controller.extend({
         share(content) {
             if (!("share" in navigator)) {
                 console.log('este es el print ' + content.url + ' '+ content.description);
-                // if (content.get('media_type') === "image") {
-                //     Android.share(content.description, content.url);
-                // }
-                // else {
-                //     Android.share(content.description + " " + content.url);
-                // }
-                Android.share("Esto es lo que comparto", "pasoe");
+                if (content.get('media_type') === "image") {
+                    Android.share(content.description, content.url);
+                }
+                else {
+                    Android.share(content.description + " " + content.url);
+                }
                 return;
                 
             };
