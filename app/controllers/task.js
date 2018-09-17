@@ -2,28 +2,25 @@ import Controller from '@ember/controller';
 
 export default Controller.extend({
   actions: {
+    share(content) {
+        if (!("share" in navigator)) {
+            if (content.get('media_type') === "image") {
+                Android.share(content.description, content.url);
+            }
+            else {
+                Android.share(content.description + " " + content.url);
+            }
+            
+        };
 
-    share(params) {
-      console.log('params', params)
-      if (!("share" in navigator)) {
-        let text = encodeURIComponent(params[0])
-        window.location = 'whatsapp://send?text=' + text
-        return;
-      }
-
-      navigator.share({
-        title: 'Descubre la manera de vender más',
-        text: text,
-        url: 'https://seller-client.herokuapp.com'
-      })
-        .then(() => console.log('Successful share'))
-        .catch(error => console.log('Error sharing:', error));
-    },
-
-    shareWhatsapp(message, phone) {
-      let text = encodeURIComponent(message)
-      window.location = 'whatsapp://send?text=' + text + '&phone=' + phone
+        navigator.share({
+            title: 'Descubre tu belleza',
+            text: 'Mira este contenido ',
+            url: content.get('url')
+            })
+            .then(() => console.log('Successful share'))
+            .catch(error => console.log('Error sharing:', error));
     }
 
-  }
+}
 });
