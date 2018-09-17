@@ -11,7 +11,7 @@ class Task(db.Model, BaseColumnsMixin, DictMixin):
     num_of_clients = db.Column(db.Numeric(10), nullable=False, default=0)
     task_description = db.Column(db.Text, nullable=False)
     content_id = db.Column(db.ForeignKey(
-        'content.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
+        'content.id', deferrable=True, initially='DEFERRED'), nullable=True, index=True)
     medium_id = db.Column(db.ForeignKey(
         'socialnetwork.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
     planned_date = db.Column(db.DateTime(True), nullable=False)
