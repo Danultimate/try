@@ -53,7 +53,7 @@
             <div class="row">
                 <div class="col-6 text-center">
                     <h6>
-                        ${{mult (sub model.firstObject.total model.firstObject.total_shipping model.firstObject.total_tax) model.firstObject.commission}}
+                        ${{round (mult (sub model.firstObject.total model.firstObject.total_shipping model.firstObject.total_tax) model.firstObject.commission)}}
                     </h6>
                     <span>Ganacias del mes</span>
                 </div>

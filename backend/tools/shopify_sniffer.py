@@ -18,7 +18,7 @@ SHOPIFY_API_KEY = "02cfc71482e6552378bc7d11e3885bd6"
 SHOPIFY_PASSWORD = "e7b9cf6de401f56e47c5d6e2f2c92511"
 SHOPIFY_SECRET = "0e22d2e9b9ab59497a2c34e8419caf19"
 SHOP_URL = "descubre-belleza.myshopify.com"
-SECONDS_TO_FETCH=10
+SECONDS_TO_FETCH = 10
 
 
 def connect_to_shopify():
@@ -37,7 +37,7 @@ def norm_cellphone(phone):
 
 def get_max_id_from_file():
     print('-------------------------------------------------------')
-    f = open("max_id.txt", "r")
+    f = open("./backend/tools/max_id.txt", "r")
     max_id = f.read()[:-1]
     f.close()
     # Delete file, afeter the orders iteration will be write again
@@ -46,7 +46,7 @@ def get_max_id_from_file():
 
 
 def create_new_max_id_file(max_id):
-    f = open("max_id.txt", "w")
+    f = open("./backend/tools/max_id.txt", "w")
     f.write(str(max_id) + '\n')
     print('Saving the max_id value in file: max_id = {0}'.format(max_id))
     f.close()
@@ -72,12 +72,13 @@ def get_orders_from_shopify():
 
 def save_trouble_order(order_id, message):
     # Read the file:
-    f = open("trouble_orders.txt", "r")
+    f = open("./backend/tools/trouble_orders.txt", "r")
     lines = f.readlines()
     f.close()
-    f = open("trouble_orders.txt", "w")
+    f = open("./backend/tools/trouble_orders.txt", "w")
     f.write(str(order_id) + "," + message + "\n")
-    for line in lines: f.write(line)
+    for line in lines:
+        f.write(line)
     print('Saved into trouble_orders.txt...')
     f.close()
 
@@ -89,28 +90,32 @@ def update_order_table(orders):
             order = order.to_dict()
             # Check if phone is empty
             if order['customer']['default_address']['phone'] is None:
-                save_trouble_order(order['id'], 'Not phone found into customer-> default_address -> phone')
+                save_trouble_order(
+                    order['id'], 'Not phone found into customer-> default_address -> phone')
                 create_new_max_id_file(order['id'])
                 continue
             # Check if phone contains only numbers
             regex = re.compile("^[0-9]+$")
-            phone = norm_cellphone(order['customer']['default_address']['phone'])
+            phone = norm_cellphone(
+                order['customer']['default_address']['phone'])
             match = regex.match(phone)
             if match is None:
                 print('The phone number into order is not a valid number!')
                 print('Is not possible to store this order!')
-                save_trouble_order(order['id'], 'The phone number into order is not a valid number')
+                save_trouble_order(
+                    order['id'], 'The phone number into order is not a valid number')
                 create_new_max_id_file(order['id'])
                 continue
             user_client_id = db.session.query(User.id).filter_by(
-                            cellphone=norm_cellphone(order['customer']['default_address']['phone'])).first()
+                cellphone=norm_cellphone(order['customer']['default_address']['phone'])).first()
 
             # Check if user_client_id query returns None, see above ^^
             if user_client_id is not None:
                 user_client_id = user_client_id[0]
             # Seller 1 it's the anonymous seller, is used when clients creates order without a seller disccount code
             if len(order['discount_codes']):
-                seller_id = db.session.query(Seller.id).filter_by(code=order['discount_codes'][0]['code']).first()[0] if db.session.query(Seller.id).filter_by(code=order['discount_codes'][0]['code']).first() else None
+                seller_id = db.session.query(Seller.id).filter_by(code=order['discount_codes'][0]['code']).first()[
+                    0] if db.session.query(Seller.id).filter_by(code=order['discount_codes'][0]['code']).first() else None
             else:
                 seller_id = 1
 
@@ -121,7 +126,8 @@ def update_order_table(orders):
                 u = User(
                     first_name=order['customer']['first_name'],
                     last_name=order['customer']['last_name'],
-                    cellphone=norm_cellphone(order['customer']['default_address']['phone'])
+                    cellphone=norm_cellphone(
+                        order['customer']['default_address']['phone'])
                 )
                 db.session.add(u)
                 try:
@@ -145,7 +151,8 @@ def update_order_table(orders):
 
                 client_id = c.id
             else:
-                client_id = db.session.query(Client.id).filter_by(user_id=user_client_id).first()[0] if db.session.query(Client.id).filter_by(user_id=user_client_id).first() else None
+                client_id = db.session.query(Client.id).filter_by(user_id=user_client_id).first()[
+                    0] if db.session.query(Client.id).filter_by(user_id=user_client_id).first() else None
 
             order_ = Order(
                 seller_id=seller_id,
@@ -168,14 +175,16 @@ def update_order_table(orders):
             create_new_max_id_file(order['id'])
             print('-------------------------- Begin Order --------------------------')
             print('Saving order. ID: {0}, NAME: {1}, TOTAL: {2}, EMAIL: {3}, PHONE: {4}'
-                                    .format(order['id'], order['name'], order['total_price'], order['customer']['email'], order['customer']['default_address']['phone']))
+                  .format(order['id'], order['name'], order['total_price'], order['customer']['email'], order['customer']['default_address']['phone']))
             print('-------------------------- End Order --------------------------')
     else:
         print('Nothing to do...')
 
-connect_to_shopify()
-while True:
-    time.sleep(SECONDS_TO_FETCH)
-    orders = get_orders_from_shopify()
-    print('Orders List: {0}'.format(orders))
-    update_order_table(orders)
+
+def main():
+    connect_to_shopify()
+    while True:
+        time.sleep(SECONDS_TO_FETCH)
+        orders = get_orders_from_shopify()
+        print('Orders List: {0}'.format(orders))
+        update_order_table(orders)
