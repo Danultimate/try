@@ -12,18 +12,17 @@
                 {{!-- TODO: Replace with ember --}}
                 <p hidden id="myInput" value="{{encodeURIComponentHelper model.url}}">{{model.url}}</p>
 
-
                 <div class="dr-quiz">
-                    <img class="img-fluid" src="{{model.thumbnailUrl}}" alt="">
+                    <a href="{{model.url}}"><img class="img-fluid" src="{{model.thumbnailUrl}}" alt=""></a>
                 </div>
                 <div class="dr-share">
-                    <p>
+                    {{!-- <p>
                         Este contenido deberias enviarlo a:
                     </p>
                     <a class="drbtn drbt1" href="">Luisa Maria</a>
                     <a class="drbtn drbt2" href="">Luisa Maria</a>
                     <a class="drbtn drbt3" href="">Luisa Maria</a>
-                    <a class="drbtn drbt4" href="">Luisa Maria</a>
+                    <a class="drbtn drbt4" href="">Luisa Maria</a> --}}
 
                     <button class="dr-comparbtn" onclick={{action 'share' model}}>Compartir</button>
 

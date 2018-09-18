@@ -13,7 +13,7 @@ client_method_view_post_body = {
 }
 
 class ClientMethodView(MethodView):
-    @authorized
+    #@authorized
     def get(self, client_id=None):
 
         if client_id is not None:

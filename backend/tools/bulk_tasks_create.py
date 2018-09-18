@@ -37,12 +37,16 @@ for row in reader:
         month = int(row['planned_date'][-5:-3])
         day = int(row['planned_date'][8:])
         # For now, the num_of_clients are the total of clients for this seller
+        if row['content_id']=="None":
+            content_id_ = None
+        else:
+            content_id_ = row['content_id']
         task = Task(
             type_of_task = "share",
             seller_id = row['seller_id'],
             num_of_clients = len(seller_clients), # Count the quantity of clients for this seller
             task_description = row['task_description'],
-            content_id = row['content_id'],
+            content_id = content_id_,
             medium_id = 1,
             planned_date = datetime.datetime(year,month,day),
             done = False

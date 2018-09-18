@@ -1,6 +1,7 @@
 from marshmallow import fields
 from webargs.flaskparser import parser as flaskparser
 
+import datetime
 from backend import db
 from backend.helpers.gen_unique_code import generate_unique_code
 from backend.helpers.security import SecurityUtils, authorized
@@ -41,6 +42,53 @@ class SellerMethodView(MethodView):
         user = User.query.get_or_404(seller.user_id)
         seller.code = generate_unique_code(user.first_name, user.id)
         db.session.add(seller)
+        db.session.commit()
+
+        db.session.add(Task(type_of_task="share", seller_id=seller.id,
+                            task_description="Haz una orden de prueba con tu codigo de descuento",
+                            medium_id=1,
+                            planned_date=datetime.datetime(2018, 9, 19)
+                            ))
+
+
+        db.session.add(Task(type_of_task="share", seller_id=seller.id,
+                            task_description="Mandar video a todos tus clientes potenciales",
+                            content_id=16,
+                            medium_id=1,
+                            planned_date=datetime.datetime(2018, 9, 19)
+                            ))
+
+        db.session.add(Task(type_of_task="share", seller_id=seller.id,
+                            task_description="Mandar quiz a 10 clientes (potenciales)",
+                            content_id=15,
+                            medium_id=1,
+                            planned_date=datetime.datetime(2018, 9, 19)
+                            ))
+
+        db.session.add(Task(type_of_task="share", seller_id=seller.id,
+                            task_description="Mandar contenido de celebridad naturalia a 5 clientes (potenciales)",
+                            content_id=12,
+                            medium_id=1,
+                            planned_date=datetime.datetime(2018, 9, 19)
+                            ))
+        db.session.add(Task(type_of_task="share", seller_id=seller.id,
+                            task_description="Mandar contenido de celebridad trendy a 5 clientes (potenciales)",
+                            content_id=14,
+                            medium_id=1,
+                            planned_date=datetime.datetime(2018, 9, 19)
+                            ))
+        db.session.add(Task(type_of_task="share", seller_id=seller.id,
+                            task_description="Mandar contenido de celebridad autentica a 5 clientes (potenciales)",
+                            content_id=13,
+                            medium_id=1,
+                            planned_date=datetime.datetime(2018, 9, 19)
+                            ))
+        db.session.add(Task(type_of_task="share", seller_id=seller.id,
+                            task_description="Cierra tu primera venta",
+                            medium_id=1,
+                            planned_date=datetime.datetime(2018, 9, 19)
+                            ))
+
         db.session.commit()
 
         return jsonify({'sellers': [seller.to_dict()]})

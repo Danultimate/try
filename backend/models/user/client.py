@@ -17,3 +17,6 @@ class Client(db.Model, BaseColumnsMixin, DictMixin):
     user = db.relationship('User')
     profile = db.relationship('Profile')
     orders = db.relationship('Order')
+    
+    def __str__(self):
+        return str(self.id) + '. ' + self.user.first_name

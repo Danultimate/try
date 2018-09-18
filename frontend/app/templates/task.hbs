@@ -7,17 +7,18 @@
             <div class="container">
                 <p hidden id="myInput" value="{{encodeURIComponentHelper model.content.url}}"></p>
                 <div class="dr-quiz">
-                    <img class="img-fluid" src="{{model.content.thumbnailUrl}}" alt="">
+                    <a href="{{model.content.url}}"><img class="img-fluid" src="{{model.content.thumbnailUrl}}" alt=""></a>
                 </div>
                 <div class="dr-share">
                     <p>
                         Este contenido deberias enviarlo a:
                     </p>
-										<div class="drbtn drbt1">
-											{{#each model.users as |u|}}
-												{{u.first_name}} {{u.last_name}}
-											{{/each}}
-										</div>
+                        <div class="drbtn drbt1">
+                            {{!-- {{#each model.users as |u|}}
+                                {{u.first_name}} {{u.last_name}}
+                            {{/each}} --}}
+                            Cliente Lanzamiento
+                        </div>
                     <p>
                         Esto le encantaria a tus clientes:
                     </p>

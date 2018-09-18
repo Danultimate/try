@@ -2,14 +2,17 @@ import Controller from '@ember/controller';
 
 export default Controller.extend({
   actions: {
+
     share(content) {
         if (!("share" in navigator)) {
-            if (content.get('media_type') === "image") {
+            console.log('este es el print ' + content.url + ' '+ content.description);
+            if (content.media_type == "imagen") {
                 Android.share(content.description, content.url);
             }
             else {
                 Android.share(content.description + " " + content.url);
             }
+            return;
             
         };
 
@@ -23,4 +26,5 @@ export default Controller.extend({
     }
 
 }
+
 });
