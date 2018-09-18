@@ -21,3 +21,6 @@ class Seller(db.Model, BaseColumnsMixin, DictMixin):
     commission = db.Column(db.Numeric(2, 2), default=0.15)  # , nullable=False)
 
     user = db.relationship('User')
+
+    def __str__(self):
+        return str(self.id) + '. ' + self.user.first_name
