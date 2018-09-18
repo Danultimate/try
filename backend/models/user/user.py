@@ -21,3 +21,6 @@ class User(db.Model, BaseColumnsMixin, DictMixin):
 
     def verify_password(self, password):
         return pwd_context.verify(password, self.password_hash)
+
+    def __str__(self):
+        return str(self.id) + '. ' + self.first_name

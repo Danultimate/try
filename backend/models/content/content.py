@@ -19,6 +19,9 @@ class Content(db.Model, BaseColumnsMixin, DictMixin):
     topic = db.relationship('Topic')
     profile = db.relationship('Profile')
 
+    def __str__(self):
+        return str(self.id) + '. ' + self.name
+
 
 class ContentProduct(db.Model, BaseColumnsMixin):
     __tablename__ = 'content_products'
