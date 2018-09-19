@@ -59,3 +59,9 @@ from worker import conn
 
 q = Queue(connection=conn)
 q.enqueue(shopify_sniffer)
+
+
+# if os.environ['SETTINGS'] != 'config.Development':
+from backend.tools.shopify_sniffer import main as shopify_sniffer
+from rq import Queue
+from worker import conn

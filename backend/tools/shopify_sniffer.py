@@ -79,7 +79,7 @@ def norm_cellphone(phone):
 
 def get_max_id_from_file():
     print('-------------------------------------------------------')
-    f = open("max_id.txt", "r")
+    f = open("./backend/tools/max_id.txt", "r")
     max_id = f.read()[:-1]
     f.close()
     # Delete file, afeter the orders iteration will be write again
@@ -88,7 +88,7 @@ def get_max_id_from_file():
 
 
 def create_new_max_id_file(max_id):
-    f = open("max_id.txt", "w")
+    f = open("./backend/tools/max_id.txt", "w")
     f.write(str(max_id) + '\n')
     print('Saving the max_id value in file: max_id = {0}'.format(max_id))
     f.close()
@@ -114,10 +114,10 @@ def get_orders_from_shopify():
 
 def save_trouble_order(order_id, message):
     # Read the file:
-    f = open("trouble_orders.txt", "r")
+    f = open("./backend/tools/trouble_orders.txt", "r")
     lines = f.readlines()
     f.close()
-    f = open("trouble_orders.txt", "w")
+    f = open("./backend/tools/trouble_orders.txt", "w")
     f.write(str(order_id) + "," + message + "\n")
     for line in lines:
         f.write(line)
@@ -162,10 +162,12 @@ def create_orders(orders):
                 user_client_id = u.id
 
             # Seller 1 it's descubre's seller, is used for orders without a seller disccount code
-            seller_id = 5
+            seller_id = None
             if len(order['discount_codes']):
                 seller_id = db.session.query(Seller.id).filter_by(code=order['discount_codes'][0]['code']).first() \
                     if db.session.query(Seller.id).filter_by(code=order['discount_codes'][0]['code']).first() else None
+            if seller_id is None:
+                seller_id = 1
 
             print('Processing order {0}...'.format(order['id']))
 
