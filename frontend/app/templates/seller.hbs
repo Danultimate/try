@@ -38,7 +38,11 @@
     </nav>
     <div class="dr-headerlogros">
         <div class="dr-persona">
+            {{#if model.firstObject.user.picture}}
             <img src="{{model.firstObject.user.picture}}" alt="">
+            {{else}}
+            <img src="{{rootURL}}/assets/images/profile_pic.png" alt="">
+            {{/if}}
             {{!-- <span class="dr-editar">Editar</span> --}}
             <h4>{{model.firstObject.user.first_name}} </h4>
             <p>{{model.firstObject.user.last_name}}</p>
