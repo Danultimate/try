@@ -28,7 +28,8 @@ export default Controller.extend({
         });
         seller_record.save().then(() => {
           //redirect to Intro pages
-          mixpanel.people.set({
+          window.mixpanel.people.set({
+              "$distinct_id": record.id,
               "$email": record.email,    // only special properties need the $
               
               "$created": new Date(),

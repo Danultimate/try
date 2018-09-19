@@ -1,9 +1,24 @@
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
+import { observer } from '@ember/object';
+import { next } from '@ember/runloop';
 
 export default Controller.extend({
+    
+    ready: observer('currentPath', function () {   
+        next(this, function () {
+            window.mixpanel.track('on task')
+        });
+    }),
+
   actions: {
 
     share(content) {
+        window.mixpanel.track('share from task', {
+                                'content_id': content.id,
+                                'content_name': content.name,
+                                'content_description': content.description
+                                });
         if (!("share" in navigator)) {
             console.log('este es el print ' + content.url + ' '+ content.description);
             if (content.media_type == "imagen") {
