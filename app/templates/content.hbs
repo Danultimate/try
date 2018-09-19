@@ -17,7 +17,11 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <img src="{{model.content.url}}" class="img-responsive">
+                            {{#if (eq model.content.media_type "imagen")}}
+                                <img src="{{model.content.url}}" class="img-fluid">
+                            {{else if (eq model.content.media_type "video")}}
+                                <iframe src="{{model.content.url}}"></iframe>
+                            {{/if}}
                         </div>
                     </div>
                 </div>
