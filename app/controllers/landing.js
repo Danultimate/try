@@ -6,6 +6,12 @@ import { next } from '@ember/runloop';
 export default Controller.extend({
     
     session: service('session'),
+
+    onPathChanged: observer('currentPath', function () {   
+        next(this, function () {
+            window.mixpanel.track('on landing')
+        });
+    }),
     
     beforeModel: observer('currentPath', function () {
         console.log('entra at leats')
