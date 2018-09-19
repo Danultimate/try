@@ -9,48 +9,40 @@
     <article class="dr-dashclientedeta">
             <div class="container">
 
-                {{!-- TODO: Replace with ember --}}
-                <p hidden id="myInput" value="{{encodeURIComponentHelper model.url}}">{{model.url}}</p>
-
                 <div class="dr-quiz">
-                    <a href="{{model.url}}"><img class="img-fluid" src="{{model.thumbnailUrl}}" alt=""></a>
+                    <a href="{{model.content.url}}"><img class="img-fluid" src="{{model.content.thumbnailUrl}}" alt=""></a>
                 </div>
                 <div class="dr-share">
-                    {{!-- <p>
-                        Este contenido deberias enviarlo a:
-                    </p>
-                    <a class="drbtn drbt1" href="">Luisa Maria</a>
-                    <a class="drbtn drbt2" href="">Luisa Maria</a>
-                    <a class="drbtn drbt3" href="">Luisa Maria</a>
-                    <a class="drbtn drbt4" href="">Luisa Maria</a> --}}
+                    {{#if (eq model.content.profile.name 'General')}}
 
-                    <button class="dr-comparbtn" onclick={{action 'share' model}}>Compartir</button>
+                        {{#if model.clients}}
+                            <p>Este contenido deberias enviarlo a: </p>
+                        {{/if}}
+                        {{#each model.clients as |client|}}
+                            {{#link-to "client" client.id class="drbtn drbt1"}}
+                                {{client.user.first_name}}
+                            {{/link-to}}
+                        {{/each}}
+                    
+                    {{else}}
+
+                        {{#with (filter-by "profile.id" model.content.profile.id model.clients) as |clients|}}
+                            {{#if clients}}
+                                <p>Este contenido deberias enviarlo a: </p>
+                            {{/if}}
+                            
+                            {{#each clients as |client|}}
+                                {{#link-to "client" client.id class="drbtn drbt1"}}
+                                    {{client.user.first_name}}
+                                {{/link-to}}
+                            {{/each}}
+                        {{/with}}
+
+                    {{/if}}
+                    <button class="dr-comparbtn" onclick={{action 'share' model.content}}>Compartir</button>
 
                 </div>
             </div>
     </article>
 
 </section>
-
-<script>
-    function share(text, url) {
-        if (!("share" in navigator)) {
-            //alert('Web Share API not supported.');
-            window.location = 'whatsapp://send?text='+document.getElementById("myInput").value;+"'"
-
-            return;
-        }
-
-        navigator.share({
-            title: 'Descubre tu belleza',
-            text: 'Mira este contenido ',
-            url: document.getElementById("myInput").value;
-            })
-            .then(() => console.log('Successful share'))
-            .catch(error => console.log('Error sharing:', error));
-    }
-
-    function share_image(toast) {
-        Android.share("holi esto es un link: https://upload.wikimedia.org/wikipedia/commons/2/21/Flag_of_Colombia.svg");
-    }
-</script>
