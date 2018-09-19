@@ -7,12 +7,5 @@ export default Controller.extend({
 
     session: service('session'),
     mixpanel: service('mixpanel'),
-
-    actions: {
-        invalidateSession() {
-            this.get('session').invalidate();
-            window.location = '/'
-        }
-    }
     
 });
