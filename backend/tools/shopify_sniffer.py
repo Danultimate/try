@@ -216,5 +216,3 @@ def main():
         print('Orders List: {0}'.format(orders))
         create_orders(orders)
         time.sleep(SECONDS_TO_FETCH)
-
-main()

@@ -24,7 +24,7 @@
                             <div class="col-2">
                                 <p>
                                     {{!-- {{#link-to "order" order.id}} --}}
-                                    {{to-day-month order.date}}
+                                    <small>{{format-date order.date "DD[/]MM"}}</small>
                                     {{!-- {{/link-to}} --}}
                                 </p>
                             </div>
