@@ -1,3 +1,6 @@
+{{#if session.isDestroyed}}
+    <a {{action 'invalidateSession'}}>Restaurar App</a>
+{{/if}}
 <section class="dr-contenidologros">
     <nav class="navbar navbar-light bg-white fixed-top">
 
