@@ -24,7 +24,7 @@ class Development(Production):
     DEBUG = True
     DEVELOPMENT = True
 
-    SQLALCHEMY_DATABASE_URI = 'postgres://postgres:control1234@localhost:5432/poc_content'
+    SQLALCHEMY_DATABASE_URI = 'postgres://descubre:Descubre1234@localhost:5432/poc_content'
     REDIS_URL = ''
 
     KEY = '../ssl/server.key'
