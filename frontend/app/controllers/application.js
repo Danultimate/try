@@ -10,8 +10,7 @@ export default Controller.extend({
     hide_nav_endpoints: ['/landing', '/sign_up', '/login', '/term_conditions', '/thanks', '/index'],
     show_nav: true,
     
-    onPathChanged: observer('currentPath', function () {
-        
+    onPathChanged: observer('currentPath', function () {        
         next(this, function () {
             if (this.hide_nav_endpoints.includes(window.location.pathname)){
                 this.set('show_nav', false);
