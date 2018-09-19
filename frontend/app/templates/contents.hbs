@@ -2,13 +2,13 @@
  <article class="dr-dash">
             <div class="container">
                 <ul>
-									{{#each model as |content|}}
-										<li>
-											{{#link-to "content" content.id}}
-												<img class="img-fluid" src="{{content.thumbnailUrl}}" alt="">
-											{{/link-to}}
-										</li>
-									{{/each}}
+					{{#each model as |content|}}
+						<li>
+							{{#link-to "content" content.id}}
+								<img class="img-fluid" src="{{content.thumbnailUrl}}" alt="">
+							{{/link-to}}
+						</li>
+					{{/each}}
                 </ul>
             </div>
         </article>

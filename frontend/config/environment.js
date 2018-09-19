@@ -29,6 +29,12 @@ module.exports = function(environment) {
       routeIfAlreadyAuthenticated: 'seller'
     },
 
+    mixpanel: {
+      enabled: true,
+      LOG_EVENT_TRACKING: true,
+      token: '86bd5bcb5906d87ff97eb567a4c0e57a'
+    },
+
     host: 'http://localhost:5000'
   };
 
@@ -52,11 +58,21 @@ module.exports = function(environment) {
     // ENV.APP.rootElement = '#ember-testing';
     // ENV.APP.autoboot = false;
     ENV.host = 'https://seller-server-dev.herokuapp.com';
+    ENV.mixpanel = {
+      enabled: true,
+      LOG_EVENT_TRACKING: true,
+      token: '7c5582209ad60d202024e04001bf8af6'
+    };
   }
 
   if (environment === 'production') {
     ENV.host = 'https://seller-server.herokuapp.com';
     // here you can enable a production-specific feature
+    ENV.mixpanel = {
+      enabled: true,
+      LOG_EVENT_TRACKING: false,
+      token: '7c5582209ad60d202024e04001bf8af6'
+    };
   }
 
   return ENV;

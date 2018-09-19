@@ -3,13 +3,13 @@ import { filterBy } from '@ember/object/computed';
 
 export default Controller.extend({
 
-    //naturalia_clients: filterby(this.get('clients'), 'profile', 'Naturalia'),
-    // trendy_clients: filterby(this.get('clients'), 'profile', 'Trendy'),
-    // autentica_clients: filterby(this.get('clients'), 'profile', 'Autentica'),
-    // general_clients: filterby(this.get('clients'), 'profile', 'General'),
-
     actions: {
         share(content) {
+            window.mixpanel.track('share from content', {
+                                'content_id': content.id,
+                                'content_name': content.name,
+                                'content_description': content.description
+                                });
             if (!("share" in navigator)) {
                 console.log('este es el print ' + content.url + ' '+ content.description);
                 if (content.media_type == "imagen") {

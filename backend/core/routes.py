@@ -26,6 +26,7 @@ register_route(ClientMethodView, 'client_model', '/clients', pk='client_id')
 register_route(ReferralMethodView, 'referral_model', '/referrals', pk='referral_id')
 
 register_route(ProductMethodView, 'product_model', '/products', pk='product_id')
+register_route(ProfileMethodView, 'profile_model', '/profiles', pk='profile_id')
 
 register_route(ContentMethodView, 'content_model', '/contents', pk='content_id')
 
