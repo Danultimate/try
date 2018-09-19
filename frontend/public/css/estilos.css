@@ -803,7 +803,7 @@ body {
   padding: 0;
 }
 .dr-menumodalmenu .header {
-  background-image: url("../assets/images/rosamenu.png");
+  background: #b7237e;
   background-repeat: no-repeat;
   background-size: 70%;
   height: 220px;
@@ -816,7 +816,7 @@ body {
 .dr-menumodalmenu .header p {
   margin: 0;
   padding: 0;
-  color: #000;
+  color: #fff;
 }
 .dr-menumodalmenu .header p {
   font-weight: 300;
