@@ -162,10 +162,12 @@ def create_orders(orders):
                 user_client_id = u.id
 
             # Seller 1 it's descubre's seller, is used for orders without a seller disccount code
-            seller_id = 5
+            seller_id = None
             if len(order['discount_codes']):
                 seller_id = db.session.query(Seller.id).filter_by(code=order['discount_codes'][0]['code']).first() \
                     if db.session.query(Seller.id).filter_by(code=order['discount_codes'][0]['code']).first() else None
+            if seller_id is None:
+                selelr_id = 1
 
             print('Processing order {0}...'.format(order['id']))
 
