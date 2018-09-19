@@ -5,7 +5,7 @@ from marshmallow import fields
 from webargs.flaskparser import parser as flaskparser
 
 from backend.helpers import itsdangerous
-from backend.models import User
+from backend.models import User, Seller
 
 user_login_method_view = {
     'username': fields.Integer(required=True),
@@ -20,12 +20,14 @@ class UserLoginMethodView(MethodView):
         body = flaskparser.parse(
             user_login_method_view, request, locations=['json', 'form'])
         user = User.query.filter(User.cellphone == body['username']).first()
+        seller = Seller.query.filter_by(user_id=user.id).first()
 
-        if user is not None and user.verify_password(body['password']):
+        if user is not None and seller is not None and user.verify_password(body['password']):
             return jsonify(
                 access_token=itsdangerous.sign(
                     {"user_id": user.id, "name": user.first_name}).decode('ascii'),
-                user=user.to_dict()
+                user=user.to_dict(),
+                seller=seller.to_dict(),
             )
 
         abort(401)

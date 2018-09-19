@@ -1,20 +1,7 @@
 import Controller from '@ember/controller';
 import { filterBy } from '@ember/object/computed';
-import { observer } from '@ember/object';
-import { next } from '@ember/runloop';
 
 export default Controller.extend({
-
-    // ready: observer('currentPath', function () {   
-    //     next(this, function () {
-    //         window.mixpanel.track('on content')
-    //     });
-    // }),
-    
-    //naturalia_clients: filterby(this.get('clients'), 'profile', 'Naturalia'),
-    // trendy_clients: filterby(this.get('clients'), 'profile', 'Trendy'),
-    // autentica_clients: filterby(this.get('clients'), 'profile', 'Autentica'),
-    // general_clients: filterby(this.get('clients'), 'profile', 'General'),
 
     actions: {
         share(content) {
