@@ -31,6 +31,7 @@ def connect_to_shopify():
     shopify.ShopifyResource.set_site(shop_url)
     print('Conected')
 
+
 def order_exists(order_number):
     orders = db.session.query(Order).filter_by(order_number=order_number).all()
     if len(orders) > 1: print('There are {0} duplicated orders for order_number: {1}'.format(len(orders), order_number))
@@ -74,7 +75,10 @@ def create_client(user_id, seller_id):
 
 
 def norm_cellphone(phone):
-    return phone.replace(' ', '')
+    if phone.startswith('+57'):
+        return phone[3:].replace(' ','')
+    else:
+        return phone.replace(' ','')
 
 
 def get_max_id_from_file():
