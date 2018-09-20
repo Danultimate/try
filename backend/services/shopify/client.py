@@ -5,8 +5,6 @@ import shopify
 
 
 class shopifyClient():
-    # By agreement, we put the Seller's code (shopify's discoutn code) in this Shopify's Price Rule
-    DEFAULT_PRICE_RULE_ID = 319568281667
 
 
     def connect_to_shopify():
@@ -27,7 +25,7 @@ class shopifyClient():
         :returns:  boolean -- True if exists
         """
         found = False
-        price_rule = shopify.PriceRule.find(shopifyClient.DEFAULT_PRICE_RULE_ID)
+        price_rule = shopify.PriceRule.find(app.config['DEFAULT_PRICE_RULE_ID'])
         discount_codes = price_rule.discount_codes()
         for dc in discount_codes:
             if dc.to_dict()['code'] == code: found = True
@@ -50,7 +48,7 @@ class shopifyClient():
         try:
             discount_code = {
                     'code': code,
-                    'price_rule_id': shopifyClient.DEFAULT_PRICE_RULE_ID
+                    'price_rule_id': app.config['DEFAULT_PRICE_RULE_ID']
             }
             discount_code = shopify.DiscountCode.create(discount_code)
             if discount_code.id:

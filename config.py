@@ -22,6 +22,7 @@ class Production(object):
     SHOPIFY_PASSWORD = "e7b9cf6de401f56e47c5d6e2f2c92511"
     SHOPIFY_SECRET = "0e22d2e9b9ab59497a2c34e8419caf19"
     SHOP_URL = "descubre-belleza.myshopify.com"
+    DEFAULT_PRICE_RULE_ID = 309536784435
 
 
 # noinspection SpellCheckingInspection
@@ -44,6 +45,7 @@ class Development(Production):
     # For webhooks identity validation:
     SHOPIFY_SECRET = "5f90f051e930b413248ce98e4871ef33"
     SHOP_URL = "descubre-testing.myshopify.com"
+    DEFAULT_PRICE_RULE_ID = 319568281667
 
 
 # noinspection SpellCheckingInspection
