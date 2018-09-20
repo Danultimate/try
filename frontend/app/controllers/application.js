@@ -4,25 +4,24 @@ import { observer } from '@ember/object';
 import { next } from '@ember/runloop';
 
 export default Controller.extend({
-    
+
     session: service('session'),
-    currentUrl: null,
-    hide_nav_endpoints: ['/landing', '/sign_up', '/login', '/term_conditions', '/thanks', '/index'],
+    // currentUrl: null,
     show_nav: true,
-    
-    onPathChanged: observer('currentPath', function () {        
+
+    onPathChanged: observer('currentPath', function () {
+      let hide_nav_endpoints = ['/landing', '/sign_up', '/login', '/term_conditions', '/thanks', '/index'];
         next(this, function () {
-            if (this.hide_nav_endpoints.includes(window.location.pathname)){
+            if (hide_nav_endpoints.includes(window.location.pathname)){
                 this.set('show_nav', false);
             }
         });
     }),
-    
 
     actions: {
         invalidateSession() {
             this.get('session').invalidate();
-            window.location = '/'
+            window.location = '/';
         },
         goBack(){
             window.history.back();
