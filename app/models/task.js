@@ -2,6 +2,7 @@ import Model from 'ember-data/model';
 import DS from 'ember-data';
 import attr from 'ember-data/attr';
 import { belongsTo, hasMany } from 'ember-data/relationships';
+import { computed } from '@ember/object';
 
 export default Model.extend({
     task_description: attr('string'),
@@ -15,7 +16,7 @@ export default Model.extend({
     seller: belongsTo('seller'),
     content: belongsTo('content'),
 
-    filteredClientSuggestions: Ember.computed('users', function () {
+    filteredClientSuggestions: computed('users', function () {
       //FIXME: Delete this when we can filter the full list into the front, (i.e. with a responsive
         //table or 'show more', show less options)
       let clientSuggestionsLimit = 5;
