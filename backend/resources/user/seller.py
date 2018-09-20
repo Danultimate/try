@@ -55,36 +55,35 @@ class SellerMethodView(MethodView):
                             planned_date=datetime.datetime(2018, 9, 19)
                             ))
 
-
         db.session.add(Task(type_of_task="share", seller_id=seller.id,
                             task_description="Mandar video a todos tus clientes potenciales",
-                            content_id=16,
+                            content_id=7,
                             medium_id=1,
                             planned_date=datetime.datetime(2018, 9, 19)
                             ))
 
         db.session.add(Task(type_of_task="share", seller_id=seller.id,
                             task_description="Mandar quiz a 10 clientes (potenciales)",
-                            content_id=15,
+                            content_id=8,
                             medium_id=1,
                             planned_date=datetime.datetime(2018, 9, 19)
                             ))
 
         db.session.add(Task(type_of_task="share", seller_id=seller.id,
                             task_description="Mandar contenido de celebridad naturalia a 5 clientes (potenciales)",
-                            content_id=12,
+                            content_id=1,
                             medium_id=1,
                             planned_date=datetime.datetime(2018, 9, 19)
                             ))
         db.session.add(Task(type_of_task="share", seller_id=seller.id,
                             task_description="Mandar contenido de celebridad trendy a 5 clientes (potenciales)",
-                            content_id=14,
+                            content_id=3,
                             medium_id=1,
                             planned_date=datetime.datetime(2018, 9, 19)
                             ))
         db.session.add(Task(type_of_task="share", seller_id=seller.id,
                             task_description="Mandar contenido de celebridad autentica a 5 clientes (potenciales)",
-                            content_id=13,
+                            content_id=2,
                             medium_id=1,
                             planned_date=datetime.datetime(2018, 9, 19)
                             ))
