@@ -2,9 +2,9 @@
     <article class="dr-dashcliente">
         <div class="container">
             <h4>Historial de ordenes</h4>
-            <small style="color: gray;">Visualice sus ordenes de compra para hacer seguimiento a sus pedidos
-                Si tienes preguntas o dudas, llamanos (de 8am a 6pm) o
-                escribenos por WhatsApp
+            <small style="color: gray;">Visualiza tus ordenes de compra para hacer seguimiento a tus pedidos. 
+                Si tienes preguntas o dudas, llamanos (de 8am a 6pm) o 
+                escribenos por WhatsApp 
                 <a href="whatsapp://send?phone=+573053506867">
                     <img src="https://cdn2.iconfinder.com/data/icons/social-icons-color/512/whatsapp-512.png" height="16" width="16">
                 </a>
@@ -36,7 +36,7 @@
                                 </small>
                             </div>
                             <div class="col-3">
-                                <span>${{sub order.total order.shipping}}</span>
+                                <small><span>${{sub order.total order.shipping}}</span></small>
                             </div>
                             <div class="col-4">
                                 {{#if (eq order.status 'completed')}}
