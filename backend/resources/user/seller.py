@@ -10,6 +10,8 @@ from backend.schemas import *
 from flask import jsonify, request
 from flask.views import MethodView
 
+from backend.services.shopify.client import shopifyClient
+
 seller_method_view_post_body = {
     'seller': fields.Nested(SellerSchema)
 }
@@ -43,6 +45,9 @@ class SellerMethodView(MethodView):
         seller.code = generate_unique_code(user.first_name, user.id)
         db.session.add(seller)
         db.session.commit()
+
+        # After commit, let's create the Seller's code into Shopify's discount codes:
+        shopifyClient.create_discount_code(code=seller.code)
 
         db.session.add(Task(type_of_task="share", seller_id=seller.id,
                             task_description="Haz una orden de prueba con tu codigo de descuento",

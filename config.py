@@ -17,6 +17,12 @@ class Production(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = b'OL{\x80\xb1YG\x87`\xc4xc.Odu'
 
+    # Shopify Production Store
+    SHOPIFY_API_KEY = "02cfc71482e6552378bc7d11e3885bd6"
+    SHOPIFY_PASSWORD = "e7b9cf6de401f56e47c5d6e2f2c92511"
+    SHOPIFY_SECRET = "0e22d2e9b9ab59497a2c34e8419caf19"
+    SHOP_URL = "descubre-belleza.myshopify.com"
+
 
 # noinspection SpellCheckingInspection
 class Development(Production):
@@ -24,13 +30,20 @@ class Development(Production):
     DEBUG = True
     DEVELOPMENT = True
 
-    SQLALCHEMY_DATABASE_URI = 'postgres://descubre:Descubre1234@localhost:5432/poc_content'
+    SQLALCHEMY_DATABASE_URI = 'postgres://postgres:control1234@localhost:5432/poc_content'
     REDIS_URL = ''
 
     KEY = '../ssl/server.key'
     CERT = '../ssl/server.crt'
 
     SQLALCHEMY_ECHO = True
+
+    #Shopify Development Store:
+    SHOPIFY_API_KEY = "c58cf5421a855067d083d607306cd924"
+    SHOPIFY_PASSWORD = "113c8060ac069c14a73a59cea84b5005"
+    # For webhooks identity validation:
+    SHOPIFY_SECRET = "5f90f051e930b413248ce98e4871ef33"
+    SHOP_URL = "descubre-testing.myshopify.com"
 
 
 # noinspection SpellCheckingInspection
