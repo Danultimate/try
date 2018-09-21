@@ -15,7 +15,7 @@ drop    =>      Delete all tables from database (SQLAlchemy command: db.drop_all
 commands = ['drop']
 commands_description = { 'drop': 'Delete all tables from database (SQLAlchemy command: db.drop_all())' }
 
-if sys.argv[1]:
+if len(sys.argv) > 1:
     if sys.argv[1] in commands:
         if sys.argv[1] == 'drop': db.drop_all()
     else:
@@ -201,3 +201,44 @@ try:
 except Exception as e:
     db.session.rollback()
     print(e)
+
+
+
+# Setup Default Parent Product's Categories:
+try:
+    cosmetico = Category(name="Cosmeticos y Maquillaje");
+    cuidado_piel = Category(name="Cuidado de la piel", parentID=1)
+    fragancia = Category(name="Fragancia", parentID=1)
+    maquillaje_ojos = Category(name="Maquillaje para ojos", parentID=1)
+    maquillaje_labios = Category(name="Maquillaje para labios", parentID=1)
+    maquillaje_rostro = Category(name="Maquillaje para rostro", parentID=1)
+
+    db.session.add(cosmetico)
+    db.session.add(cuidado_piel)
+    db.session.add(fragancia)
+    db.session.add(maquillaje_ojos)
+    db.session.add(maquillaje_labios)
+    db.session.add(maquillaje_rostro)
+    db.session.commit()
+except Exception as e:
+    db.session.rollback()
+    print(e)
+    raise
+
+
+# Create one client for testing
+try:
+    u = User(first_name="Tesging",
+            last_name="Client",
+            identification="8888888888",
+            cellphone=3888888888,
+            email="client@descubrebelleza.com")
+    db.session.add(u)
+    db.session.commit()
+    c = Client(user_id = u.id, old_consumer=False, seller_id = 1)
+    db.session.add(c)
+    db.session.commit()
+except Exception as e:
+    db.session.rollback()
+    print(e)
+    raise
