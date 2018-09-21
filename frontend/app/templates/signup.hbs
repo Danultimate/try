@@ -67,7 +67,7 @@ body {
     border: 0;
     outline: 0;
     transition: 0.3s;
-    
+
     &:focus {
         background: darken(#fff, 3%);
     }
@@ -84,7 +84,7 @@ body {
     color: white;
     background: #2196f3;
     transition: 0.3s;
-    
+
     &:hover {
         background: darken($color-primary, 5%);
     }
@@ -112,7 +112,7 @@ body {
         opacity: 0;
         transform: translate3d(0, 50px, 0);
     }
-    
+
     100% {
         opacity: 1;
         transform: translate3d(0, 0, 0);
@@ -139,16 +139,16 @@ body {
         <img src="{{rootURL}}assets/images/logo_flower.png" class="img-fluid" />
         <h5 class="user__title">Registrate ya y te llamaremos con más información</h5>
     </header>
-    
-    <form class="form" {{action 'save' on='submit'}}>
+
+    <form class="form" {{action 'save' on='submit'}} id="formSignUp">
         <div class="form__group">
             {{input type="text" class="form__input" value=first_name required=true placeholder="Nombre" pattern="[a-zA-Z][^#&<>\"~,;@$^%{}?1234567890]{1,50}$"}}
         </div>
-        
+
         <div class="form__group">
             {{input type="text" class="form__input" value=last_name required=true placeholder="Apellido" pattern="[a-zA-Z][^#&<>\"~,;@$^%{}?1234567890]{1,50}$"}}
         </div>
-        
+
         {{!-- <div class="form__group">
             {{input type="number" class="form__input" value=identification required=true placeholder="Cédula"}}
         </div> --}}
@@ -173,10 +173,10 @@ body {
                 {{input id='terms_conditions' type='checkbox' required=true}}
                 <label for="terms_conditions" style="color: #636363;">He leído y acepto los {{#link-to "term_conditions"}}T&C{{/link-to}}</label>
             </div>
-            
+
         </div>
-        
-        <button class="btn" type="submit">Registrame ya</button>
+
+        <button class="btn" type="submit" id="btnSubmit">Registrame ya</button>
         {{#if errorMessage}}
         <p>{{errorMessage}}</p>
         {{/if}}
