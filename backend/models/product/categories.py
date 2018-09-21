@@ -15,8 +15,8 @@ class Category(db.Model, BaseColumnsMixin, DictMixin):
     __tablename__ = 'category'
 
     name = db.Column(db.String(255), nullable=False)
-    parentID = db.Column(db.Integer, nullable=False)
-    
+    parentID = db.Column(db.Integer, nullable=True)
+
     def __str__(self):
         return str(self.id) + '. ' + self.name
 
