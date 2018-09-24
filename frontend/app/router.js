@@ -12,6 +12,7 @@ Router.map(function() {
   this.route('signup', { path: '/sign_up' });
   this.route('landing', { path: '/landing' });
   this.route('term_conditions');
+  this.route('terms_conditions_1');
   this.route('thanks');
 
   // all routes that require the session to be authenticated
@@ -28,7 +29,6 @@ Router.map(function() {
   // this.route('referral');
   // this.route('products');
   // this.route('product', { path: '/products/:product_id' });
-
 });
 
 export default Router;
