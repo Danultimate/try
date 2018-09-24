@@ -167,9 +167,9 @@ def create_orders(orders):
 
             # Seller 1 it's descubre's seller, is used for orders without a seller disccount code
             seller_id = None
-            if len(order['discount_codes']):
-                seller_id = db.session.query(Seller.id).filter_by(code=order['discount_codes'][0]['code']).first() \
-                    if db.session.query(Seller.id).filter_by(code=order['discount_codes'][0]['code']).first() else None
+            if len(order['note_attributes']):
+                seller_id = db.session.query(Seller.id).filter_by(code=order['note_attributes'][1]['value']).first() \
+                    if db.session.query(Seller.id).filter_by(code=order['note_attributes'][1]['value']).first() else None
             if seller_id is None:
                 seller_id = 1
 
