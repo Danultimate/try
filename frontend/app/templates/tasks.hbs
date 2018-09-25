@@ -5,10 +5,9 @@
   </nav>
   <article class="dr-dashclientetareas">
     <div class="container">
-       <h4>Mis tareas</h4>
-          <small style="color: gray;">
-            Visualice sus tareas.
-          </small>
+        <small style="color: gray;">
+          Visualice sus tareas.
+        </small>
       <br><br>
       <div id="accordion">
         <div class="card">
@@ -39,7 +38,8 @@
                       </div>
                       <div class="col-2">
                         {{#if task.content.id}}
-                        {{#link-to "task" task.id}}
+                        {{!-- FIXME: Temporarily all tasks redirects to content--}}
+                        {{#link-to "content" task.content.id}} {{!-- {{#link-to "task" task.id}} --}}
                         <i class="material-icons">keyboard_arrow_right</i>
                         {{/link-to}}
                         {{/if}}
