@@ -18,7 +18,7 @@ export default Model.extend({
 
     filteredClientSuggestions: computed('users', function () {
       //FIXME: Delete this when we can filter the full list into the front, (i.e. with a responsive
-        //table or 'show more', show less options)
+      //table or 'show more', show less options)
       let clientSuggestionsLimit = 5;
       let clientSuggestions = this.get('users');
       console.log(`This is clientSuggestions ${clientSuggestions}`);

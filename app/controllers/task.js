@@ -4,12 +4,6 @@ import { observer } from '@ember/object';
 import { next } from '@ember/runloop';
 
 export default Controller.extend({
-    
-    ready: observer('currentPath', function () {   
-        next(this, function () {
-            window.mixpanel.track('on task')
-        });
-    }),
 
   actions: {
 
