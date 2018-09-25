@@ -167,10 +167,13 @@ def create_orders(orders):
 
             # Seller 1 it's descubre's seller, is used for orders without a seller disccount code
             seller_id = None
-            if len(order['note_attributes']):
+            if len(order['note_attributes'])==1:
                 seller_id = db.session.query(Seller.id).filter_by(code=order['note_attributes'][0]['value']).first() \
                     if db.session.query(Seller.id).filter_by(code=order['note_attributes'][0]['value']).first() else None
-            if seller_id is None:
+            elif len(order['note_attributes'])==2:
+                seller_id = db.session.query(Seller.id).filter_by(code=order['note_attributes'][1]['value']).first() \
+                    if db.session.query(Seller.id).filter_by(code=order['note_attributes'][1]['value']).first() else None
+            else: # seller_id is None:
                 seller_id = 1
 
             print('Processing order {0}...'.format(order['id']))
