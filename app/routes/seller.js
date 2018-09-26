@@ -12,10 +12,10 @@ export default Route.extend(AuthenticatedRouteMixin, {
         let record = this.get('session').data.authenticated.user;
         let seller_record = this.get('session').data.authenticated.seller;
 
-        mixpanel.identify(this.get('session').data.authenticated.user.id);
+        mixpanel.identify(record.id);
 
         // Temporal position for the people set
-        mixpanel.people.set({
+        mixpanel.people.set_once({
             "$distinct_id": record.id,
             "$email": record.email,    // only special properties need the $
             

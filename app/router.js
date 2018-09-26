@@ -25,7 +25,7 @@ Router.map(function() {
   this.route('task', { path: '/tasks/:task_id' });
   this.route('contents');
   this.route('content', { path: '/contents/:content_id' });
-  // this.route('notification');
+  this.route('notification', { path: '/config' });
   // this.route('referral');
   // this.route('products');
   // this.route('product', { path: '/products/:product_id' });
