@@ -23,4 +23,4 @@ class User(db.Model, BaseColumnsMixin, DictMixin):
         return pwd_context.verify(password, self.password_hash)
 
     def __str__(self):
-        return str(self.id) + '. ' + self.first_name
+        return str(self.id) + '. ' + self.first_name + ' ' + self.last_name
