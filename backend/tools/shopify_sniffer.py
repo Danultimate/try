@@ -169,7 +169,7 @@ def create_orders(orders):
             seller_id = 1
             for attribute in order['note_attributes']:
                 if attribute['name'] == "Código de tu vendedora":
-                    seller = Seller.query.filter_by(code=attribute['value']).first()
+                    seller = Seller.query.filter_by(code=attribute['value'].lower()).first()
                     if seller:
                         seller_id = seller.id                    
                     break
