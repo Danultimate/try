@@ -29,6 +29,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
         });
 
         this.store.findAll('user');
+        this.store.findAll('referral');
         this.store.findAll('order');
         this.store.findAll('task');
         return this.store.findAll('seller');

@@ -16,7 +16,7 @@
     </div>
     <div class="dr-ventas">
         <h2>${{round (sub model.firstObject.total model.firstObject.total_shipping model.firstObject.total_tax)}}</h2>
-        <p>Ventas de este mes</p>
+        <p>Ventas de este mes <small>(sin IVA)</small></p>
         <div class="dr-ganancias">
             <div class="row">
                 <div class="col-6 text-center">
@@ -26,6 +26,10 @@
                     <span>Ganacias del mes</span>
                 </div>
                 <div class="col-6 text-center">
+                    {{!-- <h6>
+                        ${{round (mult model.firstObject.non_paid_referrals.length 20000)}}
+                    </h6>
+                    <span>Ganancias por referidos</span> --}}
                     <h6>
                         🚀
                     </h6>

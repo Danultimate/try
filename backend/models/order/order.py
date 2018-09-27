@@ -15,6 +15,7 @@ class Order(db.Model, BaseColumnsMixin, DictMixin):
     total = db.Column(db.Numeric(10, 2), nullable=False)
     tax = db.Column(db.Numeric(10, 2), nullable=False)
     shipping = db.Column(db.Numeric(10, 2), nullable=False)
+    paid = db.Column(db.Boolean, default=False)
 
     seller = db.relationship('Seller')
     client = db.relationship('Client')

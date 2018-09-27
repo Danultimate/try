@@ -50,6 +50,7 @@ admin.add_view(sqla.ModelView(Client, db.session))
 admin.add_view(sqla.ModelView(Content, db.session))
 admin.add_view(sqla.ModelView(Task, db.session))
 admin.add_view(sqla.ModelView(Order, db.session))
+admin.add_view(sqla.ModelView(Referral, db.session))
 
 
 # if os.environ['SETTINGS'] != 'config.Development':
