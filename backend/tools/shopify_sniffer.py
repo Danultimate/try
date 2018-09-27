@@ -34,7 +34,9 @@ def connect_to_shopify():
 
 def order_exists(order_number):
     orders = db.session.query(Order).filter_by(order_number=order_number).all()
-    if len(orders) > 1: print('There are {0} duplicated orders for order_number: {1}'.format(len(orders), order_number))
+    if len(orders) > 1:
+        print('There are {0} duplicated orders for order_number: {1}'.format(
+            len(orders), order_number))
     print('Order alredy exists...' if len(orders) else 'Order not exists...')
     return True if len(orders) else False
 
@@ -76,9 +78,9 @@ def create_client(user_id, seller_id):
 
 def norm_cellphone(phone):
     if phone.startswith('+57'):
-        return phone[3:].replace(' ','')
+        return phone[3:].replace(' ', '')
     else:
-        return phone.replace(' ','')
+        return phone.replace(' ', '')
 
 
 def get_max_id_from_file():
@@ -169,9 +171,10 @@ def create_orders(orders):
             seller_id = 1
             for attribute in order['note_attributes']:
                 if attribute['name'] == "Código de tu vendedora":
-                    seller = Seller.query.filter_by(code=attribute['value'].lower()).first()
+                    seller = Seller.query.filter_by(
+                        code=attribute['value'].lower()).first()
                     if seller:
-                        seller_id = seller.id                    
+                        seller_id = seller.id
                     break
 
             print('Processing order {0}...'.format(order['id']))
@@ -181,7 +184,7 @@ def create_orders(orders):
                 c = create_client(u.id, seller_id)
             else:
                 c = db.session.query(Client).filter_by(user_id=user_client_id).first() \
-                        if db.session.query(Client).filter_by(user_id=user_client_id).first() else None
+                    if db.session.query(Client).filter_by(user_id=user_client_id).first() else None
                 if c is None:
                     c = create_client(u.id, seller_id)
             client_id = c.id
@@ -199,7 +202,8 @@ def create_orders(orders):
                 )
                 db.session.add(order_)
                 db.session.commit()
-                print('-------------------------- Begin Order --------------------------')
+                print(
+                    '-------------------------- Begin Order --------------------------')
                 print('Order Created. ID: {0}, NAME: {1}, TOTAL: {2}, EMAIL: {3}, PHONE: {4}'
                       .format(order['id'], order['name'], order['total_price'], order['customer']['email'], order['customer']['default_address']['phone']))
                 print('-------------------------- End Order --------------------------')
@@ -208,6 +212,13 @@ def create_orders(orders):
                 print('Is not possible to save the Orders into database')
                 save_trouble_order(order['id'], str(e))
                 print(e)
+            else:
+                # Order sucessful -> verify if first order and referral system
+                if seller_id != 1 and len(Order.query.filter_by(seller_id=seller_id)) == 1:
+                    if seller.referred_by is not None:
+                        print('First order and part of referral system')
+                        referral = Referral(referred_by_id=seller.referred_by_id, 
+                                            referred_id=seller.id)
 
             create_new_max_id_file(order['id'])
     else:

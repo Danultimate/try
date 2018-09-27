@@ -18,9 +18,12 @@ class Seller(db.Model, BaseColumnsMixin, DictMixin):
     user_id = db.Column(db.ForeignKey(
         'user.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
     goal = db.Column(db.Numeric(10, 2))
-    commission = db.Column(db.Numeric(2, 2), default=0.15)  # , nullable=False)
+    commission = db.Column(db.Numeric(2, 2), default=0.3)  # , nullable=False)
+    referred_by_id = db.Column(db.ForeignKey(
+        'seller.id', deferrable=True, initially='DEFERRED'), nullable=True, index=True)
 
     user = db.relationship('User')
+    referred_by = db.relationship('Seller')
 
     def __str__(self):
         return str(self.id) + '. ' + self.user.first_name + ' ' + self.user.last_name
