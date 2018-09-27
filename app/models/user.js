@@ -11,4 +11,5 @@ export default DS.Model.extend({
    password: attr('string'),
    email: attr('string'),
    birth: attr('string'),
+   device_token: attr('string'),
 });

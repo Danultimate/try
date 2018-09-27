@@ -18,11 +18,21 @@ export default Controller.extend({
 
   actions: {
     updateToken() {
-      console.log('entro al test action')
-      console.log(this.get('token'))
-      let record = this.get('session').data.authenticated.user;
-      mixpanel.identify(record.id)
-      mixpanel.people.append({"$android_devices": this.get('token')});
+      console.log('entro al test action');
+      let token = this.get('token');
+      console.log(token);
+      this.store.findRecord('user', this.get('session').data.authenticated.user.id)
+      .then(function(record) {
+        console.log(record);
+        mixpanel.identify(record.id);
+        mixpanel.people.append({"$android_devices": token});
+        record.set('device_token', token);
+        record.save().catch((reason) => {
+            console.log('Error @user.updateToken: '+ reason)
+            this.set('isError', true);
+        });
+      });
+      
     },
   }
 });
