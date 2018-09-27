@@ -1,14 +1,75 @@
-<form>
-  <div class="form-group">
-    <label for="formGroupExampleInput">Nombre</label>
-    {{input type="text" class="form-control" value=first_name}}
-    
-    <label for="formGroupExampleInput">Apellido</label>
-    {{input type="text" class="form-control" value=last_name}}
+<style>
+  .vertical-center {
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
 
-    <label for="formGroupExampleInput">Example label</label>
-    {{input type="number" class="form-control" value=cellphone}}
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+.dr-comparbtn {
+  width: 100%;
+  padding: 20px 20px;
+  font-size: 18px;
+  background-color: #b7237e;
+  border-radius: 50px;
+  margin: 5px 0;
+  display: block;
+  border: none;
+  color: #fff;
+  text-transform: uppercase;
+}
+</style>
+
+<section class="vertical-center">
+    <nav class="navbar navbar-light fixed-top" style="background: transparent;">
+        <a class="dr-atras" onclick="goBack()"><i class="material-icons">arrow_back</i></a>
+        <a data-toggle="modal" data-target="#myModal"><i class="material-icons" style="color: #b7237e">info_outline</i></a>
+    </nav>
+
+  <div class="container">
+      <img class="img-fluid" src="{{rootURL}}assets/images/descubre amigas2.png">
+      
+      <div class="container">
+        {{!-- <div class="input-group">
+          <p class="form-control">sore-123</p>
+          <div class="input-group-append">
+            <span class="input-group-text" onclick="copyText()">Copiar</span>
+          </div>
+        </div>
+        <br>  --}}
+        <div class="input-group">
+          <p class="form-control" id="seller_code">{{session.data.authenticated.seller.code}}</p>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" onclick="copyText()">Copiar</button>
+          </div>
+        </div>
+
+        <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-body">
+                     <p>Lorem ipsum dolor sit amet leo auriassa primis platea metus t blandit pellentesque erat mollis dui proin quisque primis, laoreet non nisl feugiat viverra platea cras lectus torquent tellus, vivamus dignissim et sociosqu nullam lacinia nunc potenti class.</p>
+
+                    <p>Luctus in ultrices nam narerit integer sapien interdum, arcu pellentesque nisi diam hac fringilla mus. Vestibulum tincidunt eget conubia at lobortis cubilia non, platea faucibus quam laoreet mollis ac vivamus fusce, accumsan metus inceptos mauris viverra primis. Montes neque in ornare laoreet mollis egestas senectus eu, sagittis praesent rutrum faucibus hac metus sociosqu sodales, dapibus turpis habitant cum vitae sem potenti.</p>
+                  </div>
+              </div>
+          </div>
+        </div>
+
+      </div>
+      
+      <small>Tu código</small>
+      <br><br>
+      <button class="dr-comparbtn" onclick={{action 'share'}}>Compartir</button>
   </div>
-</form>
+</section>
 
-<button {{action 'save'}}>Enviar</button>
+<script>
+  function copyText() {
+  var copyText = $("#seller_code");
+  copyText.select();
+  document.execCommand("copy");  
+  alert("Copied the text: " + copyText.text());
+}
+</script>

@@ -26,7 +26,7 @@ Router.map(function() {
   this.route('contents');
   this.route('content', { path: '/contents/:content_id' });
   this.route('notification', { path: '/config' });
-  // this.route('referral');
+  this.route('referral');
   // this.route('products');
   // this.route('product', { path: '/products/:product_id' });
 });

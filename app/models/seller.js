@@ -16,7 +16,7 @@ export default DS.Model.extend({
     tax_per_order:  mapBy('orders', 'tax'),
     shipping_per_order:  mapBy('orders', 'shipping'),
 
-    total: sum('total_per_order') ,
+    total: sum('total_per_order'),
     total_shipping: sum('shipping_per_order'),
     total_tax: sum('tax_per_order'),
 
