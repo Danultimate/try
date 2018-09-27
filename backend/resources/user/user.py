@@ -35,3 +35,15 @@ class UserMethodView(MethodView):
         db.session.add(user)
         db.session.commit()
         return jsonify({'users': [user.to_dict()]})
+
+    @authorized
+    def put(self, user_id=None):
+        if user_id is not None:
+            dataDict = request.get_json()['user']
+            if isinstance(dataDict.get('device_token', None), str):
+                user = User.query.get_or_404(user_id)
+                user.device_token = dataDict['device_token']
+                db.session.commit()
+                return UserMethodView.get(user_id)
+
+        abort(401)

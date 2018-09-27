@@ -11,6 +11,7 @@ class User(db.Model, BaseColumnsMixin, DictMixin):
     identification = db.Column(db.BigInteger, unique=True, index=True)
     cellphone = db.Column(db.BigInteger, nullable=False,
                           unique=True, index=True)
+    device_token = db.Column(db.String, nullable=True)
     password_hash = db.Column(db.String(64), info={'hidden': True})
     picture = db.Column(db.String)
     email = db.Column(db.String, index=True)
