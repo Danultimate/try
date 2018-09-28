@@ -20,9 +20,7 @@ class ReferralMethodView(MethodView):
 
     @authorized
     def get(self, referral_id=None):
-        ref_to_itself = Referral.query.filter_by(referred_id=SecurityUtils.get_current_seller().id).all()
-        ref_by_itself = Referral.query.filter_by(referred_by_id=SecurityUtils.get_current_seller().id).all()
-        referrals = ref_to_itself + ref_by_itself
+        referrals = Referral.query.filter_by(referred_by_id=SecurityUtils.get_current_seller().id).all()
         return jsonify({
                         'referrals': [referral.to_dict() for referral in referrals]
                     })

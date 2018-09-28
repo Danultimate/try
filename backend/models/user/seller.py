@@ -23,7 +23,7 @@ class Seller(db.Model, BaseColumnsMixin, DictMixin):
         'seller.id', deferrable=True, initially='DEFERRED'), nullable=True, index=True)
 
     user = db.relationship('User')
-    referred_by = db.relationship('Seller')
+    referred_by = db.relationship('Seller', foreign_keys=[referred_by_id])
 
     def __str__(self):
         return str(self.id) + '. ' + self.user.first_name + ' ' + self.user.last_name

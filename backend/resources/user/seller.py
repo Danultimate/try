@@ -46,8 +46,9 @@ class SellerMethodView(MethodView):
         db.session.add(seller)
         db.session.commit()
 
+        # TODO: check shopifyClient. We no longer need to save the code in shopify.
         # After commit, let's create the Seller's code into Shopify's discount codes:
-        shopifyClient.create_discount_code(code=seller.code)
+        # shopifyClient.create_discount_code(code=seller.code)
 
         db.session.add(Task(type_of_task="share", seller_id=seller.id,
                             task_description="Haz una orden de prueba con tu codigo de descuento",
