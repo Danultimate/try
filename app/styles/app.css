@@ -1,5 +1,8 @@
 body > .ember-view {
   height: 100%;
+  max-width: 500px !important;
+  margin-right: auto;
+  margin-left: auto;
   /* position: fixed; */
 }
 .div{
