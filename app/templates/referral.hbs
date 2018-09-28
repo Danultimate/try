@@ -19,6 +19,13 @@
   color: #fff;
   text-transform: uppercase;
 }
+.form-control {
+  color: #93306b; 
+  font-size: x-large; 
+  font-weight: bolder;
+  text-align: center; 
+  background: #fff !important;
+}
 </style>
 
 <section class="vertical-center">
@@ -39,7 +46,7 @@
         </div>
         <br>  --}}
         <div class="input-group">
-          <p class="form-control" id="seller_code" style="color: #93306b; font-size: larger;">{{session.data.authenticated.seller.code}}</p>
+          <input class="form-control" id="seller_code" value="{{session.data.authenticated.seller.code}}" readonly>
           <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="button" onclick="copyText()">Copiar</button>
           </div>
@@ -70,6 +77,6 @@
   var copyText = $("#seller_code");
   copyText.select();
   document.execCommand("copy");  
-  alert("Copied the text: " + copyText.text());
+  //alert("Copied the text: " + copyText.text());
 }
 </script>
