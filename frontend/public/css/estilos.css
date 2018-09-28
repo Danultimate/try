@@ -251,6 +251,9 @@ body {
 .dr-contenido3 .bg-white {
   background-color: #fff;
   box-shadow: 0 1px 1px rgba(0,0,0,0.6);
+  max-width: 500px;
+  margin-right: auto;
+  margin-left: auto;
 }
 .dr-contenido2 .logo,
 .dr-contenido3 .logo {
@@ -293,7 +296,7 @@ body {
   counter-reset: item;
   list-style: none;
   margin: 1em auto;
-  max-width: 700px;
+  max-width: 500px;
   padding: 10px;
   width: 100%;
 }
