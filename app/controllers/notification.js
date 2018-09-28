@@ -27,12 +27,15 @@ export default Controller.extend({
         mixpanel.identify(record.id);
         mixpanel.people.append({"$android_devices": token});
         record.set('device_token', token);
-        record.save().catch((reason) => {
+        record.save().then(() => {
+          window.location = '/';
+        })
+        .catch((reason) => {
             console.log('Error @user.updateToken: '+ reason)
             this.set('isError', true);
         });
+       
       });
-      
     },
   }
 });
