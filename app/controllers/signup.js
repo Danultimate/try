@@ -34,6 +34,7 @@ export default Controller.extend({
         let seller_record = this.store.createRecord('seller', {
           user: record,
           ds_experience: this.get('ds_experience'),
+          referred_by_code: this.get('seller_code'),
           commission: 0.3,
         });
         seller_record.save().then(() => {

@@ -8,10 +8,12 @@ export default DS.Model.extend({
     commission: attr('number'),
     code: attr('string'),
     user: belongsTo('user'),
+    referred_by_code: attr('string'),
     orders: hasMany('order'),
     clients: hasMany('client'),
     tasks: hasMany('task'),
     notifications: hasMany('notification'),
+    referrals: hasMany('referral'),
     
     total_per_order:  mapBy('orders', 'total'),
     tax_per_order:  mapBy('orders', 'tax'),
@@ -26,25 +28,7 @@ export default DS.Model.extend({
 
     ordersActive: filterBy('orders', 'status', 'ordered'),
     ordersDitribution: filterBy('orders', 'status', 'distribution'),
-    
-    /*
-    init() {
-        this._super();
-        schedule("afterRender",this,function() {
-          this.send("get_referrals");
-        });
-      },
 
-    referrals: null,
-    non_paid_referrals: filterBy('referrals', 'paid', false), */
+    non_paid_referrals: filterBy('referrals', 'paid', false),
 
-    actions: {
-        get_referrals() {
-            this.store.findAll('referral')
-            .then(function(records) {
-                console.log(records);
-                //this.set('referrals', records)
-            });
-        }
-    }
 });

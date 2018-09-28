@@ -26,10 +26,11 @@
   text-align: center; 
   background: #fff !important;
 }
+
 </style>
 
 <section class="vertical-center">
-    <nav class="navbar navbar-light fixed-top" style="background: transparent;">
+    <nav class="navbar navbar-light fixed-top" style="background: transparent; max-width: 500px; margin-right: auto; margin-left: auto;">
         <a class="dr-atras" onclick="goBack()"><i class="material-icons">arrow_back</i></a>
         <a data-toggle="modal" data-target="#myModal"><i class="material-icons" style="color: #b7237e">info_outline</i></a>
     </nav>
@@ -38,13 +39,7 @@
       <img class="img-fluid" src="{{rootURL}}assets/images/descubre amigas2.png">
       
       <div class="container">
-        {{!-- <div class="input-group">
-          <p class="form-control">sore-123</p>
-          <div class="input-group-append">
-            <span class="input-group-text" onclick="copyText()">Copiar</span>
-          </div>
-        </div>
-        <br>  --}}
+        
         <div class="input-group">
           <input class="form-control" id="seller_code" value="{{session.data.authenticated.seller.code}}" readonly>
           <div class="input-group-append">
@@ -77,6 +72,7 @@
   var copyText = $("#seller_code");
   copyText.select();
   document.execCommand("copy");  
+  mixpanel.track('copy code from referral');
   //alert("Copied the text: " + copyText.text());
 }
 </script>
