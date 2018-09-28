@@ -32,8 +32,17 @@ export default Controller.extend({
           
             window.mixpanel.track('share code from referral');
           if (!("share" in navigator)) {
-              Android.share(text)
-              return;
+            if (typeof Android !== 'undefined'){
+                Android.share(text)
+                return;
+            }
+            else {
+                text = encodeURIComponent(text);
+                window.location = 'whatsapp://send?text='+text;
+                return;
+            }
+
+              
           };
 
           navigator.share({

@@ -11,14 +11,22 @@ export default Controller.extend({
                                 'content_description': content.description
                                 });
             if (!("share" in navigator)) {
-                console.log('este es el print ' + content.url + ' '+ content.description);
-                if (content.media_type == "imagen") {
-                    Android.share(content.description, content.url);
+
+                if (typeof Android !== 'undefined'){
+                    console.log('este es el print ' + content.url + ' '+ content.description);
+                    if (content.media_type == "imagen") {
+                        Android.share(content.description, content.url);
+                    }
+                    else {
+                        Android.share(content.description + " " + content.url);
+                    }
+                    return;
                 }
                 else {
-                    Android.share(content.description + " " + content.url);
+                    let text = encodeURIComponent(content.description + " " + content.url);
+                    window.location = 'whatsapp://send?text='+text;
+                    return;
                 }
-                return;
                 
             };
     
