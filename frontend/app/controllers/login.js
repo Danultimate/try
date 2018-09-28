@@ -29,7 +29,12 @@ export default Controller.extend({
         console.log(this.get('cellphone'), this.get('password'))
         this.get('session').authenticate('authenticator:authenticator',
           this.get('cellphone'), this.get('password')).then(()=>{
-            window.location = '/'
+            if (typeof Android !== 'undefined'){
+              window.location = 'config://get_token';
+            }
+            else {
+              window.location = '/';
+            }
         }).catch((reason) => {
           console.log(reason)
           this.set('isError', reason);
