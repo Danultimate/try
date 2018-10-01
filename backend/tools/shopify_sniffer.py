@@ -219,6 +219,8 @@ def create_orders(orders):
                         print('First order and part of referral system')
                         referral = Referral(referred_by_id=seller.referred_by_id, 
                                             referred_id=seller.id)
+                        db.session.add(referral)
+                        db.session.commit()
 
             create_new_max_id_file(order['id'])
     else:
