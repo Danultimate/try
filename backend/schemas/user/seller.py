@@ -5,7 +5,7 @@ from backend.models import Seller
 class Referred_by(fields.Field):
     def _deserialize(self, value, attr, data):
         if not value or not isinstance(value, str):
-            self.fail('invalid')
+            return None
         seller_referent = Seller.query.filter_by(code=value.lower()).all()
         if len(seller_referent) == 0:
             return 1  # Default when code does not exist
