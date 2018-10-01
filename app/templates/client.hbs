@@ -59,7 +59,7 @@
                                     {{order.order_number}}
                                 </div>
                                 <div class="col-2">
-                                    {{to-day-month order.date}}
+                                    {{format-date order.date "DD[/]MM"}}
                                 </div>
                                 <div class="col-3">
                                     <span>${{sub order.total order.shipping}}</span>
