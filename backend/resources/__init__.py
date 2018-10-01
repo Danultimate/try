@@ -10,6 +10,7 @@ from backend.resources.interactions import *
 
 __all__ = [
 
+    'LoginAdmin',
     'UserLoginMethodView',
     'UserLogoutMethodView',
 

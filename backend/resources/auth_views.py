@@ -33,6 +33,24 @@ class UserLoginMethodView(MethodView):
         abort(401)
 
 
+class LoginAdmin(MethodView):
+    # noinspection PyMethodMayBeStatic
+    def post(self):
+        body = flaskparser.parse(
+            user_login_method_view, request, locations=['json', 'form'])
+        user = User.query.filter(User.cellphone == body['username']).first()
+        seller = Seller.query.filter_by(user_id=user.id).first()
+
+        if user is not None and seller is not None:
+            return jsonify(
+                access_token=itsdangerous.sign(
+                    {"user_id": user.id, "name": user.first_name}).decode('ascii'),
+                user=user.to_dict(),
+                seller=seller.to_dict(),
+            )
+
+        abort(401)
+
 class UserLogoutMethodView(MethodView):
 
     def post(self):

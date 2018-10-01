@@ -33,9 +33,16 @@ class ClientMethodView(MethodView):
                        })
 
     def post(self):
-        dataDict = flaskparser(client_method_view_post_body, request)
-
-        client = Client.from_dict(dataDict)
-        db.session.add(client)
-        db.session.commit()
-        #TODO: return 200?
+        dataDict = flaskparser.parse(
+            client_method_view_post_body, request, locations=['json', 'form'])
+        client = Client()
+        try:
+            client.from_dict(dataDict['client'])
+            db.session.add(client)
+            db.session.commit()
+        except:
+            db.session.delete(client)
+            db.session.delete(User.query.get_or_404(dataDict['client']['user_id']))
+            db.session.commit()
+        else:
+            return jsonify({'clients': [client.to_dict()]})

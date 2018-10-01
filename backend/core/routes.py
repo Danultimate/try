@@ -37,3 +37,5 @@ register_route(TaskMethodView, 'task_model', '/tasks', pk='task_id')
 register_route(NotificationMethodView, 'notification_model', '/notifications', pk='notification_id')
 
 register_route(InteractionMethodView, 'interaction_model', '/interactions', pk='interaction_id')
+
+register_route(LoginAdmin, 'login_admin', '/login_admin')

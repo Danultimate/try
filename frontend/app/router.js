@@ -29,6 +29,8 @@ Router.map(function() {
   this.route('referral');
   // this.route('products');
   // this.route('product', { path: '/products/:product_id' });
+  this.route('new_client');
+  this.route('login_admin');
 });
 
 export default Router;

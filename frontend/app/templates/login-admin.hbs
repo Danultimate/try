@@ -1,0 +1,24 @@
+{{#if isError}}
+  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{isError}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+{{/if}}
+
+<form>
+<div class="input-group mb-2">
+    <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1"><i class="material-icons">phonelink_ring</i></span>
+    </div>
+    {{input type="number" class="form-control" value=cellphone required=true placeholder="Ingresa tu número celular" min="3000000000" max="3999999999"}}
+</div>
+
+<div class="col-auto">
+    <a {{action 'authenticate'}}>
+        Ingresar
+    </a>
+</div>
+
+</form>
