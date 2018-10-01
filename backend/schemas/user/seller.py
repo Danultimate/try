@@ -8,7 +8,7 @@ class Referred_by(fields.Field):
             self.fail('invalid')
         seller_referent = Seller.query.filter_by(code=value.lower()).all()
         if len(seller_referent) == 0:
-            self.fail('invalid')
+            return 1  # Default when code does not exist
         return seller_referent[0].id
 
 
