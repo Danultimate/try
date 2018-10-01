@@ -30,7 +30,8 @@ export default Controller.extend({
         this.get('session').authenticate('authenticator:authenticatoradmin',
           this.get('cellphone'), this.get('password')).then(()=>{
             if (typeof Android !== 'undefined'){
-              window.location = 'config://get_token';
+              //window.location = 'config://get_token';
+              window.location = '/';
             }
             else {
               window.location = '/';

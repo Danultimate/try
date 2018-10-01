@@ -1,5 +1,6 @@
 from backend import db
 from backend.models import BaseColumnsMixin, DictMixin
+from flask_admin.contrib.sqla import ModelView
 
 
 class Segment(db.Model, BaseColumnsMixin, DictMixin):
