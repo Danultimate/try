@@ -214,7 +214,7 @@ def create_orders(orders):
                 print(e)
             else:
                 # Order sucessful -> verify if first order and referral system
-                if seller_id != 1 and len(Order.query.filter_by(seller_id=seller_id)) == 1:
+                if seller_id != 1 and len(Order.query.filter_by(seller_id=seller_id).all()) == 1:
                     if seller.referred_by is not None:
                         print('First order and part of referral system')
                         referral = Referral(referred_by_id=seller.referred_by_id, 

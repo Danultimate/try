@@ -46,6 +46,8 @@ class SellerMethodView(MethodView):
         db.session.add(seller)
         db.session.commit()
 
+        #TODO: eliminar el usuario si hay error en el commit
+
         # TODO: check shopifyClient. We no longer need to save the code in shopify.
         # After commit, let's create the Seller's code into Shopify's discount codes:
         # shopifyClient.create_discount_code(code=seller.code)
