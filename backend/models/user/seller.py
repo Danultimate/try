@@ -11,6 +11,7 @@ class Segment(db.Model, BaseColumnsMixin, DictMixin):
 class Seller(db.Model, BaseColumnsMixin, DictMixin):
     __tablename__ = 'seller'
 
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
     code = db.Column(db.String())
     time_duing_DS = db.Column(db.Interval)  # , nullable=False)
     segment_id = db.Column(db.ForeignKey(
@@ -23,7 +24,7 @@ class Seller(db.Model, BaseColumnsMixin, DictMixin):
         'seller.id', deferrable=True, initially='DEFERRED'), nullable=True, index=True)
 
     user = db.relationship('User')
-    referred_by = db.relationship('Seller', foreign_keys=[referred_by_id])
+    referred_by = db.relationship('Seller', remote_side=[id])
 
     def __str__(self):
         return str(self.id) + '. ' + self.user.first_name + ' ' + self.user.last_name
