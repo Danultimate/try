@@ -28,7 +28,7 @@ export default Controller.extend({
   actions: {
         share() {
             let code = this.get('session').data.authenticated.seller.code
-            let text = ":gorro_de_fiesta:Te invito a conocer Descubre - la nueva forma de vender productos de belleza:lápiz_labial:. 30% de comisión, sin orden mínima y Descubre entrega y cobra :camión:. Regístrate en la app :iphone: (http://bit.ly/appdescubre) usando mi código "+ code +" y obten 20 mil :dinero_con_alas: en bonos de regalo :gorro_de_fiesta:"
+            let text = "🎉Te invito a conocer Descubre - la nueva forma de vender productos de belleza💄. 30% de comisión, sin orden mínima y Descubre entrega y cobra 🚚. Regístrate en la app :iphone: (http://bit.ly/appdescubre) usando mi código "+ code +" y obten 20 mil 💸 en bonos de regalo 🎉"
           
             window.mixpanel.track('share code from referral');
           if (!("share" in navigator)) {
