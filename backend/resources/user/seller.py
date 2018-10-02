@@ -52,8 +52,6 @@ class SellerMethodView(MethodView):
 
         #TODO: eliminar el usuario si hay error en el commit
 
-        
-
         db.session.add(Task(type_of_task="share", seller_id=seller.id,
                             task_description="Haz una orden de prueba con tu codigo de descuento",
                             medium_id=1,
