@@ -3,13 +3,6 @@ import { filterBy } from '@ember/object/computed';
 
 export default Controller.extend({
 
-    init() {
-        this._super();
-        schedule("afterRender",this,function() {
-            window.mixpanel.track('watch tasks');
-        });
-      },
-
     actions: {
         share(content) {
             window.mixpanel.track('share from content', {
