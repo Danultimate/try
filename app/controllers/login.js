@@ -36,8 +36,8 @@ export default Controller.extend({
               window.location = '/';
             }
         }).catch((reason) => {
-          console.log(reason)
-          this.set('isError', reason);
+          console.log("Reason why cant login",reason)
+          this.set('isError', "Datos ingresados incorrectos");
         });
       }
     }
