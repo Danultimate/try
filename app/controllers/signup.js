@@ -59,6 +59,7 @@ export default Controller.extend({
       }).catch((reason) => {
         // Error saving user
         this.set('isError', true);
+        
       });
     },
   }
