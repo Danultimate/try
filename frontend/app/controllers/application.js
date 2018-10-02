@@ -4,7 +4,6 @@ import { inject as service } from '@ember/service';
 export default Controller.extend({
 
     session: service('session'),
-    
 
     actions: {
         invalidateSession() {
