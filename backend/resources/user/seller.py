@@ -36,6 +36,7 @@ class SellerMethodView(MethodView):
         })
 
     def post(self):
+        print('el dict from seller post', request.get_json())
         dataDict = flaskparser.parse(
             seller_method_view_post_body, request, locations=['json', 'form'])
         print('el dataDICTTTTTTTT', dataDict)
