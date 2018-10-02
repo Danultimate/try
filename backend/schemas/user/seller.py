@@ -4,7 +4,6 @@ from backend.models import Seller
 
 class Referred_by(fields.Field):
     def _deserialize(self, value, attr, data):
-        print("hey esta deserializando: ", value)
         if not value or not isinstance(value, str):
             return None
         seller_referent = Seller.query.filter_by(code=value.lower()).all()

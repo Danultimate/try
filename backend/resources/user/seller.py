@@ -41,8 +41,9 @@ class SellerMethodView(MethodView):
             seller_method_view_post_body, request, locations=['json', 'form'])
         print('el dataDICTTTTTTTT', dataDict)
         seller = Seller.query.filter_by(user_id=dataDict['seller']['user_id']).first()
-        if seller is None:
-            seller = Seller()
+        if seller is not None:
+            return jsonify({'sellers': [seller.to_dict()]})
+        seller = Seller()
         seller.from_dict(dataDict['seller'])
         user = User.query.get_or_404(seller.user_id)
         seller.code = generate_unique_code(user.first_name, user.id)
@@ -51,9 +52,7 @@ class SellerMethodView(MethodView):
 
         #TODO: eliminar el usuario si hay error en el commit
 
-        # TODO: check shopifyClient. We no longer need to save the code in shopify.
-        # After commit, let's create the Seller's code into Shopify's discount codes:
-        # shopifyClient.create_discount_code(code=seller.code)
+        
 
         db.session.add(Task(type_of_task="share", seller_id=seller.id,
                             task_description="Haz una orden de prueba con tu codigo de descuento",
