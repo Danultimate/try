@@ -40,7 +40,9 @@ class SellerMethodView(MethodView):
         dataDict = flaskparser.parse(
             seller_method_view_post_body, request, locations=['json', 'form'])
         print('el dataDICTTTTTTTT', dataDict)
-        seller = Seller()
+        seller = Seller.query.filter_by(user_id=dataDict['seller']['user_id']).first()
+        if seller is None:
+            seller = Seller()
         seller.from_dict(dataDict['seller'])
         user = User.query.get_or_404(seller.user_id)
         seller.code = generate_unique_code(user.first_name, user.id)

@@ -30,7 +30,9 @@ class UserMethodView(MethodView):
         dataDict = flaskparser.parse(
             user_method_view_post_body, request, locations=['json', 'form'])
 
-        user = User()
+        user = User.query.filter_by(cellphone=dataDict['user']['cellphone']).first()
+        if user is None:
+            user = User()
         user.from_dict(dataDict['user'])
         db.session.add(user)
         db.session.commit()
