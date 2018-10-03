@@ -51,6 +51,8 @@ export default Controller.extend({
               "last_name": record.first_name,
               "seller_code": seller_record.code,
           });
+          window.mixpanel.identify(record.id);
+          window.mixpanel.track('new user');
           this.transitionToRoute('login')
         }).catch((reason) => {
           // Error saving seller

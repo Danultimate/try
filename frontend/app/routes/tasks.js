@@ -4,6 +4,7 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Route.extend(AuthenticatedRouteMixin, {
     model(){
-    return this.store.findAll('task');
+      window.mixpanel.track('watch tasks');
+      return this.store.findAll('task');
   }
 });
