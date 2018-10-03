@@ -13,6 +13,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
         let seller_record = this.get('session').data.authenticated.seller;
 
         mixpanel.identify(record.id);
+        mixpanel.track('watch dashboard');
 
         // Temporal position for the people set
         mixpanel.people.set_once({

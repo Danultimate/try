@@ -4,7 +4,7 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Route.extend(AuthenticatedRouteMixin, {
   model(){
-    // use findAll since we know the records are already in the store
+    mixpanel.track('watch clients');
     return this.store.findAll('client');
   }
 });

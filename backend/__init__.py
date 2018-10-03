@@ -16,11 +16,11 @@ from flask_admin.contrib.sqla import filters
 class CustomJSONEncoder(JSONEncoder):
     def default(self, obj):
         try:
-            if isinstance(obj, datetime.timedelta):
+            if isinstance(obj, datetime.datetime):
                 return obj.__str__()
             iterable = iter(obj)
-        except TypeError:
-            print('Error at CustomJSONEncoder')
+        except Exception as e:
+            print('Error at CustomJSONEncoder: ', e)
         else:
             return list(iterable)
         return JSONEncoder.default(self, obj)
