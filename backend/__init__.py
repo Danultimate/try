@@ -10,7 +10,7 @@ from flask.json import JSONEncoder
 from flask_migrate import Migrate
 from flask_admin import Admin
 from flask_admin.contrib import sqla
-from flask_admin.contrib.sqla import filters, ModelView
+from flask_admin.contrib.sqla import filters
 
 
 class CustomJSONEncoder(JSONEncoder):
@@ -45,13 +45,16 @@ import backend.core
 from backend.models import *
 admin = Admin(app, name='descubre-admin', template_mode='bootstrap3')
 
-
-class SellerView(ModelView):
+class SellerView(sqla.ModelView):
     column_display_pk = True # optional, but I like to see the IDs in the list
     column_hide_backrefs = False
-    column_list = ('user', 'created_at', 'updated_at', 'code', 'commission', 'referred_by')
+    column_list = ('user', 'user.cellphone', 'referred_by', 'created_at', 'code', 'commission', 'updated_at')
 
-admin.add_view(sqla.ModelView(User, db.session))
+class UserView(sqla.ModelView):
+    #Device Token	Password Hash	Picture	Email	Birth
+    column_list = ('created_at', 'first_name', 'last_name', 'cellphone', 'device_token', 'password_hash', 'identification','email', 'birth', 'picture')
+
+admin.add_view(UserView(User, db.session))
 admin.add_view(sqla.ModelView(Client, db.session))
 admin.add_view(sqla.ModelView(Content, db.session))
 admin.add_view(sqla.ModelView(Task, db.session))
