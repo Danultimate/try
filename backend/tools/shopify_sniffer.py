@@ -82,6 +82,8 @@ def norm_cellphone(phone):
     else:
         return phone.replace(' ', '')
 
+def norm_code(seller_code):
+    return seller_code.lower().replace(' ', '')
 
 def get_max_id_from_file():
     print('-------------------------------------------------------')
@@ -172,7 +174,7 @@ def create_orders(orders):
             for attribute in order['note_attributes']:
                 if attribute['name'] == "Código de tu vendedora":
                     seller = Seller.query.filter_by(
-                        code=attribute['value'].lower()).first()
+                        code=norm_code(attribute['value'])).first()
                     if seller:
                         seller_id = seller.id
                     break
