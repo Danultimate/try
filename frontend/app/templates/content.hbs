@@ -21,6 +21,8 @@
                                 <img src="{{model.content.url}}" class="img-fluid">
                             {{else if (eq model.content.media_type "video")}}
                                 <iframe class="embed-responsive-item" src="{{model.content.url}}" allowfullscreen></iframe>
+                            {{else}}
+                                {{open-new-tab model.content.url}}
                             {{/if}}
                         </div>
                     </div>
@@ -76,6 +78,7 @@
         $('.modal:visible').each(centerModal);
     });
     $(".modal").on('hidden.bs.modal', function (e) {
-    $(".modal iframe").attr("src", $(".modal iframe").attr("src"));
-});
+        $(".modal iframe").attr("src", $(".modal iframe").attr("src"));
+    });
+
 </script>

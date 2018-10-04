@@ -18,14 +18,15 @@ class ClientMethodView(MethodView):
 
         if client_id is not None:
             client = Client.query.get_or_404(client_id)
-            if client.seller == SecurityUtils.get_current_seller():
-                products = ProductSuggestions.query.filter_by(client_id=client_id)
-                return jsonify({'clients': [client.to_dict()],
-                                'profiles': [client.profile.to_dict()],
-                                'products': [product.to_dict() for product in products],
-                                'orders': [order.to_dict() for order in client.orders]
-                                })
-            abort(401)
+            # FIXME: Make client-seller many to many
+            # if client.seller == SecurityUtils.get_current_seller():
+            products = ProductSuggestions.query.filter_by(client_id=client_id)
+            return jsonify({'clients': [client.to_dict()],
+                            'profiles': [client.profile.to_dict()],
+                            'products': [product.to_dict() for product in products],
+                            'orders': [order.to_dict() for order in client.orders]
+                            })
+            # abort(401)
 
         clients = Client.query.filter_by(seller=SecurityUtils.get_current_seller())
         return jsonify({

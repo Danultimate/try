@@ -23,6 +23,10 @@ module.exports = function(environment) {
       // when it is created
     }, 
 
+    SRI: {
+      enabled: false,
+    },
+
     'ember-simple-auth': {
       authenticationRoute: 'landing',
       routeAfterAuthentication: 'seller',
