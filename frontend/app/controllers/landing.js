@@ -5,12 +5,5 @@ import { schedule } from '@ember/runloop';
 export default Controller.extend({
     
     session: service('session'),
-
-    init() {
-        this._super();
-        schedule("afterRender",this,function() {
-            localStorage.clear();
-        });
-      },
     
 });

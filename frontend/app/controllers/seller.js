@@ -11,9 +11,6 @@ export default Controller.extend({
             this.get('session').invalidate();
             window.location = '/';
         },
-        error() {
-            console.log('entra aqui wii')
-        },
     }
     
 });

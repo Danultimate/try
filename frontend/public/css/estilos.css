@@ -241,7 +241,7 @@ body {
 .dr-contenido2,
 .dr-contenido3 {
   background-color: #f5f3f3;
-  height: 100%;
+  overflow: hidden;
 }
 .dr-contenido2 .navbar,
 .dr-contenido3 .navbar {
@@ -291,24 +291,25 @@ body {
 }
 .dr-contenido2 .dr-dash ul,
 .dr-contenido3 .dr-dash ul {
-  column-gap: 10px;
-  column-width: 150px;
-  counter-reset: item;
   list-style: none;
-  margin: 1em auto;
-  max-width: 500px;
-  padding: 10px;
   width: 100%;
+  padding: 0;
 }
-.dr-contenido2 .dr-dash ul li,
-.dr-contenido3 .dr-dash ul li {
-  align-items: stretch;
-  box-sizing: border-box;
-  column-break-inside: avoid;
-  counter-increment: item;
-  display: flex;
-  justify-content: center;
-  padding-bottom: 10px;
+.dr-contenido2 .dr-dash ul li, .dr-contenido3 .dr-dash ul li {
+  width: 50%;
+  float: left;
+  margin: 0 0 10px;
+  overflow: hidden;
+  max-height: 0;
+  padding: 4px;
+  padding-bottom: 45%;
+}
+.dr-contenido2 .dr-dash ul li:first-child, .dr-contenido3 .dr-dash ul li:first-child {
+  width:100%;
+  padding-bottom: 90%;
+}
+ul li .img-fluid {
+  width:100%;
 }
 .dr-contenido3 {
   background-color: #f5f3f3;

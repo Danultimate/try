@@ -17,7 +17,7 @@ class ContentMethodView(MethodView):
                 'profiles': [content.profile.to_dict()],
             })
 
-        contents = Content.query.all()
+        contents = Content.query.order_by(Content.created_at.desc()).all()
         output = {'contents': [], 'profiles': [], 'topics': []}
 
         for content in contents:
