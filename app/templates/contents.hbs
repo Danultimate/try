@@ -3,17 +3,17 @@
         {{#link-to 'seller' class="dr-atras"}}<i class="material-icons">arrow_back</i>{{/link-to}}
         <a class="navbar-brand detalles">Mi Contenido</a>
     </nav>
- <article class="dr-dash">
-            <div class="container">
-                <ul>
-					{{#each model as |content|}}
-						<li>
-							{{#link-to "content" content.id}}
-								<img class="img-fluid" src="{{content.thumbnailUrl}}" alt="">
-							{{/link-to}}
-						</li>
-					{{/each}}
-                </ul>
-            </div>
-        </article>
+    <article class="dr-dash">
+        <div class="container">
+            <ul>
+                {{#each model as |content|}}
+                    <li>
+                        {{#link-to "content" content.id}}
+                            <img class="img-fluid" src="{{content.thumbnailUrl}}" alt="">
+                        {{/link-to}}
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
+    </article>
 </section>

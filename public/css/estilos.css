@@ -313,6 +313,7 @@ ul li .img-fluid {
 }
 .dr-contenido3 {
   background-color: #f5f3f3;
+  overflow: hidden;
   padding-top: 80px;
 }
 .dr-contenido3 .dr-dashcliente .header {

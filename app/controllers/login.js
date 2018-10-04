@@ -2,8 +2,6 @@ import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
 import { isEmpty } from '@ember/utils';
-import { observer } from '@ember/object';
-import { next } from '@ember/runloop';
 
 export default Controller.extend({
 
@@ -12,12 +10,6 @@ export default Controller.extend({
     isError: false,
   
     session: service('session'),
-
-    ready: observer('currentPath', function () {   
-        next(this, function () {
-            window.mixpanel.track('on login')
-        });
-    }),
   
     isLoginButtonDisabled: computed('cellphone', 'password', function(){
       return isEmpty(this.get('cellphone')) || isEmpty(this.get('password'));
