@@ -13,6 +13,7 @@
                     <img data-toggle="modal" data-target="#myModal" class="img-fluid" src="{{model.content.thumbnailUrl}}">
                 </div>
                 
+                {{#if (or (eq model.content.media_type "imagen") (eq model.content.media_type "video"))}}
                 <div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -22,12 +23,13 @@
                             {{else if (eq model.content.media_type "video")}}
                                 <iframe class="embed-responsive-item" src="{{model.content.url}}" allowfullscreen></iframe>
                             {{else}}
-                                {{open-new-tab model.content.url}}
+                                {{!-- {{open-new-tab model.content.url}} --}}
                             {{/if}}
                         </div>
                     </div>
                 </div>
                 </div>
+                {{/if}}
 
                 <div class="dr-share">
                     {{#if (eq model.content.profile.name 'General')}}
