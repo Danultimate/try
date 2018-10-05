@@ -674,6 +674,7 @@ ul li .img-fluid {
 }
 .dr-contenidologros {
   padding-top: 0px;
+  background: #fff;
 }
 .dr-contenidologros p {
   margin: 0;
@@ -724,6 +725,7 @@ ul li .img-fluid {
 }
 .dr-contenidologros .dr-ventas {
   padding: 0 15px;
+  background: #fff;
 }
 .dr-contenidologros .dr-ventas h2 {
   font-weight: 700;

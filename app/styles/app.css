@@ -3,6 +3,7 @@ body > .ember-view {
   max-width: 500px !important;
   margin-right: auto;
   margin-left: auto;
+  background: #f5f3f3;
   /* position: fixed; */
 }
 .div{
