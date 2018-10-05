@@ -25,6 +25,8 @@ module.exports = function(environment) {
 
     SRI: {
       enabled: false,
+      paranoidCheck: false,
+      fingerprintCheck: false,
     },
 
     'ember-simple-auth': {
