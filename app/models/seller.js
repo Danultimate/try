@@ -1,6 +1,6 @@
 import DS from 'ember-data';
 import { hasMany, belongsTo } from 'ember-data/relationships';
-import { mapBy, sum, filterBy } from '@ember/object/computed';
+import { mapBy, sum, filterBy, filter } from '@ember/object/computed';
 import attr from 'ember-data/attr';
 import { schedule } from '@ember/runloop';
 
@@ -15,20 +15,36 @@ export default DS.Model.extend({
     notifications: hasMany('notification'),
     referrals: hasMany('referral'),
     
-    total_per_order:  mapBy('orders', 'total'),
-    tax_per_order:  mapBy('orders', 'tax'),
-    shipping_per_order:  mapBy('orders', 'shipping'),
+    // Order computations
+    activeOrders: function() {
+        return this.get('orders').filter(function(item, index, enumerable){
+          return item.status == 'ordered' || item.status == 'distribution';
+        });
+      }.property('orders.@each'),
+    
+    unpaidOrders: function() {
+        return this.get('orders').filter(function(item, index, enumerable){
+          return item.paid == false && item.status != 'cancelled';
+        });
+      }.property('orders.@each'),
 
-    total: sum('total_per_order'),
+    total_per_order:  mapBy('unpaidOrders', 'total'),
+    tax_per_order:  mapBy('unpaidOrders', 'tax'),
+    shipping_per_order:  mapBy('unpaidOrders', 'shipping'),
+
+    total_sold: sum('total_per_order'),
     total_shipping: sum('shipping_per_order'),
     total_tax: sum('tax_per_order'),
 
+    total: function(){
+        return this.get('total_sold') - this.get('total_shipping') - this.get('total_tax');
+      }.property('total_sold', 'total_shipping', 'total_tax'),
+
+    // Task Computations
     tasksCompleted: filterBy('tasks', 'done', true),
     tasksUncompleted: filterBy('tasks', 'done', false),
 
-    ordersActive: filterBy('orders', 'status', 'ordered'),
-    ordersDitribution: filterBy('orders', 'status', 'distribution'),
-
+    // Referral Computations
     non_paid_referrals: filterBy('referrals', 'paid', false),
 
 });

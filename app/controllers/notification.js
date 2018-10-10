@@ -5,7 +5,7 @@ import { inject as service } from '@ember/service';
 export default Controller.extend({
   queryParams: ['token', 'otherstuff'],
   token: null,
-  otherstuff: [],
+  otherstuff: null,
   session: service('session'),
 
   init() {

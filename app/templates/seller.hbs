@@ -15,19 +15,19 @@
 
     </div>
     <div class="dr-ventas">
-        <h2>${{round (sub model.firstObject.total model.firstObject.total_shipping model.firstObject.total_tax)}}</h2>
+        <h2>${{round model.firstObject.total}}</h2>
         <p>Ventas de este mes <small>(sin IVA)</small></p>
         <div class="dr-ganancias">
             <div class="row">
                 <div class="col-6 text-center">
                     <h6>
-                        ${{round (mult (sub model.firstObject.total model.firstObject.total_shipping model.firstObject.total_tax) model.firstObject.commission)}}
+                        ${{round (mult model.firstObject.total model.firstObject.commission)}}
                     </h6>
                     <span>Ganacias del mes</span>
                 </div>
                 <div class="col-6 text-center">
                     <h6>
-                        ${{round (mult model.firstObject.non_paid_referrals.length 20000)}}
+                        ${{mult model.firstObject.non_paid_referrals.length 20000}}
                     </h6>
                     <span>Ganancias por referidos</span>
                     {{!-- <h6>
@@ -40,15 +40,10 @@
         <div class="dr-listitems">
             <ul>
                 <li>
-                    {{#link-to 'tasks'}}
+                    {{#link-to 'contents'}}
                         <div class="row align-items-center">
-                            <div class="col-2"><i class="material-icons">assignment</i></div>
-                            <div class="col-6">Mis Tareas</div>
-                            <div class="col-2">
-                                <span>
-                                    {{model.firstObject.tasksUncompleted.length}}
-                                </span>
-                            </div>
+                            <div class="col-2"><i class="material-icons">dashboard</i></div>
+                            <div class="col-8">Mi Contenido</div>
                             <div class="col-2"><i class="material-icons">
                                     keyboard_arrow_right
                                 </i></div>
@@ -62,7 +57,7 @@
                             <div class="col-6">Mis Ordenes</div>
                             <div class="col-2">
                                 <span>
-                                    {{add model.firstObject.ordersActive.length model.firstObject.ordersDitribution.length}}
+                                    {{model.firstObject.activeOrders.length}}
                                 </span>
                             </div>
                             <div class="col-2"><i class="material-icons">
@@ -83,10 +78,15 @@
                     {{/link-to}}
                 </li>
                 <li>
-                    {{#link-to 'contents'}}
+                    {{#link-to 'tasks'}}
                         <div class="row align-items-center">
-                            <div class="col-2"><i class="material-icons">dashboard</i></div>
-                            <div class="col-8">Mi Contenido</div>
+                            <div class="col-2"><i class="material-icons">assignment</i></div>
+                            <div class="col-6">Mis Tareas</div>
+                            <div class="col-2">
+                                <span>
+                                    {{model.firstObject.tasksUncompleted.length}}
+                                </span>
+                            </div>
                             <div class="col-2"><i class="material-icons">
                                     keyboard_arrow_right
                                 </i></div>
@@ -112,9 +112,7 @@
                         </div>
                     </a>
                 </li>
-
             </ul>
         </div>
-
     </div>
 </section>

@@ -1,7 +1,6 @@
-import { mapBy, sum } from '@ember/object/computed';
 import DS from 'ember-data';
 import attr from 'ember-data/attr';
-import { belongsTo, hasMany } from 'ember-data/relationships';
+import { belongsTo } from 'ember-data/relationships';
 
 export default DS.Model.extend({
     order_number: attr('number'),
@@ -11,5 +10,6 @@ export default DS.Model.extend({
     date: attr('date'),
     total: attr('number'),
     tax: attr('number'),
-    shipping: attr('number')
+    shipping: attr('number'),
+    paid: attr('boolean'),
 });

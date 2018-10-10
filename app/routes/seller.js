@@ -34,5 +34,5 @@ export default Route.extend(AuthenticatedRouteMixin, {
         this.store.findAll('order');
         this.store.findAll('task');
         return this.store.findAll('seller');
-    }
+    },
 });
