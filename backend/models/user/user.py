@@ -16,6 +16,7 @@ class User(db.Model, BaseColumnsMixin, DictMixin):
     picture = db.Column(db.String)
     email = db.Column(db.String, index=True)
     birth = db.Column(db.DateTime)
+    staff = db.Column(db.Boolean, default=False)
 
     def hash_password(self, password):
         self.password_hash = pwd_context.hash(password)

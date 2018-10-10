@@ -7,9 +7,9 @@ class Client(db.Model, BaseColumnsMixin, DictMixin):
 
     old_consumer = db.Column(db.Boolean, nullable=False)
     seller_id = db.Column(db.ForeignKey(
-        'seller.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
+        'seller.id', deferrable=True, initially='DEFERRED', ondelete='CASCADE'), nullable=False, index=True)
     user_id = db.Column(db.ForeignKey(
-        'user.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
+        'user.id', deferrable=True, initially='DEFERRED', ondelete='CASCADE'), nullable=False, index=True)
     profile_id = db.Column(db.ForeignKey('profile.id', deferrable=True,
                                          initially='DEFERRED'), nullable=False, index=True, default=1)
 

@@ -17,11 +17,11 @@ class Seller(db.Model, BaseColumnsMixin, DictMixin):
     segment_id = db.Column(db.ForeignKey(
         'segment.id', deferrable=True, initially='DEFERRED'), index=True)
     user_id = db.Column(db.ForeignKey(
-        'user.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
+        'user.id', deferrable=True, initially='DEFERRED', ondelete='CASCADE'), nullable=False, index=True)
     goal = db.Column(db.Numeric(10, 2))
     commission = db.Column(db.Numeric(2, 2), default=0.3)  # , nullable=False)
     referred_by_id = db.Column(db.ForeignKey(
-        'seller.id', deferrable=True, initially='DEFERRED'), nullable=True, index=True)
+        'seller.id', deferrable=True, initially='DEFERRED', ondelete='CASCADE'), nullable=True, index=True)
 
     user = db.relationship('User')
     referred_by = db.relationship('Seller', remote_side=[id])

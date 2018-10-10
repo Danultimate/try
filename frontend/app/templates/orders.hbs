@@ -42,7 +42,9 @@
                                 <small><span>${{sub order.total order.shipping}}</span></small>
                             </div>
                             <div class="col-4">
-                                {{#if (eq order.status 'completed')}}
+                                {{#if order.paid}}
+                                <span class="badge badge-pill badge-success">Consignada</span>
+                                {{else if (eq order.status 'completed')}}
                                 <span class="badge badge-pill badge-success">Completada</span>
                                 {{else if (eq order.status 'cancelled')}}
                                 <span class="badge badge-pill badge-danger">Cancelada</span>

@@ -4,8 +4,9 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Route.extend(AuthenticatedRouteMixin, {
   model(){
-    // use findAll since we know the records are already in the store
     window.mixpanel.track('watch orders');
-    return this.store.findAll('order');
-  }
+    //return this.store.query('order', {});
+    return this.store.findAll('order', {shouldReloadAll: true})
+  },
+  
 });

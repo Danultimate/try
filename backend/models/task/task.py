@@ -7,7 +7,7 @@ class Task(db.Model, BaseColumnsMixin, DictMixin):
 
     type_of_task = db.Column(db.String(255), nullable=False)
     seller_id = db.Column(db.ForeignKey(
-        'seller.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
+        'seller.id', deferrable=True, initially='DEFERRED', ondelete='CASCADE'), nullable=False, index=True)
     num_of_clients = db.Column(db.Numeric(10), nullable=False, default=0)
     task_description = db.Column(db.Text, nullable=False)
     content_id = db.Column(db.ForeignKey(

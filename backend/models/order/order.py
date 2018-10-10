@@ -1,12 +1,12 @@
 from backend import db
 from backend.models import BaseColumnsMixin, DictMixin
-
+from sqlalchemy.dialects.postgresql.json import JSONB
 
 class Order(db.Model, BaseColumnsMixin, DictMixin):
     __tablename__ = 'order'
 
     seller_id = db.Column(db.ForeignKey(
-        'seller.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
+        'seller.id', deferrable=True, initially='DEFERRED', ondelete='CASCADE'), nullable=False, index=True)
     client_id = db.Column(db.ForeignKey(
         'client.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
     date = db.Column(db.DateTime(True), nullable=False)
@@ -16,6 +16,8 @@ class Order(db.Model, BaseColumnsMixin, DictMixin):
     tax = db.Column(db.Numeric(10, 2), nullable=False)
     shipping = db.Column(db.Numeric(10, 2), nullable=False)
     paid = db.Column(db.Boolean, default=False)
+    discount = db.Column(db.Numeric(10, 2), nullable=True)
+    discount_codes = db.Column(JSONB(astext_type=db.Text()), nullable=True)
 
     seller = db.relationship('Seller')
     client = db.relationship('Client')

@@ -32,13 +32,16 @@ def connect_to_shopify():
     print('Conected')
 
 
-def order_exists(order_number):
+def is_old_order(order_number):
     orders = db.session.query(Order).filter_by(order_number=order_number).all()
     if len(orders) > 1:
         print('There are {0} duplicated orders for order_number: {1}'.format(
             len(orders), order_number))
-    print('Order alredy exists...' if len(orders) else 'Order not exists...')
-    return True if len(orders) else False
+    print('Order alredy exists...' if len(orders) else 'Order does not exist...')
+    if len(orders) > 0:
+        return orders[-1]
+    else:
+        return False
 
 
 def create_user(order):
@@ -109,7 +112,7 @@ def get_orders_from_shopify():
 
     while True:
         print('Checking for new orders into shopify store...')
-        orders = shopify.Order.find(limit=250, page=page, since_id=max_id)
+        orders = shopify.Order.find(limit=250, page=page, since_id=max_id, status="any")
         if len(orders) > 0:
             orders_to_enter.extend(orders)
             page += 1
@@ -138,8 +141,17 @@ def create_orders(orders):
     if len(orders):
         for order in orders:
             order = order.to_dict()
-
-            if order_exists(str(order['order_number'])):
+            
+            # Check if order is already in DB
+            old_order = is_old_order(str(order['order_number']))
+            if old_order:
+                old_order.discount = order['total_discounts'],
+                old_order.discount_codes = order['discount_codes']
+                db.session.commit()
+                # Update if order is cancelled
+                if order['cancelled_at'] is not None:
+                    old_order.status = 'cancelled'
+                    db.session.commit()
                 create_new_max_id_file(order['id'])
                 continue
 
@@ -200,7 +212,10 @@ def create_orders(orders):
                     order_number=order['order_number'],
                     total=order['total_price'],
                     tax=order['total_tax'],
-                    shipping=order['shipping_lines'][0]['price']
+                    shipping=order['shipping_lines'][0]['price'],
+                    status='cancelled' if order['cancelled_at'] is not None else 'ordered',
+                    discount=order['total_discounts'],
+                    discount_codes=order['discount_codes']
                 )
                 db.session.add(order_)
                 db.session.commit()
