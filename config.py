@@ -24,6 +24,11 @@ class Production(object):
     SHOP_URL = "descubre-belleza.myshopify.com"
     DEFAULT_PRICE_RULE_ID = 309536784435
 
+    # S3 Credentials
+    S3_ACCESS_KEY_ID = "AKIAJYTZMBN2YNCH7DGA"
+    S3_SECRET_ACCESS_KEY = "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"
+    S3_DOCUMENT_BUCKET_NAME = "descubre-seller-public"
+
 
 # noinspection SpellCheckingInspection
 class Development(Production):

@@ -40,7 +40,8 @@ class SellerMethodView(MethodView):
         dataDict = flaskparser.parse(
             seller_method_view_post_body, request, locations=['json', 'form'])
         print('el dataDICTTTTTTTT', dataDict)
-        seller = Seller.query.filter_by(user_id=dataDict['seller']['user_id']).first()
+        seller = Seller.query.filter_by(
+            user_id=dataDict['seller']['user_id']).first()
         if seller is not None:
             return jsonify({'sellers': [seller.to_dict()]})
         seller = Seller()
@@ -50,48 +51,25 @@ class SellerMethodView(MethodView):
         db.session.add(seller)
         db.session.commit()
 
-        #TODO: eliminar el usuario si hay error en el commit
+        # TODO: eliminar el usuario si hay error en el commit
+
+        # shopifyClient.create_discount_code(code=seller.code)
 
         db.session.add(Task(type_of_task="share", seller_id=seller.id,
-                            task_description="Haz una orden de prueba con tu codigo de descuento",
-                            medium_id=1,
-                            planned_date=datetime.datetime(2018, 9, 19)
-                            ))
-
-        db.session.add(Task(type_of_task="share", seller_id=seller.id,
-                            task_description="Mandar video a todos tus clientes potenciales",
+                            task_description="Manda el video 📺 a todos tus clientes potenciales 👯👯",
                             content_id=7,
                             medium_id=1,
                             planned_date=datetime.datetime(2018, 9, 19)
                             ))
 
-        db.session.add(Task(type_of_task="share", seller_id=seller.id,
-                            task_description="Mandar quiz a 10 clientes (potenciales)",
-                            content_id=8,
+        db.session.add(Task(type_of_task="share-general", seller_id=seller.id,
+                            task_description="Manda el contenido 📄 de campaña actual a tus clientes 👯",
                             medium_id=1,
                             planned_date=datetime.datetime(2018, 9, 19)
                             ))
 
         db.session.add(Task(type_of_task="share", seller_id=seller.id,
-                            task_description="Mandar contenido de celebridad naturalia a 5 clientes (potenciales)",
-                            content_id=1,
-                            medium_id=1,
-                            planned_date=datetime.datetime(2018, 9, 19)
-                            ))
-        db.session.add(Task(type_of_task="share", seller_id=seller.id,
-                            task_description="Mandar contenido de celebridad trendy a 5 clientes (potenciales)",
-                            content_id=3,
-                            medium_id=1,
-                            planned_date=datetime.datetime(2018, 9, 19)
-                            ))
-        db.session.add(Task(type_of_task="share", seller_id=seller.id,
-                            task_description="Mandar contenido de celebridad autentica a 5 clientes (potenciales)",
-                            content_id=2,
-                            medium_id=1,
-                            planned_date=datetime.datetime(2018, 9, 19)
-                            ))
-        db.session.add(Task(type_of_task="share", seller_id=seller.id,
-                            task_description="Cierra tu primera venta",
+                            task_description="💰 Cierra tu primera venta 💰",
                             medium_id=1,
                             planned_date=datetime.datetime(2018, 9, 19)
                             ))
