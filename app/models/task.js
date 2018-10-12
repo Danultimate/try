@@ -6,6 +6,7 @@ import { computed } from '@ember/object';
 
 export default Model.extend({
   task_description: attr('string'),
+  type_of_task: attr('string'),
   planned_date: attr('date'),
   num_of_clients: attr('number'),
   done: attr('boolean', { defaultValue: false }),

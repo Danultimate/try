@@ -15,6 +15,13 @@ export default Route.extend(AuthenticatedRouteMixin, {
         mixpanel.identify(record.id);
         mixpanel.track('watch dashboard');
 
+        Sentry.configureScope((scope) => {
+            scope.setUser({"id": record.id,
+                            "username": seller_record.code,
+                            });
+            scope.setExtra("seller_name", record.first_name + " " + record.last_name);
+          });
+
         // Temporal position for the people set
         mixpanel.people.set_once({
             "$distinct_id": record.id,

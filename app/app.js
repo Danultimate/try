@@ -11,6 +11,11 @@ const App = Application.extend({
 
 loadInitializers(App, config.modulePrefix);
 
+Sentry.init({
+  dsn: 'https://027806308e66454c8dbffdbb1932fbe7@sentry.io/1297932',
+  integrations: [new Sentry.Integrations.Ember()]
+});
+
 // Ember.onerror = function (error) {
 //   console.log('Ember.onerror handler', error.message);
 //   //localStorage.clear();

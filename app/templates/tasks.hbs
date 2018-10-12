@@ -25,6 +25,24 @@
               {{!-- TODO: THE EMBER WAY PLEASE --}}
               {{#each model as |task|}}
                 {{#if task.done}}
+                {{else if (eq task.type_of_task "share-general")}}
+                <div class="dr-che">
+                    <div class="row">
+                      <div class="col-10">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" checked={{task.done}} disabled={{task.done}} onchange={{action 'updateTask' task}} />
+                          <label class="form-check-label" for="exampleRadios1">
+                            <p style="font-size: 17px">{{task.task_description}}</p>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-2">
+                        {{#link-to "contents"}}
+                        <i class="material-icons">keyboard_arrow_right</i>
+                        {{/link-to}}
+                      </div>
+                    </div>
+                  </div>
                 {{else if task.num_of_clients}}
                   <div class="dr-che">
                     <div class="row">
