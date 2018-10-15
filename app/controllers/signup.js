@@ -48,11 +48,40 @@ export default Controller.extend({
 
               "$cellphone": record.cellphone,
               "first_name": record.first_name,
-              "last_name": record.first_name,
+              "last_name": record.last_name,
               "seller_code": seller_record.code,
           });
           window.mixpanel.identify(record.id);
           window.mixpanel.track('new user');
+          $.getJSON('https://json.geoiplookup.io').then((data) => {
+                let browser_info = JSON.stringify(data, null, 2);
+                let record = this.store.createRecord('interaction', {
+                                action: 'new user',
+                                current_url: window.location.href,
+                                browser_info: browser_info,
+                                session_info: JSON.stringify(
+                                  {
+                                    "authenticated": {
+                                        "access_token": "",
+                                        "user": {
+                                            "cellphone": record.cellphone,
+                                            "first_name": record.first_name,
+                                            "last_name": record.last_name,
+                                            "id": record.id,
+                                        },
+                                        "authenticator": "authenticator:authenticator",
+                                        "seller": {
+                                            "user": record.id,
+                                            "commission": seller_record.commission,
+                                            "code": seller_record.code,
+                                            "id": seller_record.id,
+                                        }
+                                    }
+                                }
+                                ),
+                            });
+                record.save()
+            });
           this.transitionToRoute('login')
         }).catch((reason) => {
           // Error saving seller

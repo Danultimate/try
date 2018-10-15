@@ -2,7 +2,6 @@ import DS from 'ember-data';
 import { hasMany, belongsTo } from 'ember-data/relationships';
 import { mapBy, sum, filterBy, filter } from '@ember/object/computed';
 import attr from 'ember-data/attr';
-import { schedule } from '@ember/runloop';
 
 export default DS.Model.extend({
     commission: attr('number'),
@@ -46,5 +45,15 @@ export default DS.Model.extend({
 
     // Referral Computations
     non_paid_referrals: filterBy('referrals', 'paid', false),
+
+    // Segmentation Computations aka BZ Rules
+    segment: function() {
+      //TODO: the BZ rules!
+      // return this.get('orders').filter(function(item, index, enumerable){
+      //   //return item.paid == false && item.status != 'cancelled';
+      //   return 1;
+      // });
+      return 1;
+    }.property('orders.@each'),
 
 });

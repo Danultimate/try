@@ -13,7 +13,8 @@ loadInitializers(App, config.modulePrefix);
 
 Sentry.init({
   dsn: 'https://027806308e66454c8dbffdbb1932fbe7@sentry.io/1297932',
-  integrations: [new Sentry.Integrations.Ember()]
+  integrations: [new Sentry.Integrations.Ember()],
+  environment: config.environment,
 });
 
 // Ember.onerror = function (error) {

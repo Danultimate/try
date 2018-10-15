@@ -43,7 +43,7 @@
         <div class="input-group">
           <input class="form-control" id="seller_code" value="{{session.data.authenticated.seller.code}}" readonly>
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" onclick="copyText()">Copiar</button>
+            <button class="btn btn-outline-secondary" onclick={{action 'copyText'}}>Copiar</button>
           </div>
         </div>
 
@@ -70,13 +70,3 @@
       <button class="dr-comparbtn" onclick={{action 'share'}}>Compartir</button>
   </div>
 </section>
-
-<script>
-  function copyText() {
-  var copyText = $("#seller_code");
-  copyText.select();
-  document.execCommand("copy");  
-  mixpanel.track('copy code from referral');
-  //alert("Copied the text: " + copyText.text());
-}
-</script>
