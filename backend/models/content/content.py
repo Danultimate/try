@@ -15,9 +15,12 @@ class Content(db.Model, BaseColumnsMixin, DictMixin):
         'topic.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
     profile_id = db.Column(db.ForeignKey(
         'profile.id', deferrable=True, initially='DEFERRED'), nullable=False, index=True)
+    segment_id = db.Column(db.ForeignKey(
+        'segment.id', deferrable=True, initially='DEFERRED'), nullable=True, index=True, default=1)
 
     topic = db.relationship('Topic')
     profile = db.relationship('Profile')
+    segment = db.relationship('Segment')
 
     def __str__(self):
         return str(self.id) + '. ' + self.name

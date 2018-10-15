@@ -12,12 +12,6 @@ export default Controller.extend({
     isError: false,
   
     session: service('session'),
-
-    ready: observer('currentPath', function () {   
-        next(this, function () {
-            window.mixpanel.track('on login')
-        });
-    }),
   
     isLoginButtonDisabled: computed('cellphone', 'password', function(){
       return isEmpty(this.get('cellphone')) || isEmpty(this.get('password'));

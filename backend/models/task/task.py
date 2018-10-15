@@ -17,7 +17,10 @@ class Task(db.Model, BaseColumnsMixin, DictMixin):
     planned_date = db.Column(db.DateTime(True), nullable=False)
     done = db.Column(db.Boolean, nullable=False, default=False)
     excuted_date = db.Column(db.DateTime(True))
+    segment_id = db.Column(db.ForeignKey(
+        'segment.id', deferrable=True, initially='DEFERRED'), nullable=True, index=True, default=1)
 
     seller = db.relationship('Seller')
     content = db.relationship('Content')
     medium = db.relationship('SocialNetwork')
+    segment = db.relationship('Segment')

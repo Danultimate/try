@@ -31,6 +31,7 @@ Router.map(function() {
   // this.route('product', { path: '/products/:product_id' });
   this.route('new_client');
   this.route('login_admin');
+  this.route('edit_profile');
 });
 
 export default Router;

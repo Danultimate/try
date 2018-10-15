@@ -1,7 +1,9 @@
 import Controller from '@ember/controller';
 import { filterBy } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
 
 export default Controller.extend({
+    session: service('session'),
 
     actions: {
         share(content) {
@@ -10,6 +12,20 @@ export default Controller.extend({
                                 'content_name': content.name,
                                 'content_description': content.description
                                 });
+            $.getJSON('https://json.geoiplookup.io').then((data) => {
+                let browser_info = JSON.stringify(data, null, 2);
+                let record = this.store.createRecord('interaction', {
+                                action: 'share from content',
+                                extra_info: JSON.stringify({"type": "content",
+                                            "id": content.id,
+                                            "name": content.name,
+                                            "description": content.description}),
+                                current_url: window.location.href,
+                                browser_info: browser_info,
+                                session_info: JSON.stringify(this.get('session').data)
+                            });
+                record.save()
+            });
             if (!("share" in navigator)) {
 
                 if (typeof Android !== 'undefined'){

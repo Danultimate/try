@@ -14,6 +14,16 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
         mixpanel.identify(record.id);
         mixpanel.track('watch dashboard');
+        $.getJSON('https://json.geoiplookup.io').then((data) => {
+            let browser_info = JSON.stringify(data, null, 2);
+            let record = this.store.createRecord('interaction', {
+                            action: 'watch dashboard',
+                            current_url: window.location.href,
+                            browser_info: browser_info,
+                            session_info: JSON.stringify(this.get('session').data)
+                        });
+            record.save()
+        });
 
         Sentry.configureScope((scope) => {
             scope.setUser({"id": record.id,
