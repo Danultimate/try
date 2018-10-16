@@ -10,4 +10,5 @@ export default Model.extend({
   description: attr('string'),
   profile: belongsTo('profile'),
   topic: belongsTo('topic'),
+  segment: attr('number')
 });
