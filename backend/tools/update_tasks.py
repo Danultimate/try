@@ -2,7 +2,7 @@ from backend import db
 from backend.models import *
 
 ts = Task.query.filter_by(
-    task_description="Mandar quiz a 10 clientes (potenciales)")
+    task_description="Mandar contenido de celebridad autentica a 5 clientes (potenciales)")
 print(len(ts.all()))
 ts.delete()
 db.session.commit()

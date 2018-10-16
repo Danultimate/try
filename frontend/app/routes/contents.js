@@ -1,7 +1,6 @@
 import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-
 export default Route.extend(AuthenticatedRouteMixin, {
   model(){
     window.mixpanel.track('watch contents');
@@ -16,9 +15,26 @@ export default Route.extend(AuthenticatedRouteMixin, {
         record.save()
     });
     return this.store.findAll('content');
-    // let seller = this.store.findAll('seller');
-    // return this.store.query("content", {
-    //   filter: seller.segment
-    // });
+    // let seller = this.store.peekAll('seller')
+    // console.log('el segment del seller: ', seller)
+    // console.log('el segment del seller2: ', seller.firstObject)
+    
+    // let model = this.store.findAll('content').then((data) => {
+    //   console.log('el el data '+data)
+    //   return filter('data', function(item, index, array) {
+    //     return item.segment==1;
+    //   })
+
+    // })
+
+    
+    // let model = this.store.query('content', {
+    //   filter: {
+    //     segment: 2
+    //   }
+    // })
+
+    // return model;
+
   }
 });

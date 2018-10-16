@@ -6,7 +6,7 @@
     <article class="dr-dash">
         <div class="container">
             <ul>
-                {{#each model as |content|}}
+                {{#each segmentedContent as |content|}}
                     <li>
                         {{#link-to "content" content.id}}
                             <img class="img-fluid" src="{{content.thumbnailUrl}}" alt="">
