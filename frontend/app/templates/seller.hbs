@@ -2,37 +2,49 @@
     
     <div class="dr-headerlogros">
         <div class="dr-persona">
-            {{#if model.firstObject.user.picture}}
-            <img src="{{model.firstObject.user.picture}}" alt="">
-            {{else}}
-            <img src="{{rootURL}}/assets/images/profile_pic.png" alt="">
-            {{/if}}
-            {{!-- <span class="dr-editar">Editar</span> --}}
-            <h4>{{model.firstObject.user.first_name}} </h4>
-            <p>{{model.firstObject.user.last_name}}</p>
-            <p>Código {{model.firstObject.code}}</p>
+            <div class="row">               
+                <div class="col-9 text-left">
+                    {{#if model.user.picture}}
+                        <img src="{{model.user.picture}}" alt="" class="float-left mr-3 ml-3">
+                    {{else}}
+                        <img src="{{rootURL}}/assets/images/profile_pic.png" alt="" class="float-left mr-3 ml-3">
+                    {{/if}}
+                    {{!-- <span class="dr-editar">Editar</span> --}}
+                    <h4>{{model.user.first_name}} </h4>
+                    <p>{{model.user.last_name}}</p>
+                    <p>Código {{model.code}}</p>
+                </div>
+            </div>
+            
+            
         </div>
     </div>
     <div class="dr-ventas">
-        <h2>${{round model.firstObject.total}}</h2>
+        <h2>${{round model.total}}</h2>
         <p>Ventas de este mes <small>(sin IVA)</small></p>
         <div class="dr-ganancias">
             <div class="row">
                 <div class="col-6 text-center">
                     <h6>
-                        ${{round (mult model.firstObject.total model.firstObject.commission)}}
+                        ${{round (mult model.total model.commission)}}
                     </h6>
                     <span>Ganacias del mes</span>
                 </div>
                 <div class="col-6 text-center">
                     <h6>
-                        ${{mult model.firstObject.non_paid_referrals.length 20000}}
+                        ${{mult model.non_paid_referrals.length 20000}}
                     </h6>
                     <span>Ganancias por referidos</span>
                 </div>
             </div>
         </div>
         <div class="dr-listitems">
+            <hr>
+            <h5 class="text-center">Comparte este Semanazo</h5>
+            {{#link-to "content" last_content.id}}
+                <img class="img-fluid" src="{{last_content.thumbnailUrl}}" alt="">
+            {{/link-to}}
+            <hr>
             <ul>
                 <li>
                     {{#link-to 'contents'}}
@@ -52,7 +64,7 @@
                             <div class="col-6">Mis Ordenes</div>
                             <div class="col-2">
                                 <span>
-                                    {{model.firstObject.activeOrders.length}}
+                                    {{model.activeOrders.length}}
                                 </span>
                             </div>
                             <div class="col-2"><i class="material-icons">
@@ -79,7 +91,7 @@
                             <div class="col-6">Mis Tareas</div>
                             <div class="col-2">
                                 <span>
-                                    {{model.firstObject.tasksUncompleted.length}}
+                                    {{model.tasksUncompleted.length}}
                                 </span>
                             </div>
                             <div class="col-2"><i class="material-icons">

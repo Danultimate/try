@@ -19,7 +19,7 @@ export default Controller.extend({
       return true;
     },
 
-//Maybe we can use this: https://github.com/poteto/ember-changeset-validations
+    //Maybe we can use this: https://github.com/poteto/ember-changeset-validations
     save() {
       this.actions.disableSubmitButton();
       let record = this.store.createRecord('user', {
@@ -44,7 +44,7 @@ export default Controller.extend({
               "$email": record.email,    // only special properties need the $
 
               "$created": new Date(),
-              "$last_login": new Date(),         // properties can be dates...
+              "$last_login": new Date(), // properties can be dates...
 
               "$cellphone": record.cellphone,
               "first_name": record.first_name,

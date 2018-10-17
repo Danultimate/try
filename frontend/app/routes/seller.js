@@ -52,4 +52,14 @@ export default Route.extend(AuthenticatedRouteMixin, {
         this.store.findAll('task');
         return this.store.findAll('seller');
     },
+
+
+    setupController(controller, model) {
+        controller.set('model', model.firstObject);
+        this.store.findAll('content').then(function(contents) {
+            console.log('el content len '+contents._length)
+            console.log('el content '+contents.firstObject)
+            controller.set('last_content', contents.firstObject);
+        });
+    }
 });
