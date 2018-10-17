@@ -36,8 +36,8 @@ export default DS.Model.extend({
     total_tax: sum('tax_per_order'),
 
     total: function(){
-        return this.get('total_sold') - this.get('total_shipping') - this.get('total_tax');
-      }.property('total_sold', 'total_shipping', 'total_tax'),
+      return this.get('total_sold') - this.get('total_shipping') - this.get('total_tax');
+    }.property('total_sold', 'total_shipping', 'total_tax'),
 
     // Task Computations
     tasksCompleted: filterBy('tasks', 'done', true),

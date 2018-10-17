@@ -5,6 +5,7 @@ export default Controller.extend({
 
     session: service('session'),
     mixpanel: service('mixpanel'),
+    last_content: null,
 
     actions: {
         invalidateSession() {

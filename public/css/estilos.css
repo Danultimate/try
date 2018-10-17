@@ -691,10 +691,11 @@ ul li .img-fluid {
   background-color: transparent !important;
 }
 .dr-contenidologros .dr-headerlogros {
-  background-image: url("../assets/images/headerlogros.png");
   background-repeat: no-repeat;
-  background-size: 100%;
-  height: 220px;
+  background-size: 80%;
+  padding: 16px 0;
+  background: #b81c7f;
+  margin: 0 0 24px;
 }
 .dr-contenidologros .dr-headerlogros .dr-persona {
   text-align: center;
@@ -719,9 +720,11 @@ ul li .img-fluid {
   font-size: 12px;
 }
 .dr-contenidologros .dr-headerlogros .dr-persona img {
-  width: 20%;
-  margin: auto;
-  text-align: center;
+  width: 80px;
+  /* margin: auto;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center; */
 }
 .dr-contenidologros .dr-ventas {
   padding: 0 15px;
