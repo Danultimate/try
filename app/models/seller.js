@@ -56,4 +56,7 @@ export default DS.Model.extend({
       return 1;
     }.property('orders.@each'),
 
+    // Notifications Computations
+    non_read_notifications: filterBy('notifications', 'read', false),
+
 });

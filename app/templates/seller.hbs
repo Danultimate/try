@@ -1,5 +1,36 @@
-<section class="dr-contenidologros">
+    {{#each model.non_read_notifications as |message|}}
+        <div class="modal fade" style="display: block;" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Nueva noticia</h5>
+            </div>
+            <div class="modal-body">
+                {{message.description}} 
+                {{#if message.close_link}}
+                    <a href={{message.close_link}}>aqui.</a>
+                {{/if}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick={{action 'closeNotification' message}}>{{message.close_text}}</button>
+            </div>
+            </div>
+        </div>
+        </div>
+        <script>
+            $('#myModal').modal({
+                backdrop: 'static',
+                keyboard: false,
+                show: true
+                })
+        </script>
+    {{/each}}
+
     
+<section class="dr-contenidologros">
+
+   
+   
     <div class="dr-headerlogros">
         <div class="dr-persona">
             <div class="row">               

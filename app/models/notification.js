@@ -4,7 +4,8 @@ import { belongsTo } from 'ember-data/relationships';
 
 export default DS.Model.extend({
     description: attr('string'),
+    close_text: attr('string'),
+    close_link: attr('string'),
     seller: belongsTo('seller'),
-    date: attr('date'),
     read: attr('boolean', { defaultValue: false }),
 });
