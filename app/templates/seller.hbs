@@ -41,9 +41,11 @@
         <div class="dr-listitems">
             <hr>
             <h5 class="text-center">Comparte este Semanazo</h5>
-            {{#link-to "content" last_content.id}}
+            {{!-- {{#link-to "content" last_content.id}} --}}
+            <a href="" {{action 'goContent' last_content.id}}>
                 <img class="img-fluid" src="{{last_content.thumbnailUrl}}" alt="">
-            {{/link-to}}
+            </a>
+            {{!-- {{/link-to}} --}}
             <hr>
             <ul>
                 <li>

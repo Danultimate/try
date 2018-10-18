@@ -57,8 +57,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
     setupController(controller, model) {
         controller.set('model', model.firstObject);
         this.store.findAll('content').then(function(contents) {
-            console.log('el content len '+contents._length)
-            console.log('el content '+contents.firstObject)
             controller.set('last_content', contents.firstObject);
         });
     }
