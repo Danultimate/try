@@ -1,33 +1,34 @@
-import React from 'react';
-import { Scene, Tabs, Stack } from 'react-native-router-flux';
-import { Icon } from 'native-base';
+import React from "react";
+import { Scene, Tabs, Stack } from "react-native-router-flux";
+import { Icon } from "native-base";
 
-import DefaultProps from '../constants/navigation';
-import AppConfig from '../../constants/config';
+import DefaultProps from "../constants/navigation";
+import AppConfig from "../../constants/config";
 
-import RecipesContainer from '../../containers/Recipes';
-import RecipesComponent from '../components/Recipes';
-import RecipeViewComponent from '../components/Recipe';
+import RecipesContainer from "../../containers/Recipes";
+import RecipesComponent from "../components/Recipes";
+import RecipeViewComponent from "../components/Recipe";
 
-import SignUpContainer from '../../containers/SignUp';
-import SignUpComponent from '../components/SignUp';
+import SignUpContainer from "../../containers/SignUp";
+import SignUpComponent from "../components/SignUp";
 
-import LoginContainer from '../../containers/Login';
-import LoginComponent from '../components/Login';
+import LoginContainer from "../../containers/Login";
+import LoginComponent from "../components/Login";
 
-import ForgotPasswordContainer from '../../containers/ForgotPassword';
-import ForgotPasswordComponent from '../components/ForgotPassword';
+import ForgotPasswordContainer from "../../containers/ForgotPassword";
+import ForgotPasswordComponent from "../components/ForgotPassword";
 
-import LocaleContainer from '../../containers/Locale';
-import LocaleComponent from '../components/Locale';
+import LocaleContainer from "../../containers/Locale";
+import LocaleComponent from "../components/Locale";
 
-import UpdateProfileContainer from '../../containers/UpdateProfile';
-import UpdateProfileComponent from '../components/UpdateProfile';
+import UpdateProfileContainer from "../../containers/UpdateProfile";
+import UpdateProfileComponent from "../components/UpdateProfile";
 
-import MemberContainer from '../../containers/Member';
-import ProfileComponent from '../components/Profile';
+import MemberContainer from "../../containers/Member";
+import ProfileComponent from "../components/Profile";
 
-import AboutComponent from '../components/About';
+import AboutComponent from "../components/About";
+import DashboardComponent from "../components/Dashboard";
 
 const Index = (
   <Stack hideNavBar>
@@ -42,10 +43,10 @@ const Index = (
         <Stack
           key="home"
           title={AppConfig.appName.toUpperCase()}
-          icon={() => <Icon name="planet" {...DefaultProps.icons} />}
+          icon={() => <Icon name="home" {...DefaultProps.icons} />}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="home" component={AboutComponent} />
+          <Scene key="home" component={DashboardComponent} />
         </Stack>
 
         <Stack
@@ -54,7 +55,11 @@ const Index = (
           icon={() => <Icon name="book" {...DefaultProps.icons} />}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="recipes" component={RecipesContainer} Layout={RecipesComponent} />
+          <Scene
+            key="recipes"
+            component={RecipesContainer}
+            Layout={RecipesComponent}
+          />
         </Stack>
 
         <Stack
@@ -63,7 +68,11 @@ const Index = (
           icon={() => <Icon name="contact" {...DefaultProps.icons} />}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="profileHome" component={MemberContainer} Layout={ProfileComponent} />
+          <Scene
+            key="profileHome"
+            component={MemberContainer}
+            Layout={ProfileComponent}
+          />
           <Scene
             back
             key="signUp"
