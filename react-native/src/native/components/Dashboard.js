@@ -45,11 +45,12 @@ class Dashboard extends React.Component {
 
   componentWillMount() {
     this.props.shopify.collection
-      .fetchAllWithProducts()
+      //.fetchAllWithProducts()
+      .fetchAll()
       .then(collections => {
         // Do something with the collections
-        console.log(collections);
-        console.log(collections[0].products);
+        console.log('These are the collections: '+ Object.keys(collections[0]));
+        //console.log(collections[0].products);
         this.setState({
           isLoading: false,
           collections: collections
@@ -58,7 +59,8 @@ class Dashboard extends React.Component {
       .catch(error => this.setState({ error, isLoading: false }));
 
     this.props.shopify.product.fetchAll().then(res => {
-      console.log(res);
+      //console.log(res);
+      console.log('These are the products: '+res);
       this.setState({
         products: res
       });
@@ -74,14 +76,15 @@ class Dashboard extends React.Component {
         />
       );
     }
+    //console.log('el member v2: '+ this.props.user.member.firstName)
     return (
       <Container>
         <Content padder>
           <Spacer size={30} />
-          <H1 style={styles.header}>¡Hola Paula, muy bien!</H1>
+          <H1 style={styles.header}>¡Hola XX, muy bien!</H1>
           <Spacer size={10} />
           <FlatList
-            data={this.state.products}
+            data={this.state.collections}
             renderItem={({ item }) => <Text>{item.title}</Text>}
           />
           <Text>
