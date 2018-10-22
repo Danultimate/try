@@ -7,7 +7,16 @@ import {
   RefreshControl,
   Image
 } from "react-native";
-import { Container, Content, Text, H1, H2, H3 } from "native-base";
+import {
+  Container,
+  Content,
+  Card,
+  CardItem,
+  Body,
+  Text,
+  Button,
+  H1, H2, H3
+} from "native-base";
 // import axios from "axios";
 
 import Spacer from "./Spacer";
@@ -50,6 +59,7 @@ class Dashboard extends React.Component {
       .then(collections => {
         // Do something with the collections
         console.log('These are the collections: '+ Object.keys(collections[0]));
+        console.log('this is the image: ', collections[0].image)
         //console.log(collections[0].products);
         this.setState({
           isLoading: false,
@@ -83,16 +93,49 @@ class Dashboard extends React.Component {
           <Spacer size={30} />
           <H1 style={styles.header}>¡Hola XX, muy bien!</H1>
           <Spacer size={10} />
-          <FlatList
-            data={this.state.collections}
-            renderItem={({ item }) => <Text>{item.title}</Text>}
-          />
-          <Text>
-            Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
-            tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-            fermentum massa justo sit amet risus. Etiam porta sem malesuada
-            magna mollis euismod. Donec sed odio dui.{" "}
-          </Text>
+
+           <FlatList
+          numColumns={1}
+          data={this.state.collections}
+          renderItem={({ item }) => (
+            <Card transparent style={{ paddingHorizontal: 6 }}>
+              <CardItem cardBody>
+                <TouchableOpacity
+                  onPress={() => onPress(item)}
+                  style={{ flex: 1 }}
+                >
+                
+                  {/* <Image
+                    source={{ uri: item.image }}
+                    style={{
+                      height: 100,
+                      width: null,
+                      flex: 1,
+                      borderRadius: 5
+                    }}
+                  /> */}
+                </TouchableOpacity>
+              </CardItem>
+              <CardItem cardBody>
+                <Body>
+                  <Spacer size={10} />
+                  <Text style={styles.header}>{item.title}</Text>
+                  <Spacer size={15} />
+                  <Button block small onPress={() => onPress(item)}>
+                    <Text>View Recipe</Text>
+                  </Button>
+                  <Spacer size={5} />
+                </Body>
+              </CardItem>
+            </Card>
+          )}
+          //keyExtractor={keyExtractor}
+          // refreshControl={
+          //   <RefreshControl refreshing={loading} onRefresh={reFetch} />
+          // }
+        />
+          
+          
 
           <Spacer size={30} />
           <H2 style={styles.header}>Heading 2</H2>
