@@ -95,37 +95,7 @@ class Dashboard extends React.Component {
 
           <FlatList
             data={this.state.collections}
-            renderItem={({ item }) => (
-              <Card transparent style={{ paddingHorizontal: 6 }}>
-                <CardItem cardBody>
-                  <TouchableOpacity
-                    onPress={() => onPress(item)}
-                    style={{ flex: 1 }}
-                  >
-                    <Image
-                      source={{ uri: item.image }}
-                      style={{
-                        height: 100,
-                        width: null,
-                        flex: 1,
-                        borderRadius: 5
-                      }}
-                    />
-                  </TouchableOpacity>
-                </CardItem>
-                <CardItem cardBody>
-                  <Body>
-                    <Spacer size={10} />
-                    <Text style={styles.header}>{item.title}</Text>
-                    <Spacer size={15} />
-                    <Button block small onPress={() => onPress(item)}>
-                      <Text>View Recipe</Text>
-                    </Button>
-                    <Spacer size={5} />
-                  </Body>
-                </CardItem>
-              </Card>
-            )}
+            renderItem={({ item }) => <Text>{item.title}</Text>}
           />
           <Text>
             Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
