@@ -10,10 +10,10 @@ import {
 import {
   Container,
   Content,
-  Text,
   Card,
   CardItem,
   Body,
+  Text,
   Button,
   H1,
   H2,
@@ -56,11 +56,15 @@ class Dashboard extends React.Component {
 
   componentWillMount() {
     this.props.shopify.collection
-      .fetchAllWithProducts()
+      //.fetchAllWithProducts()
+      .fetchAll()
       .then(collections => {
         // Do something with the collections
-        console.log(collections);
-        console.log(collections[0].products);
+        console.log(
+          "These are the collections: " + Object.keys(collections[0])
+        );
+        console.log("this is the image: ", collections[0].image);
+        //console.log(collections[0].products);
         this.setState({
           isLoading: false,
           collections: collections
@@ -68,13 +72,13 @@ class Dashboard extends React.Component {
       })
       .catch(error => this.setState({ error, isLoading: false }));
 
-    this.props.shopify.product.fetchAll().then(res => {
-      console.log(res);
-      this.setState({
-        isLoading: false,
-        products: res
-      });
-    });
+    // this.props.shopify.product.fetchAll().then(res => {
+    //   //console.log(res);
+    //   console.log('These are the products: '+res);
+    //   this.setState({
+    //     products: res
+    //   });
+    // });
   }
   render() {
     if (this.state.isLoading && !this.state.loadedFonts) {
@@ -86,23 +90,57 @@ class Dashboard extends React.Component {
         />
       );
     }
+    //console.log('el member v2: '+ this.props.user.member.firstName)
     return (
       <Container>
         <Content padder>
           <Spacer size={30} />
-          <H1 style={styles.header}>¡Hola Paula, muy bien!</H1>
+          <H1 style={styles.header}>¡Hola XX, muy bien!</H1>
           <Spacer size={10} />
 
           <FlatList
+            numColumns={1}
             data={this.state.collections}
-            renderItem={({ item }) => <Text>{item.title}</Text>}
+            renderItem={({ item }) => (
+              <Card transparent style={{ paddingHorizontal: 6 }}>
+                <CardItem cardBody>
+                  <TouchableOpacity
+                    onPress={() => onPress(item)}
+                    style={{ flex: 1 }}
+                  >
+                    {console.log(item)}
+                    {item.image &&
+                      item.image.src && (
+                        <Image
+                          source={{ uri: item.image.src }}
+                          style={{
+                            height: 100,
+                            width: null,
+                            flex: 1,
+                            borderRadius: 5
+                          }}
+                        />
+                      )}
+                  </TouchableOpacity>
+                </CardItem>
+                <CardItem cardBody>
+                  <Body>
+                    <Spacer size={10} />
+                    <Text style={styles.header}>{item.title}</Text>
+                    <Spacer size={15} />
+                    <Button block small onPress={() => onPress(item)}>
+                      <Text>View Recipe</Text>
+                    </Button>
+                    <Spacer size={5} />
+                  </Body>
+                </CardItem>
+              </Card>
+            )}
+            //keyExtractor={keyExtractor}
+            // refreshControl={
+            //   <RefreshControl refreshing={loading} onRefresh={reFetch} />
+            // }
           />
-          <Text>
-            Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
-            tellus ac cursus commodo, tortor mauris condimentum nibh, ut
-            fermentum massa justo sit amet risus. Etiam porta sem malesuada
-            magna mollis euismod. Donec sed odio dui.{" "}
-          </Text>
 
           <Spacer size={30} />
           <H2 style={styles.header}>Heading 2</H2>
