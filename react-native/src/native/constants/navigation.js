@@ -1,25 +1,27 @@
-import Colors from '../../../native-base-theme/variables/commonColor';
+import Colors from "../../../native-base-theme/variables/commonColor";
 
 export default {
   navbarProps: {
-    navigationBarStyle: { backgroundColor: 'white' },
+    navigationBarStyle: { backgroundColor: Colors.brandPrimary },
     titleStyle: {
-      color: Colors.textColor,
-      alignSelf: 'center',
+      color: Colors.titleFontColor,
+      alignSelf: "center",
       letterSpacing: 2,
-      fontSize: Colors.fontSizeBase,
+      fontSize: Colors.fontSizeBase
     },
-    backButtonTintColor: Colors.textColor,
+    backButtonTintColor: Colors.textColor
   },
 
   tabProps: {
     swipeEnabled: false,
-    activeBackgroundColor: 'rgba(255,255,255,0.1)',
-    inactiveBackgroundColor: Colors.brandPrimary,
-    tabBarStyle: { backgroundColor: Colors.brandPrimary },
+    activeBackgroundColor: "rgba(255,255,255,1)",
+    inactiveTintColor: "#A492D1",
+    activeTintColor: Colors.brandInfo,
+    inactiveBackgroundColor: Colors.footerDefaultBg,
+    tabBarStyle: { backgroundColor: Colors.tabBgColor }
   },
 
   icons: {
-    style: { color: 'white', height: 30, width: 30 },
-  },
+    style: { color: "#A492D1", height: 30, width: 30 }
+  }
 };

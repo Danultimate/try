@@ -1,23 +1,78 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { AppLoading, Asset, Font } from "expo";
+import {
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  RefreshControl,
+  Image
+} from "react-native";
 import { Container, Content, Text, H1, H2, H3 } from "native-base";
-import { AppLoading, Font } from "expo";
+// import axios from "axios";
 
 import Spacer from "./Spacer";
 
 class Dashboard extends React.Component {
-  state = { isReady: false };
-  componentWillMount() {
-    (async () => {
-      await Font.loadAsync({
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isLoading: true,
+      loadedFonts: false,
+      collections: [],
+      error: null
+    };
+  }
+
+  _loadResourcesAsync = async () => {
+    return Promise.all([
+      Asset.loadAsync([require("../assets/images/drawable-hdpi/logo.png")]),
+      Font.loadAsync({
         playfair: require("../assets/fonts/PlayfairDisplay-Bold.ttf")
+      })
+    ]);
+  };
+
+  _handleLoadingError = error => {
+    // In this case, you might want to report the error to your error
+    // reporting service, for example Sentry
+    console.warn(error);
+  };
+
+  _handleFinishLoading = () => {
+    this.setState({ loadedFonts: true });
+  };
+
+  componentWillMount() {
+    this.props.shopify.collection
+      .fetchAllWithProducts()
+      .then(collections => {
+        // Do something with the collections
+        console.log(collections);
+        console.log(collections[0].products);
+        this.setState({
+          isLoading: false,
+          collections: collections
+        });
+      })
+      .catch(error => this.setState({ error, isLoading: false }));
+
+    this.props.shopify.product.fetchAll().then(res => {
+      console.log(res);
+      this.setState({
+        products: res
       });
-      this.setState({ isReady: true });
-    })();
+    });
   }
   render() {
-    if (!this.state.isReady) {
-      return <AppLoading />;
+    if (this.state.isLoading && !this.state.loadedFonts) {
+      return (
+        <AppLoading
+          startAsync={this._loadResourcesAsync}
+          onError={this._handleLoadingError}
+          onFinish={this._handleFinishLoading}
+        />
+      );
     }
     return (
       <Container>
@@ -25,6 +80,10 @@ class Dashboard extends React.Component {
           <Spacer size={30} />
           <H1 style={styles.header}>¡Hola Paula, muy bien!</H1>
           <Spacer size={10} />
+          <FlatList
+            data={this.state.products}
+            renderItem={({ item }) => <Text>{item.title}</Text>}
+          />
           <Text>
             Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
             tellus ac cursus commodo, tortor mauris condimentum nibh, ut

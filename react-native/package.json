@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^6.3.1",
+    "axios": "^0.18.0",
     "babel": "^6.23.0",
     "babel-eslint": "^8.2.6",
     "babel-polyfill": "^6.26.0",
@@ -77,6 +78,7 @@
     "redux": "^4.0.0",
     "redux-persist": "^5.9.1",
     "redux-thunk": "^2.2.0",
+    "shopify-buy": "^1.8.0",
     "sugarss": "^2.0.0",
     "superagent": "^3.8.2"
   }

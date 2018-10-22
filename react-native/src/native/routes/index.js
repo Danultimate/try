@@ -1,6 +1,7 @@
 import React from "react";
 import { Scene, Tabs, Stack } from "react-native-router-flux";
-import { Icon } from "native-base";
+import Shopify from "shopify-buy";
+import TabIcon from "../components/TabIcon";
 
 import DefaultProps from "../constants/navigation";
 import AppConfig from "../../constants/config";
@@ -30,29 +31,33 @@ import ProfileComponent from "../components/Profile";
 import AboutComponent from "../components/About";
 import DashboardComponent from "../components/Dashboard";
 
+const acessToken = "c00853c510a8221f272e03e862d884d7";
+const storeName = "descubre-belleza.myshopify.com";
+
+const shopify = Shopify.buildClient({
+  domain: storeName,
+  storefrontAccessToken: acessToken
+});
+
 const Index = (
   <Stack hideNavBar>
-    <Scene hideNavBar>
-      <Tabs
-        key="tabbar"
-        swipeEnabled
-        type="replace"
-        showLabel={false}
-        {...DefaultProps.tabProps}
-      >
+    <Scene hideNavBar activeTintColor="#93a8d5" inactiveTintColor="#3b5998">
+      <Tabs key="tabbar" swipeEnabled type="replace" {...DefaultProps.tabProps}>
         <Stack
           key="home"
-          title={AppConfig.appName.toUpperCase()}
-          icon={() => <Icon name="home" {...DefaultProps.icons} />}
+          title={AppConfig.appName}
+          iconName={"home"}
+          icon={TabIcon}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="home" component={DashboardComponent} />
+          <Scene key="home" component={DashboardComponent} shopify={shopify} />
         </Stack>
 
         <Stack
           key="recipes"
-          title="RECIPES"
-          icon={() => <Icon name="book" {...DefaultProps.icons} />}
+          title="Recetas"
+          iconName={"book"}
+          icon={TabIcon}
           {...DefaultProps.navbarProps}
         >
           <Scene
@@ -64,8 +69,9 @@ const Index = (
 
         <Stack
           key="profile"
-          title="PROFILE"
-          icon={() => <Icon name="contact" {...DefaultProps.icons} />}
+          title="Perfil"
+          iconName={"user"}
+          icon={TabIcon}
           {...DefaultProps.navbarProps}
         >
           <Scene
