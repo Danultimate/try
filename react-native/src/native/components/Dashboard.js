@@ -7,7 +7,18 @@ import {
   RefreshControl,
   Image
 } from "react-native";
-import { Container, Content, Text, H1, H2, H3 } from "native-base";
+import {
+  Container,
+  Content,
+  Text,
+  Card,
+  CardItem,
+  Body,
+  Button,
+  H1,
+  H2,
+  H3
+} from "native-base";
 // import axios from "axios";
 
 import Spacer from "./Spacer";
@@ -60,6 +71,7 @@ class Dashboard extends React.Component {
     this.props.shopify.product.fetchAll().then(res => {
       console.log(res);
       this.setState({
+        isLoading: false,
         products: res
       });
     });
@@ -80,9 +92,40 @@ class Dashboard extends React.Component {
           <Spacer size={30} />
           <H1 style={styles.header}>¡Hola Paula, muy bien!</H1>
           <Spacer size={10} />
+
           <FlatList
-            data={this.state.products}
-            renderItem={({ item }) => <Text>{item.title}</Text>}
+            data={this.state.collections}
+            renderItem={({ item }) => (
+              <Card transparent style={{ paddingHorizontal: 6 }}>
+                <CardItem cardBody>
+                  <TouchableOpacity
+                    onPress={() => onPress(item)}
+                    style={{ flex: 1 }}
+                  >
+                    <Image
+                      source={{ uri: item.image }}
+                      style={{
+                        height: 100,
+                        width: null,
+                        flex: 1,
+                        borderRadius: 5
+                      }}
+                    />
+                  </TouchableOpacity>
+                </CardItem>
+                <CardItem cardBody>
+                  <Body>
+                    <Spacer size={10} />
+                    <Text style={styles.header}>{item.title}</Text>
+                    <Spacer size={15} />
+                    <Button block small onPress={() => onPress(item)}>
+                      <Text>View Recipe</Text>
+                    </Button>
+                    <Spacer size={5} />
+                  </Body>
+                </CardItem>
+              </Card>
+            )}
           />
           <Text>
             Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
