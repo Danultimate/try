@@ -33,18 +33,18 @@
    
     <div class="dr-headerlogros">
         <div class="dr-persona">
-            <div class="row">               
-                <div class="col-9 text-left">
-                    {{#if model.user.picture}}
-                        <img src="{{model.user.picture}}" alt="" class="float-left mr-3 ml-3">
-                    {{else}}
-                        <img src="{{rootURL}}/assets/images/profile_pic.png" alt="" class="float-left mr-3 ml-3">
-                    {{/if}}
-                    {{!-- <span class="dr-editar">Editar</span> --}}
-                    <h4>{{model.user.first_name}} </h4>
-                    <p>{{model.user.last_name}}</p>
-                    <p>Código {{model.code}}</p>
-                </div>
+        
+            <div class="col-12 text-left">
+                {{#if model.user.picture}}
+                    <img src="{{model.user.picture}}" alt="User avatar" class="float-left ml-3 mr-3">
+                {{else}}
+                    <img src="{{rootURL}}/assets/images/profile_pic.png" alt="User avatar" class="float-left ml-3 mr-3">
+                {{/if}}
+
+                {{!-- <span class="dr-editar">Editar</span> --}}
+                <h4>{{model.user.first_name}} {{model.user.last_name}}</h4>
+                <p>Código: {{model.code}}</p>
+            
             </div>
             
             

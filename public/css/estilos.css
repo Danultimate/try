@@ -696,6 +696,7 @@ ul li .img-fluid {
   padding: 16px 0;
   background: #b81c7f;
   margin: 0 0 24px;
+  overflow: hidden;
 }
 .dr-contenidologros .dr-headerlogros .dr-persona {
   text-align: center;
@@ -759,6 +760,7 @@ ul li .img-fluid {
 }
 .dr-contenidologros .dr-ventas .dr-listitems {
   margin-top: 10px;
+  text-align: center;
 }
 .dr-contenidologros .dr-ventas .dr-listitems ul {
   margin: 0;
