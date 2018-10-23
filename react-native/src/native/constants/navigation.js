@@ -2,7 +2,10 @@ import Colors from "../../../native-base-theme/variables/commonColor";
 
 export default {
   navbarProps: {
-    navigationBarStyle: { backgroundColor: Colors.brandPrimary },
+    navigationBarStyle: {
+      backgroundColor: Colors.brandPrimary,
+      borderBottomColor: Colors.brandPrimary
+    },
     titleStyle: {
       color: Colors.titleFontColor,
       alignSelf: "center",
