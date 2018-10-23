@@ -65,14 +65,14 @@ class Dashboard extends React.Component {
   componentWillMount() {
     this.props.shopify.collection
       //.fetchAllWithProducts()
-      .fetchAll()
+      .fetchAll(first=50)
       .then(collections => {
         // Do something with the collections
         console.log(
           "These are the collections: " + Object.keys(collections[0])
         );
-        console.log("this is the image: ", collections[0].image);
-        //console.log(collections[0].products);
+        console.log("this is the length of collections: ", collections.length);
+        // console.log(collections[0].products);
         this.setState({
           isLoading: false,
           collections: collections
@@ -136,7 +136,6 @@ class Dashboard extends React.Component {
                     onPress={() => onPress(item)}
                     style={{ flex: 1 }}
                   >
-                    {console.log(item)}
                     {!!item.image &&
                       !!item.image.src && (
                         <Image
