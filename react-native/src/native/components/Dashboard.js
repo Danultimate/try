@@ -106,7 +106,7 @@ class Dashboard extends React.Component {
         <Content padder>
           <View style={styles.userBar}>
             <View style={styles.userImg}>
-              <Image source={require("../assets/images/avatar.png")} />;
+              <Image source={require("../assets/images/avatar.png")} />
               <Text style={styles.userCode}>pau-qmj</Text>
             </View>
             <View style={styles.userInfo}>
@@ -137,8 +137,8 @@ class Dashboard extends React.Component {
                     style={{ flex: 1 }}
                   >
                     {console.log(item)}
-                    {item.image &&
-                      item.image.src && (
+                    {!!item.image &&
+                      !!item.image.src && (
                         <Image
                           source={{ uri: item.image.src }}
                           style={{
@@ -163,7 +163,7 @@ class Dashboard extends React.Component {
                       </Text>
                     </Text>
                     <Spacer size={8} />
-                    {item.description && (
+                    {!!item.description && (
                       <Text style={styles.description}>{item.description}</Text>
                     )}
                     <Spacer size={16} />
