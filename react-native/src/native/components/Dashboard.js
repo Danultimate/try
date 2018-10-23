@@ -100,7 +100,7 @@ class Dashboard extends React.Component {
         />
       );
     }
-    //console.log('el member v2: '+ this.props.user.member.firstName)
+    // console.log('el member v1: '+ this.props.member.firstName)
     return (
       <Container>
         <Content padder>
@@ -110,7 +110,7 @@ class Dashboard extends React.Component {
               <Text style={styles.userCode}>pau-qmj</Text>
             </View>
             <View style={styles.userInfo}>
-              <H3 style={styles.userGreeting}>¡Hola Paula, muy bien!</H3>
+              <H3 style={styles.userGreeting}>¡Hola {this.props.member.firstName}, muy bien!</H3>
               <Text style={styles.userMessage}>
                 Vas mejorando tu anterior mes :)
               </Text>

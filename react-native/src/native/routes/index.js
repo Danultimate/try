@@ -1,6 +1,5 @@
 import React from "react";
 import { Scene, Tabs, Stack } from "react-native-router-flux";
-import Shopify from "shopify-buy";
 import TabIcon from "../components/TabIcon";
 
 import DefaultProps from "../constants/navigation";
@@ -28,16 +27,12 @@ import UpdateProfileComponent from "../components/UpdateProfile";
 import MemberContainer from "../../containers/Member";
 import ProfileComponent from "../components/Profile";
 
+
 import AboutComponent from "../components/About";
+import DashboardContainer from "../../containers/Dashboard";
 import DashboardComponent from "../components/Dashboard";
 
-const acessToken = "c00853c510a8221f272e03e862d884d7";
-const storeName = "descubre-belleza.myshopify.com";
 
-const shopify = Shopify.buildClient({
-  domain: storeName,
-  storefrontAccessToken: acessToken
-});
 
 const Index = (
   <Stack hideNavBar>
@@ -50,7 +45,11 @@ const Index = (
           icon={TabIcon}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="home" component={DashboardComponent} shopify={shopify} />
+          <Scene key="home" 
+            component={DashboardContainer}
+            Layout={DashboardComponent}          
+          />
+
         </Stack>
 
         <Stack
