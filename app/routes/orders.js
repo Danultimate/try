@@ -15,8 +15,8 @@ export default Route.extend(AuthenticatedRouteMixin, {
                     });
         record.save()
     });
-    //return this.store.query('order', {});
-    return this.store.findAll('order', {shouldReloadAll: true})
+    return this.store.query('order', {});
+    //return this.store.findAll('order')
   },
   
 });
