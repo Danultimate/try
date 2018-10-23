@@ -69,15 +69,18 @@
                 </div>
             </div>
         </div>
-        <div class="dr-listitems">
-            <hr>
-            <h5 class="text-center">Comparte este Semanazo</h5>
+        <hr>
+        <div class="text-center">
+            <h5>Comparte este Semanazo</h5>
             {{!-- {{#link-to "content" last_content.id}} --}}
             <a href="" {{action 'goContent' last_content.id}}>
                 <img class="img-fluid" src="{{last_content.thumbnailUrl}}" alt="">
             </a>
             {{!-- {{/link-to}} --}}
-            <hr>
+        </div>
+        <hr>
+        <div class="dr-listitems">
+            
             <ul>
                 <li>
                     {{#link-to 'contents'}}
