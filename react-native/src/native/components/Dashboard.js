@@ -12,6 +12,7 @@ import {
   Container,
   Content,
   Icon,
+  Thumbnail,
   Card,
   CardItem,
   Left,
@@ -75,6 +76,7 @@ class Dashboard extends React.Component {
     this.props.shopify.collection
       .fetchQuery(collectionQuery)
       .then(collections => {
+        console.log(collections);
         this.setState({
           isLoading: false,
           collections: collections
@@ -155,7 +157,7 @@ class Dashboard extends React.Component {
                   </TouchableOpacity>
                 </CardItem>
                 <CardItem cardBody>
-                  <Body style={styles.cardBody}>
+                  <Body style={[styles.cardBody, styles.cardSuccess]}>
                     <Spacer size={8} />
                     <H3 style={styles.header}>{item.title}</H3>
                     <Text style={styles.meta}>
@@ -163,7 +165,7 @@ class Dashboard extends React.Component {
                         Para compartir{" "}
                       </Text>
                       <Text style={[styles.meta, styles.date]}>
-                        • Hace 30 minutos
+                        • Hace {item.updatedAt}
                       </Text>
                     </Text>
                     <Spacer size={8} />
@@ -248,6 +250,54 @@ class Dashboard extends React.Component {
             )}
             keyExtractor={keyExtractor}
           />
+
+          <Card style={styles.card}>
+            <CardItem style={styles.cardBody} cardBody>
+              <Body>
+                <Image source={require("../assets/images/msg-success.png")} />
+                <H3 style={styles.header}>
+                  ¡Eres una vendedora super poderosa!
+                </H3>
+                <Text style={[styles.meta, styles.date]}>Hace 26 minutos</Text>
+                <Spacer size={8} />
+                <Text style={styles.description}>
+                  Tus ventas de la semana pasada te colocan dentro de nuestras
+                  mejores 50 vendedoras. ¡Felicitaciones!
+                </Text>
+                <Spacer size={16} />
+              </Body>
+            </CardItem>
+            <CardItem style={styles.cardFooter} footer bordered>
+              <Left>
+                <Button
+                  style={styles.cardButton}
+                  block
+                  transparent
+                  info
+                  small
+                  iconLeft
+                  onPress={() => onPress(item)}
+                >
+                  <Icon type="FontAwesome" name="star" />
+                  <Text style={styles.cardButtonText}>Me encanta</Text>
+                </Button>
+              </Left>
+              <Right>
+                <Button
+                  style={styles.cardButton}
+                  block
+                  transparent
+                  info
+                  small
+                  iconLeft
+                  onPress={() => onPress(item)}
+                >
+                  <Icon type="FontAwesome" name="share-square" />
+                  <Text style={styles.cardButtonText}>Compartir</Text>
+                </Button>
+              </Right>
+            </CardItem>
+          </Card>
 
           <Spacer size={30} />
           <H2 style={styles.header}>Heading 2</H2>
@@ -339,7 +389,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 1.41,
-
     elevation: 2
   },
   header: {
@@ -349,7 +398,8 @@ const styles = StyleSheet.create({
     lineHeight: 30
   },
   meta: {
-    fontSize: 10
+    fontSize: 10,
+    color: "#C3C5C7"
   },
   description: {
     fontSize: 18
@@ -360,10 +410,12 @@ const styles = StyleSheet.create({
     marginBottom: 8
   },
   cardBody: {
-    borderTopColor: Colors.brandSuccess,
-    borderTopWidth: 2,
     paddingHorizontal: 16,
     paddingTop: 12
+  },
+  cardSuccess: {
+    borderTopColor: Colors.brandSuccess,
+    borderTopWidth: 2
   },
   cardButtonText: {
     paddingHorizontal: 2
