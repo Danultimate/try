@@ -135,9 +135,9 @@ class Dashboard extends React.Component {
               <Text style={styles.userCode}>pau-qmj</Text>
             </View>
             <View style={styles.userInfo}>
-              <H3 style={styles.userGreeting}>
+              <Text style={styles.userGreeting}>
                 ¡Hola {this.props.member.firstName}, muy bien!
-              </H3>
+              </Text>
               <Text style={styles.userMessage}>
                 Vas mejorando tu anterior mes :)
               </Text>

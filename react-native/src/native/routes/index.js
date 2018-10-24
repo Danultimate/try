@@ -27,12 +27,9 @@ import UpdateProfileComponent from "../components/UpdateProfile";
 import MemberContainer from "../../containers/Member";
 import ProfileComponent from "../components/Profile";
 
-
 import AboutComponent from "../components/About";
 import DashboardContainer from "../../containers/Dashboard";
 import DashboardComponent from "../components/Dashboard";
-
-
 
 const Index = (
   <Stack hideNavBar>
@@ -45,11 +42,11 @@ const Index = (
           icon={TabIcon}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="home" 
+          <Scene
+            key="home"
             component={DashboardContainer}
-            Layout={DashboardComponent}          
+            Layout={DashboardComponent}
           />
-
         </Stack>
 
         <Stack
@@ -81,7 +78,7 @@ const Index = (
           <Scene
             back
             key="signUp"
-            title="SIGN UP"
+            title="Crea tu cuenta"
             {...DefaultProps.navbarProps}
             component={SignUpContainer}
             Layout={SignUpComponent}
@@ -89,7 +86,7 @@ const Index = (
           <Scene
             back
             key="login"
-            title="LOGIN"
+            title="Inicia sesión"
             {...DefaultProps.navbarProps}
             component={LoginContainer}
             Layout={LoginComponent}
@@ -97,7 +94,7 @@ const Index = (
           <Scene
             back
             key="forgotPassword"
-            title="FORGOT PASSWORD"
+            title="Reestablecer contraseña"
             {...DefaultProps.navbarProps}
             component={ForgotPasswordContainer}
             Layout={ForgotPasswordComponent}
@@ -105,7 +102,7 @@ const Index = (
           <Scene
             back
             key="locale"
-            title="CHANGE LANGUAGE"
+            title="Cambiar Idioma"
             {...DefaultProps.navbarProps}
             component={LocaleContainer}
             Layout={LocaleComponent}
@@ -113,7 +110,7 @@ const Index = (
           <Scene
             back
             key="updateProfile"
-            title="UPDATE PROFILE"
+            title="Actualizar Perfil"
             {...DefaultProps.navbarProps}
             component={UpdateProfileContainer}
             Layout={UpdateProfileComponent}
