@@ -69,7 +69,7 @@ class Dashboard extends React.Component {
       reverse: true
     };
     const productQuery = {
-      first: 3,
+      first: 5,
       query: "tag:['halloween']"
     };
     this.props.shopify.collection
