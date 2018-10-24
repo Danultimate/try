@@ -1,6 +1,7 @@
 import ErrorMessages from '../constants/errors';
 import statusMessage from './status';
 import { Firebase, FirebaseRef } from '../lib/firebase';
+import API from '../constants/api';
 
 /**
   * Sign Up to Firebase
@@ -12,12 +13,14 @@ export function signUp(formData) {
     password2,
     firstName,
     lastName,
+    cellphone,
   } = formData;
 
   return dispatch => new Promise(async (resolve, reject) => {
     // Validation checks
     if (!firstName) return reject({ message: ErrorMessages.missingFirstName });
     if (!lastName) return reject({ message: ErrorMessages.missingLastName });
+    if (!cellphone) return reject({ message: ErrorMessages.missingCellphone });
     if (!email) return reject({ message: ErrorMessages.missingEmail });
     if (!password) return reject({ message: ErrorMessages.missingPassword });
     if (!password2) return reject({ message: ErrorMessages.missingPassword });
@@ -34,6 +37,7 @@ export function signUp(formData) {
           FirebaseRef.child(`users/${res.user.uid}`).set({
             firstName,
             lastName,
+            phoneNumber: cellphone,
             signedUp: Firebase.database.ServerValue.TIMESTAMP,
             lastLoggedIn: Firebase.database.ServerValue.TIMESTAMP,
           }).then(() => statusMessage(dispatch, 'loading', false).then(resolve));
@@ -46,7 +50,7 @@ export function signUp(formData) {
 }
 
 /**
-  * Get this User's Details
+  * Get this User's Details from Firebase
   */
 function getUserData(dispatch) {
   const UID = (
@@ -71,6 +75,23 @@ function getUserData(dispatch) {
   });
 }
 
+/**
+  * Get this User's Details from Backend
+  */
+export function setupAxios(cellphone) {
+  console.log('ok al menos entra aca ._.')
+  data = {
+    username: cellphone,
+    password: '',
+  }
+  API.post(`login_admin/`,{data})
+  .then((response)=>{
+    console.log('a ver si hizo esta shit: '+ response.data)
+    API.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
+  })
+  console.log('vea y termina')
+}
+
 export function getMemberData() {
   if (Firebase === null) return () => new Promise(resolve => resolve());
 
@@ -93,6 +114,7 @@ export function login(formData) {
   const {
     email,
     password,
+    cellphone,
   } = formData;
 
   return dispatch => new Promise(async (resolve, reject) => {
@@ -101,6 +123,7 @@ export function login(formData) {
     // Validation checks
     if (!email) return reject({ message: ErrorMessages.missingEmail });
     if (!password) return reject({ message: ErrorMessages.missingPassword });
+    if (!cellphone) return reject({ message: ErrorMessages.missingCellphone });
 
     // Go to Firebase
     return Firebase.auth()
@@ -125,7 +148,12 @@ export function login(formData) {
 
             // Get User Data
             getUserData(dispatch);
+            
+            // Set flask backend bridge
+            setupAxios(cellphone);
           }
+
+          
 
           await statusMessage(dispatch, 'loading', false);
 
