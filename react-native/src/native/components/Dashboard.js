@@ -36,6 +36,7 @@ class Dashboard extends React.Component {
       isLoading: true,
       loadedFonts: false,
       collections: [],
+      products: [],
       error: null
     };
   }
@@ -63,16 +64,17 @@ class Dashboard extends React.Component {
   };
 
   componentWillMount() {
+    const collectionQuery = {
+      first: 3,
+      reverse: true
+    };
+    const productQuery = {
+      first: 3,
+      query: "tag:['halloween']"
+    };
     this.props.shopify.collection
-      //.fetchAllWithProducts()
-      .fetchAll(first=50)
+      .fetchQuery(collectionQuery)
       .then(collections => {
-        // Do something with the collections
-        console.log(
-          "These are the collections: " + Object.keys(collections[0])
-        );
-        console.log("this is the length of collections: ", collections.length);
-        // console.log(collections[0].products);
         this.setState({
           isLoading: false,
           collections: collections
@@ -80,13 +82,15 @@ class Dashboard extends React.Component {
       })
       .catch(error => this.setState({ error, isLoading: false }));
 
-    // this.props.shopify.product.fetchAll().then(res => {
-    //   //console.log(res);
-    //   console.log('These are the products: '+res);
-    //   this.setState({
-    //     products: res
-    //   });
-    // });
+    this.props.shopify.product
+      .fetchQuery(productQuery)
+      .then(res => {
+        console.log(res);
+        this.setState({
+          products: res
+        });
+      })
+      .catch(error => this.setState({ error, isLoading: false }));
   }
   render() {
     const keyExtractor = item => item.id.toString();
@@ -100,7 +104,6 @@ class Dashboard extends React.Component {
         />
       );
     }
-    // console.log('el member v1: '+ this.props.member.firstName)
     return (
       <Container>
         <Content padder>
@@ -110,7 +113,9 @@ class Dashboard extends React.Component {
               <Text style={styles.userCode}>pau-qmj</Text>
             </View>
             <View style={styles.userInfo}>
-              <H3 style={styles.userGreeting}>¡Hola {this.props.member.firstName}, muy bien!</H3>
+              <H3 style={styles.userGreeting}>
+                ¡Hola {this.props.member.firstName}, muy bien!
+              </H3>
               <Text style={styles.userMessage}>
                 Vas mejorando tu anterior mes :)
               </Text>
@@ -202,6 +207,47 @@ class Dashboard extends React.Component {
             )}
             keyExtractor={keyExtractor}
           />
+          <Spacer size={8} />
+          <Text style={styles.meta}>PRODUCTOS DE LA CAMPAÑA</Text>
+          <Spacer size={8} />
+          <FlatList
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            data={this.state.products}
+            renderItem={({ item }) => (
+              <Card transparent style={styles.transparentCard}>
+                <CardItem cardBody>
+                  <TouchableOpacity
+                    onPress={() => onPress(item)}
+                    style={{ flex: 1 }}
+                  >
+                    {!!item.images &&
+                      !!item.images[0].src && (
+                        <Image
+                          source={{ uri: item.images[0].src }}
+                          style={{
+                            height: 168,
+                            width: null,
+                            flex: 1
+                          }}
+                        />
+                      )}
+                  </TouchableOpacity>
+                </CardItem>
+                <CardItem cardBody style={styles.transparentCard}>
+                  <Body>
+                    <Spacer size={8} />
+                    <H3 style={[styles.header, styles.productTitle]}>
+                      {item.title}
+                    </H3>
+                    <Text style={styles.meta}>{item.vendor.toUpperCase()}</Text>
+                    <Spacer size={16} />
+                  </Body>
+                </CardItem>
+              </Card>
+            )}
+            keyExtractor={keyExtractor}
+          />
 
           <Spacer size={30} />
           <H2 style={styles.header}>Heading 2</H2>
@@ -244,7 +290,8 @@ const styles = StyleSheet.create({
   userGreeting: {
     fontFamily: "playfair",
     color: "white",
-    fontSize: 24
+    fontSize: 24,
+    lineHeight: 24
   },
   userMessage: {
     color: "#B09DE0",
@@ -325,5 +372,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
     borderTopColor: "#EBEDF0",
     paddingHorizontal: 0
+  },
+  horizontalScroll: {},
+  transparentCard: {
+    backgroundColor: "rgba(255, 255, 255, 0)",
+    width: 128
+  },
+  productTitle: {
+    fontSize: 16,
+    lineHeight: 16
   }
 });
