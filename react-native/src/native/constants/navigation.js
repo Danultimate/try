@@ -12,7 +12,8 @@ export default {
       letterSpacing: 2,
       fontSize: Colors.fontSizeBase
     },
-    backButtonTintColor: Colors.textColor
+    tintColor: "#FBFAFF",
+    backButtonTintColor: Colors.brandLight
   },
 
   tabProps: {

@@ -161,7 +161,13 @@ class Dashboard extends React.Component {
                     <Spacer size={8} />
                     <H3 style={styles.header}>{item.title}</H3>
                     <Text style={styles.meta}>
-                      <Text style={[styles.meta, styles.category]}>
+                      <Text
+                        style={[
+                          styles.meta,
+                          styles.category,
+                          styles.successMsg
+                        ]}
+                      >
                         Para compartir{" "}
                       </Text>
                       <Text style={[styles.meta, styles.date]}>
@@ -252,10 +258,21 @@ class Dashboard extends React.Component {
           />
 
           <Card style={styles.card}>
-            <CardItem style={styles.cardBody} cardBody>
+            <CardItem
+              header
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                paddingBottom: 0
+              }}
+            >
+              <Image source={require("../assets/images/msg-success.png")} />
+            </CardItem>
+            <CardItem styles={styles.cardBody}>
               <Body>
-                <Image source={require("../assets/images/msg-success.png")} />
-                <H3 style={styles.header}>
+                <H3
+                  style={[styles.header, styles.successMsg, styles.textCenter]}
+                >
                   ¡Eres una vendedora super poderosa!
                 </H3>
                 <Text style={[styles.meta, styles.date]}>Hace 26 minutos</Text>
@@ -299,25 +316,141 @@ class Dashboard extends React.Component {
             </CardItem>
           </Card>
 
-          <Spacer size={30} />
-          <H2 style={styles.header}>Heading 2</H2>
-          <Spacer size={10} />
-          <Text>
-            Elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac
-            cursus commodo, tortor mauris condimentum nibh, ut fermentum massa
-            justo sit amet risus. Etiam porta sem malesuada magna mollis
-            euismod. Donec sed odio dui.{" "}
-          </Text>
+          <Card style={styles.card}>
+            <CardItem
+              header
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                paddingBottom: 0
+              }}
+            >
+              <Image source={require("../assets/images/msg-warning.png")} />
+            </CardItem>
+            <CardItem styles={styles.cardBody}>
+              <Body>
+                <H3
+                  style={[styles.header, styles.warningMsg, styles.textCenter]}
+                >
+                  Tu cliente abandonó el carrito de compra
+                </H3>
+                <Text style={[styles.meta, styles.date]}>Hace 26 minutos</Text>
+                <Spacer size={8} />
+                <Text style={styles.description}>
+                  Tu cliente Maria Perez agregó tres productos pero no terminó
+                  su proceso de compra en el sitio web de Elenas…
+                  <Text style={{ color: Colors.brandInfo }}>Ver más</Text>
+                </Text>
+                <Spacer size={16} />
+              </Body>
+            </CardItem>
+            <CardItem style={styles.cardFooter} footer bordered>
+              <Body>
+                <Button
+                  style={styles.cardButton}
+                  block
+                  transparent
+                  info
+                  small
+                  iconLeft
+                  onPress={() => onPress(item)}
+                >
+                  <Icon type="FontAwesome" name="phone" />
+                  <Text style={styles.cardButtonText}>Llamar</Text>
+                </Button>
+              </Body>
+            </CardItem>
+          </Card>
+
+          <Button style={styles.loadMore} block light>
+            <Text style={styles.loadMoreText}>Cargar más</Text>
+          </Button>
+
+          <Card style={styles.card}>
+            <CardItem
+              header
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                paddingBottom: 0
+              }}
+            >
+              <Image source={require("../assets/images/referral.png")} />
+            </CardItem>
+            <CardItem styles={styles.cardBody}>
+              <Body>
+                <H3
+                  style={[styles.header, styles.primaryMsg, styles.textCenter]}
+                >
+                  ¡Gana $50,000 por cada amiga referida!
+                </H3>
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: "100%"
+                  }}
+                >
+                  <Text style={[styles.meta, styles.textCenter]}>
+                    Tu código de referidos:
+                  </Text>
+                  <Text style={[styles.referralCode, styles.textCenter]}>
+                    YW6Op98
+                  </Text>
+                </View>
+                <Spacer size={8} />
+                <Text style={styles.description}>
+                  Comparte tu código y gana $50.000 que podrás reclamar en tu
+                  próxima compra.
+                </Text>
+                <Spacer size={16} />
+              </Body>
+            </CardItem>
+            <CardItem style={styles.cardFooter} footer bordered>
+              <Body>
+                <Button
+                  style={styles.cardButton}
+                  block
+                  transparent
+                  info
+                  small
+                  iconLeft
+                  onPress={() => onPress(item)}
+                >
+                  <Icon type="FontAwesome" name="share-square" />
+                  <Text style={styles.cardButtonText}>Compartir</Text>
+                </Button>
+              </Body>
+            </CardItem>
+          </Card>
 
           <Spacer size={30} />
-          <H3 style={styles.header}>Heading 3</H3>
-          <Spacer size={10} />
-          <Text>
-            Elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac
-            cursus commodo, tortor mauris condimentum nibh, ut fermentum massa
-            justo sit amet risus. Etiam porta sem malesuada magna mollis
-            euismod. Donec sed odio dui.{" "}
-          </Text>
+
+          <View style={styles.supportWidget}>
+            <Image source={require("../assets/images/support.png")} />
+            <H3
+              style={[
+                styles.header,
+                styles.primaryMsg,
+                styles.textCenter,
+                styles.supportHeader
+              ]}
+            >
+              ¿Tienes alguna duda?
+            </H3>
+            <Text style={[styles.textCenter, styles.supportText]}>
+              <Text style={[{ color: Colors.brandInfo }, styles.supportText]}>
+                Contáctanos{" "}
+              </Text>
+              o visita nuestro{" "}
+              <Text style={[{ color: Colors.brandInfo }, styles.supportText]}>
+                Centro de Soporte
+              </Text>
+            </Text>
+          </View>
+
+          <Spacer size={30} />
         </Content>
       </Container>
     );
@@ -406,7 +539,6 @@ const styles = StyleSheet.create({
   },
   category: {
     fontWeight: "bold",
-    color: Colors.brandSuccess,
     marginBottom: 8
   },
   cardBody: {
@@ -425,13 +557,47 @@ const styles = StyleSheet.create({
     borderTopColor: "#EBEDF0",
     paddingHorizontal: 0
   },
+  successMsg: { color: Colors.brandSuccess },
+  warningMsg: { color: Colors.brandWarning },
+  primaryMsg: { color: Colors.brandPrimary },
+  textCenter: {
+    textAlign: "center"
+  },
+  supportWidget: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    paddingHorizontal: 40
+  },
+  supportHeader: {
+    fontSize: 24
+  },
+  supportText: {
+    fontSize: 14
+  },
   horizontalScroll: {},
   transparentCard: {
     backgroundColor: "rgba(255, 255, 255, 0)",
     width: 128
   },
+  referralCode: {
+    fontWeight: "bold",
+    fontSize: 20
+  },
   productTitle: {
     fontSize: 16,
     lineHeight: 16
+  },
+  loadMore: {
+    backgroundColor: "#F8F5FF",
+    marginTop: 8,
+    marginBottom: 8,
+    marginHorizontal: 2,
+    shadowColor: "transparent"
+  },
+  loadMoreText: {
+    fontSize: 12,
+    color: Colors.brandInfo
   }
 });
