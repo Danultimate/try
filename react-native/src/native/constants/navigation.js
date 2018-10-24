@@ -12,7 +12,6 @@ export default {
       letterSpacing: 2,
       fontSize: Colors.fontSizeBase
     },
-    tintColor: "#FBFAFF",
     backButtonTintColor: Colors.brandLight
   },
 

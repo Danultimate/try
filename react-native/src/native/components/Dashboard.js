@@ -38,7 +38,24 @@ class Dashboard extends React.Component {
       loadedFonts: false,
       collections: [],
       products: [],
-      error: null
+      notificationsTitle: "Notificaciones",
+      notifications: [
+        {
+          title: "Nueva Orden",
+          description:
+            "¡Juliana Villa ha completado una orden de 3 productos por $75,000!",
+          createdAt: "Hace 3 minutos",
+          id: 1
+        },
+        {
+          title: "Pedido Entregado",
+          description: "Teresa Lizcano ha recibido su orden por 5 productos",
+          createdAt: "Hace 3 minutos",
+          id: 2
+        }
+      ],
+      error: null,
+      productsTitle: "Productos de la campaña"
     };
   }
 
@@ -107,11 +124,14 @@ class Dashboard extends React.Component {
       );
     }
     return (
-      <Container>
+      <Container style={styles.container}>
         <Content padder>
           <View style={styles.userBar}>
             <View style={styles.userImg}>
-              <Image source={require("../assets/images/avatar.png")} />
+              <Image
+                style={styles.userAvatar}
+                source={require("../assets/images/avatar.png")}
+              />
               <Text style={styles.userCode}>pau-qmj</Text>
             </View>
             <View style={styles.userInfo}>
@@ -123,16 +143,62 @@ class Dashboard extends React.Component {
               </Text>
               <Spacer size={10} />
               <View style={styles.userNumbers}>
-                <Text style={styles.userNumberLabel}>Ventas</Text>
+                <Text style={styles.userNumberLabel}>Ventas </Text>
                 <Text style={styles.userSales}>
                   <Text style={styles.userCurrency}>$</Text>258.650
                 </Text>
                 <Spacer size={10} />
                 <Text style={styles.userClients}>32</Text>
-                <Text style={styles.userNumberLabel}>clientes</Text>
+                <Text style={styles.userNumberLabel}> clientes</Text>
               </View>
             </View>
           </View>
+
+          <View style={styles.notifications}>
+            <Text style={styles.meta}>
+              {this.state.notificationsTitle.toUpperCase()}
+            </Text>
+            <FlatList
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              data={this.state.notifications}
+              renderItem={({ item }) => (
+                <Card style={styles.notification}>
+                  <CardItem cardBody>
+                    <Body style={styles.notificationBody}>
+                      <View style={styles.notificationHeader}>
+                        <View style={styles.leftContainer}>
+                          <Text
+                            style={[
+                              styles.header,
+                              styles.notificationTitle,
+                              styles.primaryMsg
+                            ]}
+                            numberOfLines="1"
+                          >
+                            <Image
+                              source={require("../assets/images/notification.png")}
+                            />
+                            {" " + item.title}
+                          </Text>
+                        </View>
+                        <View style={styles.rightContainer}>
+                          <Text style={[styles.meta, styles.notificationDate]}>
+                            {item.createdAt}
+                          </Text>
+                        </View>
+                      </View>
+                      <Text style={styles.notificationText}>
+                        {item.description}
+                      </Text>
+                    </Body>
+                  </CardItem>
+                </Card>
+              )}
+              keyExtractor={keyExtractor}
+            />
+          </View>
+
           <FlatList
             numColumns={1}
             data={this.state.collections}
@@ -176,7 +242,9 @@ class Dashboard extends React.Component {
                     </Text>
                     <Spacer size={8} />
                     {!!item.description && (
-                      <Text style={styles.description}>{item.description}</Text>
+                      <Text numberOfLines="3" style={styles.description}>
+                        {item.description}
+                      </Text>
                     )}
                     <Spacer size={16} />
                   </Body>
@@ -215,8 +283,11 @@ class Dashboard extends React.Component {
             )}
             keyExtractor={keyExtractor}
           />
+
           <Spacer size={8} />
-          <Text style={styles.meta}>PRODUCTOS DE LA CAMPAÑA</Text>
+          <Text style={styles.meta}>
+            {this.state.productsTitle.toUpperCase()}
+          </Text>
           <Spacer size={8} />
           <FlatList
             horizontal={true}
@@ -460,6 +531,9 @@ class Dashboard extends React.Component {
 export default Dashboard;
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#F7F7FF"
+  },
   userBar: {
     flexDirection: "row",
     backgroundColor: Colors.brandPrimary,
@@ -503,6 +577,9 @@ const styles = StyleSheet.create({
     marginRight: 10,
     justifyContent: "center",
     alignItems: "center"
+  },
+  userAvatar: {
+    marginBottom: 12
   },
   userCode: {
     fontSize: 10,
@@ -557,9 +634,15 @@ const styles = StyleSheet.create({
     borderTopColor: "#EBEDF0",
     paddingHorizontal: 0
   },
-  successMsg: { color: Colors.brandSuccess },
-  warningMsg: { color: Colors.brandWarning },
-  primaryMsg: { color: Colors.brandPrimary },
+  successMsg: {
+    color: Colors.brandSuccess
+  },
+  warningMsg: {
+    color: Colors.brandWarning
+  },
+  primaryMsg: {
+    color: Colors.brandPrimary
+  },
   textCenter: {
     textAlign: "center"
   },
@@ -581,6 +664,54 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255, 255, 255, 0)",
     width: 128
   },
+  notifications: {
+    backgroundColor: "#EDEBF5",
+    padding: 12,
+    paddingRight: 0,
+    marginTop: -10,
+    marginLeft: -10,
+    marginRight: -10,
+    marginBottom: 10
+  },
+  notification: {
+    width: 224,
+    height: 88,
+    borderRadius: 0,
+    shadowColor: "#E2E1E6"
+  },
+  notificationHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 4
+  },
+  leftContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-start"
+  },
+  rightContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center"
+  },
+  notificationDate: {
+    alignSelf: "flex-end"
+  },
+  notificationTitle: {
+    fontSize: 14,
+    lineHeight: 16,
+    marginBottom: 0
+  },
+  notificationText: {
+    fontSize: 12,
+    lineHeight: 18
+  },
+  notificationBody: {
+    paddingHorizontal: 8,
+    paddingVertical: 8
+  },
   referralCode: {
     fontWeight: "bold",
     fontSize: 20
@@ -590,14 +721,14 @@ const styles = StyleSheet.create({
     lineHeight: 16
   },
   loadMore: {
-    backgroundColor: "#F8F5FF",
+    backgroundColor: "#F1EDFA",
     marginTop: 8,
     marginBottom: 8,
     marginHorizontal: 2,
     shadowColor: "transparent"
   },
   loadMoreText: {
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.brandInfo
   }
 });
