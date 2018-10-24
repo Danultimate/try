@@ -174,7 +174,7 @@ class Dashboard extends React.Component {
                               styles.notificationTitle,
                               styles.primaryMsg
                             ]}
-                            numberOfLines="1"
+                            numberOfLines={1}
                           >
                             <Image
                               source={require("../assets/images/notification.png")}
@@ -242,7 +242,7 @@ class Dashboard extends React.Component {
                     </Text>
                     <Spacer size={8} />
                     {!!item.description && (
-                      <Text numberOfLines="3" style={styles.description}>
+                      <Text numberOfLines={3} style={styles.description}>
                         {item.description}
                       </Text>
                     )}
@@ -627,7 +627,8 @@ const styles = StyleSheet.create({
     borderTopWidth: 2
   },
   cardButtonText: {
-    paddingHorizontal: 2
+    paddingLeft: 8,
+    paddingRight: 8
   },
   cardFooter: {
     borderBottomWidth: 0,
