@@ -93,7 +93,7 @@ class Dashboard extends React.Component {
     this.props.shopify.collection
       .fetchQuery(collectionQuery)
       .then(collections => {
-        console.log(collections);
+        //console.log(collections);
         this.setState({
           isLoading: false,
           collections: collections
@@ -104,7 +104,7 @@ class Dashboard extends React.Component {
     this.props.shopify.product
       .fetchQuery(productQuery)
       .then(res => {
-        console.log(res);
+        //console.log(res);
         this.setState({
           products: res
         });
