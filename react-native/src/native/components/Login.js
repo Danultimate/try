@@ -34,6 +34,7 @@ class Login extends React.Component {
     this.state = {
       email: (props.member && props.member.email) ? props.member.email : '',
       password: '',
+      cellphone: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -86,6 +87,15 @@ class Login extends React.Component {
                 value={email}
                 keyboardType="email-address"
                 onChangeText={v => this.handleChange('email', v)}
+              />
+            </Item>
+            <Item stackedLabel>
+              <Label>
+                {translate('Cellphone', locale)}
+              </Label>
+              <Input
+                autoCapitalize="none"
+                onChangeText={v => this.handleChange('cellphone', v)}
               />
             </Item>
             <Item stackedLabel>

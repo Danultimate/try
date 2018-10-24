@@ -79,6 +79,13 @@ class SignUp extends React.Component {
 
             <Item stackedLabel>
               <Label>
+                Cellphone
+              </Label>
+              <Input onChangeText={v => this.handleChange('cellphone', v)} />
+            </Item>
+
+            <Item stackedLabel>
+              <Label>
                 Email
               </Label>
               <Input
