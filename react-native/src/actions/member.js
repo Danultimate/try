@@ -77,19 +77,17 @@ function getUserData(dispatch) {
 
 /**
   * Get this User's Details from Backend
+  * TODO: there's a lot todo here, not working
   */
 export function setupAxios(cellphone) {
-  console.log('ok al menos entra aca ._.')
   data = {
     username: cellphone,
     password: '',
   }
   API.post(`login_admin/`,{data})
   .then((response)=>{
-    console.log('a ver si hizo esta shit: '+ response.data)
     API.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
   })
-  console.log('vea y termina')
 }
 
 export function getMemberData() {
