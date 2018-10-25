@@ -80,13 +80,17 @@ function getUserData(dispatch) {
   * TODO: there's a lot todo here, not working
   */
 export function setupAxios(cellphone) {
-  data = {
+  API.post('/login_admin', {
     username: cellphone,
-    password: '',
-  }
-  API.post(`login_admin/`,{data})
+    password: ' '
+  })
   .then((response)=>{
     API.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
+    console.log('@auth-backend success')
+  })
+  .catch((res)=>{
+    console.log('Error @auth-backend')
+    console.log(res)
   })
 }
 
