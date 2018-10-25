@@ -4,7 +4,8 @@ export default {
   navbarProps: {
     navigationBarStyle: {
       backgroundColor: Colors.brandPrimary,
-      borderBottomColor: Colors.brandPrimary
+      borderBottomColor: Colors.brandPrimary,
+      elevation: 0
     },
     titleStyle: {
       color: Colors.titleFontColor,

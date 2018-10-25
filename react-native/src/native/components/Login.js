@@ -1,40 +1,57 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
+import { StyleSheet, Image } from "react-native";
 import {
-  Container, Content, Form, Item, Label, Input, Text, Button, View,
-} from 'native-base';
-import { Actions } from 'react-native-router-flux';
-import Loading from './Loading';
-import Messages from './Messages';
-import { translate } from '../../i18n';
-import Header from './Header';
-import Spacer from './Spacer';
+  Container,
+  Content,
+  Icon,
+  Form,
+  Item,
+  Card,
+  CardItem,
+  Left,
+  Right,
+  Body,
+  Label,
+  Input,
+  Text,
+  Button,
+  View,
+  H3
+} from "native-base";
+import Colors from "../../../native-base-theme/variables/commonColor";
+
+import { Actions } from "react-native-router-flux";
+import Loading from "./Loading";
+import Messages from "./Messages";
+import Header from "./Header";
+import Spacer from "./Spacer";
 
 class Login extends React.Component {
   static propTypes = {
     member: PropTypes.shape({
-      email: PropTypes.string,
+      email: PropTypes.string
     }),
     locale: PropTypes.string,
     error: PropTypes.string,
     success: PropTypes.string,
     loading: PropTypes.bool.isRequired,
-    onFormSubmit: PropTypes.func.isRequired,
-  }
+    onFormSubmit: PropTypes.func.isRequired
+  };
 
   static defaultProps = {
     error: null,
     success: null,
     locale: null,
-    member: {},
-  }
+    member: {}
+  };
 
   constructor(props) {
     super(props);
     this.state = {
-      email: (props.member && props.member.email) ? props.member.email : '',
-      password: '',
-      cellphone: '',
+      email: props.member && props.member.email ? props.member.email : "",
+      password: "",
+      cellphone: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -43,81 +60,102 @@ class Login extends React.Component {
 
   handleChange = (name, val) => {
     this.setState({
-      [name]: val,
+      [name]: val
     });
-  }
+  };
 
   handleSubmit = () => {
     const { onFormSubmit } = this.props;
     onFormSubmit(this.state)
       .then(() => Actions.pop())
       .catch(e => console.log(`Error: ${e}`));
-  }
+  };
 
   render() {
-    const {
-      loading,
-      error,
-      success,
-      locale,
-    } = this.props;
+    const { loading, error, success, locale } = this.props;
     const { email } = this.state;
 
     if (loading) return <Loading />;
 
     return (
       <Container>
-        <Content>
-          <View padder>
-            <Header
-              title="Welcome back"
-              content="Please use your email and password to login."
-            />
-            { success ? <Messages type="success" message={success} /> : null }
-            { error ? <Messages message={error} /> : null }
-          </View>
-
-          <Form>
-            <Item stackedLabel>
-              <Label>
-                {translate('Email', locale)}
-              </Label>
-              <Input
-                autoCapitalize="none"
-                value={email}
-                keyboardType="email-address"
-                onChangeText={v => this.handleChange('email', v)}
+        <Content padder>
+          <Card style={styles.card}>
+            <CardItem header style={styles.authCard}>
+              <Image
+                style={styles.authImg}
+                source={require("../assets/images/login.png")}
               />
-            </Item>
-            <Item stackedLabel>
-              <Label>
-                {translate('Cellphone', locale)}
-              </Label>
-              <Input
-                autoCapitalize="none"
-                onChangeText={v => this.handleChange('cellphone', v)}
-              />
-            </Item>
-            <Item stackedLabel>
-              <Label>
-                {translate('Password', locale)}
-              </Label>
-              <Input
-                secureTextEntry
-                onChangeText={v => this.handleChange('password', v)}
-              />
-            </Item>
-
-            <Spacer size={20} />
-
-            <View padder>
-              <Button block onPress={this.handleSubmit}>
-                <Text>
-                  {translate('Login', locale)}
+            </CardItem>
+            <CardItem styles={styles.cardBody}>
+              <Body style={styles.authCard}>
+                <H3
+                  style={[styles.header, styles.primaryMsg, styles.textCenter]}
+                >
+                  Inicia sesión
+                </H3>
+                <Spacer size={8} />
+                <Text style={[styles.description, styles.textCenter]}>
+                  ¡Revisa tus pedidos, maneja tus clientes y aumenta tus ventas!
                 </Text>
-              </Button>
-            </View>
-          </Form>
+                {success ? <Messages type="success" message={success} /> : null}
+                {error ? <Messages message={error} /> : null}
+              </Body>
+            </CardItem>
+            <CardItem styles={styles.cardBody}>
+              <Body style={styles.authCard}>
+                <Form style={styles.authForm}>
+                  <Item floatingLabel style={styles.formElement}>
+                    <Label style={styles.formLabel}>Correo electrónico</Label>
+                    <Input
+                      autoCapitalize="none"
+                      value={email}
+                      keyboardType="email-address"
+                      onChangeText={v => this.handleChange("email", v)}
+                    />
+                  </Item>
+                  <Item floatingLabel style={styles.formElement}>
+                    <Label style={styles.formLabel}>Teléfono celular</Label>
+                    <Input
+                      autoCapitalize="none"
+                      keyboardType="phone-pad"
+                      onChangeText={v => this.handleChange("cellphone", v)}
+                    />
+                  </Item>
+                  <Item floatingLabel style={styles.formElement}>
+                    <Label style={styles.formLabel}>Contraseña</Label>
+                    <Input
+                      secureTextEntry
+                      onChangeText={v => this.handleChange("password", v)}
+                    />
+                  </Item>
+                  <Spacer size={16} />
+                  <Text
+                    style={[
+                      styles.supportText,
+                      { color: Colors.brandInfo, marginLeft: "auto" }
+                    ]}
+                  >
+                    ¡Olvide mi contraseña!
+                  </Text>
+                  <Spacer size={16} />
+
+                  <Button block onPress={this.handleSubmit}>
+                    <Text>Inicia sesión</Text>
+                  </Button>
+                  <Spacer size={16} />
+                  <Text style={[styles.supportText, styles.textCenter]}>
+                    ¿No tienes una cuenta aún?{" "}
+                    <Text
+                      style={[styles.supportText, { color: Colors.brandInfo }]}
+                    >
+                      Regístrate
+                    </Text>
+                  </Text>
+                </Form>
+              </Body>
+            </CardItem>
+          </Card>
         </Content>
       </Container>
     );
@@ -125,3 +163,105 @@ class Login extends React.Component {
 }
 
 export default Login;
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#F7F7FF"
+  },
+  card: {
+    shadowColor: "#E2E1E6",
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2
+  },
+  header: {
+    fontFamily: "playfair",
+    fontSize: 32,
+    marginBottom: 8,
+    lineHeight: 30
+  },
+  meta: {
+    fontSize: 10,
+    color: "#C3C5C7"
+  },
+  description: {
+    fontSize: 18
+  },
+  cardBody: {
+    paddingHorizontal: 16,
+    paddingTop: 12
+  },
+  authCard: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingBottom: 0
+  },
+  authImg: {
+    marginTop: 8
+  },
+  authForm: {
+    width: "100%"
+  },
+  cardSuccess: {
+    borderTopColor: Colors.brandSuccess,
+    borderTopWidth: 2
+  },
+  cardButtonText: {
+    paddingLeft: 8,
+    paddingRight: 8
+  },
+  cardFooter: {
+    borderBottomWidth: 0,
+    borderTopColor: "#EBEDF0",
+    paddingHorizontal: 0
+  },
+  successMsg: {
+    color: Colors.brandSuccess
+  },
+  warningMsg: {
+    color: Colors.brandWarning
+  },
+  primaryMsg: {
+    color: Colors.brandPrimary
+  },
+  textCenter: {
+    textAlign: "center"
+  },
+  supportWidget: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    paddingHorizontal: 40
+  },
+  supportHeader: {
+    fontSize: 24
+  },
+  supportText: {
+    fontSize: 14
+  },
+  transparentCard: {
+    backgroundColor: "rgba(255, 255, 255, 0)",
+    width: 128
+  },
+  formElement: {
+    marginLeft: 0,
+    marginTop: 0,
+    marginBottom: -1,
+    backgroundColor: "#FBFAFF",
+    padding: 4,
+    borderColor: "#EEEDF2",
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderLeftWidth: 1,
+    borderRightWidth: 1
+  },
+  formLabel: {
+    paddingTop: 8,
+    paddingLeft: 4
+  }
+});
