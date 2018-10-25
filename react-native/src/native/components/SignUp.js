@@ -163,7 +163,7 @@ class SignUp extends React.Component {
                   </View>
                   <Spacer size={16} />
 
-                  <Button block onPress={this.handleSubmit}>
+                  <Button block success onPress={this.handleSubmit}>
                     <Text>Crea tu cuenta</Text>
                   </Button>
                   <Spacer size={16} />

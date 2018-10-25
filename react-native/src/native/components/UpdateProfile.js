@@ -192,7 +192,7 @@ class UpdateProfile extends React.Component {
 
                   <Spacer size={16} />
 
-                  <Button block onPress={this.handleSubmit}>
+                  <Button block success onPress={this.handleSubmit}>
                     <Text>Actualizar Perfil</Text>
                   </Button>
                 </Form>

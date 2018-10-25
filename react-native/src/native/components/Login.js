@@ -24,7 +24,6 @@ import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
 import Loading from "./Loading";
 import Messages from "./Messages";
-import Header from "./Header";
 import Spacer from "./Spacer";
 
 class Login extends React.Component {
@@ -140,7 +139,7 @@ class Login extends React.Component {
                   </Text>
                   <Spacer size={16} />
 
-                  <Button block onPress={this.handleSubmit}>
+                  <Button block success onPress={this.handleSubmit}>
                     <Text>Inicia sesión</Text>
                   </Button>
                   <Spacer size={16} />

@@ -115,7 +115,7 @@ class ForgotPassword extends React.Component {
 
                   <Spacer size={16} />
 
-                  <Button block onPress={this.handleSubmit}>
+                  <Button block success onPress={this.handleSubmit}>
                     <Text>Reestablecer contraseña</Text>
                   </Button>
                 </Form>

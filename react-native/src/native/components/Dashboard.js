@@ -52,6 +52,13 @@ class Dashboard extends React.Component {
           description: "Teresa Lizcano ha recibido su orden por 5 productos",
           createdAt: "Hace 3 minutos",
           id: 2
+        },
+        {
+          title: "Nueva Orden",
+          description:
+            "¡Juliana Villa ha completado una orden de 3 productos por $75,000!",
+          createdAt: "Hace 3 minutos",
+          id: 3
         }
       ],
       error: null,
@@ -114,8 +121,10 @@ class Dashboard extends React.Component {
   render() {
     const keyExtractor = item => item.id.toString();
 
-    const onPress = item =>
+    const onPress = item => {
+      console.log(item.id);
       Actions.preview({ match: { params: { id: String(item.id) } } });
+    };
 
     if (this.state.isLoading && !this.state.loadedFonts) {
       return (

@@ -11189,6 +11189,13 @@ react-native-svg@6.2.2:
     lodash "^4.16.6"
     pegjs "^0.10.0"
 
+react-native-swiper-flatlist@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/react-native-swiper-flatlist/-/react-native-swiper-flatlist-1.0.8.tgz#c2185597dad63e311cdbce745615f84e49d04685"
+  integrity sha512-bW6eDvQBSePCw6foNPUj2QbbTNs8bBtxfoXcRm9VgA63KrPfUHeDATz4+w6Sg8FEsR35FA4HUCv2Cb2KEyCYRg==
+  dependencies:
+    prop-types "^15.6.2"
+
 react-native-tab-view@^0.0.77:
   version "0.0.77"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.77.tgz#11ceb8e7c23100d07e628dc151b57797524d00d4"

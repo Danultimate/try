@@ -19,28 +19,74 @@ import {
   View,
   H3
 } from "native-base";
+import Onboarding from "react-native-onboarding-swiper";
 import Colors from "../../../native-base-theme/variables/commonColor";
 import Spacer from "./Spacer";
 
-const Error = ({ title, content }) => (
+const Welcome = () => (
   <Container>
-    <Content padder>
+    <Content>
+      <Onboarding
+        pages={[
+          {
+            backgroundColor: "#fff",
+            image: (
+              <Image
+                style={styles.authImg}
+                source={require("../assets/images/onboarding.png")}
+              />
+            ),
+            title: (
+              <H3 style={[styles.header, styles.primaryMsg, styles.textCenter]}>
+                ¡Bienvenido a Elenas!
+              </H3>
+            ),
+            subtitle:
+              "Únete a la comunidad de mujeres empoderadas y emprendedoras."
+          },
+          {
+            backgroundColor: "#fff",
+            image: (
+              <Image
+                style={styles.authImg}
+                source={require("../assets/images/onboarding.png")}
+              />
+            ),
+            title: (
+              <H3 style={[styles.header, styles.primaryMsg, styles.textCenter]}>
+                ¡Mejora tus ventas!
+              </H3>
+            ),
+            subtitle:
+              "Únete a la comunidad de mujeres empoderadas y emprendedoras."
+          }
+        ]}
+      />
       <Card style={styles.card}>
-        <CardItem header style={styles.authCard}>
-          <Image
-            style={styles.authImg}
-            source={require("../assets/images/login.png")}
-          />
-        </CardItem>
         <CardItem styles={styles.cardBody}>
           <Body style={styles.authCard}>
+            <Spacer size={16} />
             <H3 style={[styles.header, styles.primaryMsg, styles.textCenter]}>
-              {title}
+              ¡Bienvenido a Elenas!
             </H3>
             <Spacer size={8} />
             <Text style={[styles.description, styles.textCenter]}>
-              {content}
+              Únete a la comunidad de mujeres empoderadas y emprendedoras.
             </Text>
+            <Spacer size={16} />
+            <Image
+              style={styles.authImg}
+              source={require("../assets/images/onboarding.png")}
+            />
+            <Spacer size={32} />
+
+            <Button block primary onPress={this.handleSubmit}>
+              <Text>Ingresa a tu cuenta</Text>
+            </Button>
+            <Spacer size={16} />
+            <Button block success onPress={this.handleSubmit}>
+              <Text>Crea tu cuenta</Text>
+            </Button>
           </Body>
         </CardItem>
       </Card>
@@ -48,17 +94,7 @@ const Error = ({ title, content }) => (
   </Container>
 );
 
-Error.propTypes = {
-  title: PropTypes.string,
-  content: PropTypes.string
-};
-
-Error.defaultProps = {
-  title: "Uh oh",
-  content: "An unexpected error came up"
-};
-
-export default Error;
+export default Welcome;
 
 const styles = StyleSheet.create({
   container: {

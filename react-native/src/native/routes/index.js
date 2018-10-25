@@ -32,6 +32,7 @@ import DashboardContainer from "../../containers/Dashboard";
 import DashboardComponent from "../components/Dashboard";
 
 import PreviewComponent from "../components/Preview";
+import WelcomeComponent from "../components/Welcome";
 
 const Index = (
   <Stack hideNavBar>
@@ -58,6 +59,7 @@ const Index = (
           icon={TabIcon}
           {...DefaultProps.navbarProps}
         >
+          <Scene key="welcome" component={WelcomeComponent} />
           <Scene
             key="recipes"
             component={RecipesContainer}
