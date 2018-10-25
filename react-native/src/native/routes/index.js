@@ -31,6 +31,8 @@ import AboutComponent from "../components/About";
 import DashboardContainer from "../../containers/Dashboard";
 import DashboardComponent from "../components/Dashboard";
 
+import PreviewComponent from "../components/Preview";
+
 const Index = (
   <Stack hideNavBar>
     <Scene hideNavBar activeTintColor="#93a8d5" inactiveTintColor="#3b5998">
@@ -127,6 +129,16 @@ const Index = (
       {...DefaultProps.navbarProps}
       component={RecipesContainer}
       Layout={RecipeViewComponent}
+    />
+
+    <Scene
+      back
+      clone
+      key="preview"
+      title="Vista Previa"
+      {...DefaultProps.navbarProps}
+      component={DashboardContainer}
+      Layout={PreviewComponent}
     />
   </Stack>
 );

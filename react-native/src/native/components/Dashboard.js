@@ -25,7 +25,7 @@ import {
   H3
 } from "native-base";
 import Colors from "../../../native-base-theme/variables/commonColor";
-// import axios from "axios";
+import { Actions } from "react-native-router-flux";
 
 import Spacer from "./Spacer";
 
@@ -113,6 +113,9 @@ class Dashboard extends React.Component {
   }
   render() {
     const keyExtractor = item => item.id.toString();
+
+    const onPress = item =>
+      Actions.preview({ match: { params: { id: String(item.id) } } });
 
     if (this.state.isLoading && !this.state.loadedFonts) {
       return (
