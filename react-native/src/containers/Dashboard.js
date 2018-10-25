@@ -7,7 +7,20 @@ import { logout, getMemberData } from '../actions/member';
 import { shopify, getSharableCollections } from '../actions/shopify';
 
 import API from '../constants/api';
-import axios from 'axios';
+
+export function getSellerData() {
+
+  API.get('/sellers')
+  .then((res)=>{ 
+    console.log('getSellerData succeed')
+    console.log(res.data)
+    return res.data
+  })
+  .catch((res)=>{ 
+    console.log('Erro @getSellerData:')
+    console.log(res)
+  })
+}
 
 class Dashboard extends Component {
   static propTypes = {
@@ -23,47 +36,14 @@ class Dashboard extends Component {
   componentDidMount = () => {
     const { fetchData } = this.props;
     fetchData();
-
-    // Test axios
-    console.log('ok al menos entra aca ._.')
-    const data = {
-      'username': 3205845248,
-      'password': ''
-    }
-    axios.get('https://localhost:5000/api/contents').then((res)=> {
-      console.log('ok axios sirve 0 ')
-    })
-    .catch((res)=>{
-      console.log('ok no sirvio 0 pero:')
-      console.log(res)
-    })
-    API.get('/contents').then((res)=> {
-      console.log('ok axios sirve 1')
-    })
-    .catch((res)=>{
-      console.log('ok no sirvio 1 pero:')
-      console.log(res)
-    })
-    API.post('/login_admin', data,{
-      headers: {
-        'content-type': 'application/json',
-      },
-    })
-    .then((response)=>{
-      console.log('a ver si hizo esta shit: '+ response.data)
-      API.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
-    })
-    .catch((res)=>{
-      console.log('ok no sirvio 2 pero:')
-      console.log(res)
-    })
   }
 
   render = () => {
     const { Layout, member, memberLogout } = this.props;
     const shopify_client = shopify();
     const collections = getSharableCollections();
-    return <Layout member={member} logout={memberLogout} shopify={shopify_client}/>;
+    const seller_data = getSellerData();
+    return <Layout member={member} logout={memberLogout} shopify={shopify_client} seller={seller_data}/>;
   }
 }
 

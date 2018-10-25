@@ -5,8 +5,8 @@ const storeName = "descubre-belleza.myshopify.com";
 
 export function shopify() {
     const shopify = Shopify.buildClient({
-    domain: storeName,
-    storefrontAccessToken: acessToken
+        domain: storeName,
+        storefrontAccessToken: acessToken
     });
     return shopify;
 }
@@ -15,6 +15,6 @@ export function getSharableCollections() {
     const shopify = Shopify.buildClient({
         domain: storeName,
         storefrontAccessToken: acessToken
-        });
+    });
     return shopify.collection.fetchAll()
 }
