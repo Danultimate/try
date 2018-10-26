@@ -30,13 +30,17 @@ import { Actions } from "react-native-router-flux";
 
 import Spacer from "./Spacer";
 
+import TimeAgo from "react-native-timeago";
+import moment from "moment"; //load moment module to set local language
+import "moment/locale/es"; //for import moment local language file during the application build
+moment.locale("es");
+
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       isLoading: true,
-      loadedFonts: false,
       collections: [],
       products: [],
       notificationsTitle: "Notificaciones",
@@ -66,28 +70,6 @@ class Dashboard extends React.Component {
       productsTitle: "Productos de la campaña"
     };
   }
-
-  _loadResourcesAsync = async () => {
-    return Promise.all([
-      Asset.loadAsync([
-        require("../assets/images/logo.png"),
-        require("../assets/images/avatar.png")
-      ]),
-      Font.loadAsync({
-        playfair: require("../assets/fonts/PlayfairDisplay-Bold.ttf")
-      })
-    ]);
-  };
-
-  _handleLoadingError = error => {
-    // In this case, you might want to report the error to your error
-    // reporting service, for example Sentry
-    console.warn(error);
-  };
-
-  _handleFinishLoading = () => {
-    this.setState({ loadedFonts: true });
-  };
 
   componentWillMount() {
     const collectionQuery = {
@@ -127,14 +109,8 @@ class Dashboard extends React.Component {
       Actions.preview({ match: { params: { id: String(item.id) } } });
     };
 
-    if (this.state.isLoading && !this.state.loadedFonts) {
-      return (
-        <AppLoading
-          startAsync={this._loadResourcesAsync}
-          onError={this._handleLoadingError}
-          onFinish={this._handleFinishLoading}
-        />
-      );
+    if (this.state.isLoading) {
+      return <AppLoading />;
     }
     return (
       <Container style={styles.container}>
@@ -250,7 +226,7 @@ class Dashboard extends React.Component {
                         Para compartir{" "}
                       </Text>
                       <Text style={[styles.meta, styles.date]}>
-                        • Hace {item.updatedAt}
+                        • <TimeAgo time={item.updatedAt} />
                       </Text>
                     </Text>
                     <Spacer size={8} />
@@ -352,7 +328,7 @@ class Dashboard extends React.Component {
             >
               <Image source={require("../assets/images/msg-success.png")} />
             </CardItem>
-            <CardItem styles={styles.cardBody}>
+            <CardItem style={styles.cardBody}>
               <Body>
                 <H3
                   style={[styles.header, styles.successMsg, styles.textCenter]}
@@ -411,7 +387,7 @@ class Dashboard extends React.Component {
             >
               <Image source={require("../assets/images/msg-warning.png")} />
             </CardItem>
-            <CardItem styles={styles.cardBody}>
+            <CardItem style={styles.cardBody}>
               <Body>
                 <H3
                   style={[styles.header, styles.warningMsg, styles.textCenter]}
@@ -461,7 +437,7 @@ class Dashboard extends React.Component {
             >
               <Image source={require("../assets/images/referral.png")} />
             </CardItem>
-            <CardItem styles={styles.cardBody}>
+            <CardItem style={styles.cardBody}>
               <Body>
                 <H3
                   style={[styles.header, styles.primaryMsg, styles.textCenter]}
@@ -623,14 +599,14 @@ const styles = StyleSheet.create({
       height: 1
     },
     shadowOpacity: 0.2,
-    shadowRadius: 1.41,
+    shadowRadius: 0,
     elevation: 2
   },
   header: {
     fontFamily: "playfair",
     fontSize: 32,
     marginBottom: 8,
-    lineHeight: 30
+    lineHeight: 28
   },
   meta: {
     fontSize: 10,
@@ -712,12 +688,12 @@ const styles = StyleSheet.create({
     marginBottom: 4
   },
   leftContainer: {
-    flex: 1,
+    flex: 0.6,
     flexDirection: "row",
     justifyContent: "flex-start"
   },
   rightContainer: {
-    flex: 1,
+    flex: 0.4,
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "center"

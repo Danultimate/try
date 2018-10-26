@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, Image } from "react-native";
+import { StyleSheet, Image, Dimensions } from "react-native";
 import {
   Container,
   Content,
@@ -19,74 +19,98 @@ import {
   View,
   H3
 } from "native-base";
-import Onboarding from "react-native-onboarding-swiper";
+import SwiperFlatList from "react-native-swiper-flatlist";
 import Colors from "../../../native-base-theme/variables/commonColor";
+import { Actions } from "react-native-router-flux";
 import Spacer from "./Spacer";
 
 const Welcome = () => (
   <Container>
-    <Content>
-      <Onboarding
-        pages={[
-          {
-            backgroundColor: "#fff",
-            image: (
-              <Image
-                style={styles.authImg}
-                source={require("../assets/images/onboarding.png")}
-              />
-            ),
-            title: (
-              <H3 style={[styles.header, styles.primaryMsg, styles.textCenter]}>
-                ¡Bienvenido a Elenas!
-              </H3>
-            ),
-            subtitle:
-              "Únete a la comunidad de mujeres empoderadas y emprendedoras."
-          },
-          {
-            backgroundColor: "#fff",
-            image: (
-              <Image
-                style={styles.authImg}
-                source={require("../assets/images/onboarding.png")}
-              />
-            ),
-            title: (
-              <H3 style={[styles.header, styles.primaryMsg, styles.textCenter]}>
-                ¡Mejora tus ventas!
-              </H3>
-            ),
-            subtitle:
-              "Únete a la comunidad de mujeres empoderadas y emprendedoras."
-          }
-        ]}
-      />
+    <Content padder>
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+        <Image
+          style={styles.logoImg}
+          source={require("../assets/images/logo-p.png")}
+        />
+      </View>
       <Card style={styles.card}>
-        <CardItem styles={styles.cardBody}>
+        <CardItem style={styles.cardBody}>
           <Body style={styles.authCard}>
             <Spacer size={16} />
-            <H3 style={[styles.header, styles.primaryMsg, styles.textCenter]}>
-              ¡Bienvenido a Elenas!
-            </H3>
-            <Spacer size={8} />
-            <Text style={[styles.description, styles.textCenter]}>
-              Únete a la comunidad de mujeres empoderadas y emprendedoras.
-            </Text>
-            <Spacer size={16} />
-            <Image
-              style={styles.authImg}
-              source={require("../assets/images/onboarding.png")}
-            />
-            <Spacer size={32} />
-
-            <Button block primary onPress={this.handleSubmit}>
+            <SwiperFlatList
+              showPagination
+              paginationDefaultColor={"#F7F7FF"}
+              paginationActiveColor={Colors.brandPrimary}
+            >
+              <View style={[styles.child]}>
+                <H3
+                  style={[styles.header, styles.primaryMsg, styles.textCenter]}
+                >
+                  ¡Bienvenida a Elenas!
+                </H3>
+                <Spacer size={8} />
+                <Text style={[styles.description, styles.textCenter]}>
+                  Únete a la comunidad de mujeres empoderadas y emprendedoras.
+                </Text>
+                <Spacer size={16} />
+                <Image
+                  style={styles.onboardingImg}
+                  source={require("../assets/images/onboarding-1.png")}
+                />
+              </View>
+              <View style={[styles.child]}>
+                <H3
+                  style={[styles.header, styles.primaryMsg, styles.textCenter]}
+                >
+                  ¡Vende más y mejor!
+                </H3>
+                <Spacer size={8} />
+                <Text style={[styles.description, styles.textCenter]}>
+                  No pierdas más energía entregando productos o cobrando a tus
+                  clientes.
+                </Text>
+                <Spacer size={16} />
+                <Image
+                  style={styles.onboardingImg}
+                  source={require("../assets/images/onboarding-2.png")}
+                />
+              </View>
+              <View style={[styles.child]}>
+                <H3
+                  style={[styles.header, styles.primaryMsg, styles.textCenter]}
+                >
+                  ¡Eres una mujer poderosa!
+                </H3>
+                <Spacer size={8} />
+                <Text style={[styles.description, styles.textCenter]}>
+                  Recibe consejos de las mejores vendedoras y expertas en
+                  belleza.
+                </Text>
+                <Spacer size={16} />
+                <Image
+                  style={styles.onboardingImg}
+                  source={require("../assets/images/onboarding-3.png")}
+                />
+              </View>
+            </SwiperFlatList>
+            <Spacer size={40} />
+          </Body>
+        </CardItem>
+        <CardItem styles={styles.cardBody}>
+          <Body style={styles.authCard}>
+            <Button diasbled block primary onPress={Actions.login}>
               <Text>Ingresa a tu cuenta</Text>
             </Button>
             <Spacer size={16} />
-            <Button block success onPress={this.handleSubmit}>
+            <Button diasbled block success onPress={Actions.signUp}>
               <Text>Crea tu cuenta</Text>
             </Button>
+            <Spacer size={8} />
           </Body>
         </CardItem>
       </Card>
@@ -96,32 +120,53 @@ const Welcome = () => (
 
 export default Welcome;
 
+export const { width, height } = Dimensions.get("window");
+
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#F7F7FF"
+    backgroundColor: "#F7F7FF",
+    flex: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    height: height
+  },
+  logoImg: {
+    marginTop: 24
+  },
+  child: {
+    height: 258,
+    width: width - Colors.contentPadding * 2 - 46,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  text: {
+    fontSize: width * 0.5,
+    textAlign: "center"
   },
   card: {
+    marginTop: 32,
+    flex: 1,
     shadowColor: "#E2E1E6",
     shadowOffset: {
       width: 0,
       height: 1
     },
     shadowOpacity: 0.2,
-    shadowRadius: 1.41,
+    shadowRadius: 0,
     elevation: 2
   },
   header: {
     fontFamily: "playfair",
     fontSize: 32,
     marginBottom: 8,
-    lineHeight: 30
+    lineHeight: 28
   },
   meta: {
     fontSize: 10,
     color: "#C3C5C7"
   },
   description: {
-    fontSize: 18
+    fontSize: 17
   },
   cardBody: {
     paddingHorizontal: 16,
@@ -132,11 +177,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingBottom: 0
   },
-  authImg: {
+  onboardingImg: {
     marginTop: 8
-  },
-  authForm: {
-    width: "100%"
   },
   cardSuccess: {
     borderTopColor: Colors.brandSuccess,
