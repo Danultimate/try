@@ -43,7 +43,8 @@ export default function contentReducer(state = initialState, action) {
           type: item.type,
         }));
       }
-
+      console.log('tipo de content')
+      console.log(typeof contents)
       return {
         ...state,
         error: null,

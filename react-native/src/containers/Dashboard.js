@@ -57,8 +57,8 @@ class Dashboard extends Component {
     const id = (match && match.params && match.params.id) ? match.params.id : null;
     const shopify_client = shopify();
 
-    console.log('this are the collectios')
-    console.log(contents)
+    //console.log('these are the collectios')
+    //console.log(contents)
     //const seller_data = getSellerData();
 
     return (<Layout 
@@ -66,7 +66,7 @@ class Dashboard extends Component {
       logout={memberLogout} 
       shopify={shopify_client}
       contentId={id}
-      contents={contents}
+      contents={contents.contents}
       //seller={seller_data}
       />);
   }

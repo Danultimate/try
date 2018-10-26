@@ -194,7 +194,7 @@ class Dashboard extends React.Component {
 
           <FlatList
             numColumns={1}
-            data={this.state.collections}
+            data={this.props.contents}
             renderItem={({ item }) => (
               <Card style={styles.card}>
                 <CardItem cardBody>

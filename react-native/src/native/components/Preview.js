@@ -27,16 +27,18 @@ const Preview = ({ error, contents, contentId }) => {
 
   console.log('hey esto es Preview Component: id, contents:')
   console.log(contentId);
-  console.log(contents);
+  console.log(contents.length);
 
   // Get this Recipe from all recipes
   let content = null;
 
-  // if (contentId && contents) {
-  //   content = contents.find(
-  //     item => parseInt(item.id, 10) === parseInt(contentId, 10)
-  //   );
-  // }
+  if (contentId && contents) {
+    content = contents.find(
+      item => parseInt(item.id, 10) === parseInt(contentId, 10)
+    );
+    console.log('el contenido')
+    console.log(content)
+  }
 
   // Recipe not found
   if (!content)
@@ -178,7 +180,7 @@ const Preview = ({ error, contents, contentId }) => {
 Preview.propTypes = {
   error: PropTypes.string,
   contentId: PropTypes.string.isRequired,
-  contents: PropTypes.arrayOf(PropTypes.shape()).isRequired
+  //contents: PropTypes.arrayOf(PropTypes.shape()).isRequired
 };
 
 Preview.defaultProps = {
