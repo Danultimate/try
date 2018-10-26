@@ -33,6 +33,7 @@ import DashboardComponent from "../components/Dashboard";
 
 import PreviewComponent from "../components/Preview";
 import WelcomeComponent from "../components/Welcome";
+import AppLogoComponent from "../components/AppLogo";
 
 const Index = (
   <Stack hideNavBar>
@@ -41,7 +42,9 @@ const Index = (
       <Tabs key="tabbar" swipeEnabled type="replace" {...DefaultProps.tabProps}>
         <Stack
           key="home"
-          title={AppConfig.appName}
+          renderTitle={() => {
+            return <AppLogoComponent />;
+          }}
           iconName={"home"}
           icon={TabIcon}
           {...DefaultProps.navbarProps}

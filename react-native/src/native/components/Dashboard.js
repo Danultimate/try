@@ -593,7 +593,7 @@ const styles = StyleSheet.create({
     fontFamily: "playfair",
     fontSize: 32,
     marginBottom: 8,
-    lineHeight: 30
+    lineHeight: 28
   },
   meta: {
     fontSize: 10,
