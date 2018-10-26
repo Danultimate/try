@@ -34,10 +34,9 @@ const Preview = ({ error, contents, contentId }) => {
 
   if (contentId && contents) {
     content = contents.find(
-      item => parseInt(item.id, 10) === parseInt(contentId, 10)
+      //item => parseInt(item.id, 10) === parseInt(contentId, 10)
+      item => item.id === contentId
     );
-    console.log('el contenido')
-    console.log(content)
   }
 
   // Recipe not found
@@ -151,7 +150,7 @@ const Preview = ({ error, contents, contentId }) => {
     <Container>
       <Content padder>
         <Image
-          source={{ uri: content.image }}
+          source={{ uri: content.image.src }}
           style={{ height: 100, width: null, flex: 1 }}
         />
 
