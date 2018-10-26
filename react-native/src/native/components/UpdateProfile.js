@@ -98,7 +98,7 @@ class UpdateProfile extends React.Component {
                 source={require("../assets/images/login.png")}
               />
             </CardItem>
-            <CardItem styles={styles.cardBody}>
+            <CardItem style={styles.cardBody}>
               <Body style={styles.authCard}>
                 <H3
                   style={[styles.header, styles.primaryMsg, styles.textCenter]}
@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
       height: 1
     },
     shadowOpacity: 0.2,
-    shadowRadius: 1.41,
+    shadowRadius: 0,
     elevation: 2
   },
   header: {

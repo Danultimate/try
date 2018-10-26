@@ -86,7 +86,7 @@ class Login extends React.Component {
                 source={require("../assets/images/login.png")}
               />
             </CardItem>
-            <CardItem styles={styles.cardBody}>
+            <CardItem style={styles.cardBody}>
               <Body style={styles.authCard}>
                 <H3
                   style={[styles.header, styles.primaryMsg, styles.textCenter]}
@@ -101,7 +101,7 @@ class Login extends React.Component {
                 {error ? <Messages message={error} /> : null}
               </Body>
             </CardItem>
-            <CardItem styles={styles.cardBody}>
+            <CardItem style={styles.cardBody}>
               <Body style={styles.authCard}>
                 <Form style={styles.authForm}>
                   <Item floatingLabel style={styles.formElement}>
@@ -134,6 +134,7 @@ class Login extends React.Component {
                       styles.supportText,
                       { color: Colors.brandInfo, marginLeft: "auto" }
                     ]}
+                    onPress={Actions.forgotPassword}
                   >
                     ¡Olvide mi contraseña!
                   </Text>
@@ -147,6 +148,7 @@ class Login extends React.Component {
                     ¿No tienes una cuenta aún?{" "}
                     <Text
                       style={[styles.supportText, { color: Colors.brandInfo }]}
+                      onPress={Actions.signUp}
                     >
                       Regístrate
                     </Text>
@@ -174,7 +176,7 @@ const styles = StyleSheet.create({
       height: 1
     },
     shadowOpacity: 0.2,
-    shadowRadius: 1.41,
+    shadowRadius: 0,
     elevation: 2
   },
   header: {

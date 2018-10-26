@@ -8954,7 +8954,7 @@ mkdirp@*, mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~
   dependencies:
     minimist "0.0.8"
 
-moment@2.x.x, moment@^2.10.6:
+moment@2.x.x, moment@^2.10.6, moment@^2.22.2:
   version "2.22.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
   integrity sha1-PCV/mDn8DpP/UxSWMiOeuQeD/2Y=
@@ -11209,6 +11209,11 @@ react-native-tab-view@^1.0.0:
   integrity sha512-x8I43V1X7/AyMnIwnqJGMU54LqQRlV6vJ9irbls9asA/axdHIdxagPIV6Jx1ttFe/bPKhFwXL+lRYdYxGyUlWg==
   dependencies:
     prop-types "^15.6.1"
+
+react-native-timeago@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-timeago/-/react-native-timeago-0.4.0.tgz#653b3a11217a3c6a331de99f9d614b3e58faf523"
+  integrity sha512-L/ephXkzv3cddmHVuBxDFa0gjTpw0Dfe9ccKOnHyjQJgdkapvmumCJtKSgDf1CatfNXaBRgz6ffxTZkRLxICfA==
 
 react-native-vector-icons@4.5.0:
   version "4.5.0"

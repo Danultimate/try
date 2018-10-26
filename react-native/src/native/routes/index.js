@@ -36,6 +36,7 @@ import WelcomeComponent from "../components/Welcome";
 
 const Index = (
   <Stack hideNavBar>
+    <Scene key="welcome" component={WelcomeComponent} />
     <Scene hideNavBar activeTintColor="#93a8d5" inactiveTintColor="#3b5998">
       <Tabs key="tabbar" swipeEnabled type="replace" {...DefaultProps.tabProps}>
         <Stack
@@ -59,7 +60,6 @@ const Index = (
           icon={TabIcon}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="welcome" component={WelcomeComponent} />
           <Scene
             key="recipes"
             component={RecipesContainer}

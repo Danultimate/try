@@ -81,7 +81,7 @@ class SignUp extends React.Component {
                 source={require("../assets/images/signup.png")}
               />
             </CardItem>
-            <CardItem styles={styles.cardBody}>
+            <CardItem style={styles.cardBody}>
               <Body style={styles.authCard}>
                 <H3
                   style={[styles.header, styles.primaryMsg, styles.textCenter]}
@@ -95,7 +95,7 @@ class SignUp extends React.Component {
                 {error && <Messages message={error} />}
               </Body>
             </CardItem>
-            <CardItem styles={styles.cardBody}>
+            <CardItem style={styles.cardBody}>
               <Body style={styles.authCard}>
                 <Form style={styles.authForm}>
                   <Item floatingLabel style={styles.formElement}>
@@ -147,7 +147,10 @@ class SignUp extends React.Component {
                   <View style={{ flexDirection: "row" }}>
                     <CheckBox
                       checked={false}
-                      style={{ marginRight: 16, marginLeft: -8 }}
+                      style={[
+                        styles.formElement,
+                        { marginRight: 16, marginLeft: -8 }
+                      ]}
                     />
                     <Text style={[styles.supportText]}>
                       He leido y acepto los{" "}
@@ -173,6 +176,7 @@ class SignUp extends React.Component {
                       styles.textCenter,
                       { color: Colors.brandInfo }
                     ]}
+                    onPress={Actions.login}
                   >
                     Ya tengo una cuenta
                   </Text>
@@ -199,7 +203,7 @@ const styles = StyleSheet.create({
       height: 1
     },
     shadowOpacity: 0.2,
-    shadowRadius: 1.41,
+    shadowRadius: 0,
     elevation: 2
   },
   header: {
