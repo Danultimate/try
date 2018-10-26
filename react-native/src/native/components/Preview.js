@@ -20,6 +20,7 @@ const Preview = ({ error, contents, contentId }) => {
   // Error
   if (error) return <Error content={error} />;
 
+  console.log('hey esto es Preview Component: id, contents:')
   console.log(contentId);
   console.log(contents);
 

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { AppLoading, Asset, Font } from "expo";
 import {
   View,
@@ -539,6 +540,18 @@ class Dashboard extends React.Component {
     );
   }
 }
+
+Dashboard.propTypes = {
+  eror: PropTypes.string,
+  //loading: PropTypes.bool.isRequired,
+  contents: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  reFetch: PropTypes.func
+};
+
+Dashboard.defaultProps = {
+  error: null,
+  reFetch: null
+};
 
 export default Dashboard;
 
