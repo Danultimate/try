@@ -152,37 +152,41 @@ class Dashboard extends React.Component {
               showsHorizontalScrollIndicator={false}
               data={this.state.notifications}
               renderItem={({ item }) => (
-                <Card style={styles.notification}>
-                  <CardItem cardBody>
-                    <Body style={styles.notificationBody}>
-                      <View style={styles.notificationHeader}>
-                        <View style={styles.leftContainer}>
-                          <Text
-                            style={[
-                              styles.header,
-                              styles.notificationTitle,
-                              styles.primaryMsg
-                            ]}
-                            numberOfLines={1}
-                          >
-                            <Image
-                              source={require("../assets/images/notification.png")}
-                            />
-                            {" " + item.title}
-                          </Text>
+                <TouchableOpacity>
+                  <Card style={styles.notification}>
+                    <CardItem cardBody>
+                      <Body style={styles.notificationBody}>
+                        <View style={styles.notificationHeader}>
+                          <View style={styles.leftContainer}>
+                            <Text
+                              style={[
+                                styles.header,
+                                styles.notificationTitle,
+                                styles.primaryMsg
+                              ]}
+                              numberOfLines={1}
+                            >
+                              <Image
+                                source={require("../assets/images/notification.png")}
+                              />
+                              {" " + item.title}
+                            </Text>
+                          </View>
+                          <View style={styles.rightContainer}>
+                            <Text
+                              style={[styles.meta, styles.notificationDate]}
+                            >
+                              {item.createdAt}
+                            </Text>
+                          </View>
                         </View>
-                        <View style={styles.rightContainer}>
-                          <Text style={[styles.meta, styles.notificationDate]}>
-                            {item.createdAt}
-                          </Text>
-                        </View>
-                      </View>
-                      <Text style={styles.notificationText}>
-                        {item.description}
-                      </Text>
-                    </Body>
-                  </CardItem>
-                </Card>
+                        <Text style={styles.notificationText}>
+                          {item.description}
+                        </Text>
+                      </Body>
+                    </CardItem>
+                  </Card>
+                </TouchableOpacity>
               )}
               keyExtractor={keyExtractor}
             />
@@ -214,7 +218,9 @@ class Dashboard extends React.Component {
                 <CardItem cardBody>
                   <Body style={[styles.cardBody, styles.cardSuccess]}>
                     <Spacer size={8} />
-                    <H3 style={styles.header}>{item.title}</H3>
+                    <TouchableOpacity onPress={() => onPress(item)}>
+                      <H3 style={styles.header}>{item.title}</H3>
+                    </TouchableOpacity>
                     <Text style={styles.meta}>
                       <Text
                         style={[
@@ -606,7 +612,8 @@ const styles = StyleSheet.create({
     fontFamily: "playfair",
     fontSize: 32,
     marginBottom: 8,
-    lineHeight: 28
+    lineHeight: 28,
+    fontWeight: "700"
   },
   meta: {
     fontSize: 10,

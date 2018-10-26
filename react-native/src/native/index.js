@@ -52,8 +52,14 @@ class App extends React.Component {
   _loadResourcesAsync = async () => {
     return Promise.all([
       Asset.loadAsync([
-        require("./assets/images/logo.png"),
-        require("./assets/images/avatar.png")
+        require("./assets/images/logo-p.png"),
+        require("./assets/images/logo-w.png"),
+        require("./assets/images/avatar.png"),
+        require("./assets/images/login.png"),
+        require("./assets/images/signup.png"),
+        require("./assets/images/onboarding-1.png"),
+        require("./assets/images/onboarding-2.png"),
+        require("./assets/images/onboarding-3.png")
       ]),
       Font.loadAsync({
         playfair: require("./assets/fonts/PlayfairDisplay-Bold.ttf")
