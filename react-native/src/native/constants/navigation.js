@@ -10,12 +10,13 @@ export default {
     titleStyle: {
       color: Colors.titleFontColor,
       alignSelf: "center",
-      letterSpacing: 2,
-      fontSize: Colors.fontSizeBase
+      fontFamily: "playfair",
+      fontSize: Colors.fontSizeBase * 1.325
     },
-    backButtonTintColor: Colors.brandLight
+    // backButtonTintColor: Colors.brandLight
+    backButtonTintColor: Colors.titleFontColor
   },
-
+  backButtonTintColor: Colors.titleFontColor,
   tabProps: {
     swipeEnabled: false,
     activeBackgroundColor: "rgba(255,255,255,1)",

@@ -22,22 +22,13 @@ import {
 import SwiperFlatList from "react-native-swiper-flatlist";
 import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
+import AppLogoAuth from "./AppLogoAuth";
 import Spacer from "./Spacer";
 
 const Welcome = () => (
   <Container>
     <Content padder>
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-      >
-        <Image
-          style={styles.logoImg}
-          source={require("../assets/images/logo-p.png")}
-        />
-      </View>
+      <AppLogoAuth />
       <Card style={styles.card}>
         <CardItem style={styles.cardBody}>
           <Body style={styles.authCard}>
@@ -110,7 +101,17 @@ const Welcome = () => (
             <Button diasbled block success onPress={Actions.signUp}>
               <Text>Crea tu cuenta</Text>
             </Button>
-            <Spacer size={8} />
+            <Spacer size={16} />
+            <Text
+              style={[
+                styles.supportText,
+                styles.textCenter,
+                { color: Colors.brandInfo }
+              ]}
+              onPress={Actions.home}
+            >
+              Lo haré despues
+            </Text>
           </Body>
         </CardItem>
       </Card>
@@ -124,14 +125,7 @@ export const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#F7F7FF",
-    flex: 0,
-    alignItems: "center",
-    justifyContent: "center",
-    height: height
-  },
-  logoImg: {
-    marginTop: 24
+    backgroundColor: "#F7F7FF"
   },
   child: {
     height: 258,
@@ -144,7 +138,6 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   card: {
-    marginTop: 32,
     flex: 1,
     shadowColor: "#E2E1E6",
     shadowOffset: {

@@ -1,7 +1,7 @@
 import React from "react";
-import { StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import {
+  StyleSheet,
   FlatList,
   TouchableOpacity,
   RefreshControl,
@@ -19,7 +19,6 @@ import {
 import { Actions } from "react-native-router-flux";
 import Loading from "./Loading";
 import Error from "./Error";
-import Header from "./Header";
 import Spacer from "./Spacer";
 
 const RecipeListing = ({ error, loading, recipes, reFetch }) => {
@@ -37,11 +36,6 @@ const RecipeListing = ({ error, loading, recipes, reFetch }) => {
   return (
     <Container>
       <Content padder>
-        <Header
-          title="Top Recipes"
-          content="This is here to show how you can read and display data from a data source (in our case, Firebase)."
-        />
-
         <FlatList
           numColumns={1}
           data={recipes}

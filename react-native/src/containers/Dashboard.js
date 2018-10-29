@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
 import { logout, getMemberData } from '../actions/member';
 import { shopify } from '../actions/shopify';
@@ -15,32 +15,32 @@ class Dashboard extends Component {
     fetchContent: PropTypes.func.isRequired,
     contents: PropTypes.shape({
       isLoading: PropTypes.bool.isRequired,
-      error: PropTypes.string,
+      error: PropTypes.string
     }).isRequired,
     member: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
-      error: PropTypes.string,
+      error: PropTypes.string
     }).isRequired,
     match: PropTypes.shape({
-      params: PropTypes.shape({}),
-    }),
-  }
+      params: PropTypes.shape({})
+    })
+  };
 
   static defaultProps = {
-    match: null,
-  }
-
+    match: null
+  };
 
   componentDidMount = () => {
     const { fetchData, fetchContent, fetchSellerData } = this.props;
     fetchData();
     fetchContent();
-  }
+  };
 
   render = () => {
     const { Layout, member, memberLogout, match, contents } = this.props;
 
-    const id = (match && match.params && match.params.id) ? match.params.id : null;
+    const id =
+      match && match.params && match.params.id ? match.params.id : null;
     const shopify_client = shopify();
 
     return (<Layout 
@@ -53,8 +53,6 @@ class Dashboard extends Component {
   }
 }
 
-
-
 const mapStateToProps = state => ({
   member: state.member || {},
   contents: state.contents || [],
@@ -64,7 +62,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   memberLogout: logout,
   fetchData: getMemberData,
-  fetchContent: getContents,
+  fetchContent: getContents
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Dashboard);

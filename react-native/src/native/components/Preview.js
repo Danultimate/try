@@ -21,11 +21,16 @@ import ErrorMessages from "../../constants/errors";
 import Error from "./Error";
 import Spacer from "./Spacer";
 
+import TimeAgo from "react-native-timeago";
+import moment from "moment"; //load moment module to set local language
+import "moment/locale/es"; //for import moment local language file during the application build
+moment.locale("es");
+
 const Preview = ({ error, contents, contentId }) => {
   // Error
   if (error) return <Error content={error} />;
 
-  console.log('hey esto es Preview Component: id, contents:')
+  console.log("hey esto es Preview Component: id, contents:");
   console.log(contentId);
   console.log(contents.length);
 
@@ -40,93 +45,7 @@ const Preview = ({ error, contents, contentId }) => {
   }
 
   // Recipe not found
-  if (!content)
-    return (
-      // <Error content={ErrorMessages.content404} />
-      <Container>
-        <Content padder>
-          <Card style={styles.card}>
-            <CardItem cardBody>
-              <TouchableOpacity
-                onPress={() => onPress(item)}
-                style={{ flex: 1 }}
-              >
-                <Image
-                  source={require("../assets/images/default.png")}
-                  style={{
-                    height: 192,
-                    width: null,
-                    flex: 1
-                  }}
-                />
-              </TouchableOpacity>
-            </CardItem>
-            <CardItem cardBody>
-              <Body style={[styles.cardBody, styles.cardSuccess]}>
-                <Spacer size={8} />
-                <H3 style={styles.header}>
-                  Titulo de noticia o nombre de producto
-                </H3>
-                <Text style={styles.meta}>
-                  <Text
-                    style={[styles.meta, styles.category, styles.successMsg]}
-                  >
-                    Para compartir{" "}
-                  </Text>
-                  <Text style={[styles.meta, styles.date]}>
-                    • Hace 3 minutos
-                  </Text>
-                </Text>
-                <Spacer size={8} />
-                <Text style={styles.description}>
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book. It has survived not only five centuries, but
-                  also the leap into electronic typesetting, remaining
-                  essentially unchanged. It was popularised in the 1960s with
-                  the release of Letraset sheets containing Lorem Ipsum
-                  passages, and more recently with desktop publishing software
-                  like Aldus PageMaker including versions of Lorem Ipsum.
-                </Text>
-                <Spacer size={16} />
-              </Body>
-            </CardItem>
-            <CardItem style={styles.cardFooter} footer bordered>
-              <Left>
-                <Button
-                  style={styles.cardButton}
-                  block
-                  transparent
-                  info
-                  small
-                  iconLeft
-                  onPress={() => onPress(item)}
-                >
-                  <Icon type="FontAwesome" name="star" />
-                  <Text style={styles.cardButtonText}>Me encanta</Text>
-                </Button>
-              </Left>
-              <Right>
-                <Button
-                  style={styles.cardButton}
-                  block
-                  transparent
-                  info
-                  small
-                  iconLeft
-                  onPress={() => onPress(item)}
-                >
-                  <Icon type="FontAwesome" name="share-square" />
-                  <Text style={styles.cardButtonText}>Compartir</Text>
-                </Button>
-              </Right>
-            </CardItem>
-          </Card>
-        </Content>
-      </Container>
-    );
+  if (!content) return <Error content={ErrorMessages.content404} />;
 
   // Build Ingredients listing
   // const ingredients = recipe.ingredients.map(item => (
@@ -137,40 +56,70 @@ const Preview = ({ error, contents, contentId }) => {
   //   </ListItem>
   // ));
 
-  // Build Method listing
-  // const method = recipe.method.map(item => (
-  //   <ListItem key={item} rightIcon={{ style: { opacity: 0 } }}>
-  //     <Text>
-  //       {item}
-  //     </Text>
-  //   </ListItem>
-  // ));
-
   return (
     <Container>
       <Content padder>
-        <Image
-          source={{ uri: content.image.src }}
-          style={{ height: 100, width: null, flex: 1 }}
-        />
-
-        <Spacer size={25} />
-        <H3>{content.title}</H3>
-        <Text>by {content.author}</Text>
-        <Spacer size={15} />
-
-        <Card>
-          <CardItem header bordered>
-            <Text>About this recipe</Text>
+        <Card style={styles.card}>
+          <CardItem cardBody>
+            <TouchableOpacity onPress={() => onPress(item)} style={{ flex: 1 }}>
+              <Image
+                source={{ uri: content.image.src }}
+                style={{
+                  height: 192,
+                  width: null,
+                  flex: 1
+                }}
+              />
+            </TouchableOpacity>
           </CardItem>
-          <CardItem>
-            <Body>
-              <Text>{content.description}</Text>
+          <CardItem cardBody>
+            <Body style={[styles.cardBody, styles.cardSuccess]}>
+              <Spacer size={8} />
+              <H3 style={styles.header}>{content.title}</H3>
+              <Text style={styles.meta}>
+                <Text style={[styles.meta, styles.category, styles.successMsg]}>
+                  Para compartir{" "}
+                </Text>
+                <Text style={[styles.meta, styles.date]}>
+                  • <TimeAgo time={content.updatedAt} />
+                </Text>
+              </Text>
+              <Spacer size={8} />
+              <Text style={styles.description}>{content.description}</Text>
+              <Spacer size={16} />
             </Body>
           </CardItem>
+          <CardItem style={styles.cardFooter} footer bordered>
+            <Left>
+              <Button
+                style={styles.cardButton}
+                block
+                transparent
+                info
+                small
+                iconLeft
+                onPress={() => onPress(item)}
+              >
+                <Icon type="FontAwesome" name="star" />
+                <Text style={styles.cardButtonText}>Me encanta</Text>
+              </Button>
+            </Left>
+            <Right>
+              <Button
+                style={styles.cardButton}
+                block
+                transparent
+                info
+                small
+                iconLeft
+                onPress={() => onPress(item)}
+              >
+                <Icon type="FontAwesome" name="share-square" />
+                <Text style={styles.cardButtonText}>Compartir</Text>
+              </Button>
+            </Right>
+          </CardItem>
         </Card>
-
-        <Spacer size={20} />
       </Content>
     </Container>
   );
@@ -178,7 +127,7 @@ const Preview = ({ error, contents, contentId }) => {
 
 Preview.propTypes = {
   error: PropTypes.string,
-  contentId: PropTypes.string.isRequired,
+  contentId: PropTypes.string.isRequired
   //contents: PropTypes.arrayOf(PropTypes.shape()).isRequired
 };
 

@@ -57,6 +57,7 @@ class App extends React.Component {
         require("./assets/images/avatar.png"),
         require("./assets/images/login.png"),
         require("./assets/images/signup.png"),
+        require("./assets/images/notification.png"),
         require("./assets/images/onboarding-1.png"),
         require("./assets/images/onboarding-2.png"),
         require("./assets/images/onboarding-3.png")

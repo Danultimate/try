@@ -26,6 +26,7 @@ import Loading from "./Loading";
 import Messages from "./Messages";
 import Header from "./Header";
 import Spacer from "./Spacer";
+import AppLogoAuth from "./AppLogoAuth";
 
 class ForgotPassword extends React.Component {
   static propTypes = {
@@ -78,6 +79,7 @@ class ForgotPassword extends React.Component {
     return (
       <Container>
         <Content padder>
+          <AppLogoAuth />
           <Card style={styles.card}>
             <CardItem header style={styles.authCard}>
               <Image

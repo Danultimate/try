@@ -195,13 +195,13 @@ class Dashboard extends React.Component {
             data={this.props.contents}
             renderItem={({ item }) => (
               <Card style={styles.card}>
-                <CardItem cardBody>
-                  <TouchableOpacity
-                    onPress={() => onPress(item)}
-                    style={{ flex: 1 }}
-                  >
-                    {!!item.image &&
-                      !!item.image.src && (
+                {!!item.image &&
+                  !!item.image.src && (
+                    <CardItem cardBody>
+                      <TouchableOpacity
+                        onPress={() => onPress(item)}
+                        style={{ flex: 1 }}
+                      >
                         <Image
                           source={{ uri: item.image.src }}
                           style={{
@@ -210,9 +210,9 @@ class Dashboard extends React.Component {
                             flex: 1
                           }}
                         />
-                      )}
-                  </TouchableOpacity>
-                </CardItem>
+                      </TouchableOpacity>
+                    </CardItem>
+                  )}
                 <CardItem cardBody>
                   <Body style={[styles.cardBody, styles.cardSuccess]}>
                     <Spacer size={8} />
@@ -253,7 +253,7 @@ class Dashboard extends React.Component {
                       iconLeft
                       onPress={() => onPress(item)}
                     >
-                      <Icon type="FontAwesome" name="star" />
+                      <Icon type="SimpleLineIcons" name="heart" />
                       <Text style={styles.cardButtonText}>Me encanta</Text>
                     </Button>
                   </Left>
@@ -267,7 +267,7 @@ class Dashboard extends React.Component {
                       iconLeft
                       onPress={() => onPress(item)}
                     >
-                      <Icon type="FontAwesome" name="share-square" />
+                      <Icon type="SimpleLineIcons" name="share-alt" />
                       <Text style={styles.cardButtonText}>Compartir</Text>
                     </Button>
                   </Right>
@@ -359,7 +359,7 @@ class Dashboard extends React.Component {
                   iconLeft
                   onPress={() => onPress(item)}
                 >
-                  <Icon type="FontAwesome" name="star" />
+                  <Icon type="SimpleLineIcons" name="heart" />
                   <Text style={styles.cardButtonText}>Me encanta</Text>
                 </Button>
               </Left>
@@ -373,7 +373,7 @@ class Dashboard extends React.Component {
                   iconLeft
                   onPress={() => onPress(item)}
                 >
-                  <Icon type="FontAwesome" name="share-square" />
+                  <Icon type="SimpleLineIcons" name="share-alt" />
                   <Text style={styles.cardButtonText}>Compartir</Text>
                 </Button>
               </Right>
@@ -419,7 +419,7 @@ class Dashboard extends React.Component {
                   iconLeft
                   onPress={() => onPress(item)}
                 >
-                  <Icon type="FontAwesome" name="phone" />
+                  <Icon type="SimpleLineIcons" name="phone" />
                   <Text style={styles.cardButtonText}>Llamar</Text>
                 </Button>
               </Body>
@@ -482,7 +482,7 @@ class Dashboard extends React.Component {
                   iconLeft
                   onPress={() => onPress(item)}
                 >
-                  <Icon type="FontAwesome" name="share-square" />
+                  <Icon type="SimpleLineIcons" name="share-alt" />
                   <Text style={styles.cardButtonText}>Compartir</Text>
                 </Button>
               </Body>

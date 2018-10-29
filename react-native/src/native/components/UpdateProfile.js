@@ -132,9 +132,10 @@ class UpdateProfile extends React.Component {
                     />
                   </Item>
 
-                  <ListItem>
+                  <ListItem style={{ marginLeft: 0 }}>
                     <CheckBox
                       checked={changeEmail}
+                      color={Colors.brandPrimary}
                       onPress={() =>
                         this.handleChange("changeEmail", !changeEmail)
                       }
@@ -156,8 +157,9 @@ class UpdateProfile extends React.Component {
                     </Item>
                   )}
 
-                  <ListItem>
+                  <ListItem style={{ marginLeft: 0 }}>
                     <CheckBox
+                      color={Colors.brandPrimary}
                       checked={changePassword}
                       onPress={() =>
                         this.handleChange("changePassword", !changePassword)
@@ -169,7 +171,7 @@ class UpdateProfile extends React.Component {
                   </ListItem>
 
                   {changePassword && (
-                    <View padder>
+                    <View>
                       <Item floatingLabel style={styles.formElement}>
                         <Label style={styles.formLabel}>Contraseña</Label>
                         <Input
@@ -178,7 +180,7 @@ class UpdateProfile extends React.Component {
                         />
                       </Item>
 
-                      <Item floatingLabel style={styles.formElement} last>
+                      <Item floatingLabel style={styles.formElement}>
                         <Label style={styles.formLabel}>
                           Confirmar contraseña
                         </Label>
