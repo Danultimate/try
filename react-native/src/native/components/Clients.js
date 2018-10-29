@@ -30,6 +30,7 @@ import Spacer from "./Spacer";
 import TimeAgo from "react-native-timeago";
 import moment from "moment"; //load moment module to set local language
 import "moment/locale/es"; //for import moment local language file during the application build
+import call from 'react-native-phone-call'
 moment.locale("es");
 
 const ClientListing = ({ error, loading, member }) => {
@@ -97,7 +98,9 @@ const ClientListing = ({ error, loading, member }) => {
                       info
                       small
                       iconLeft
-                      onPress={() => onPress(item.user.cellphone)}
+                      onPress={() => call({number: ''+item.user.cellphone,
+                                           prompt: false
+                                          })}
                     >
                       <Icon
                         style={styles.callButtonIcon}
