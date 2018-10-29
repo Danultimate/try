@@ -1,5 +1,5 @@
 import React from "react";
-import { Scene, Tabs, Stack } from "react-native-router-flux";
+import { Drawer, Scene, Tabs, Stack } from "react-native-router-flux";
 import TabIcon from "../components/TabIcon";
 
 import DefaultProps from "../constants/navigation";
@@ -27,21 +27,55 @@ import UpdateProfileComponent from "../components/UpdateProfile";
 import MemberContainer from "../../containers/Member";
 import ProfileComponent from "../components/Profile";
 
-import AboutComponent from "../components/About";
 import DashboardContainer from "../../containers/Dashboard";
 import DashboardComponent from "../components/Dashboard";
 
 import PreviewComponent from "../components/Preview";
+
 import WelcomeComponent from "../components/Welcome";
 import AppLogoComponent from "../components/AppLogo";
+
+import ClientsComponent from "../components/Clients";
+import OrdersComponent from "../components/Orders";
+import ContactComponent from "../components/Contact";
+import TermsComponent from "../components/Terms";
+import SupportComponent from "../components/Support";
+import AboutComponent from "../components/About";
+import MoreComponent from "../components/More";
+import SideMenu from "../components/SideMenu";
 
 const Index = (
   <Stack hideNavBar>
     <Scene key="welcome" component={WelcomeComponent} />
+    <Scene
+      back
+      key="signUp"
+      title="Crea tu cuenta"
+      {...DefaultProps.navbarProps}
+      component={SignUpContainer}
+      Layout={SignUpComponent}
+    />
+    <Scene
+      back
+      key="login"
+      title="Inicia sesión"
+      {...DefaultProps.navbarProps}
+      component={LoginContainer}
+      Layout={LoginComponent}
+    />
+    <Scene
+      back
+      key="forgotPassword"
+      title="Reestablecer contraseña"
+      {...DefaultProps.navbarProps}
+      component={ForgotPasswordContainer}
+      Layout={ForgotPasswordComponent}
+    />
     <Scene hideNavBar activeTintColor="#93a8d5" inactiveTintColor="#3b5998">
       <Tabs key="tabbar" swipeEnabled type="replace" {...DefaultProps.tabProps}>
         <Stack
           key="home"
+          title="Inicio"
           renderTitle={() => {
             return <AppLogoComponent />;
           }}
@@ -57,23 +91,29 @@ const Index = (
         </Stack>
 
         <Stack
-          key="recipes"
-          title="Recetas"
-          iconName={"book"}
+          key="clients"
+          title="Clientes"
+          iconName={"people"}
           icon={TabIcon}
           {...DefaultProps.navbarProps}
         >
-          <Scene
-            key="recipes"
-            component={RecipesContainer}
-            Layout={RecipesComponent}
-          />
+          <Scene key="clients" component={ClientsComponent} />
+        </Stack>
+
+        <Stack
+          key="orders"
+          title="Ordenes"
+          iconName={"basket-loaded"}
+          icon={TabIcon}
+          {...DefaultProps.navbarProps}
+        >
+          <Scene key="orders" component={OrdersComponent} />
         </Stack>
 
         <Stack
           key="profile"
           title="Perfil"
-          iconName={"user"}
+          iconName={"user-female"}
           icon={TabIcon}
           {...DefaultProps.navbarProps}
         >
@@ -81,30 +121,6 @@ const Index = (
             key="profileHome"
             component={MemberContainer}
             Layout={ProfileComponent}
-          />
-          <Scene
-            back
-            key="signUp"
-            title="Crea tu cuenta"
-            {...DefaultProps.navbarProps}
-            component={SignUpContainer}
-            Layout={SignUpComponent}
-          />
-          <Scene
-            back
-            key="login"
-            title="Inicia sesión"
-            {...DefaultProps.navbarProps}
-            component={LoginContainer}
-            Layout={LoginComponent}
-          />
-          <Scene
-            back
-            key="forgotPassword"
-            title="Reestablecer contraseña"
-            {...DefaultProps.navbarProps}
-            component={ForgotPasswordContainer}
-            Layout={ForgotPasswordComponent}
           />
           <Scene
             back
@@ -123,6 +139,45 @@ const Index = (
             Layout={UpdateProfileComponent}
           />
         </Stack>
+        <Stack
+          key="more"
+          title="Más"
+          iconName={"menu"}
+          icon={TabIcon}
+          {...DefaultProps.navbarProps}
+        >
+          <Scene
+            key="more"
+            title="Opciones"
+            component={MemberContainer}
+            {...DefaultProps.navbarProps}
+            Layout={MoreComponent}
+          />
+          <Scene
+            key="terms"
+            title="Terminos y condiciones"
+            {...DefaultProps.navbarProps}
+            component={TermsComponent}
+          />
+          <Scene
+            key="support"
+            title="Ayuda"
+            {...DefaultProps.navbarProps}
+            component={SupportComponent}
+          />
+          <Scene
+            key="contact"
+            title="Contacto"
+            {...DefaultProps.navbarProps}
+            component={ContactComponent}
+          />
+          <Scene
+            key="about"
+            title="Acerca de Elenas"
+            {...DefaultProps.navbarProps}
+            component={AboutComponent}
+          />
+        </Stack>
       </Tabs>
     </Scene>
 
@@ -130,7 +185,7 @@ const Index = (
       back
       clone
       key="recipe"
-      title="RECIPE"
+      title="Receta"
       {...DefaultProps.navbarProps}
       component={RecipesContainer}
       Layout={RecipeViewComponent}

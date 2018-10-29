@@ -26,6 +26,7 @@ import { Actions } from "react-native-router-flux";
 import Loading from "./Loading";
 import Messages from "./Messages";
 import Header from "./Header";
+import AppLogoAuth from "./AppLogoAuth";
 import Spacer from "./Spacer";
 
 class SignUp extends React.Component {
@@ -74,6 +75,7 @@ class SignUp extends React.Component {
     return (
       <Container>
         <Content padder>
+          <AppLogoAuth />
           <Card style={styles.card}>
             <CardItem header style={styles.authCard}>
               <Image
@@ -146,11 +148,9 @@ class SignUp extends React.Component {
                   <Spacer size={16} />
                   <View style={{ flexDirection: "row" }}>
                     <CheckBox
-                      checked={false}
-                      style={[
-                        styles.formElement,
-                        { marginRight: 16, marginLeft: -8 }
-                      ]}
+                      color={Colors.brandPrimary}
+                      onPress={this.checked}
+                      style={[{ marginRight: 16, marginLeft: -8 }]}
                     />
                     <Text style={[styles.supportText]}>
                       He leido y acepto los{" "}
@@ -195,6 +195,10 @@ export default SignUp;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#F7F7FF"
+  },
+  logoImg: {
+    marginTop: 32,
+    marginBottom: 24
   },
   card: {
     shadowColor: "#E2E1E6",

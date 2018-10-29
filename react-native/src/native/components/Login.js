@@ -25,6 +25,7 @@ import { Actions } from "react-native-router-flux";
 import Loading from "./Loading";
 import Messages from "./Messages";
 import Spacer from "./Spacer";
+import AppLogoAuth from "./AppLogoAuth";
 
 class Login extends React.Component {
   static propTypes = {
@@ -79,6 +80,7 @@ class Login extends React.Component {
     return (
       <Container>
         <Content padder>
+          <AppLogoAuth />
           <Card style={styles.card}>
             <CardItem header style={styles.authCard}>
               <Image
@@ -168,6 +170,10 @@ export default Login;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#F7F7FF"
+  },
+  logoImg: {
+    marginTop: 32,
+    marginBottom: 24
   },
   card: {
     shadowColor: "#E2E1E6",

@@ -3,7 +3,12 @@
     "sdkVersion": "29.0.0",
     "name": "Elenas",
     "slug": "elenas",
-    "icon": "src/images/app-icon.png",
-    "privacy": "public"
+    "icon": "./src/images/app-icon.png",
+    "privacy": "public",
+    "orientation": "portrait",
+    "splash": {
+      "image": "./src/images/splash.png",
+      "resizeMode": "cover"
+    }
   }
 }

@@ -18,41 +18,9 @@ import { Actions } from "react-native-router-flux";
 import Spacer from "./Spacer";
 import Header from "./Header";
 
-const Profile = ({ member, logout }) => (
+const More = ({ member, logout }) => (
   <Container>
     <Content padder>
-      {member &&
-        member.email && (
-          <View style={styles.userBar}>
-            <View style={styles.userImg}>
-              <Image
-                style={styles.userAvatar}
-                source={require("../assets/images/avatar.png")}
-              />
-              <Text style={styles.userCode}>Cod: pau-qmj</Text>
-              <Spacer size={8} />
-            </View>
-            <View style={styles.userInfo}>
-              <Text style={styles.userGreeting}>
-                ¡Bienvenida {member.firstName}!
-              </Text>
-              <Text style={styles.userMessage}>
-                Tu correo es {member.email}
-              </Text>
-              <Spacer size={8} />
-              <View style={styles.userNumbers}>
-                <Text style={styles.userNumberLabel}>Ventas </Text>
-                <Text style={styles.userSales}>
-                  <Text style={styles.userCurrency}>$</Text>258.650
-                </Text>
-                <Spacer size={20} />
-                <Text style={styles.userClients}>32</Text>
-                <Text style={styles.userNumberLabel}> clientes</Text>
-              </View>
-            </View>
-          </View>
-        )}
-
       <Card style={styles.card}>
         {member && member.email ? (
           <View>
@@ -96,21 +64,51 @@ const Profile = ({ member, logout }) => (
             </CardItem>
           </View>
         )}
+        <View>
+          <CardItem button onPress={Actions.contact}>
+            <Icon type="SimpleLineIcons" name="login" />
+            <Text>Contacto</Text>
+            <Right style={styles.rightArrow}>
+              <Icon name="arrow-forward" />
+            </Right>
+          </CardItem>
+          <CardItem button onPress={Actions.terms}>
+            <Icon type="SimpleLineIcons" name="login" />
+            <Text>Terminos y condiciones</Text>
+            <Right style={styles.rightArrow}>
+              <Icon name="arrow-forward" />
+            </Right>
+          </CardItem>
+          <CardItem button onPress={Actions.support}>
+            <Icon type="SimpleLineIcons" name="login" />
+            <Text>Soporte</Text>
+            <Right style={styles.rightArrow}>
+              <Icon name="arrow-forward" />
+            </Right>
+          </CardItem>
+          <CardItem button onPress={Actions.about}>
+            <Icon type="SimpleLineIcons" name="login" />
+            <Text>Acerca de Elenas</Text>
+            <Right style={styles.rightArrow}>
+              <Icon name="arrow-forward" />
+            </Right>
+          </CardItem>
+        </View>
       </Card>
     </Content>
   </Container>
 );
 
-Profile.propTypes = {
+More.propTypes = {
   member: PropTypes.shape({}),
   logout: PropTypes.func.isRequired
 };
 
-Profile.defaultProps = {
+More.defaultProps = {
   member: {}
 };
 
-export default Profile;
+export default More;
 
 const styles = StyleSheet.create({
   container: {
