@@ -119,7 +119,7 @@ class Dashboard extends React.Component {
                 style={styles.userAvatar}
                 source={require("../assets/images/avatar.png")}
               />
-              <Text style={styles.userCode}>pau-qmj</Text>
+              <Text style={styles.userCode}>{this.props.member.code}</Text>
             </View>
             <View style={styles.userInfo}>
               <Text style={styles.userGreeting}>
@@ -135,7 +135,7 @@ class Dashboard extends React.Component {
                   <Text style={styles.userCurrency}>$</Text>258.650
                 </Text>
                 <Spacer size={10} />
-                <Text style={styles.userClients}>32</Text>
+                <Text style={styles.userClients}>{this.props.member.clients.length}</Text>
                 <Text style={styles.userNumberLabel}> clientes</Text>
               </View>
             </View>
