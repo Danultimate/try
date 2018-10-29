@@ -33,7 +33,7 @@ import moment from "moment"; //load moment module to set local language
 import "moment/locale/es"; //for import moment local language file during the application build
 moment.locale("es");
 
-const OrderListing = ({ error, loading }) => {
+const OrderListing = ({ error, loading, member }) => {
   const orders = [
     {
       clientName: "Juliana Villa",
@@ -73,37 +73,43 @@ const OrderListing = ({ error, loading }) => {
       <Content padder>
         <FlatList
           numColumns={1}
-          data={orders}
+          data={member.orders}
           renderItem={({ item }) => (
             <Card transparent style={styles.card}>
               <CardItem style={styles.cardBody}>
                 <Left style={styles.orderLeft}>
                   <View>
                     <Text numberOfLines={1} style={styles.name}>
-                      {item.clientName}
+                    {/* TODO: create clients model */}
+                      {item.client_name}                      
                     </Text>
-                    <Text style={styles.orderTotal}>${item.value}</Text>
+                    <Text style={styles.orderTotal}>${item.total-item.tax-item.shipping}</Text>
                   </View>
                   <Body style={styles.orderDate}>
                     <Text note style={styles.meta}>
-                      <TimeAgo time={item.addedAt} />
+                      <TimeAgo time={item.date} />
                     </Text>
                   </Body>
                 </Left>
                 <Right style={styles.orderRight}>
-                  {item.status === "Ordenado" && (
+                  {item.status === "ordered" && (
                     <Badge primary>
-                      <Text style={styles.badge}>{item.status}</Text>
+                      <Text style={styles.badge}>Ordenado</Text>
                     </Badge>
                   )}
-                  {item.status === "Distribución" && (
+                  {item.status === "distribution" && (
                     <Badge info>
-                      <Text style={styles.badge}>{item.status}</Text>
+                      <Text style={styles.badge}>En Distribución</Text>
                     </Badge>
                   )}
-                  {item.status === "Entregado" && (
+                  {item.status === "completed" && (
                     <Badge success>
-                      <Text style={styles.badge}>{item.status}</Text>
+                      <Text style={styles.badge}>Completado</Text>
+                    </Badge>
+                  )}
+                  {item.status === "cancelled" && (
+                    <Badge danger>
+                      <Text style={styles.badge}>Cancelado</Text>
                     </Badge>
                   )}
                 </Right>
@@ -121,12 +127,16 @@ const OrderListing = ({ error, loading }) => {
 
 OrderListing.propTypes = {
   error: PropTypes.string,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  member: PropTypes.shape({}),
 };
+
+
 
 OrderListing.defaultProps = {
   error: null,
-  loading: false
+  loading: false,
+  member: {}
 };
 
 export default OrderListing;

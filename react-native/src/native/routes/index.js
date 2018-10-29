@@ -97,7 +97,7 @@ const Index = (
           icon={TabIcon}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="clients" component={ClientsComponent} />
+          <Scene key="clients" component={DashboardContainer} Layout={ClientsComponent} />
         </Stack>
 
         <Stack
@@ -107,7 +107,7 @@ const Index = (
           icon={TabIcon}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="orders" component={OrdersComponent} />
+          <Scene key="orders" component={DashboardContainer} Layout={OrdersComponent} />
         </Stack>
 
         <Stack

@@ -32,7 +32,7 @@ import moment from "moment"; //load moment module to set local language
 import "moment/locale/es"; //for import moment local language file during the application build
 moment.locale("es");
 
-const ClientListing = ({ error, loading }) => {
+const ClientListing = ({ error, loading, member }) => {
   const clients = [
     {
       name: "Juliana Villa",
@@ -80,7 +80,7 @@ const ClientListing = ({ error, loading }) => {
       <Content padder>
         <FlatList
           numColumns={1}
-          data={clients}
+          data={member.clients}
           renderItem={({ item }) => (
             <Card transparent style={styles.card}>
               <CardItem style={styles.cardBody}>
@@ -97,7 +97,7 @@ const ClientListing = ({ error, loading }) => {
                       info
                       small
                       iconLeft
-                      onPress={() => onPress(item)}
+                      onPress={() => onPress(item.user.cellphone)}
                     >
                       <Icon
                         style={styles.callButtonIcon}
@@ -109,13 +109,13 @@ const ClientListing = ({ error, loading }) => {
                   </View>
                   <Body>
                     <Text numberOfLines={1} style={styles.name}>
-                      {item.name}
+                      {item.user.first_name} {item.user.last_name}
                     </Text>
                     <Text note style={styles.meta}>
                       <TimeAgo time={item.addedAt} />
                     </Text>
                     <Spacer size={4} />
-                    <Text style={styles.clientTotal}>${item.totalOrders}</Text>
+                    <Text style={styles.clientTotal}>${item.total_ordered}</Text>
                     <Text note style={styles.meta}>
                       Ordenes Totales
                     </Text>
@@ -126,7 +126,7 @@ const ClientListing = ({ error, loading }) => {
                     <Text note style={styles.meta}>
                       Orden promedio{" "}
                     </Text>{" "}
-                    ${item.averageOrder}
+                    ${item.avg_order}
                   </Text>
 
                   <Spacer size={8} />
@@ -134,7 +134,7 @@ const ClientListing = ({ error, loading }) => {
                     <Text note style={styles.meta}>
                       Última orden{" "}
                     </Text>{" "}
-                    ${item.lastOrder}
+                    ${item.last_order}
                   </Text>
                 </Right>
               </CardItem>
@@ -151,12 +151,14 @@ const ClientListing = ({ error, loading }) => {
 
 ClientListing.propTypes = {
   error: PropTypes.string,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  member: PropTypes.shape({}),
 };
 
 ClientListing.defaultProps = {
   error: null,
-  loading: false
+  loading: false,
+  member: {}
 };
 
 export default ClientListing;

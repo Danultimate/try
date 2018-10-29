@@ -18,7 +18,7 @@ export default function userReducer(state = initialState, action) {
       return initialState;
     }
     case 'USER_DETAILS_UPDATE': {
-      if (action.data && action.dataSeller) {
+      if (action.data) {
         return {
           ...state,
           loading: false,

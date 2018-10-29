@@ -69,15 +69,40 @@ function getUserData(dispatch) {
 
   return ref.on('value', (snapshot) => {
     const userData = snapshot.val() || [];
-    const sellerData = getSellerData();
+    
+    // Get data from backend
+    console.log('getSellerData')
+    getToken().then((token)=> {
+    API.defaults.headers.common['Authorization'] = `Bearer ${token}`;    
 
-    return dispatch({
-      type: 'USER_DETAILS_UPDATE',
-      data: userData,
-      dataSeller: sellerData[0],
-      dataOrders: sellerData[1],
-      dataClients: sellerData[2],
-    });
+    // Get user backend data
+    API.get('/sellers')
+      .then((seller)=>{ 
+        console.log('getSellerData succeed');
+        //console.log(seller.data)
+        API.get('/orders')
+        .then((orders)=>{ 
+          console.log('getOrdersData succeed')
+          //console.log(orders.data)
+          API.get('/clients_react')
+          .then((clients)=>{ 
+            console.log('getClientsData succeed')
+            //console.log(clients.data)
+            return dispatch({
+              type: 'USER_DETAILS_UPDATE',
+              data: userData,
+              dataSeller: seller.data.sellers,
+              dataOrders: orders.data.orders,
+              dataClients: clients.data.clients,
+            });
+
+          })
+        })
+      })
+
+
+      
+    })
   });
 }
 
@@ -85,31 +110,6 @@ function getUserData(dispatch) {
 
 async function getToken(){
   return await AsyncStorage.getItem('token') || 'none'
-}
-
-function getSellerData() {
-  console.log('getSellerData')
-  getToken().then((token)=> {
-    API.defaults.headers.common['Authorization'] = `Bearer ${token}`;    
-
-    // Get user backend data
-    API.get('/sellers')
-    .then((seller)=>{ 
-      console.log('getSellerData succeed');
-      API.get('/orders')
-      .then((orders)=>{ 
-        console.log('getOrdersData succeed')
-        API.get('/clients')
-        .then((clients)=>{ 
-          console.log('getClientsData succeed')
-          return [seller.data, orders.data, clients.data]
-        })
-      })
-    })
-
-  })
-  
-  return [];
 }
 
 /**
