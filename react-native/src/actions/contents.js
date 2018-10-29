@@ -77,7 +77,6 @@ export function setError(message) {
   * Get Contents
   */
 export function getContents() {
-  console.log('hey si entra a getContents')
   //Fill the query fields
   const collectionQuery = {
       first: 3,
@@ -87,8 +86,6 @@ export function getContents() {
   return dispatch => new Promise((resolve, reject) => shopify.collection
       .fetchQuery(collectionQuery)
       .then(collections => {
-          console.log('hey si entra a collectrions')
-          console.log(collections.length);
         return resolve(dispatch({
           type: 'CONTENTS_REPLACE',
           data: collections,

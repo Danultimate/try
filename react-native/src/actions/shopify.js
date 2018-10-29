@@ -31,8 +31,6 @@ export function getSharableCollections() {
     return shopify.collection
         .fetchQuery(collectionQuery)
         .then(collections => {
-            console.log('hey si entra a collectrions')
-            console.log(collections.length);
         //   this.setState({
         //     isLoading: false,
         //     collections: collections

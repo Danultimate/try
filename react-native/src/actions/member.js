@@ -1,6 +1,8 @@
 import ErrorMessages from '../constants/errors';
 import statusMessage from './status';
+import { AsyncStorage } from "react-native";
 import { Firebase, FirebaseRef } from '../lib/firebase';
+import axios from "axios";
 import API from '../constants/api';
 
 /**
@@ -67,12 +69,47 @@ function getUserData(dispatch) {
 
   return ref.on('value', (snapshot) => {
     const userData = snapshot.val() || [];
+    const sellerData = getSellerData();
 
     return dispatch({
       type: 'USER_DETAILS_UPDATE',
       data: userData,
+      dataSeller: sellerData[0],
+      dataOrders: sellerData[1],
+      dataClients: sellerData[2],
     });
   });
+}
+
+// TODO: Integrate with dispatch etc
+
+async function getToken(){
+  return await AsyncStorage.getItem('token') || 'none'
+}
+
+function getSellerData() {
+  console.log('getSellerData')
+  getToken().then((token)=> {
+    API.defaults.headers.common['Authorization'] = `Bearer ${token}`;    
+
+    // Get user backend data
+    API.get('/sellers')
+    .then((seller)=>{ 
+      console.log('getSellerData succeed');
+      API.get('/orders')
+      .then((orders)=>{ 
+        console.log('getOrdersData succeed')
+        API.get('/clients')
+        .then((clients)=>{ 
+          console.log('getClientsData succeed')
+          return [seller.data, orders.data, clients.data]
+        })
+      })
+    })
+
+  })
+  
+  return [];
 }
 
 /**
@@ -80,12 +117,20 @@ function getUserData(dispatch) {
   * TODO: there's a lot todo here, not working
   */
 export function setupAxios(cellphone) {
-  API.post('/login_admin', {
+  console.log(cellphone)
+  axios.post('https://seller-server-dev.herokuapp.com/api/login_admin', {
     username: cellphone,
     password: ' '
   })
   .then((response)=>{
-    API.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
+    async () => {
+      try {
+        await AsyncStorage.setItem('token', response.data.access_token);
+      } catch (error) {
+        console.log('Error @auth-backend saving token')
+      }
+    }
+    //API.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
     console.log('@auth-backend success')
   })
   .catch((res)=>{
@@ -148,14 +193,13 @@ export function login(formData) {
                 .catch(() => console.log('Verification email failed to send'));
             }
 
+            // Set flask backend bridge
+            setupAxios(cellphone);
+
             // Get User Data
             getUserData(dispatch);
             
-            // Set flask backend bridge
-            setupAxios(cellphone);
-          }
-
-          
+          }          
 
           await statusMessage(dispatch, 'loading', false);
 

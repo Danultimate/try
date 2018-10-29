@@ -5,21 +5,7 @@ import { connect } from 'react-redux';
 import { logout, getMemberData } from '../actions/member';
 import { shopify } from '../actions/shopify';
 import {getContents} from '../actions/contents';
-import API from '../constants/api';
 
-export function getSellerData() {
-
-  API.get('/sellers')
-  .then((res)=>{ 
-    console.log('getSellerData succeed')
-    console.log(res.data)
-    return res.data
-  })
-  .catch((res)=>{ 
-    console.log('Error @getSellerData:')
-    console.log(res)
-  })
-}
 
 class Dashboard extends Component {
   static propTypes = {
@@ -46,7 +32,7 @@ class Dashboard extends Component {
 
 
   componentDidMount = () => {
-    const { fetchData, fetchContent } = this.props;
+    const { fetchData, fetchContent, fetchSellerData } = this.props;
     fetchData();
     fetchContent();
   }
@@ -57,17 +43,12 @@ class Dashboard extends Component {
     const id = (match && match.params && match.params.id) ? match.params.id : null;
     const shopify_client = shopify();
 
-    //console.log('these are the collectios')
-    //console.log(contents)
-    //const seller_data = getSellerData();
-
     return (<Layout 
       member={member} 
       logout={memberLogout} 
       shopify={shopify_client}
       contentId={id}
       contents={contents.contents}
-      //seller={seller_data}
       />);
   }
 }
@@ -77,6 +58,7 @@ class Dashboard extends Component {
 const mapStateToProps = state => ({
   member: state.member || {},
   contents: state.contents || [],
+  seller: state.seller || [],
 });
 
 const mapDispatchToProps = {

@@ -26,9 +26,7 @@ export default function contentReducer(state = initialState, action) {
     }
     case 'CONTENTS_REPLACE': {
       let contents = [];
-
-      console.log('CONTENTS_REPLACE - reducer')
-
+      
       // Pick out the props I need
       if (action.data && typeof action.data === 'object') {
         contents = action.data.map(item => ({
@@ -43,8 +41,6 @@ export default function contentReducer(state = initialState, action) {
           type: item.type,
         }));
       }
-      console.log('tipo de content')
-      console.log(typeof contents)
       return {
         ...state,
         error: null,
