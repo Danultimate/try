@@ -146,9 +146,9 @@ class Login extends React.Component {
                   <Spacer size={16} />
                   <Text style={[styles.supportText, styles.textCenter]}>
                     ¿No tienes una cuenta aún?{" "}
-                    <TouchableOpacity onPress={Actions.signUp}>
+                    {/* <TouchableOpacity onPress={Actions.signUp}> */}
                       <Text style={styles.supportTextLink}>Regístrate</Text>
-                    </TouchableOpacity>
+                    {/* </TouchableOpacity> */}
                   </Text>
                 </Form>
               </Body>

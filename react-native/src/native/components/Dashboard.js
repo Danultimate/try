@@ -7,7 +7,8 @@ import {
   FlatList,
   TouchableOpacity,
   RefreshControl,
-  Image
+  Image,
+  Share
 } from "react-native";
 import {
   Container,
@@ -83,6 +84,8 @@ class Dashboard extends React.Component {
     this.props.shopify.collection
       .fetchQuery(collectionQuery)
       .then(collections => {
+        console.log('las colecciones')
+        console.log(collections[0])
         this.setState({
           isLoading: false,
           collections: collections
@@ -267,7 +270,8 @@ class Dashboard extends React.Component {
                       info
                       small
                       iconLeft
-                      onPress={() => onPress(item)}
+                      // onPress={() => onPress(item)}
+                      onPress={() => {Share.share({message: "el mensajito"}, {})}}
                     >
                       <Icon type="SimpleLineIcons" name="share-alt" />
                       <Text style={styles.cardButtonText}>Compartir</Text>
