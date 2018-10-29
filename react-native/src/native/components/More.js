@@ -66,28 +66,28 @@ const More = ({ member, logout }) => (
         )}
         <View>
           <CardItem button onPress={Actions.contact}>
-            <Icon type="SimpleLineIcons" name="login" />
+            <Icon type="SimpleLineIcons" name="envelope-letter" />
             <Text>Contacto</Text>
             <Right style={styles.rightArrow}>
               <Icon name="arrow-forward" />
             </Right>
           </CardItem>
           <CardItem button onPress={Actions.terms}>
-            <Icon type="SimpleLineIcons" name="login" />
+            <Icon type="SimpleLineIcons" name="docs" />
             <Text>Terminos y condiciones</Text>
             <Right style={styles.rightArrow}>
               <Icon name="arrow-forward" />
             </Right>
           </CardItem>
           <CardItem button onPress={Actions.support}>
-            <Icon type="SimpleLineIcons" name="login" />
+            <Icon type="SimpleLineIcons" name="umbrella" />
             <Text>Soporte</Text>
             <Right style={styles.rightArrow}>
               <Icon name="arrow-forward" />
             </Right>
           </CardItem>
           <CardItem button onPress={Actions.about}>
-            <Icon type="SimpleLineIcons" name="login" />
+            <Icon type="SimpleLineIcons" name="symbol-female" />
             <Text>Acerca de Elenas</Text>
             <Right style={styles.rightArrow}>
               <Icon name="arrow-forward" />

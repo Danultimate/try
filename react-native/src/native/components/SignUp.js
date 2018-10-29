@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, Image } from "react-native";
+import { StyleSheet, Image, TouchableOpacity } from "react-native";
 import {
   Container,
   Content,
@@ -154,14 +154,11 @@ class SignUp extends React.Component {
                     />
                     <Text style={[styles.supportText]}>
                       He leido y acepto los{" "}
-                      <Text
-                        style={[
-                          styles.supportText,
-                          { color: Colors.brandInfo }
-                        ]}
-                      >
-                        Terminos y condiciones
-                      </Text>
+                      <TouchableOpacity onPress={Actions.terms}>
+                        <Text style={styles.supportTextLink}>
+                          Terminos y condiciones
+                        </Text>
+                      </TouchableOpacity>
                     </Text>
                   </View>
                   <Spacer size={16} />
@@ -170,16 +167,11 @@ class SignUp extends React.Component {
                     <Text>Crea tu cuenta</Text>
                   </Button>
                   <Spacer size={16} />
-                  <Text
-                    style={[
-                      styles.supportText,
-                      styles.textCenter,
-                      { color: Colors.brandInfo }
-                    ]}
-                    onPress={Actions.login}
-                  >
-                    Ya tengo una cuenta
-                  </Text>
+                  <TouchableOpacity onPress={Actions.login}>
+                    <Text style={[styles.supportTextLink, styles.textCenter]}>
+                      Ya tengo una cuenta
+                    </Text>
+                  </TouchableOpacity>
                 </Form>
               </Body>
             </CardItem>
@@ -274,7 +266,13 @@ const styles = StyleSheet.create({
     fontSize: 24
   },
   supportText: {
-    fontSize: 14
+    fontSize: 14,
+    lineHeight: 20
+  },
+  supportTextLink: {
+    fontSize: 14,
+    lineHeight: 26,
+    color: Colors.brandInfo
   },
   transparentCard: {
     backgroundColor: "rgba(255, 255, 255, 0)",

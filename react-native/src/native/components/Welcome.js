@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, Image, Dimensions } from "react-native";
+import { StyleSheet, Image, Dimensions, TouchableOpacity } from "react-native";
 import {
   Container,
   Content,
@@ -102,16 +102,17 @@ const Welcome = () => (
               <Text>Crea tu cuenta</Text>
             </Button>
             <Spacer size={16} />
-            <Text
-              style={[
-                styles.supportText,
-                styles.textCenter,
-                { color: Colors.brandInfo }
-              ]}
-              onPress={Actions.home}
-            >
-              Lo haré despues
-            </Text>
+            <TouchableOpacity onPress={Actions.home}>
+              <Text
+                style={[
+                  styles.supportText,
+                  styles.textCenter,
+                  { color: Colors.brandInfo }
+                ]}
+              >
+                Lo haré despues
+              </Text>
+            </TouchableOpacity>
           </Body>
         </CardItem>
       </Card>

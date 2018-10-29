@@ -164,8 +164,10 @@ class Dashboard extends React.Component {
                               ]}
                               numberOfLines={1}
                             >
-                              <Image
-                                source={require("../assets/images/notification.png")}
+                              <Icon
+                                type="SimpleLineIcons"
+                                name="info"
+                                style={styles.notificationTitle}
                               />
                               {" " + item.title}
                             </Text>
@@ -708,8 +710,12 @@ const styles = StyleSheet.create({
   },
   notificationTitle: {
     fontSize: 14,
-    lineHeight: 16,
+    lineHeight: 18,
     marginBottom: 0
+  },
+  notificationTitleIcon: {
+    fontSize: 6,
+    lineHeight: 24
   },
   notificationText: {
     fontSize: 12,

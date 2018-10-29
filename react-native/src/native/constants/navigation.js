@@ -11,12 +11,13 @@ export default {
       color: Colors.titleFontColor,
       alignSelf: "center",
       fontFamily: "playfair",
-      fontSize: Colors.fontSizeBase * 1.325
+      fontSize: Colors.fontSizeBase * 1.375
     },
-    // backButtonTintColor: Colors.brandLight
-    backButtonTintColor: Colors.titleFontColor
+    backButtonTintColor: Colors.titleFontColor,
+    backButtonTextStyle: { color: Colors.titleFontColor },
+    leftButtonTextStyle: { color: Colors.titleFontColor }
   },
-  backButtonTintColor: Colors.titleFontColor,
+
   tabProps: {
     swipeEnabled: false,
     activeBackgroundColor: "rgba(255,255,255,1)",
