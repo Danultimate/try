@@ -161,7 +161,7 @@ const Index = (
           />
           <Scene
             key="support"
-            title="Ayuda"
+            title="Soporte"
             {...DefaultProps.navbarProps}
             component={SupportComponent}
           />

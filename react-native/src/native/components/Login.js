@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, Image } from "react-native";
+import { StyleSheet, Image, TouchableOpacity } from "react-native";
 import {
   Container,
   Content,
@@ -131,15 +131,13 @@ class Login extends React.Component {
                     />
                   </Item>
                   <Spacer size={16} />
-                  <Text
-                    style={[
-                      styles.supportText,
-                      { color: Colors.brandInfo, marginLeft: "auto" }
-                    ]}
-                    onPress={Actions.forgotPassword}
-                  >
-                    ¡Olvide mi contraseña!
-                  </Text>
+                  <TouchableOpacity onPress={Actions.forgotPassword}>
+                    <Text
+                      style={[styles.supportTextLink, { marginLeft: "auto" }]}
+                    >
+                      ¡Olvide mi contraseña!
+                    </Text>
+                  </TouchableOpacity>
                   <Spacer size={16} />
 
                   <Button block success onPress={this.handleSubmit}>
@@ -148,12 +146,9 @@ class Login extends React.Component {
                   <Spacer size={16} />
                   <Text style={[styles.supportText, styles.textCenter]}>
                     ¿No tienes una cuenta aún?{" "}
-                    <Text
-                      style={[styles.supportText, { color: Colors.brandInfo }]}
-                      onPress={Actions.signUp}
-                    >
-                      Regístrate
-                    </Text>
+                    <TouchableOpacity onPress={Actions.signUp}>
+                      <Text style={styles.supportTextLink}>Regístrate</Text>
+                    </TouchableOpacity>
                   </Text>
                 </Form>
               </Body>
@@ -249,7 +244,13 @@ const styles = StyleSheet.create({
     fontSize: 24
   },
   supportText: {
-    fontSize: 14
+    fontSize: 14,
+    lineHeight: 20
+  },
+  supportTextLink: {
+    fontSize: 14,
+    lineHeight: 26,
+    color: Colors.brandInfo
   },
   transparentCard: {
     backgroundColor: "rgba(255, 255, 255, 0)",
