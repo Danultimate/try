@@ -73,13 +73,13 @@ function getUserData(dispatch) {
     // Get data from backend
     console.log('getSellerData')
     getToken().then((token)=> {
-    API.defaults.headers.common['Authorization'] = `Bearer ${token}`;    
+    API.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
     // Get user backend data
     API.get('/sellers')
       .then((seller)=>{ 
         console.log('getSellerData succeed');
-        //console.log(seller.data)
+        // console.log(seller.data.sellers)
         API.get('/orders')
         .then((orders)=>{ 
           console.log('getOrdersData succeed')
@@ -91,17 +91,14 @@ function getUserData(dispatch) {
             return dispatch({
               type: 'USER_DETAILS_UPDATE',
               data: userData,
-              dataSeller: seller.data.sellers,
+              dataSeller: seller.data.sellers[0],
               dataOrders: orders.data.orders,
               dataClients: clients.data.clients,
             });
 
           })
         })
-      })
-
-
-      
+      })      
     })
   });
 }
@@ -126,11 +123,12 @@ export function setupAxios(cellphone) {
     async () => {
       try {
         await AsyncStorage.setItem('token', response.data.access_token);
+        API.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
       } catch (error) {
         console.log('Error @auth-backend saving token')
       }
     }
-    //API.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
+    
     console.log('@auth-backend success')
   })
   .catch((res)=>{
@@ -303,6 +301,7 @@ export function logout() {
     Firebase.auth().signOut()
       .then(() => {
         dispatch({ type: 'USER_RESET' });
+        API.defaults.headers.common['Authorization'] = '';
         setTimeout(resolve, 1000); // Resolve after 1s so that user sees a message
       }).catch(reject);
   }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });

@@ -31,7 +31,7 @@ class Dashboard extends Component {
   };
 
   componentDidMount = () => {
-    const { fetchData, fetchContent, fetchSellerData } = this.props;
+    const { fetchData, fetchContent } = this.props;
     fetchData();
     fetchContent();
   };

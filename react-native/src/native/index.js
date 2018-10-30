@@ -1,5 +1,5 @@
 import React from "react";
-import { StatusBar, Platform } from "react-native";
+import { StatusBar, Platform, AsyncStorage } from "react-native";
 import { AppLoading, Asset, Font } from "expo";
 import PropTypes from "prop-types";
 import { Provider } from "react-redux";
@@ -11,17 +11,28 @@ import getTheme from "../../native-base-theme/components";
 import theme from "../../native-base-theme/variables/commonColor";
 
 import Routes from "./routes/index";
+import PublicRoutes from "./routes/public";
+import PrivateRoutes from "./routes/private";
 import Loading from "./components/Loading";
 
 // Hide StatusBar on Android as it overlaps tabs
 if (Platform.OS === "android") StatusBar.setHidden(false);
 
 class App extends React.Component {
-  state = {
-    isLoadingComplete: false
-  };
+
+  constructor() {
+    super();
+    this.state = { hasToken: false, isLoadingComplete: false };
+  }
+
+  componentDidMount() {
+    AsyncStorage.getItem('token').then((token) => {
+      this.setState({ hasToken: token !== null, isLoaded: true })
+    });
+  }
 
   render() {
+   
     const { store, persistor } = this.props;
 
     if (!this.state.isLoadingComplete) {
@@ -41,6 +52,7 @@ class App extends React.Component {
             <StyleProvider style={getTheme(theme)}>
               <Router>
                 <Stack key="root">{Routes}</Stack>
+                {/* <Stack key="public">{PublicRoutes}</Stack> */}
               </Router>
             </StyleProvider>
           </PersistGate>
