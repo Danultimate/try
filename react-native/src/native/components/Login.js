@@ -144,12 +144,20 @@ class Login extends React.Component {
                     <Text>Inicia sesión</Text>
                   </Button>
                   <Spacer size={16} />
-                  <Text style={[styles.supportText, styles.textCenter]}>
-                    ¿No tienes una cuenta aún?{" "}
-                    {/* <TouchableOpacity onPress={Actions.signUp}> */}
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}
+                  >
+                    <Text style={[styles.supportText, styles.textCenter]}>
+                      ¿No tienes una cuenta aún?{" "}
+                    </Text>
+                    <TouchableOpacity onPress={Actions.signUp}>
                       <Text style={styles.supportTextLink}>Regístrate</Text>
-                    {/* </TouchableOpacity> */}
-                  </Text>
+                    </TouchableOpacity>
+                  </View>
                 </Form>
               </Body>
             </CardItem>

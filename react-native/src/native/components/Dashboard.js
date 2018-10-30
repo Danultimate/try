@@ -84,8 +84,8 @@ class Dashboard extends React.Component {
     this.props.shopify.collection
       .fetchQuery(collectionQuery)
       .then(collections => {
-        console.log('las colecciones')
-        console.log(collections[0])
+        console.log("las colecciones");
+        console.log(collections[0]);
         this.setState({
           isLoading: false,
           collections: collections
@@ -138,7 +138,7 @@ class Dashboard extends React.Component {
                   <Text style={styles.userCurrency}>$</Text>258.650
                 </Text>
                 <Spacer size={10} />
-                <Text style={styles.userClients}>{this.props.member.clients.length}</Text>
+                <Text style={styles.userClients}>32 </Text>
                 <Text style={styles.userNumberLabel}> clientes</Text>
               </View>
             </View>
@@ -271,7 +271,9 @@ class Dashboard extends React.Component {
                       small
                       iconLeft
                       // onPress={() => onPress(item)}
-                      onPress={() => {Share.share({message: "el mensajito"}, {})}}
+                      onPress={() => {
+                        Share.share({ message: "el mensajito" }, {});
+                      }}
                     >
                       <Icon type="SimpleLineIcons" name="share-alt" />
                       <Text style={styles.cardButtonText}>Compartir</Text>

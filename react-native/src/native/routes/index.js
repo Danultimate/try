@@ -1,5 +1,5 @@
 import React from "react";
-import { Drawer, Scene, Tabs, Stack } from "react-native-router-flux";
+import { Drawer, Scene, Tabs, Stack, Modal } from "react-native-router-flux";
 import TabIcon from "../components/TabIcon";
 
 import DefaultProps from "../constants/navigation";
@@ -48,7 +48,6 @@ const Index = (
   <Stack hideNavBar>
     <Scene key="welcome" component={WelcomeComponent} />
     <Scene
-      back
       key="signUp"
       title="Crea tu cuenta"
       {...DefaultProps.navbarProps}
@@ -56,7 +55,6 @@ const Index = (
       Layout={SignUpComponent}
     />
     <Scene
-      back
       key="login"
       title="Inicia sesión"
       {...DefaultProps.navbarProps}
@@ -64,13 +62,21 @@ const Index = (
       Layout={LoginComponent}
     />
     <Scene
-      back
       key="forgotPassword"
       title="Reestablecer contraseña"
       {...DefaultProps.navbarProps}
       component={ForgotPasswordContainer}
       Layout={ForgotPasswordComponent}
     />
+    <Modal>
+      <Scene
+        back
+        key="terms"
+        title="Terminos y condiciones"
+        {...DefaultProps.navbarProps}
+        component={TermsComponent}
+      />
+    </Modal>
     <Scene hideNavBar activeTintColor="#93a8d5" inactiveTintColor="#3b5998">
       <Tabs key="tabbar" swipeEnabled type="replace" {...DefaultProps.tabProps}>
         <Stack
@@ -97,7 +103,11 @@ const Index = (
           icon={TabIcon}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="clients" component={DashboardContainer} Layout={ClientsComponent} />
+          <Scene
+            key="clients"
+            component={DashboardContainer}
+            Layout={ClientsComponent}
+          />
         </Stack>
 
         <Stack
@@ -107,7 +117,11 @@ const Index = (
           icon={TabIcon}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="orders" component={DashboardContainer} Layout={OrdersComponent} />
+          <Scene
+            key="orders"
+            component={DashboardContainer}
+            Layout={OrdersComponent}
+          />
         </Stack>
 
         <Stack
@@ -180,7 +194,6 @@ const Index = (
         </Stack>
       </Tabs>
     </Scene>
-
     <Scene
       back
       clone
@@ -190,7 +203,6 @@ const Index = (
       component={RecipesContainer}
       Layout={RecipeViewComponent}
     />
-
     <Scene
       back
       clone

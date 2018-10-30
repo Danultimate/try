@@ -146,20 +146,29 @@ class SignUp extends React.Component {
                     />
                   </Item>
                   <Spacer size={16} />
-                  <View style={{ flexDirection: "row" }}>
+
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      flex: 1
+                    }}
+                  >
                     <CheckBox
                       color={Colors.brandPrimary}
                       onPress={this.checked}
-                      style={[{ marginRight: 16, marginLeft: -8 }]}
+                      value={this.checked}
+                      style={{ marginLeft: -8, marginRight: 16 }}
                     />
-                    <Text style={[styles.supportText]}>
-                      He leido y acepto los{" "}
+                    <View>
+                      <Text style={[styles.supportText]}>
+                        He leido y acepto los{" "}
+                      </Text>
                       <TouchableOpacity onPress={Actions.terms}>
                         <Text style={styles.supportTextLink}>
                           Terminos y condiciones
                         </Text>
                       </TouchableOpacity>
-                    </Text>
+                    </View>
                   </View>
                   <Spacer size={16} />
 
@@ -271,7 +280,6 @@ const styles = StyleSheet.create({
   },
   supportTextLink: {
     fontSize: 14,
-    lineHeight: 26,
     color: Colors.brandInfo
   },
   transparentCard: {
