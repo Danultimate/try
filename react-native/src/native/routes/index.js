@@ -68,15 +68,6 @@ const Index = (
       component={ForgotPasswordContainer}
       Layout={ForgotPasswordComponent}
     />
-    <Modal>
-      <Scene
-        back
-        key="terms"
-        title="Terminos y condiciones"
-        {...DefaultProps.navbarProps}
-        component={TermsComponent}
-      />
-    </Modal>
     <Scene hideNavBar activeTintColor="#93a8d5" inactiveTintColor="#3b5998">
       <Tabs key="tabbar" swipeEnabled type="replace" {...DefaultProps.tabProps}>
         <Stack
@@ -167,24 +158,7 @@ const Index = (
             {...DefaultProps.navbarProps}
             Layout={MoreComponent}
           />
-          <Scene
-            key="terms"
-            title="Terminos y condiciones"
-            {...DefaultProps.navbarProps}
-            component={TermsComponent}
-          />
-          <Scene
-            key="support"
-            title="Soporte"
-            {...DefaultProps.navbarProps}
-            component={SupportComponent}
-          />
-          <Scene
-            key="contact"
-            title="Contacto"
-            {...DefaultProps.navbarProps}
-            component={ContactComponent}
-          />
+
           <Scene
             key="about"
             title="Acerca de Elenas"
@@ -194,6 +168,38 @@ const Index = (
         </Stack>
       </Tabs>
     </Scene>
+    <Scene
+      back
+      clone
+      key="terms"
+      title="Terminos y condiciones"
+      {...DefaultProps.navbarProps}
+      component={TermsComponent}
+    />
+    <Scene
+      back
+      clone
+      key="support"
+      title="Soporte"
+      {...DefaultProps.navbarProps}
+      component={SupportComponent}
+    />
+    <Scene
+      back
+      clone
+      key="contact"
+      title="Contacto"
+      {...DefaultProps.navbarProps}
+      component={ContactComponent}
+    />
+    <Scene
+      back
+      clone
+      key="terms"
+      title="Terminos y condiciones"
+      {...DefaultProps.navbarProps}
+      component={TermsComponent}
+    />
     <Scene
       back
       clone

@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  View,
   StyleSheet,
   FlatList,
   TouchableOpacity,
@@ -9,6 +8,7 @@ import {
   Image
 } from "react-native";
 import {
+  View,
   Container,
   Content,
   Card,
@@ -30,7 +30,7 @@ import Spacer from "./Spacer";
 import TimeAgo from "react-native-timeago";
 import moment from "moment"; //load moment module to set local language
 import "moment/locale/es"; //for import moment local language file during the application build
-import call from 'react-native-phone-call'
+import call from "react-native-phone-call";
 moment.locale("es");
 
 const ClientListing = ({ error, loading, member }) => {
@@ -79,6 +79,35 @@ const ClientListing = ({ error, loading, member }) => {
   return (
     <Container>
       <Content padder>
+        {!member.clients && (
+          <View style={styles.supportWidget}>
+            <Spacer size={16} />
+            <Image source={require("../assets/images/support.png")} />
+            <Spacer size={16} />
+            <Text style={[styles.header, styles.primaryMsg, styles.textCenter]}>
+              ¡Aún no tienes clientes!
+            </Text>
+            <Spacer size={16} />
+            <Text style={styles.textCenter}>
+              Comparte el contenido con posibles clientes cómo tus familiares o
+              amigos cercanos y comienza hoy mismo a ganar dinero extra con
+              Elenas.
+            </Text>
+            <Spacer size={16} />
+
+            <TouchableOpacity onPress={Actions.home}>
+              <Text
+                style={[
+                  styles.supportText,
+                  styles.textCenter,
+                  { color: Colors.brandInfo }
+                ]}
+              >
+                Ir al contenido
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
         <FlatList
           numColumns={1}
           data={member.clients}
@@ -98,9 +127,12 @@ const ClientListing = ({ error, loading, member }) => {
                       info
                       small
                       iconLeft
-                      onPress={() => call({number: ''+item.user.cellphone,
-                                           prompt: false
-                                          })}
+                      onPress={() =>
+                        call({
+                          number: "" + item.user.cellphone,
+                          prompt: false
+                        })
+                      }
                     >
                       <Icon
                         style={styles.callButtonIcon}
@@ -118,7 +150,9 @@ const ClientListing = ({ error, loading, member }) => {
                       <TimeAgo time={item.addedAt} />
                     </Text>
                     <Spacer size={4} />
-                    <Text style={styles.clientTotal}>${item.total_ordered}</Text>
+                    <Text style={styles.clientTotal}>
+                      ${item.total_ordered}
+                    </Text>
                     <Text note style={styles.meta}>
                       Ordenes Totales
                     </Text>
@@ -155,7 +189,7 @@ const ClientListing = ({ error, loading, member }) => {
 ClientListing.propTypes = {
   error: PropTypes.string,
   loading: PropTypes.bool.isRequired,
-  member: PropTypes.shape({}),
+  member: PropTypes.shape({})
 };
 
 ClientListing.defaultProps = {
@@ -186,6 +220,12 @@ const styles = StyleSheet.create({
   },
   clientLeft: {
     flex: 0.65
+  },
+  header: {
+    fontFamily: "playfair",
+    fontSize: 24,
+    marginBottom: 8,
+    lineHeight: 28
   },
   name: {
     fontFamily: "playfair",

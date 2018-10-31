@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { Provider } from "react-redux";
 import { Router, Stack } from "react-native-router-flux";
 import { PersistGate } from "redux-persist/es/integration/react";
+import ExpoMixpanelAnalytics from "expo-mixpanel-analytics";
 
 import { Root, StyleProvider } from "native-base";
 import getTheme from "../../native-base-theme/components";
@@ -12,6 +13,8 @@ import theme from "../../native-base-theme/variables/commonColor";
 
 import Routes from "./routes/index";
 import Loading from "./components/Loading";
+
+const analytics = new ExpoMixpanelAnalytics("7c5582209ad60d202024e04001bf8af6");
 
 // Hide StatusBar on Android as it overlaps tabs
 if (Platform.OS === "android") StatusBar.setHidden(false);

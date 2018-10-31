@@ -10,7 +10,6 @@ import {
   Left,
   Right,
   Body,
-  H3,
   List,
   ListItem,
   Text,
@@ -75,7 +74,7 @@ const Preview = ({ error, contents, contentId }) => {
           <CardItem cardBody>
             <Body style={[styles.cardBody, styles.cardSuccess]}>
               <Spacer size={8} />
-              <H3 style={styles.header}>{content.title}</H3>
+              <Text style={styles.header}>{content.title}</Text>
               <Text style={styles.meta}>
                 <Text style={[styles.meta, styles.category, styles.successMsg]}>
                   Para compartir{" "}
@@ -100,7 +99,7 @@ const Preview = ({ error, contents, contentId }) => {
                 iconLeft
                 onPress={() => onPress(item)}
               >
-                <Icon type="FontAwesome" name="star" />
+                <Icon type="SimpleLineIcons" name="heart" />
                 <Text style={styles.cardButtonText}>Me encanta</Text>
               </Button>
             </Left>
@@ -114,7 +113,7 @@ const Preview = ({ error, contents, contentId }) => {
                 iconLeft
                 onPress={() => onPress(item)}
               >
-                <Icon type="FontAwesome" name="share-square" />
+                <Icon type="SimpleLineIcons" name="share-alt" />
                 <Text style={styles.cardButtonText}>Compartir</Text>
               </Button>
             </Right>
@@ -212,8 +211,7 @@ const styles = StyleSheet.create({
     fontFamily: "playfair",
     fontSize: 32,
     marginBottom: 8,
-    lineHeight: 28,
-    fontWeight: "700"
+    lineHeight: 28
   },
   meta: {
     fontSize: 10,

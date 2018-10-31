@@ -11,7 +11,9 @@ export default {
       color: Colors.titleFontColor,
       alignSelf: "center",
       fontFamily: "playfair",
-      fontSize: Colors.fontSizeBase * 1.375
+      textAlign: "center",
+      fontSize: Colors.fontSizeBase * 1.375,
+      marginHorizontal: 0
     },
     backButtonTintColor: Colors.titleFontColor,
     backButtonTextStyle: { color: Colors.titleFontColor },

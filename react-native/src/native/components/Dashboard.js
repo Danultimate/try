@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { AppLoading, Asset, Font } from "expo";
 import {
-  View,
   StyleSheet,
   FlatList,
   TouchableOpacity,
@@ -21,10 +20,8 @@ import {
   Right,
   Body,
   Text,
-  Button,
-  H1,
-  H2,
-  H3
+  View,
+  Button
 } from "native-base";
 import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
@@ -171,8 +168,8 @@ class Dashboard extends React.Component {
                                 type="SimpleLineIcons"
                                 name="info"
                                 style={styles.notificationTitle}
-                              />
-                              {" " + item.title}
+                              />{" "}
+                              {item.title}
                             </Text>
                           </View>
                           <View style={styles.rightContainer}>
@@ -222,7 +219,7 @@ class Dashboard extends React.Component {
                   <Body style={[styles.cardBody, styles.cardSuccess]}>
                     <Spacer size={8} />
                     <TouchableOpacity onPress={() => onPress(item)}>
-                      <H3 style={styles.header}>{item.title}</H3>
+                      <Text style={styles.header}>{item.title}</Text>
                     </TouchableOpacity>
                     <Text style={styles.meta}>
                       <Text
@@ -317,9 +314,9 @@ class Dashboard extends React.Component {
                 <CardItem cardBody style={styles.transparentCard}>
                   <Body>
                     <Spacer size={8} />
-                    <H3 style={[styles.header, styles.productTitle]}>
+                    <Text style={[styles.header, styles.productTitle]}>
                       {item.title}
-                    </H3>
+                    </Text>
                     <Text style={styles.meta}>{item.vendor.toUpperCase()}</Text>
                     <Spacer size={16} />
                   </Body>
@@ -342,11 +339,11 @@ class Dashboard extends React.Component {
             </CardItem>
             <CardItem style={styles.cardBody}>
               <Body>
-                <H3
+                <Text
                   style={[styles.header, styles.successMsg, styles.textCenter]}
                 >
                   ¡Eres una vendedora super poderosa!
-                </H3>
+                </Text>
                 <Text style={[styles.meta, styles.date]}>Hace 26 minutos</Text>
                 <Spacer size={8} />
                 <Text style={styles.description}>
@@ -401,11 +398,11 @@ class Dashboard extends React.Component {
             </CardItem>
             <CardItem style={styles.cardBody}>
               <Body>
-                <H3
+                <Text
                   style={[styles.header, styles.warningMsg, styles.textCenter]}
                 >
                   Tu cliente abandonó el carrito de compra
-                </H3>
+                </Text>
                 <Text style={[styles.meta, styles.date]}>Hace 26 minutos</Text>
                 <Spacer size={8} />
                 <Text style={styles.description}>
@@ -451,11 +448,11 @@ class Dashboard extends React.Component {
             </CardItem>
             <CardItem style={styles.cardBody}>
               <Body>
-                <H3
+                <Text
                   style={[styles.header, styles.primaryMsg, styles.textCenter]}
                 >
                   ¡Gana $50,000 por cada amiga referida!
-                </H3>
+                </Text>
                 <View
                   style={{
                     flex: 1,
@@ -501,7 +498,7 @@ class Dashboard extends React.Component {
 
           <View style={styles.supportWidget}>
             <Image source={require("../assets/images/support.png")} />
-            <H3
+            <Text
               style={[
                 styles.header,
                 styles.primaryMsg,
@@ -510,16 +507,23 @@ class Dashboard extends React.Component {
               ]}
             >
               ¿Tienes alguna duda?
-            </H3>
-            <Text style={[styles.textCenter, styles.supportText]}>
-              <Text style={[{ color: Colors.brandInfo }, styles.supportText]}>
-                Contáctanos{" "}
+            </Text>
+
+            <View style={{ flexDirection: "row" }}>
+              <TouchableOpacity onPress={Actions.contact}>
+                <Text style={[{ color: Colors.brandInfo }, styles.supportText]}>
+                  Contáctanos{" "}
+                </Text>
+              </TouchableOpacity>
+              <Text style={[styles.textCenter, styles.supportText]}>
+                o visita nuestro{" "}
               </Text>
-              o visita nuestro{" "}
+            </View>
+            <TouchableOpacity onPress={Actions.support}>
               <Text style={[{ color: Colors.brandInfo }, styles.supportText]}>
                 Centro de Soporte
               </Text>
-            </Text>
+            </TouchableOpacity>
           </View>
 
           <Spacer size={30} />
@@ -618,8 +622,7 @@ const styles = StyleSheet.create({
     fontFamily: "playfair",
     fontSize: 32,
     marginBottom: 8,
-    lineHeight: 28,
-    fontWeight: "700"
+    lineHeight: 28
   },
   meta: {
     fontSize: 10,

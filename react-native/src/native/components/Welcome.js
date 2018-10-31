@@ -16,8 +16,7 @@ import {
   Input,
   Text,
   Button,
-  View,
-  H3
+  View
 } from "native-base";
 import SwiperFlatList from "react-native-swiper-flatlist";
 import Colors from "../../../native-base-theme/variables/commonColor";
@@ -39,11 +38,11 @@ const Welcome = () => (
               paginationActiveColor={Colors.brandPrimary}
             >
               <View style={[styles.child]}>
-                <H3
+                <Text
                   style={[styles.header, styles.primaryMsg, styles.textCenter]}
                 >
                   ¡Bienvenida a Elenas!
-                </H3>
+                </Text>
                 <Spacer size={8} />
                 <Text style={[styles.description, styles.textCenter]}>
                   Únete a la comunidad de mujeres empoderadas y emprendedoras.
@@ -55,11 +54,11 @@ const Welcome = () => (
                 />
               </View>
               <View style={[styles.child]}>
-                <H3
+                <Text
                   style={[styles.header, styles.primaryMsg, styles.textCenter]}
                 >
                   ¡Vende más y mejor!
-                </H3>
+                </Text>
                 <Spacer size={8} />
                 <Text style={[styles.description, styles.textCenter]}>
                   No pierdas más energía entregando productos o cobrando a tus
@@ -72,11 +71,11 @@ const Welcome = () => (
                 />
               </View>
               <View style={[styles.child]}>
-                <H3
+                <Text
                   style={[styles.header, styles.primaryMsg, styles.textCenter]}
                 >
                   ¡Eres una mujer poderosa!
-                </H3>
+                </Text>
                 <Spacer size={8} />
                 <Text style={[styles.description, styles.textCenter]}>
                   Recibe consejos de las mejores vendedoras y expertas en

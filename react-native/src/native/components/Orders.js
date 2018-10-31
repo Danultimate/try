@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  View,
   StyleSheet,
   FlatList,
   TouchableOpacity,
@@ -9,6 +8,7 @@ import {
   Image
 } from "react-native";
 import {
+  View,
   Container,
   Content,
   Card,
@@ -71,6 +71,34 @@ const OrderListing = ({ error, loading, member }) => {
   return (
     <Container>
       <Content padder>
+        {!member.orders && (
+          <View style={styles.supportWidget}>
+            <Spacer size={16} />
+            <Image source={require("../assets/images/support.png")} />
+            <Spacer size={16} />
+            <Text style={[styles.header, styles.primaryMsg, styles.textCenter]}>
+              ¡Aún no tienes órdenes!
+            </Text>
+            <Spacer size={16} />
+            <Text style={styles.textCenter}>
+              Comparte el contenido con tus clientes para ganar dinero extra con
+              Elenas.
+            </Text>
+            <Spacer size={16} />
+
+            <TouchableOpacity onPress={Actions.home}>
+              <Text
+                style={[
+                  styles.supportText,
+                  styles.textCenter,
+                  { color: Colors.brandInfo }
+                ]}
+              >
+                Ir al contenido
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
         <FlatList
           numColumns={1}
           data={member.orders}
@@ -80,10 +108,12 @@ const OrderListing = ({ error, loading, member }) => {
                 <Left style={styles.orderLeft}>
                   <View>
                     <Text numberOfLines={1} style={styles.name}>
-                    {/* TODO: create clients model */}
-                      {item.client_name}                      
+                      {/* TODO: create clients model */}
+                      {item.client_name}
                     </Text>
-                    <Text style={styles.orderTotal}>${item.total-item.tax-item.shipping}</Text>
+                    <Text style={styles.orderTotal}>
+                      ${item.total - item.tax - item.shipping}
+                    </Text>
                   </View>
                   <Body style={styles.orderDate}>
                     <Text note style={styles.meta}>
@@ -128,10 +158,8 @@ const OrderListing = ({ error, loading, member }) => {
 OrderListing.propTypes = {
   error: PropTypes.string,
   loading: PropTypes.bool.isRequired,
-  member: PropTypes.shape({}),
+  member: PropTypes.shape({})
 };
-
-
 
 OrderListing.defaultProps = {
   error: null,
@@ -163,13 +191,18 @@ const styles = StyleSheet.create({
   orderLeft: {
     flex: 0.65
   },
+  header: {
+    fontFamily: "playfair",
+    fontSize: 24,
+    marginBottom: 8,
+    lineHeight: 28
+  },
   name: {
     fontFamily: "playfair",
     fontSize: 16,
     marginBottom: 4,
     marginLeft: 0,
-    lineHeight: 18,
-    fontWeight: "700"
+    lineHeight: 18
   },
   callButton: {
     paddingLeft: 0,
