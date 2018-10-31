@@ -125,7 +125,7 @@ class Dashboard extends React.Component {
                   <Text style={styles.userCurrency}>$</Text>258.650
                 </Text>
                 <Spacer size={10} />
-                {!!this.props.member.clients.length > 0 ? (
+                {!!this.props.member.clients ? (
                   <Text style={styles.userClients}>
                     {this.props.member.clients.length}
                   </Text>) : (
