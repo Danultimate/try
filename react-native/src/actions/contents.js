@@ -1,67 +1,7 @@
 import { Firebase, FirebaseRef } from '../lib/firebase';
 import shopify from '../constants/shopify';
-
-
-/**
-  * Get this User's Favourite Recipes
-  */
-export function getFavourites(dispatch) {
-  if (Firebase === null) return () => new Promise(resolve => resolve());
-
-  const UID = Firebase.auth().currentUser.uid;
-  if (!UID) return false;
-
-  const ref = FirebaseRef.child(`favourites/${UID}`);
-
-  return ref.on('value', (snapshot) => {
-    const favs = snapshot.val() || [];
-
-    return dispatch({
-      type: 'FAVOURITES_REPLACE',
-      data: favs,
-    });
-  });
-}
-
-/**
-  * Reset a User's Favourite Recipes in Redux (eg for logou)
-  */
-export function resetFavourites(dispatch) {
-  return dispatch({
-    type: 'FAVOURITES_REPLACE',
-    data: [],
-  });
-}
-
-/**
-  * Update My Favourites Recipes
-  */
-export function replaceFavourites(newFavourites) {
-  if (Firebase === null) return () => new Promise(resolve => resolve());
-
-  const UID = Firebase.auth().currentUser.uid;
-  if (!UID) return false;
-
-  return () => FirebaseRef.child(`favourites/${UID}`).set(newFavourites);
-}
-
-/**
-  * Get Meals
-  */
-export function getMeals() {
-  if (Firebase === null) return () => new Promise(resolve => resolve());
-
-  return dispatch => new Promise((resolve, reject) => FirebaseRef
-    .child('meals').once('value')
-    .then((snapshot) => {
-      const meals = snapshot.val() || {};
-
-      return resolve(dispatch({
-        type: 'MEALS_REPLACE',
-        data: meals,
-      }));
-    }).catch(reject)).catch(e => console.log(e));
-}
+import shopifyAPI from '../constants/shopify_axios';
+import {decode as atob} from 'base-64'
 
 /**
   * Set an Error Message
@@ -72,23 +12,46 @@ export function setError(message) {
     data: message,
   })));
 }
+export function getWhatsappMessages(collections){
+  dataMessages = []
+  collections.forEach((collection) => {
+    id_number = atob(collection.id).split("/")[4]
+
+    shopifyAPI.get(`/collections/${id_number}/metafields.json`)
+    .then((metafields) => {
+      metafields.data.metafields.forEach((metafield) => {
+
+        let message = "Mira este contenido para ti";
+        if (metafield.key == "wp_message"){
+          message = metafield.value;
+        }
+        
+        dataMessages.push(message)
+      })
+    })
+  });
+  console.log(dataMessages)
+  return dataMessages;
+}
 
 /**
-  * Get Contents
+  * Get Collections
   */
-export function getContents() {
+export function getCollections() {
   //Fill the query fields
   const collectionQuery = {
       first: 3,
       reverse: true
     };
   
-  return dispatch => new Promise((resolve, reject) => shopify.collection
+  return dispatch => new Promise(async (resolve, reject) => shopify.collection
       .fetchQuery(collectionQuery)
-      .then(collections => {
+      .then((collections) => {
+        let dataMessages = getWhatsappMessages(collections);
         return resolve(dispatch({
           type: 'CONTENTS_REPLACE',
           data: collections,
+          dataMessages: dataMessages,
         }));
       })
       .catch(error => {
@@ -97,5 +60,15 @@ export function getContents() {
           console.log(error)
           return [];
       }));
+
+}
+
+
+
+/**
+  * Get Contents
+  */
+ export function getContents() {
+  return getCollections();
 
 }

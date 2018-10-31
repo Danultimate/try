@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "367365028708",
+    "firebase_url": "https://elenas-react.firebaseio.com",
+    "project_id": "elenas-react",
+    "storage_bucket": "elenas-react.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:367365028708:android:8a74fc01f25ffe31",
+        "android_client_info": {
+          "package_name": "elenas.la.embajadoras"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "367365028708-12lbbc0fltp39n2puu7pv220o1rdas6d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNb9rsHIbYKF9z2JQnWbY-AolxvQ6r1q0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

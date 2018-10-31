@@ -1,141 +1,136 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import {
-  Container,
-  Content,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  Share
+} from "react-native";
+import {
   Icon,
   Card,
   CardItem,
   Left,
   Right,
   Body,
-  List,
-  ListItem,
   Text,
   Button
 } from "native-base";
 import Colors from "../../../native-base-theme/variables/commonColor";
-import ErrorMessages from "../../constants/errors";
-import Error from "./Error";
+import { Actions } from "react-native-router-flux";
+
 import Spacer from "./Spacer";
 
 import TimeAgo from "react-native-timeago";
-import moment from "moment"; //load moment module to set local language
-import "moment/locale/es"; //for import moment local language file during the application build
-moment.locale("es");
 
-const Preview = ({ error, contents, contentId }) => {
-  // Error
-  if (error) return <Error content={error} />;
+const keyExtractor = item => item.id.toString();
 
-  console.log("hey esto es Preview Component: id, contents:");
-  console.log(contentId);
-  console.log(contents.length);
-  console.log(contents[0].wp_message)
+const onPress = item => {
+  console.log(item.id);
+  Actions.preview({ match: { params: { id: String(item.id) } } });
+};
 
-  // Get this Recipe from all recipes
-  let content = null;
+const propTypes = {
+  focused: PropTypes.bool,
+  title: PropTypes.string,
+  contents: PropTypes.arrayOf(PropTypes.shape())
+};
 
-  if (contentId && contents) {
-    content = contents.find(
-      //item => parseInt(item.id, 10) === parseInt(contentId, 10)
-      item => item.id === contentId
-    );
-  }
+const defaultProps = {
+  focused: false,
+  contents: []
+};
 
-  // Recipe not found
-  if (!content) return <Error content={ErrorMessages.content404} />;
-
-  // Build Ingredients listing
-  // const ingredients = recipe.ingredients.map(item => (
-  //   <ListItem key={item} rightIcon={{ style: { opacity: 0 } }}>
-  //     <Text>
-  //       {item}
-  //     </Text>
-  //   </ListItem>
-  // ));
-
-  return (
-    <Container>
-      <Content padder>
-        <Card style={styles.card}>
-          <CardItem cardBody>
-            <TouchableOpacity onPress={() => onPress(item)} style={{ flex: 1 }}>
-              <Image
-                source={{ uri: content.image.src }}
-                style={{
-                  height: 192,
-                  width: null,
-                  flex: 1
-                }}
-              />
+const Contents = props => (
+  <FlatList
+    numColumns={1}
+    data={props.contents}
+    renderItem={({ item }) => (
+      <Card style={styles.card}>
+        {!!item.image &&
+          !!item.image.src && (
+            <CardItem cardBody>
+              <TouchableOpacity
+                onPress={() => onPress(item)}
+                style={{ flex: 1 }}
+              >
+                <Image
+                  source={{ uri: item.image.src }}
+                  style={{
+                    height: 192,
+                    width: null,
+                    flex: 1
+                  }}
+                />
+              </TouchableOpacity>
+            </CardItem>
+          )}
+        <CardItem cardBody>
+          <Body style={[styles.cardBody, styles.cardSuccess]}>
+            <Spacer size={8} />
+            <TouchableOpacity onPress={() => onPress(item)}>
+              <Text style={styles.header}>{item.title}</Text>
             </TouchableOpacity>
-          </CardItem>
-          <CardItem cardBody>
-            <Body style={[styles.cardBody, styles.cardSuccess]}>
-              <Spacer size={8} />
-              <Text style={styles.header}>{content.title}</Text>
-              <Text style={styles.meta}>
-                <Text style={[styles.meta, styles.category, styles.successMsg]}>
-                  Para compartir{" "}
-                </Text>
-                <Text style={[styles.meta, styles.date]}>
-                  • <TimeAgo time={content.updatedAt} />
-                </Text>
+            <Text style={styles.meta}>
+              <Text style={[styles.meta, styles.category, styles.successMsg]}>
+                Para compartir{" "}
               </Text>
-              <Spacer size={8} />
-              <Text style={styles.description}>{content.description}</Text>
-              <Spacer size={16} />
-            </Body>
-          </CardItem>
-          <CardItem style={styles.cardFooter} footer bordered>
-            <Left>
-              <Button
-                style={styles.cardButton}
-                block
-                transparent
-                info
-                small
-                iconLeft
-                onPress={() => onPress(item)}
-              >
-                <Icon type="SimpleLineIcons" name="heart" />
-                <Text style={styles.cardButtonText}>Me encanta</Text>
-              </Button>
-            </Left>
-            <Right>
-              <Button
-                style={styles.cardButton}
-                block
-                transparent
-                info
-                small
-                iconLeft
-                onPress={() => onPress(item)}
-              >
-                <Icon type="SimpleLineIcons" name="share-alt" />
-                <Text style={styles.cardButtonText}>Compartir</Text>
-              </Button>
-            </Right>
-          </CardItem>
-        </Card>
-      </Content>
-    </Container>
-  );
-};
+              <Text style={[styles.meta, styles.date]}>
+                • <TimeAgo time={item.updatedAt} />
+              </Text>
+            </Text>
+            <Spacer size={8} />
+            {!!item.description && (
+              <Text numberOfLines={3} style={styles.description}>
+                {item.description}
+              </Text>
+            )}
+            <Spacer size={16} />
+          </Body>
+        </CardItem>
+        <CardItem style={styles.cardFooter} footer bordered>
+          <Left>
+            <Button
+              style={styles.cardButton}
+              block
+              transparent
+              info
+              small
+              iconLeft
+              onPress={() => onPress(item)}
+            >
+              <Icon type="SimpleLineIcons" name="heart" />
+              <Text style={styles.cardButtonText}>Me encanta</Text>
+            </Button>
+          </Left>
+          <Right>
+            <Button
+              style={styles.cardButton}
+              block
+              transparent
+              info
+              small
+              iconLeft
+              onPress={() => {
+                Share.share({ message: item.wp_message }, {});
+              }}
+            >
+              <Icon type="SimpleLineIcons" name="share-alt" />
+              <Text style={styles.cardButtonText}>Compartir</Text>
+            </Button>
+          </Right>
+        </CardItem>
+      </Card>
+    )}
+    keyExtractor={keyExtractor}
+  />
+);
 
-Preview.propTypes = {
-  error: PropTypes.string,
-  contentId: PropTypes.string.isRequired
-  //contents: PropTypes.arrayOf(PropTypes.shape()).isRequired
-};
+Contents.propTypes = propTypes;
+Contents.defaultProps = defaultProps;
 
-Preview.defaultProps = {
-  error: null
-};
-
-export default Preview;
+export default Contents;
 
 const styles = StyleSheet.create({
   container: {
@@ -309,8 +304,12 @@ const styles = StyleSheet.create({
   },
   notificationTitle: {
     fontSize: 14,
-    lineHeight: 16,
+    lineHeight: 18,
     marginBottom: 0
+  },
+  notificationTitleIcon: {
+    fontSize: 6,
+    lineHeight: 24
   },
   notificationText: {
     fontSize: 12,

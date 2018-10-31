@@ -29,7 +29,7 @@ const Profile = ({ member, logout }) => (
                 style={styles.userAvatar}
                 source={require("../assets/images/avatar.png")}
               />
-              <Text style={styles.userCode}>Cod: pau-qmj</Text>
+              <Text style={styles.userCode}>Cod: {member.code}</Text>
               <Spacer size={8} />
             </View>
             <View style={styles.userInfo}>
@@ -43,10 +43,10 @@ const Profile = ({ member, logout }) => (
               <View style={styles.userNumbers}>
                 <Text style={styles.userNumberLabel}>Ventas </Text>
                 <Text style={styles.userSales}>
-                  <Text style={styles.userCurrency}>$</Text>258.650
+                  <Text style={styles.userCurrency}>$</Text>{member.total_month}
                 </Text>
                 <Spacer size={20} />
-                <Text style={styles.userClients}>32</Text>
+                <Text style={styles.userClients}>{member.clients.length}</Text>
                 <Text style={styles.userNumberLabel}> clientes</Text>
               </View>
             </View>

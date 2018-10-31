@@ -13,6 +13,7 @@ export default {
         image: '---- ------ ',
         refetchQuery: '---- ------ ',
         type: '---- ------ ',
+        wp_message: 'Mira este contenido para ti',
       },
     ],
     favourites: [],

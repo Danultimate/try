@@ -10,6 +10,7 @@ import {
   Share
 } from "react-native";
 import {
+  View,
   Container,
   Content,
   Icon,
@@ -20,13 +21,16 @@ import {
   Right,
   Body,
   Text,
-  View,
   Button
 } from "native-base";
 import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
 
 import Spacer from "./Spacer";
+
+import Notifications from "./Notifications";
+import Contents from "./Contents";
+import Products from "./Products";
 
 import TimeAgo from "react-native-timeago";
 import moment from "moment"; //load moment module to set local language
@@ -39,62 +43,23 @@ class Dashboard extends React.Component {
 
     this.state = {
       isLoading: true,
-      collections: [],
       products: [],
-      notificationsTitle: "Notificaciones",
-      notifications: [
-        {
-          title: "Nueva Orden",
-          description:
-            "¡Juliana Villa ha completado una orden de 3 productos por $75,000!",
-          createdAt: "Hace 3 minutos",
-          id: 1
-        },
-        {
-          title: "Pedido Entregado",
-          description: "Teresa Lizcano ha recibido su orden por 5 productos",
-          createdAt: "Hace 3 minutos",
-          id: 2
-        },
-        {
-          title: "Nueva Orden",
-          description:
-            "¡Juliana Villa ha completado una orden de 3 productos por $75,000!",
-          createdAt: "Hace 3 minutos",
-          id: 3
-        }
-      ],
-      error: null,
-      productsTitle: "Productos de la campaña"
+      error: null
     };
   }
 
   componentWillMount() {
-    const collectionQuery = {
-      first: 3,
-      reverse: true
-    };
     const productQuery = {
       first: 5,
       query: "tag:['halloween']"
     };
-    this.props.shopify.collection
-      .fetchQuery(collectionQuery)
-      .then(collections => {
-        console.log("las colecciones");
-        console.log(collections[0]);
-        this.setState({
-          isLoading: false,
-          collections: collections
-        });
-      })
-      .catch(error => this.setState({ error, isLoading: false }));
 
     this.props.shopify.product
       .fetchQuery(productQuery)
       .then(res => {
         this.setState({
-          products: res
+          products: res,
+          isLoading: false
         });
       })
       .catch(error => this.setState({ error, isLoading: false }));
@@ -132,258 +97,27 @@ class Dashboard extends React.Component {
               <View style={styles.userNumbers}>
                 <Text style={styles.userNumberLabel}>Ventas </Text>
                 <Text style={styles.userSales}>
-                  <Text style={styles.userCurrency}>$</Text>258.650
+                  <Text style={styles.userCurrency}>$</Text>
+                  {this.props.member.total_month}
                 </Text>
                 <Spacer size={10} />
-                <Text style={styles.userClients}>32 </Text>
+                {!!this.props.member.clients ? (
+                  <Text style={styles.userClients}>
+                    {this.props.member.clients.length}
+                  </Text>
+                ) : (
+                  <Text style={styles.userClients}>0</Text>
+                )}
                 <Text style={styles.userNumberLabel}> clientes</Text>
               </View>
             </View>
           </View>
 
-          <View style={styles.notifications}>
-            <Text style={styles.meta}>
-              {this.state.notificationsTitle.toUpperCase()}
-            </Text>
-            <FlatList
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-              data={this.state.notifications}
-              renderItem={({ item }) => (
-                <TouchableOpacity>
-                  <Card style={styles.notification}>
-                    <CardItem cardBody>
-                      <Body style={styles.notificationBody}>
-                        <View style={styles.notificationHeader}>
-                          <View style={styles.leftContainer}>
-                            <Text
-                              style={[
-                                styles.header,
-                                styles.notificationTitle,
-                                styles.primaryMsg
-                              ]}
-                              numberOfLines={1}
-                            >
-                              <Icon
-                                type="SimpleLineIcons"
-                                name="info"
-                                style={styles.notificationTitle}
-                              />{" "}
-                              {item.title}
-                            </Text>
-                          </View>
-                          <View style={styles.rightContainer}>
-                            <Text
-                              style={[styles.meta, styles.notificationDate]}
-                            >
-                              {item.createdAt}
-                            </Text>
-                          </View>
-                        </View>
-                        <Text style={styles.notificationText}>
-                          {item.description}
-                        </Text>
-                      </Body>
-                    </CardItem>
-                  </Card>
-                </TouchableOpacity>
-              )}
-              keyExtractor={keyExtractor}
-            />
-          </View>
+          <Notifications orders={this.props.member.orders} />
 
-          <FlatList
-            numColumns={1}
-            data={this.props.contents}
-            renderItem={({ item }) => (
-              <Card style={styles.card}>
-                {!!item.image &&
-                  !!item.image.src && (
-                    <CardItem cardBody>
-                      <TouchableOpacity
-                        onPress={() => onPress(item)}
-                        style={{ flex: 1 }}
-                      >
-                        <Image
-                          source={{ uri: item.image.src }}
-                          style={{
-                            height: 192,
-                            width: null,
-                            flex: 1
-                          }}
-                        />
-                      </TouchableOpacity>
-                    </CardItem>
-                  )}
-                <CardItem cardBody>
-                  <Body style={[styles.cardBody, styles.cardSuccess]}>
-                    <Spacer size={8} />
-                    <TouchableOpacity onPress={() => onPress(item)}>
-                      <Text style={styles.header}>{item.title}</Text>
-                    </TouchableOpacity>
-                    <Text style={styles.meta}>
-                      <Text
-                        style={[
-                          styles.meta,
-                          styles.category,
-                          styles.successMsg
-                        ]}
-                      >
-                        Para compartir{" "}
-                      </Text>
-                      <Text style={[styles.meta, styles.date]}>
-                        • <TimeAgo time={item.updatedAt} />
-                      </Text>
-                    </Text>
-                    <Spacer size={8} />
-                    {!!item.description && (
-                      <Text numberOfLines={3} style={styles.description}>
-                        {item.description}
-                      </Text>
-                    )}
-                    <Spacer size={16} />
-                  </Body>
-                </CardItem>
-                <CardItem style={styles.cardFooter} footer bordered>
-                  <Left>
-                    <Button
-                      style={styles.cardButton}
-                      block
-                      transparent
-                      info
-                      small
-                      iconLeft
-                      onPress={() => onPress(item)}
-                    >
-                      <Icon type="SimpleLineIcons" name="heart" />
-                      <Text style={styles.cardButtonText}>Me encanta</Text>
-                    </Button>
-                  </Left>
-                  <Right>
-                    <Button
-                      style={styles.cardButton}
-                      block
-                      transparent
-                      info
-                      small
-                      iconLeft
-                      // onPress={() => onPress(item)}
-                      onPress={() => {
-                        Share.share({ message: "el mensajito" }, {});
-                      }}
-                    >
-                      <Icon type="SimpleLineIcons" name="share-alt" />
-                      <Text style={styles.cardButtonText}>Compartir</Text>
-                    </Button>
-                  </Right>
-                </CardItem>
-              </Card>
-            )}
-            keyExtractor={keyExtractor}
-          />
-
+          <Contents contents={this.props.contents} />
           <Spacer size={8} />
-          <Text style={styles.meta}>
-            {this.state.productsTitle.toUpperCase()}
-          </Text>
-          <Spacer size={8} />
-          <FlatList
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            data={this.state.products}
-            renderItem={({ item }) => (
-              <Card transparent style={styles.transparentCard}>
-                <CardItem cardBody>
-                  <TouchableOpacity
-                    onPress={() => onPress(item)}
-                    style={{ flex: 1 }}
-                  >
-                    {!!item.images &&
-                      !!item.images[0].src && (
-                        <Image
-                          source={{ uri: item.images[0].src }}
-                          style={{
-                            height: 168,
-                            width: null,
-                            flex: 1
-                          }}
-                        />
-                      )}
-                  </TouchableOpacity>
-                </CardItem>
-                <CardItem cardBody style={styles.transparentCard}>
-                  <Body>
-                    <Spacer size={8} />
-                    <Text style={[styles.header, styles.productTitle]}>
-                      {item.title}
-                    </Text>
-                    <Text style={styles.meta}>{item.vendor.toUpperCase()}</Text>
-                    <Spacer size={16} />
-                  </Body>
-                </CardItem>
-              </Card>
-            )}
-            keyExtractor={keyExtractor}
-          />
-
-          <Card style={styles.card}>
-            <CardItem
-              header
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                paddingBottom: 0
-              }}
-            >
-              <Image source={require("../assets/images/msg-success.png")} />
-            </CardItem>
-            <CardItem style={styles.cardBody}>
-              <Body>
-                <Text
-                  style={[styles.header, styles.successMsg, styles.textCenter]}
-                >
-                  ¡Eres una vendedora super poderosa!
-                </Text>
-                <Text style={[styles.meta, styles.date]}>Hace 26 minutos</Text>
-                <Spacer size={8} />
-                <Text style={styles.description}>
-                  Tus ventas de la semana pasada te colocan dentro de nuestras
-                  mejores 50 vendedoras. ¡Felicitaciones!
-                </Text>
-                <Spacer size={16} />
-              </Body>
-            </CardItem>
-            <CardItem style={styles.cardFooter} footer bordered>
-              <Left>
-                <Button
-                  style={styles.cardButton}
-                  block
-                  transparent
-                  info
-                  small
-                  iconLeft
-                  onPress={() => onPress(item)}
-                >
-                  <Icon type="SimpleLineIcons" name="heart" />
-                  <Text style={styles.cardButtonText}>Me encanta</Text>
-                </Button>
-              </Left>
-              <Right>
-                <Button
-                  style={styles.cardButton}
-                  block
-                  transparent
-                  info
-                  small
-                  iconLeft
-                  onPress={() => onPress(item)}
-                >
-                  <Icon type="SimpleLineIcons" name="share-alt" />
-                  <Text style={styles.cardButtonText}>Compartir</Text>
-                </Button>
-              </Right>
-            </CardItem>
-          </Card>
+          <Products products={this.state.products} />
 
           <Card style={styles.card}>
             <CardItem
@@ -465,7 +199,7 @@ class Dashboard extends React.Component {
                     Tu código de referidos:
                   </Text>
                   <Text style={[styles.referralCode, styles.textCenter]}>
-                    YW6Op98
+                    {this.props.member.code}
                   </Text>
                 </View>
                 <Spacer size={8} />
@@ -537,12 +271,14 @@ Dashboard.propTypes = {
   eror: PropTypes.string,
   //loading: PropTypes.bool.isRequired,
   contents: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  member: PropTypes.shape({}),
   reFetch: PropTypes.func
 };
 
 Dashboard.defaultProps = {
   error: null,
-  reFetch: null
+  reFetch: null,
+  member: {}
 };
 
 export default Dashboard;

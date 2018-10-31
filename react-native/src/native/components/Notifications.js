@@ -1,141 +1,110 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import {
-  Container,
-  Content,
+  View,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
+import {
   Icon,
   Card,
   CardItem,
-  Left,
-  Right,
   Body,
-  List,
-  ListItem,
   Text,
-  Button
 } from "native-base";
 import Colors from "../../../native-base-theme/variables/commonColor";
-import ErrorMessages from "../../constants/errors";
-import Error from "./Error";
-import Spacer from "./Spacer";
+import { Actions } from "react-native-router-flux";
 
 import TimeAgo from "react-native-timeago";
 import moment from "moment"; //load moment module to set local language
 import "moment/locale/es"; //for import moment local language file during the application build
 moment.locale("es");
 
-const Preview = ({ error, contents, contentId }) => {
-  // Error
-  if (error) return <Error content={error} />;
+const keyExtractor = item => item.id.toString();
 
-  console.log("hey esto es Preview Component: id, contents:");
-  console.log(contentId);
-  console.log(contents.length);
-  console.log(contents[0].wp_message)
+const propTypes = {
+  focused: PropTypes.bool,
+  title: PropTypes.string,
+  notificationsTitle: PropTypes.string,
+  notificationTitle: PropTypes.string,
+  notificationDescription: PropTypes.string,
+  notifications: PropTypes.arrayOf(PropTypes.shape())
+};
 
-  // Get this Recipe from all recipes
-  let content = null;
+const defaultProps = {
+  focused: false,
+  notificationsTitle: "Notificaciones",
+  orders: [],
+  notificationTitle: {
+    ordered: "Nueva Orden",
+    completed: "Pedido Entregado",
+    cancelled: "Pedido Cancelado"
+    },
+  notificationDescription: {
+    ordered: "ha completado una orden por $",
+    completed: "ha recibido su orden por $",
+    cancelled: "ha cancelado su orden por $"
+  },
+};
 
-  if (contentId && contents) {
-    content = contents.find(
-      //item => parseInt(item.id, 10) === parseInt(contentId, 10)
-      item => item.id === contentId
-    );
-  }
-
-  // Recipe not found
-  if (!content) return <Error content={ErrorMessages.content404} />;
-
-  // Build Ingredients listing
-  // const ingredients = recipe.ingredients.map(item => (
-  //   <ListItem key={item} rightIcon={{ style: { opacity: 0 } }}>
-  //     <Text>
-  //       {item}
-  //     </Text>
-  //   </ListItem>
-  // ));
-
-  return (
-    <Container>
-      <Content padder>
-        <Card style={styles.card}>
-          <CardItem cardBody>
-            <TouchableOpacity onPress={() => onPress(item)} style={{ flex: 1 }}>
-              <Image
-                source={{ uri: content.image.src }}
-                style={{
-                  height: 192,
-                  width: null,
-                  flex: 1
-                }}
-              />
-            </TouchableOpacity>
-          </CardItem>
-          <CardItem cardBody>
-            <Body style={[styles.cardBody, styles.cardSuccess]}>
-              <Spacer size={8} />
-              <Text style={styles.header}>{content.title}</Text>
-              <Text style={styles.meta}>
-                <Text style={[styles.meta, styles.category, styles.successMsg]}>
-                  Para compartir{" "}
+const Notifications = props => (
+  <View style={styles.notifications}>
+    <Text style={styles.meta}>
+      {props.notificationsTitle.toUpperCase()}
+    </Text>
+    <FlatList
+      horizontal={true}
+      showsHorizontalScrollIndicator={false}
+      data={props.orders}
+      renderItem={({ item }) => (
+        <TouchableOpacity>
+          <Card style={styles.notification}>
+            <CardItem cardBody>
+              <Body style={styles.notificationBody}>
+                <View style={styles.notificationHeader}>
+                  <View style={styles.leftContainer}>
+                    <Text
+                      style={[
+                        styles.header,
+                        styles.notificationTitle,
+                        styles.primaryMsg
+                      ]}
+                      numberOfLines={1}
+                    >
+                      <Icon
+                        type="SimpleLineIcons"
+                        name="info"
+                        style={styles.notificationTitle}
+                      />
+                       {" "}{props.notificationTitle[item.status]}
+                    </Text>
+                  </View>
+                  <View style={styles.rightContainer}>
+                    <Text
+                      style={[styles.meta, styles.notificationDate]}
+                    >
+                      <TimeAgo time={item.created_at} />
+                    </Text>
+                  </View>
+                </View>
+                <Text style={styles.notificationText}>
+                  {item.client_name} {props.notificationDescription[item.status]} {item.total - item.tax - item.shipping}
                 </Text>
-                <Text style={[styles.meta, styles.date]}>
-                  • <TimeAgo time={content.updatedAt} />
-                </Text>
-              </Text>
-              <Spacer size={8} />
-              <Text style={styles.description}>{content.description}</Text>
-              <Spacer size={16} />
-            </Body>
-          </CardItem>
-          <CardItem style={styles.cardFooter} footer bordered>
-            <Left>
-              <Button
-                style={styles.cardButton}
-                block
-                transparent
-                info
-                small
-                iconLeft
-                onPress={() => onPress(item)}
-              >
-                <Icon type="SimpleLineIcons" name="heart" />
-                <Text style={styles.cardButtonText}>Me encanta</Text>
-              </Button>
-            </Left>
-            <Right>
-              <Button
-                style={styles.cardButton}
-                block
-                transparent
-                info
-                small
-                iconLeft
-                onPress={() => onPress(item)}
-              >
-                <Icon type="SimpleLineIcons" name="share-alt" />
-                <Text style={styles.cardButtonText}>Compartir</Text>
-              </Button>
-            </Right>
-          </CardItem>
-        </Card>
-      </Content>
-    </Container>
-  );
-};
+              </Body>
+            </CardItem>
+          </Card>
+        </TouchableOpacity>
+      )}
+      keyExtractor={keyExtractor}
+    />
+  </View>
+);
 
-Preview.propTypes = {
-  error: PropTypes.string,
-  contentId: PropTypes.string.isRequired
-  //contents: PropTypes.arrayOf(PropTypes.shape()).isRequired
-};
+Notifications.propTypes = propTypes;
+Notifications.defaultProps = defaultProps;
 
-Preview.defaultProps = {
-  error: null
-};
-
-export default Preview;
+export default Notifications;
 
 const styles = StyleSheet.create({
   container: {
@@ -212,7 +181,8 @@ const styles = StyleSheet.create({
     fontFamily: "playfair",
     fontSize: 32,
     marginBottom: 8,
-    lineHeight: 28
+    lineHeight: 28,
+    fontWeight: "700"
   },
   meta: {
     fontSize: 10,
@@ -309,8 +279,12 @@ const styles = StyleSheet.create({
   },
   notificationTitle: {
     fontSize: 14,
-    lineHeight: 16,
+    lineHeight: 18,
     marginBottom: 0
+  },
+  notificationTitleIcon: {
+    fontSize: 6,
+    lineHeight: 24
   },
   notificationText: {
     fontSize: 12,

@@ -31,6 +31,7 @@ export default function userReducer(state = initialState, action) {
           commission: action.dataSeller.commission,
           orders: action.dataOrders,
           clients: action.dataClients,
+          total_month: action.dataTotalOrders
         };
       }
       return initialState;

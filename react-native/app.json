@@ -9,6 +9,12 @@
     "splash": {
       "image": "./src/images/splash.png",
       "resizeMode": "cover"
+    },
+    "android": {
+      "package": "elenas.la.embajadoras",
+      "versionCode": 1,
+      "icon": "./src/images/app-icon.png",
+      "googleServicesFile": "./google-services.json"
     }
   }
 }

@@ -73,17 +73,18 @@ function getUserData(dispatch) {
     // Get data from backend
     console.log('getSellerData')
     getToken().then((token)=> {
-    API.defaults.headers.common['Authorization'] = `Bearer ${token}`;    
+    API.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
     // Get user backend data
     API.get('/sellers')
       .then((seller)=>{ 
         console.log('getSellerData succeed');
-        //console.log(seller.data)
+        // console.log(seller.data.sellers)
         API.get('/orders')
         .then((orders)=>{ 
           console.log('getOrdersData succeed')
           //console.log(orders.data)
+          let total = orders.data.orders.reduce((a, b) => +a + +b.total - b.tax - b.shipping, 0);
           API.get('/clients_react')
           .then((clients)=>{ 
             console.log('getClientsData succeed')
@@ -91,17 +92,15 @@ function getUserData(dispatch) {
             return dispatch({
               type: 'USER_DETAILS_UPDATE',
               data: userData,
-              dataSeller: seller.data.sellers,
+              dataSeller: seller.data.sellers[0],
               dataOrders: orders.data.orders,
               dataClients: clients.data.clients,
+              dataTotalOrders: total,
             });
 
           })
         })
-      })
-
-
-      
+      })      
     })
   });
 }
@@ -123,14 +122,10 @@ export function setupAxios(cellphone) {
     password: ' '
   })
   .then((response)=>{
-    async () => {
-      try {
-        await AsyncStorage.setItem('token', response.data.access_token);
-      } catch (error) {
-        console.log('Error @auth-backend saving token')
-      }
-    }
-    //API.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
+    console.log('el token')
+    console.log(response.data.access_token)
+    AsyncStorage.setItem('token', response.data.access_token);
+    API.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;    
     console.log('@auth-backend success')
   })
   .catch((res)=>{
@@ -192,13 +187,16 @@ export function login(formData) {
                 .sendEmailVerification()
                 .catch(() => console.log('Verification email failed to send'));
             }
-
-            // Set flask backend bridge
-            setupAxios(cellphone);
-
-            // Get User Data
-            getUserData(dispatch);
             
+            await console.log('esto es 1')
+            // Set flask backend bridge
+            await setupAxios(cellphone);
+
+            await console.log('esto es 2')
+            // Get User Data
+            await getUserData(dispatch);
+            
+            await console.log('esto es 3')
           }          
 
           await statusMessage(dispatch, 'loading', false);
@@ -303,6 +301,7 @@ export function logout() {
     Firebase.auth().signOut()
       .then(() => {
         dispatch({ type: 'USER_RESET' });
+        API.defaults.headers.common['Authorization'] = '';
         setTimeout(resolve, 1000); // Resolve after 1s so that user sees a message
       }).catch(reject);
   }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
