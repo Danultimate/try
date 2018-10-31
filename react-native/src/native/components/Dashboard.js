@@ -133,11 +133,11 @@ class Dashboard extends React.Component {
             <CardItem style={styles.cardBody}>
               {/* aqui colocar el condicional */}
               <Body>
-                <H3
+                <Text
                   style={[styles.header, styles.successMsg, styles.textCenter]}
                 >
                   ¡Eres una vendedora super poderosa!
-                </H3>
+                </Text>
                 <Text style={[styles.meta, styles.date]}>Hace 26 minutos</Text>
                 <Spacer size={8} />
                 <Text style={styles.description}>
