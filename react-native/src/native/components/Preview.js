@@ -33,6 +33,7 @@ const Preview = ({ error, contents, contentId }) => {
   console.log("hey esto es Preview Component: id, contents:");
   console.log(contentId);
   console.log(contents.length);
+  console.log(contents[0].wp_message)
 
   // Get this Recipe from all recipes
   let content = null;

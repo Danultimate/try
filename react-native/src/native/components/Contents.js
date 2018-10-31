@@ -27,17 +27,20 @@ import TimeAgo from "react-native-timeago";
 
 const keyExtractor = item => item.id.toString();
 
+const onPress = item => {
+  console.log(item.id);
+  Actions.preview({ match: { params: { id: String(item.id) } } });
+};
+
 const propTypes = {
   focused: PropTypes.bool,
   title: PropTypes.string,
-  notificationsTitle: PropTypes.string,
-  notifications: PropTypes.arrayOf(PropTypes.shape())
+  contents: PropTypes.arrayOf(PropTypes.shape())
 };
 
 const defaultProps = {
   focused: false,
-  notificationsTitle: "Notificaciones",
-  notifications: [],
+  contents: [],
 };
 
 const Contents = props => (
@@ -116,8 +119,7 @@ const Contents = props => (
               info
               small
               iconLeft
-              // onPress={() => onPress(item)}
-              onPress={() => { Share.share({ message: "el mensajito" }, {}) }}
+              onPress={() => { Share.share({ message: item.wp_message }, {}) }}
             >
               <Icon type="SimpleLineIcons" name="share-alt" />
               <Text style={styles.cardButtonText}>Compartir</Text>

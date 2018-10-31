@@ -47,28 +47,6 @@ class Dashboard extends React.Component {
     this.state = {
       isLoading: true,
       products: [],
-      notifications: [
-        {
-          title: "Nueva Orden",
-          description:
-            "¡Juliana Villa ha completado una orden de 3 productos por $75,000!",
-          createdAt: "2018-10-25T13:51:12-04:00",
-          id: 1
-        },
-        {
-          title: "Pedido Entregado",
-          description: "Teresa Lizcano ha recibido su orden por 5 productos",
-          createdAt: "2018-09-25T13:51:12-04:00",
-          id: 2
-        },
-        {
-          title: "Nueva Orden",
-          description:
-            "¡Juliana Villa ha completado una orden de 3 productos por $75,000!",
-          createdAt: "2018-10-25T13:51:12-04:00",
-          id: 3
-        }
-      ],
       error: null,
     };
   }
@@ -122,7 +100,7 @@ class Dashboard extends React.Component {
               <View style={styles.userNumbers}>
                 <Text style={styles.userNumberLabel}>Ventas </Text>
                 <Text style={styles.userSales}>
-                  <Text style={styles.userCurrency}>$</Text>258.650
+                  <Text style={styles.userCurrency}>$</Text>{this.props.member.total_month}
                 </Text>
                 <Spacer size={10} />
                 {!!this.props.member.clients ? (
@@ -138,7 +116,7 @@ class Dashboard extends React.Component {
             </View>
           </View>
 
-          <Notifications notifications={this.state.notifications}></Notifications>
+          <Notifications orders={this.props.member.orders}></Notifications>
 
           <Contents contents={this.props.contents}></Contents>
           <Spacer size={8} />

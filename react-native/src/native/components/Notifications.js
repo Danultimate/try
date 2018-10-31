@@ -27,13 +27,25 @@ const propTypes = {
   focused: PropTypes.bool,
   title: PropTypes.string,
   notificationsTitle: PropTypes.string,
+  notificationTitle: PropTypes.string,
+  notificationDescription: PropTypes.string,
   notifications: PropTypes.arrayOf(PropTypes.shape())
 };
 
 const defaultProps = {
   focused: false,
   notificationsTitle: "Notificaciones",
-  notifications: [],
+  orders: [],
+  notificationTitle: {
+    ordered: "Nueva Orden",
+    completed: "Pedido Entregado",
+    cancelled: "Pedido Cancelado"
+    },
+  notificationDescription: {
+    ordered: "ha completado una orden por $",
+    completed: "ha recibido su orden por $",
+    cancelled: "ha cancelado su orden por $"
+  },
 };
 
 const Notifications = props => (
@@ -44,7 +56,7 @@ const Notifications = props => (
     <FlatList
       horizontal={true}
       showsHorizontalScrollIndicator={false}
-      data={props.notifications}
+      data={props.orders}
       renderItem={({ item }) => (
         <TouchableOpacity>
           <Card style={styles.notification}>
@@ -65,19 +77,19 @@ const Notifications = props => (
                         name="info"
                         style={styles.notificationTitle}
                       />
-                      {" " + item.title}
+                       {" "}{props.notificationTitle[item.status]}
                     </Text>
                   </View>
                   <View style={styles.rightContainer}>
                     <Text
                       style={[styles.meta, styles.notificationDate]}
                     >
-                      <TimeAgo time={item.createdAt} />
+                      <TimeAgo time={item.created_at} />
                     </Text>
                   </View>
                 </View>
                 <Text style={styles.notificationText}>
-                  {item.description}
+                  {item.client_name} {props.notificationDescription[item.status]} {item.total - item.tax - item.shipping}
                 </Text>
               </Body>
             </CardItem>
