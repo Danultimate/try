@@ -32,6 +32,7 @@ import DashboardContainer from "../../containers/Dashboard";
 import DashboardComponent from "../components/Dashboard";
 
 import PreviewComponent from "../components/Preview";
+import PreviewProductComponent from "../components/PreviewProduct";
 
 import WelcomeComponent from "../components/Welcome";
 import AppLogoComponent from "../components/AppLogo";
@@ -222,6 +223,18 @@ const Index = (
       {...DefaultProps.navbarProps}
       component={DashboardContainer}
       Layout={PreviewComponent}
+    />
+    <Scene
+      back
+      clone
+      renderRightButton={() => {
+        return <View />;
+      }}
+      key="previewProduct"
+      title="Vista Previa"
+      {...DefaultProps.navbarProps}
+      component={DashboardContainer}
+      Layout={PreviewProductComponent}
     />
   </Stack>
 );

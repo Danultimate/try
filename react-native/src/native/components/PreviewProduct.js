@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Image, StyleSheet, TouchableOpacity, Share } from "react-native";
 import {
   Container,
-  Content,
+  product,
   Icon,
   Card,
   CardItem,
@@ -25,27 +25,26 @@ import moment from "moment"; //load moment module to set local language
 import "moment/locale/es"; //for import moment local language file during the application build
 moment.locale("es");
 
-const Preview = ({ error, contents, contentId }) => {
+const PreviewProduct = ({ error, products, productId }) => {
   // Error
-  if (error) return <Error content={error} />;
+  if (error) return <Error product={error} />;
 
-  console.log("hey esto es Preview Component: id, contents:");
-  console.log(contentId);
-  console.log(contents.length);
-  console.log(contents[0].wp_message);
+  console.log("hey esto es PreviewProduct Component: id, products:");
+  console.log(productId);
+  console.log(products.length);
 
   // Get this Recipe from all recipes
-  let content = null;
+  let product = null;
 
-  if (contentId && contents) {
-    content = contents.find(
-      //item => parseInt(item.id, 10) === parseInt(contentId, 10)
-      item => item.id === contentId
+  if (productId && products) {
+    product = products.find(
+      //item => parseInt(item.id, 10) === parseInt(productId, 10)
+      item => item.id === productId
     );
   }
 
   // Recipe not found
-  if (!content) return <Error content={ErrorMessages.content404} />;
+  if (!product) return <Error product={ErrorMessages.product404} />;
 
   // Build Ingredients listing
   // const ingredients = recipe.ingredients.map(item => (
@@ -58,32 +57,34 @@ const Preview = ({ error, contents, contentId }) => {
 
   return (
     <Container>
-      <Content padder>
+      <product padder>
         <Card style={styles.card}>
           <CardItem cardBody>
-            <Image
-              source={{ uri: content.image.src }}
-              style={{
-                height: 192,
-                width: null,
-                flex: 1
-              }}
-            />
+            <TouchableOpacity onPress={() => onPress(item)} style={{ flex: 1 }}>
+              <Image
+                source={{ uri: product.image[0].src }}
+                style={{
+                  height: 192,
+                  width: null,
+                  flex: 1
+                }}
+              />
+            </TouchableOpacity>
           </CardItem>
           <CardItem cardBody>
             <Body style={[styles.cardBody, styles.cardSuccess]}>
               <Spacer size={8} />
-              <Text style={styles.header}>{content.title}</Text>
+              <Text style={styles.header}>{product.title}</Text>
               <Text style={styles.meta}>
                 <Text style={[styles.meta, styles.category, styles.successMsg]}>
                   Para compartir{" "}
                 </Text>
                 <Text style={[styles.meta, styles.date]}>
-                  • <TimeAgo time={content.updatedAt} />
+                  • <TimeAgo time={product.updatedAt} />
                 </Text>
               </Text>
               <Spacer size={8} />
-              <Text style={styles.description}>{content.description}</Text>
+              <Text style={styles.description}>{product.description}</Text>
               <Spacer size={16} />
             </Body>
           </CardItem>
@@ -111,7 +112,7 @@ const Preview = ({ error, contents, contentId }) => {
                 small
                 iconLeft
                 onPress={() => {
-                  Share.share({ message: content.title }, {});
+                  Share.share({ message: product.title }, {});
                 }}
               >
                 <Icon type="SimpleLineIcons" name="share-alt" />
@@ -120,22 +121,22 @@ const Preview = ({ error, contents, contentId }) => {
             </Right>
           </CardItem>
         </Card>
-      </Content>
+      </product>
     </Container>
   );
 };
 
-Preview.propTypes = {
+PreviewProduct.propTypes = {
   error: PropTypes.string,
-  contentId: PropTypes.string.isRequired
-  //contents: PropTypes.arrayOf(PropTypes.shape()).isRequired
+  productId: PropTypes.string.isRequired
+  //products: PropTypes.arrayOf(PropTypes.shape()).isRequired
 };
 
-Preview.defaultProps = {
+PreviewProduct.defaultProps = {
   error: null
 };
 
-export default Preview;
+export default PreviewProduct;
 
 const styles = StyleSheet.create({
   container: {
