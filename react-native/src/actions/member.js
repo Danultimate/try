@@ -125,9 +125,12 @@ export function setupAxios(cellphone) {
   .then((response)=>{
     console.log('el token')
     console.log(response.data.access_token)
-    AsyncStorage.setItem('token', response.data.access_token);
-    API.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;    
-    console.log('@auth-backend success')
+    AsyncStorage.setItem('token', response.data.access_token)
+    .then(()=>{
+      API.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;    
+      console.log('@auth-backend success')
+      getUserData(dispatch);
+    })
   })
   .catch((res)=>{
     console.log('Error @auth-backend')
@@ -193,16 +196,12 @@ export function login(formData) {
             // Set flask backend bridge
             await setupAxios(cellphone);
 
-            await console.log('esto es 2')
             // Get User Data
-            await getUserData(dispatch);
-            
-            await console.log('esto es 3')
+            // await getUserData(dispatch);
           }          
 
           await statusMessage(dispatch, 'loading', false);
           
-          Actions.home;
           // Send Login data to Redux
           return resolve(dispatch({
             type: 'USER_LOGIN',
@@ -305,7 +304,14 @@ export function logout() {
         dispatch({ type: 'USER_RESET' });
         API.defaults.headers.common['Authorization'] = '';
         AsyncStorage.removeItem('token');
-        Actions.login;
+        try {
+          Actions.login({});
+          console.log('funciono el redirect')
+        } catch (error) {
+          console.log('el action login redirect')
+          console.log(error)
+        }
+        
         setTimeout(resolve, 1000); // Resolve after 1s so that user sees a message
       }).catch(reject);
   }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });

@@ -68,106 +68,6 @@ const Index = (
       component={ForgotPasswordContainer}
       Layout={ForgotPasswordComponent}
     />
-    <Scene hideNavBar activeTintColor="#93a8d5" inactiveTintColor="#3b5998">
-      <Tabs key="tabbar" swipeEnabled type="replace" {...DefaultProps.tabProps}>
-        <Stack
-          key="home"
-          title="Inicio"
-          renderTitle={() => {
-            return <AppLogoComponent />;
-          }}
-          iconName={"home"}
-          icon={TabIcon}
-          {...DefaultProps.navbarProps}
-        >
-          <Scene
-            key="home"
-            component={DashboardContainer}
-            Layout={DashboardComponent}
-          />
-        </Stack>
-
-        <Stack
-          key="clients"
-          title="Clientes"
-          iconName={"people"}
-          icon={TabIcon}
-          {...DefaultProps.navbarProps}
-        >
-          <Scene
-            key="clients"
-            component={DashboardContainer}
-            Layout={ClientsComponent}
-          />
-        </Stack>
-
-        <Stack
-          key="orders"
-          title="Ordenes"
-          iconName={"basket-loaded"}
-          icon={TabIcon}
-          {...DefaultProps.navbarProps}
-        >
-          <Scene
-            key="orders"
-            component={DashboardContainer}
-            Layout={OrdersComponent}
-          />
-        </Stack>
-
-        <Stack
-          key="profile"
-          title="Perfil"
-          iconName={"user-female"}
-          icon={TabIcon}
-          {...DefaultProps.navbarProps}
-        >
-          <Scene
-            key="profileHome"
-            component={MemberContainer}
-            Layout={ProfileComponent}
-          />
-          <Scene
-            back
-            key="locale"
-            title="Cambiar Idioma"
-            {...DefaultProps.navbarProps}
-            component={LocaleContainer}
-            Layout={LocaleComponent}
-          />
-          <Scene
-            back
-            key="updateProfile"
-            title="Actualizar Perfil"
-            {...DefaultProps.navbarProps}
-            component={UpdateProfileContainer}
-            Layout={UpdateProfileComponent}
-          />
-        </Stack>
-        <Stack
-          key="more"
-          title="Más"
-          iconName={"menu"}
-          icon={TabIcon}
-          {...DefaultProps.navbarProps}
-        >
-          <Scene
-            key="more"
-            title="Opciones"
-            component={MemberContainer}
-            {...DefaultProps.navbarProps}
-            Layout={MoreComponent}
-          />
-
-          <Scene
-            key="about"
-            title="Acerca de Elenas"
-            {...DefaultProps.navbarProps}
-            component={AboutComponent}
-          />
-        </Stack>
-      </Tabs>
-    </Scene>
     <Scene
       back
       clone
@@ -199,24 +99,6 @@ const Index = (
       title="Terminos y condiciones"
       {...DefaultProps.navbarProps}
       component={TermsComponent}
-    />
-    <Scene
-      back
-      clone
-      key="recipe"
-      title="Receta"
-      {...DefaultProps.navbarProps}
-      component={RecipesContainer}
-      Layout={RecipeViewComponent}
-    />
-    <Scene
-      back
-      clone
-      key="preview"
-      title="Vista Previa"
-      {...DefaultProps.navbarProps}
-      component={DashboardContainer}
-      Layout={PreviewComponent}
     />
   </Stack>
 );
