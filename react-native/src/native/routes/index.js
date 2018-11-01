@@ -1,5 +1,6 @@
 import React from "react";
 import { Drawer, Scene, Tabs, Stack, Modal } from "react-native-router-flux";
+import { View } from "react-native";
 import TabIcon from "../components/TabIcon";
 
 import DefaultProps from "../constants/navigation";
@@ -171,14 +172,9 @@ const Index = (
     <Scene
       back
       clone
-      key="terms"
-      title="Terminos y condiciones"
-      {...DefaultProps.navbarProps}
-      component={TermsComponent}
-    />
-    <Scene
-      back
-      clone
+      renderRightButton={() => {
+        return <View />;
+      }}
       key="support"
       title="Soporte"
       {...DefaultProps.navbarProps}
@@ -187,6 +183,9 @@ const Index = (
     <Scene
       back
       clone
+      renderRightButton={() => {
+        return <View />;
+      }}
       key="contact"
       title="Contacto"
       {...DefaultProps.navbarProps}
@@ -195,6 +194,9 @@ const Index = (
     <Scene
       back
       clone
+      renderRightButton={() => {
+        return <View />;
+      }}
       key="terms"
       title="Terminos y condiciones"
       {...DefaultProps.navbarProps}
@@ -212,6 +214,9 @@ const Index = (
     <Scene
       back
       clone
+      renderRightButton={() => {
+        return <View />;
+      }}
       key="preview"
       title="Vista Previa"
       {...DefaultProps.navbarProps}

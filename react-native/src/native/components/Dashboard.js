@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { AppLoading, Asset, Font } from "expo";
+import { Asset, Font } from "expo";
 import {
+  StatusBar,
   StyleSheet,
   FlatList,
   TouchableOpacity,
@@ -26,6 +27,8 @@ import {
 import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
 
+import Loading from "./Loading";
+import Error from "./Error";
 import Spacer from "./Spacer";
 
 import Notifications from "./Notifications";
@@ -42,7 +45,7 @@ class Dashboard extends React.Component {
     super(props);
 
     this.state = {
-      isLoading: true,
+      loading: true,
       products: [],
       error: null
     };
@@ -59,12 +62,18 @@ class Dashboard extends React.Component {
       .then(res => {
         this.setState({
           products: res,
-          isLoading: false
+          loading: false
         });
       })
-      .catch(error => this.setState({ error, isLoading: false }));
+      .catch(error => this.setState({ error, loading: false }));
   }
   render() {
+    // Loading
+    if (this.state.loading) return <Loading />;
+
+    // Error
+    if (this.state.error) return <Error content={this.state.error} />;
+
     const keyExtractor = item => item.id.toString();
 
     const onPress = item => {
@@ -72,11 +81,12 @@ class Dashboard extends React.Component {
       Actions.preview({ match: { params: { id: String(item.id) } } });
     };
 
-    if (this.state.isLoading) {
+    if (this.state.loading) {
       return <AppLoading />;
     }
     return (
       <Container style={styles.container}>
+        <StatusBar barStyle="light-content" />
         <Content padder>
           <View style={styles.userBar}>
             <View style={styles.userImg}>
@@ -88,26 +98,30 @@ class Dashboard extends React.Component {
             </View>
             <View style={styles.userInfo}>
               <Text style={styles.userGreeting}>
-                ¡Hola {this.props.member.firstName}, muy bien!
+                {this.props.member.firstName
+                  ? "¡Hola " + this.props.member.firstName + ", muy bien!"
+                  : "¡Hola, mujer poderosa!"}
               </Text>
               <Text style={styles.userMessage}>
-                Vas mejorando tu anterior mes :)
+                {this.props.member.total_month
+                  ? "Vas mejorando tu anterior mes :)"
+                  : "Hoy puede ser un gran día :)"}
               </Text>
               <Spacer size={10} />
               <View style={styles.userNumbers}>
                 <Text style={styles.userNumberLabel}>Ventas </Text>
                 <Text style={styles.userSales}>
                   <Text style={styles.userCurrency}>$</Text>
-                  {this.props.member.total_month}
+                  {this.props.member.total_month
+                    ? this.props.member.total_month
+                    : 0}
                 </Text>
                 <Spacer size={10} />
-                {!!this.props.member.clients ? (
-                  <Text style={styles.userClients}>
-                    {this.props.member.clients.length}
-                  </Text>
-                ) : (
-                  <Text style={styles.userClients}>0</Text>
-                )}
+                <Text style={styles.userClients}>
+                  {this.props.member.clients
+                    ? this.props.member.clients.length
+                    : 0}
+                </Text>
                 <Text style={styles.userNumberLabel}> clientes</Text>
               </View>
             </View>
@@ -171,7 +185,15 @@ class Dashboard extends React.Component {
                   info
                   small
                   iconLeft
-                  onPress={() => onPress(item)}
+                  onPress={() => {
+                    Share.share(
+                      {
+                        message:
+                          "¡Conviertete cómo yo en una vendedora super poderosa con Elenas!"
+                      },
+                      {}
+                    );
+                  }}
                 >
                   <Icon type="SimpleLineIcons" name="share-alt" />
                   <Text style={styles.cardButtonText}>Compartir</Text>
@@ -216,7 +238,6 @@ class Dashboard extends React.Component {
                   info
                   small
                   iconLeft
-                  onPress={() => onPress(item)}
                 >
                   <Icon type="SimpleLineIcons" name="phone" />
                   <Text style={styles.cardButtonText}>Llamar</Text>
@@ -279,7 +300,17 @@ class Dashboard extends React.Component {
                   info
                   small
                   iconLeft
-                  onPress={() => onPress(item)}
+                  onPress={() => {
+                    Share.share(
+                      {
+                        message:
+                          "¡Compra en Elenas.la los mejores productos de belleza, y con mi código de vendedora recibe el envío grátis: " +
+                          this.props.member.code +
+                          "!"
+                      },
+                      {}
+                    );
+                  }}
                 >
                   <Icon type="SimpleLineIcons" name="share-alt" />
                   <Text style={styles.cardButtonText}>Compartir</Text>

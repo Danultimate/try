@@ -1,18 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  View,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
-import {
-  Icon,
-  Card,
-  CardItem,
-  Body,
-  Text,
-} from "native-base";
+import { View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import { Icon, Card, CardItem, Body, Text } from "native-base";
 import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
 
@@ -27,8 +16,8 @@ const propTypes = {
   focused: PropTypes.bool,
   title: PropTypes.string,
   notificationsTitle: PropTypes.string,
-  notificationTitle: PropTypes.string,
-  notificationDescription: PropTypes.string,
+  notificationTitle: PropTypes.object,
+  notificationDescription: PropTypes.object,
   notifications: PropTypes.arrayOf(PropTypes.shape())
 };
 
@@ -40,18 +29,20 @@ const defaultProps = {
     ordered: "Nueva Orden",
     completed: "Pedido Entregado",
     cancelled: "Pedido Cancelado"
-    },
+  },
   notificationDescription: {
     ordered: "ha completado una orden por $",
     completed: "ha recibido su orden por $",
     cancelled: "ha cancelado su orden por $"
-  },
+  }
 };
 
 const Notifications = props => (
   <View style={styles.notifications}>
     <Text style={styles.meta}>
-      {props.notificationsTitle.toUpperCase()}
+      {props.orders.length
+        ? props.notificationsTitle.toUpperCase()
+        : "No hay notificaciones".toUpperCase()}
     </Text>
     <FlatList
       horizontal={true}
@@ -76,20 +67,20 @@ const Notifications = props => (
                         type="SimpleLineIcons"
                         name="info"
                         style={styles.notificationTitle}
-                      />
-                       {" "}{props.notificationTitle[item.status]}
+                      />{" "}
+                      {props.notificationTitle[item.status]}
                     </Text>
                   </View>
                   <View style={styles.rightContainer}>
-                    <Text
-                      style={[styles.meta, styles.notificationDate]}
-                    >
+                    <Text style={[styles.meta, styles.notificationDate]}>
                       <TimeAgo time={item.created_at} />
                     </Text>
                   </View>
                 </View>
                 <Text style={styles.notificationText}>
-                  {item.client_name} {props.notificationDescription[item.status]} {item.total - item.tax - item.shipping}
+                  {item.client_name}{" "}
+                  {props.notificationDescription[item.status]}{" "}
+                  {item.total - item.tax - item.shipping}
                 </Text>
               </Body>
             </CardItem>

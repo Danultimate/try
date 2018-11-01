@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Image, StyleSheet, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, TouchableOpacity, Share } from "react-native";
 import {
   Container,
   Content,
@@ -32,7 +32,7 @@ const Preview = ({ error, contents, contentId }) => {
   console.log("hey esto es Preview Component: id, contents:");
   console.log(contentId);
   console.log(contents.length);
-  console.log(contents[0].wp_message)
+  console.log(contents[0].wp_message);
 
   // Get this Recipe from all recipes
   let content = null;
@@ -112,7 +112,9 @@ const Preview = ({ error, contents, contentId }) => {
                 info
                 small
                 iconLeft
-                onPress={() => onPress(item)}
+                onPress={() => {
+                  Share.share({ message: content.title }, {});
+                }}
               >
                 <Icon type="SimpleLineIcons" name="share-alt" />
                 <Text style={styles.cardButtonText}>Compartir</Text>

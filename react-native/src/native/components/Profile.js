@@ -34,7 +34,9 @@ const Profile = ({ member, logout }) => (
             </View>
             <View style={styles.userInfo}>
               <Text style={styles.userGreeting}>
-                ¡Bienvenida {member.firstName}!
+                {member.firstName
+                  ? "¡Hola " + member.firstName + ", muy bien!"
+                  : "¡Hola, mujer poderosa!"}
               </Text>
               <Text style={styles.userMessage}>
                 Tu correo es {member.email}
@@ -43,10 +45,13 @@ const Profile = ({ member, logout }) => (
               <View style={styles.userNumbers}>
                 <Text style={styles.userNumberLabel}>Ventas </Text>
                 <Text style={styles.userSales}>
-                  <Text style={styles.userCurrency}>$</Text>{member.total_month}
+                  <Text style={styles.userCurrency}>$</Text>
+                  {member.total_month ? member.total_month : 0}
                 </Text>
                 <Spacer size={20} />
-                <Text style={styles.userClients}>{member.clients.length}</Text>
+                <Text style={styles.userClients}>
+                  {member.clients ? member.clients.length : 0}
+                </Text>
                 <Text style={styles.userNumberLabel}> clientes</Text>
               </View>
             </View>
