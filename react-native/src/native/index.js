@@ -16,26 +16,25 @@ import PublicRoutes from "./routes/public";
 import PrivateRoutes from "./routes/private";
 import Loading from "./components/Loading";
 
+// TODO: Store analytic in an env var
 const analytics = new ExpoMixpanelAnalytics("7c5582209ad60d202024e04001bf8af6");
 
 // Hide StatusBar on Android as it overlaps tabs
 if (Platform.OS === "android") StatusBar.setHidden(false);
 
 class App extends React.Component {
-
   constructor() {
     super();
     this.state = { hasToken: false, isLoadingComplete: false };
   }
 
   componentDidMount() {
-    AsyncStorage.getItem('token').then((token) => {
-      this.setState({ hasToken: token !== null, isLoaded: true })
+    AsyncStorage.getItem("token").then(token => {
+      this.setState({ hasToken: token !== null, isLoaded: true });
     });
   }
 
   render() {
-   
     const { store, persistor } = this.props;
 
     if (!this.state.isLoadingComplete) {

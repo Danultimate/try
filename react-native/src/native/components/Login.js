@@ -1,6 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  StatusBar,
+  Platform,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  KeyboardAvoidingView
+} from "react-native";
 import {
   Container,
   Content,
@@ -16,9 +24,10 @@ import {
   Input,
   Text,
   Button,
-  View,
-  H3
+  View
 } from "native-base";
+// import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 import Colors from "../../../native-base-theme/variables/commonColor";
 
 import { Actions } from "react-native-router-flux";
@@ -78,92 +87,101 @@ class Login extends React.Component {
     if (loading) return <Loading />;
 
     return (
-      <Container>
-        <Content padder>
-          <AppLogoAuth />
-          <Card style={styles.card}>
-            <CardItem header style={styles.authCard}>
-              <Image
-                style={styles.authImg}
-                source={require("../assets/images/login.png")}
-              />
-            </CardItem>
-            <CardItem style={styles.cardBody}>
-              <Body style={styles.authCard}>
-                <H3
-                  style={[styles.header, styles.primaryMsg, styles.textCenter]}
-                >
-                  Inicia sesión
-                </H3>
-                <Spacer size={8} />
-                <Text style={[styles.description, styles.textCenter]}>
-                  ¡Revisa tus pedidos, maneja tus clientes y aumenta tus ventas!
-                </Text>
-                {success ? <Messages type="success" message={success} /> : null}
-                {error ? <Messages message={error} /> : null}
-              </Body>
-            </CardItem>
-            <CardItem style={styles.cardBody}>
-              <Body style={styles.authCard}>
-                <Form style={styles.authForm}>
-                  <Item floatingLabel style={styles.formElement}>
-                    <Label style={styles.formLabel}>Correo electrónico</Label>
-                    <Input
-                      autoCapitalize="none"
-                      value={email}
-                      keyboardType="email-address"
-                      onChangeText={v => this.handleChange("email", v)}
-                    />
-                  </Item>
-                  <Item floatingLabel style={styles.formElement}>
-                    <Label style={styles.formLabel}>Teléfono celular</Label>
-                    <Input
-                      autoCapitalize="none"
-                      keyboardType="phone-pad"
-                      onChangeText={v => this.handleChange("cellphone", v)}
-                    />
-                  </Item>
-                  <Item floatingLabel style={styles.formElement}>
-                    <Label style={styles.formLabel}>Contraseña</Label>
-                    <Input
-                      secureTextEntry
-                      onChangeText={v => this.handleChange("password", v)}
-                    />
-                  </Item>
-                  <Spacer size={16} />
-                  <TouchableOpacity onPress={Actions.forgotPassword}>
-                    <Text
-                      style={[styles.supportTextLink, { marginLeft: "auto" }]}
-                    >
-                      ¡Olvide mi contraseña!
-                    </Text>
-                  </TouchableOpacity>
-                  <Spacer size={16} />
-
-                  <Button block success onPress={this.handleSubmit}>
-                    <Text>Inicia sesión</Text>
-                  </Button>
-                  <Spacer size={16} />
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "center",
-                      alignItems: "center"
-                    }}
+      <KeyboardAvoidingView style={{ flex: 1 }}>
+        <Container>
+          <Content padder>
+            <AppLogoAuth />
+            <Card style={styles.card}>
+              <CardItem header style={styles.authCard}>
+                <Image
+                  style={styles.authImg}
+                  source={require("../assets/images/login.png")}
+                />
+              </CardItem>
+              <CardItem style={styles.cardBody}>
+                <Body style={styles.authCard}>
+                  <Text
+                    style={[
+                      styles.header,
+                      styles.primaryMsg,
+                      styles.textCenter
+                    ]}
                   >
-                    <Text style={[styles.supportText, styles.textCenter]}>
-                      ¿No tienes una cuenta aún?{" "}
-                    </Text>
-                    <TouchableOpacity onPress={Actions.signUp}>
-                      <Text style={styles.supportTextLink}>Regístrate</Text>
+                    Inicia sesión
+                  </Text>
+                  <Spacer size={8} />
+                  <Text style={[styles.description, styles.textCenter]}>
+                    ¡Revisa tus pedidos, maneja tus clientes y aumenta tus
+                    ventas!
+                  </Text>
+                  {success ? (
+                    <Messages type="success" message={success} />
+                  ) : null}
+                  {error ? <Messages message={error} /> : null}
+                </Body>
+              </CardItem>
+              <CardItem style={styles.cardBody}>
+                <Body style={styles.authCard}>
+                  <Form style={styles.authForm}>
+                    <Item floatingLabel style={styles.formElement}>
+                      <Label style={styles.formLabel}>Correo electrónico</Label>
+                      <Input
+                        autoCapitalize="none"
+                        value={email}
+                        keyboardType="email-address"
+                        onChangeText={v => this.handleChange("email", v)}
+                      />
+                    </Item>
+                    <Item floatingLabel style={styles.formElement}>
+                      <Label style={styles.formLabel}>Teléfono celular</Label>
+                      <Input
+                        autoCapitalize="none"
+                        keyboardType="phone-pad"
+                        onChangeText={v => this.handleChange("cellphone", v)}
+                      />
+                    </Item>
+                    <Item floatingLabel style={styles.formElement}>
+                      <Label style={styles.formLabel}>Contraseña</Label>
+                      <Input
+                        secureTextEntry
+                        onChangeText={v => this.handleChange("password", v)}
+                      />
+                    </Item>
+                    <Spacer size={16} />
+                    <TouchableOpacity onPress={Actions.forgotPassword}>
+                      <Text
+                        style={[styles.supportTextLink, { marginLeft: "auto" }]}
+                      >
+                        ¡Olvide mi contraseña!
+                      </Text>
                     </TouchableOpacity>
-                  </View>
-                </Form>
-              </Body>
-            </CardItem>
-          </Card>
-        </Content>
-      </Container>
+                    <Spacer size={16} />
+
+                    <Button block success onPress={this.handleSubmit}>
+                      <Text>Inicia sesión</Text>
+                    </Button>
+                    <Spacer size={16} />
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "center",
+                        alignItems: "center"
+                      }}
+                    >
+                      <Text style={[styles.supportText, styles.textCenter]}>
+                        ¿No tienes una cuenta aún?{" "}
+                      </Text>
+                      <TouchableOpacity onPress={Actions.signUp}>
+                        <Text style={styles.supportTextLink}>Regístrate</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </Form>
+                </Body>
+              </CardItem>
+            </Card>
+          </Content>
+        </Container>
+      </KeyboardAvoidingView>
     );
   }
 }

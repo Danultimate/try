@@ -10,6 +10,9 @@
       "image": "./src/images/splash.png",
       "resizeMode": "cover"
     },
+    "androidStatusBar": {
+      "barStyle": "dark-content"
+    },
     "android": {
       "package": "elenas.la.embajadoras",
       "versionCode": 1,

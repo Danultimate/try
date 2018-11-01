@@ -73,13 +73,14 @@ const ClientListing = ({ error, loading, member }) => {
 
   const keyExtractor = item => item.id.toString();
 
+  console.log(member.clients);
   // const onPress = item =>
   //   Actions.recipe({ match: { params: { id: String(item.id) } } });
 
   return (
     <Container>
       <Content padder>
-        {!member.clients && (
+        {member.clients && !member.clients.length ? (
           <View style={styles.supportWidget}>
             <Spacer size={16} />
             <Image source={require("../assets/images/support.png")} />
@@ -107,78 +108,79 @@ const ClientListing = ({ error, loading, member }) => {
               </Text>
             </TouchableOpacity>
           </View>
-        )}
-        <FlatList
-          numColumns={1}
-          data={member.clients}
-          renderItem={({ item }) => (
-            <Card transparent style={styles.card}>
-              <CardItem style={styles.cardBody}>
-                <Left style={styles.clientLeft}>
-                  <View style={styles.clientImg}>
-                    <Thumbnail
-                      source={require("../assets/images/avatar.png")}
-                      small
-                    />
-                    <Button
-                      style={styles.callButton}
-                      block
-                      transparent
-                      info
-                      small
-                      iconLeft
-                      onPress={() =>
-                        call({
-                          number: "" + item.user.cellphone,
-                          prompt: false
-                        })
-                      }
-                    >
-                      <Icon
-                        style={styles.callButtonIcon}
-                        type="SimpleLineIcons"
-                        name="phone"
+        ) : (
+          <FlatList
+            numColumns={1}
+            data={member.clients}
+            renderItem={({ item }) => (
+              <Card transparent style={styles.card}>
+                <CardItem style={styles.cardBody}>
+                  <Left style={styles.clientLeft}>
+                    <View style={styles.clientImg}>
+                      <Thumbnail
+                        source={require("../assets/images/avatar.png")}
+                        small
                       />
-                      <Text style={styles.callButtonText}>Llamar</Text>
-                    </Button>
-                  </View>
-                  <Body>
-                    <Text numberOfLines={1} style={styles.name}>
-                      {item.user.first_name} {item.user.last_name}
+                      <Button
+                        style={styles.callButton}
+                        block
+                        transparent
+                        info
+                        small
+                        iconLeft
+                        onPress={() =>
+                          call({
+                            number: "" + item.user.cellphone,
+                            prompt: false
+                          })
+                        }
+                      >
+                        <Icon
+                          style={styles.callButtonIcon}
+                          type="SimpleLineIcons"
+                          name="phone"
+                        />
+                        <Text style={styles.callButtonText}>Llamar</Text>
+                      </Button>
+                    </View>
+                    <Body>
+                      <Text numberOfLines={1} style={styles.name}>
+                        {item.user.first_name} {item.user.last_name}
+                      </Text>
+                      <Text note style={styles.meta}>
+                        <TimeAgo time={item.addedAt} />
+                      </Text>
+                      <Spacer size={4} />
+                      <Text style={styles.clientTotal}>
+                        ${item.total_ordered}
+                      </Text>
+                      <Text note style={styles.meta}>
+                        Ordenes Totales
+                      </Text>
+                    </Body>
+                  </Left>
+                  <Right style={styles.clientRight}>
+                    <Text style={styles.textRight}>
+                      <Text note style={styles.meta}>
+                        Orden promedio{" "}
+                      </Text>{" "}
+                      ${item.avg_order}
                     </Text>
-                    <Text note style={styles.meta}>
-                      <TimeAgo time={item.addedAt} />
-                    </Text>
-                    <Spacer size={4} />
-                    <Text style={styles.clientTotal}>
-                      ${item.total_ordered}
-                    </Text>
-                    <Text note style={styles.meta}>
-                      Ordenes Totales
-                    </Text>
-                  </Body>
-                </Left>
-                <Right style={styles.clientRight}>
-                  <Text style={styles.textRight}>
-                    <Text note style={styles.meta}>
-                      Orden promedio{" "}
-                    </Text>{" "}
-                    ${item.avg_order}
-                  </Text>
 
-                  <Spacer size={8} />
-                  <Text style={styles.textRight}>
-                    <Text note style={styles.meta}>
-                      Última orden{" "}
-                    </Text>{" "}
-                    ${item.last_order}
-                  </Text>
-                </Right>
-              </CardItem>
-            </Card>
-          )}
-          keyExtractor={keyExtractor}
-        />
+                    <Spacer size={8} />
+                    <Text style={styles.textRight}>
+                      <Text note style={styles.meta}>
+                        Última orden{" "}
+                      </Text>{" "}
+                      ${item.last_order}
+                    </Text>
+                  </Right>
+                </CardItem>
+              </Card>
+            )}
+            keyExtractor={keyExtractor}
+          />
+        )}
 
         <Spacer size={20} />
       </Content>

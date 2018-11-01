@@ -71,7 +71,7 @@ const OrderListing = ({ error, loading, member }) => {
   return (
     <Container>
       <Content padder>
-        {!member.orders && (
+        {member.orders && !member.orders.length ? (
           <View style={styles.supportWidget}>
             <Spacer size={16} />
             <Image source={require("../assets/images/support.png")} />
@@ -98,56 +98,57 @@ const OrderListing = ({ error, loading, member }) => {
               </Text>
             </TouchableOpacity>
           </View>
+        ) : (
+          <FlatList
+            numColumns={1}
+            data={member.orders}
+            renderItem={({ item }) => (
+              <Card transparent style={styles.card}>
+                <CardItem style={styles.cardBody}>
+                  <Left style={styles.orderLeft}>
+                    <View>
+                      <Text numberOfLines={1} style={styles.name}>
+                        {/* TODO: create clients model */}
+                        {item.client_name}
+                      </Text>
+                      <Text style={styles.orderTotal}>
+                        ${item.total - item.tax - item.shipping}
+                      </Text>
+                    </View>
+                    <Body style={styles.orderDate}>
+                      <Text note style={styles.meta}>
+                        <TimeAgo time={item.date} />
+                      </Text>
+                    </Body>
+                  </Left>
+                  <Right style={styles.orderRight}>
+                    {item.status === "ordered" && (
+                      <Badge primary>
+                        <Text style={styles.badge}>Ordenado</Text>
+                      </Badge>
+                    )}
+                    {item.status === "distribution" && (
+                      <Badge info>
+                        <Text style={styles.badge}>En Distribución</Text>
+                      </Badge>
+                    )}
+                    {item.status === "completed" && (
+                      <Badge success>
+                        <Text style={styles.badge}>Completado</Text>
+                      </Badge>
+                    )}
+                    {item.status === "cancelled" && (
+                      <Badge danger>
+                        <Text style={styles.badge}>Cancelado</Text>
+                      </Badge>
+                    )}
+                  </Right>
+                </CardItem>
+              </Card>
+            )}
+            keyExtractor={keyExtractor}
+          />
         )}
-        <FlatList
-          numColumns={1}
-          data={member.orders}
-          renderItem={({ item }) => (
-            <Card transparent style={styles.card}>
-              <CardItem style={styles.cardBody}>
-                <Left style={styles.orderLeft}>
-                  <View>
-                    <Text numberOfLines={1} style={styles.name}>
-                      {/* TODO: create clients model */}
-                      {item.client_name}
-                    </Text>
-                    <Text style={styles.orderTotal}>
-                      ${item.total - item.tax - item.shipping}
-                    </Text>
-                  </View>
-                  <Body style={styles.orderDate}>
-                    <Text note style={styles.meta}>
-                      <TimeAgo time={item.date} />
-                    </Text>
-                  </Body>
-                </Left>
-                <Right style={styles.orderRight}>
-                  {item.status === "ordered" && (
-                    <Badge primary>
-                      <Text style={styles.badge}>Ordenado</Text>
-                    </Badge>
-                  )}
-                  {item.status === "distribution" && (
-                    <Badge info>
-                      <Text style={styles.badge}>En Distribución</Text>
-                    </Badge>
-                  )}
-                  {item.status === "completed" && (
-                    <Badge success>
-                      <Text style={styles.badge}>Completado</Text>
-                    </Badge>
-                  )}
-                  {item.status === "cancelled" && (
-                    <Badge danger>
-                      <Text style={styles.badge}>Cancelado</Text>
-                    </Badge>
-                  )}
-                </Right>
-              </CardItem>
-            </Card>
-          )}
-          keyExtractor={keyExtractor}
-        />
 
         <Spacer size={20} />
       </Content>

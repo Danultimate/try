@@ -1,6 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  KeyboardAvoidingView
+} from "react-native";
 import {
   Container,
   Content,
@@ -17,8 +22,7 @@ import {
   Text,
   CheckBox,
   Button,
-  View,
-  H3
+  View
 } from "native-base";
 import Colors from "../../../native-base-theme/variables/commonColor";
 
@@ -73,120 +77,128 @@ class SignUp extends React.Component {
     if (loading) return <Loading />;
 
     return (
-      <Container>
-        <Content padder>
-          <AppLogoAuth />
-          <Card style={styles.card}>
-            <CardItem header style={styles.authCard}>
-              <Image
-                style={styles.authImg}
-                source={require("../assets/images/signup.png")}
-              />
-            </CardItem>
-            <CardItem style={styles.cardBody}>
-              <Body style={styles.authCard}>
-                <H3
-                  style={[styles.header, styles.primaryMsg, styles.textCenter]}
-                >
-                  Crea tu cuenta
-                </H3>
-                <Spacer size={8} />
-                <Text style={[styles.description, styles.textCenter]}>
-                  ¡Obtén recomendaciones y aumenta tus ventas!
-                </Text>
-                {error && <Messages message={error} />}
-              </Body>
-            </CardItem>
-            <CardItem style={styles.cardBody}>
-              <Body style={styles.authCard}>
-                <Form style={styles.authForm}>
-                  <Item floatingLabel style={styles.formElement}>
-                    <Label style={styles.formLabel}>Nombre(s)</Label>
-                    <Input
-                      onChangeText={v => this.handleChange("firstName", v)}
-                    />
-                  </Item>
-
-                  <Item floatingLabel style={styles.formElement}>
-                    <Label style={styles.formLabel}>Apellido(s)</Label>
-                    <Input
-                      onChangeText={v => this.handleChange("lastName", v)}
-                    />
-                  </Item>
-
-                  <Item floatingLabel style={styles.formElement}>
-                    <Label style={styles.formLabel}>Teléfono celular</Label>
-                    <Input
-                      onChangeText={v => this.handleChange("cellphone", v)}
-                    />
-                  </Item>
-
-                  <Item floatingLabel style={styles.formElement}>
-                    <Label style={styles.formLabel}>Correo electrónico</Label>
-                    <Input
-                      autoCapitalize="none"
-                      keyboardType="email-address"
-                      onChangeText={v => this.handleChange("email", v)}
-                    />
-                  </Item>
-
-                  <Item floatingLabel style={styles.formElement}>
-                    <Label style={styles.formLabel}>Contraseña</Label>
-                    <Input
-                      secureTextEntry
-                      onChangeText={v => this.handleChange("password", v)}
-                    />
-                  </Item>
-
-                  <Item floatingLabel style={styles.formElement}>
-                    <Label style={styles.formLabel}>Confirmar contraseña</Label>
-                    <Input
-                      secureTextEntry
-                      onChangeText={v => this.handleChange("password2", v)}
-                    />
-                  </Item>
-                  <Spacer size={16} />
-
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      flex: 1
-                    }}
+      <KeyboardAvoidingView style={{ flex: 1 }}>
+        <Container>
+          <Content padder>
+            <AppLogoAuth />
+            <Card style={styles.card}>
+              <CardItem header style={styles.authCard}>
+                <Image
+                  style={styles.authImg}
+                  source={require("../assets/images/signup.png")}
+                />
+              </CardItem>
+              <CardItem style={styles.cardBody}>
+                <Body style={styles.authCard}>
+                  <Text
+                    style={[
+                      styles.header,
+                      styles.primaryMsg,
+                      styles.textCenter
+                    ]}
                   >
-                    <CheckBox
-                      color={Colors.brandPrimary}
-                      onPress={this.checked}
-                      value={this.checked}
-                      style={{ marginLeft: -8, marginRight: 16 }}
-                    />
-                    <View>
-                      <Text style={[styles.supportText]}>
-                        He leido y acepto los{" "}
-                      </Text>
-                      <TouchableOpacity onPress={Actions.terms}>
-                        <Text style={styles.supportTextLink}>
-                          Terminos y condiciones
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                  <Spacer size={16} />
+                    Crea tu cuenta
+                  </Text>
+                  <Spacer size={8} />
+                  <Text style={[styles.description, styles.textCenter]}>
+                    ¡Obtén recomendaciones y aumenta tus ventas!
+                  </Text>
+                  {error && <Messages message={error} />}
+                </Body>
+              </CardItem>
+              <CardItem style={styles.cardBody}>
+                <Body style={styles.authCard}>
+                  <Form style={styles.authForm}>
+                    <Item floatingLabel style={styles.formElement}>
+                      <Label style={styles.formLabel}>Nombre(s)</Label>
+                      <Input
+                        onChangeText={v => this.handleChange("firstName", v)}
+                      />
+                    </Item>
 
-                  <Button block success onPress={this.handleSubmit}>
-                    <Text>Crea tu cuenta</Text>
-                  </Button>
-                  <Spacer size={16} />
-                  <TouchableOpacity onPress={Actions.login}>
-                    <Text style={[styles.supportTextLink, styles.textCenter]}>
-                      Ya tengo una cuenta
-                    </Text>
-                  </TouchableOpacity>
-                </Form>
-              </Body>
-            </CardItem>
-          </Card>
-        </Content>
-      </Container>
+                    <Item floatingLabel style={styles.formElement}>
+                      <Label style={styles.formLabel}>Apellido(s)</Label>
+                      <Input
+                        onChangeText={v => this.handleChange("lastName", v)}
+                      />
+                    </Item>
+
+                    <Item floatingLabel style={styles.formElement}>
+                      <Label style={styles.formLabel}>Teléfono celular</Label>
+                      <Input
+                        onChangeText={v => this.handleChange("cellphone", v)}
+                      />
+                    </Item>
+
+                    <Item floatingLabel style={styles.formElement}>
+                      <Label style={styles.formLabel}>Correo electrónico</Label>
+                      <Input
+                        autoCapitalize="none"
+                        keyboardType="email-address"
+                        onChangeText={v => this.handleChange("email", v)}
+                      />
+                    </Item>
+
+                    <Item floatingLabel style={styles.formElement}>
+                      <Label style={styles.formLabel}>Contraseña</Label>
+                      <Input
+                        secureTextEntry
+                        onChangeText={v => this.handleChange("password", v)}
+                      />
+                    </Item>
+
+                    <Item floatingLabel style={styles.formElement}>
+                      <Label style={styles.formLabel}>
+                        Confirmar contraseña
+                      </Label>
+                      <Input
+                        secureTextEntry
+                        onChangeText={v => this.handleChange("password2", v)}
+                      />
+                    </Item>
+                    <Spacer size={16} />
+
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        flex: 1
+                      }}
+                    >
+                      <CheckBox
+                        color={Colors.brandPrimary}
+                        onPress={this.checked}
+                        value={this.checked}
+                        style={{ marginLeft: -8, marginRight: 16 }}
+                      />
+                      <View>
+                        <Text style={[styles.supportText]}>
+                          He leido y acepto los{" "}
+                        </Text>
+                        <TouchableOpacity onPress={Actions.terms}>
+                          <Text style={styles.supportTextLink}>
+                            Terminos y condiciones
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                    <Spacer size={16} />
+
+                    <Button block success onPress={this.handleSubmit}>
+                      <Text>Crea tu cuenta</Text>
+                    </Button>
+                    <Spacer size={16} />
+                    <TouchableOpacity onPress={Actions.login}>
+                      <Text style={[styles.supportTextLink, styles.textCenter]}>
+                        Ya tengo una cuenta
+                      </Text>
+                    </TouchableOpacity>
+                  </Form>
+                </Body>
+              </CardItem>
+            </Card>
+          </Content>
+        </Container>
+      </KeyboardAvoidingView>
     );
   }
 }

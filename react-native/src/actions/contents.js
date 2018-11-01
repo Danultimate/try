@@ -1,73 +1,85 @@
-import { Firebase, FirebaseRef } from '../lib/firebase';
-import shopify from '../constants/shopify';
-import shopifyAPI from '../constants/shopify_axios';
-import {decode as atob} from 'base-64'
+import { Firebase, FirebaseRef } from "../lib/firebase";
+import shopify from "../constants/shopify";
+import shopifyAPI from "../constants/shopify_axios";
+import { decode as atob } from "base-64";
 
 /**
-  * Set an Error Message
-  */
+ * Set an Error Message
+ */
 export function setError(message) {
-  return dispatch => new Promise(resolve => resolve(dispatch({
-    type: 'RECIPES_ERROR',
-    data: message,
-  })));
+  return dispatch =>
+    new Promise(resolve =>
+      resolve(
+        dispatch({
+          type: "RECIPES_ERROR",
+          data: message
+        })
+      )
+    );
 }
-export function getWhatsappMessages(collections){
-  dataMessages = []
-  collections.forEach((collection) => {
-    id_number = atob(collection.id).split("/")[4]
+export function getWhatsappMessages(collections) {
+  dataMessages = [];
+  collections.forEach(collection => {
+    id_number = atob(collection.id).split("/")[4];
 
-    shopifyAPI.get(`/collections/${id_number}/metafields.json`)
-    .then((metafields) => {
-      metafields.data.metafields.forEach((metafield) => {
+    shopifyAPI
+      .get(`/collections/${id_number}/metafields.json`)
+      .then(metafields => {
+        metafields.data.metafields.forEach(metafield => {
+          let message = "Mira este contenido para ti";
+          if (metafield.key == "wp_message") {
+            message = metafield.value;
+          }
 
-        let message = "Mira este contenido para ti";
-        if (metafield.key == "wp_message"){
-          message = metafield.value;
-        }
-        
-        dataMessages.push(message)
+          dataMessages.push(message);
+        });
       })
-    })
+      .catch(error => {
+        console.log(error);
+      });
   });
-  console.log(dataMessages)
+  console.log(dataMessages);
   return dataMessages;
 }
 
 /**
-  * Get Collections
-  */
+ * Get Collections
+ */
 export function getCollections() {
   //Fill the query fields
   const collectionQuery = {
-      first: 3,
-      reverse: true
-    };
-  
-  return dispatch => new Promise(async (resolve, reject) => shopify.collection
-      .fetchQuery(collectionQuery)
-      .then((collections) => {
-        let dataMessages = getWhatsappMessages(collections);
-        return resolve(dispatch({
-          type: 'CONTENTS_REPLACE',
-          data: collections,
-          dataMessages: dataMessages,
-        }));
-      })
-      .catch(error => {
-          // this.setState({ error, isLoading: false })
-          console.log('Error @fetching collections')
-          console.log(error)
-          return [];
-      }));
+    first: 3,
+    reverse: true
+  };
 
+  if (shopify === null) return () => new Promise(resolve => resolve());
+
+  return dispatch =>
+    new Promise((resolve, reject) =>
+      shopify.collection
+        .fetchQuery(collectionQuery)
+        .then(collections => {
+          let dataMessages = getWhatsappMessages(collections);
+          return resolve(
+            dispatch({
+              type: "CONTENTS_REPLACE",
+              data: collections,
+              dataMessages: dataMessages
+            })
+          );
+        })
+        .catch(reject)
+    ).catch(error => {
+      // this.setState({ error, isLoading: false })
+      console.log("Error @fetching collections");
+      console.log(error);
+      return [];
+    });
 }
 
-
 /**
-  * Get Contents
-  */
- export function getContents() {
+ * Get Contents
+ */
+export function getContents() {
   return getCollections();
-
 }
