@@ -64,7 +64,6 @@ export function getCollections() {
 }
 
 
-
 /**
   * Get Contents
   */

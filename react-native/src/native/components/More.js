@@ -1,22 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Image, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import {
   Container,
   Content,
   Card,
   CardItem,
-  Body,
-  Left,
   Right,
   Text,
   Icon
 } from "native-base";
 import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
-
-import Spacer from "./Spacer";
-import Header from "./Header";
 
 const More = ({ member, logout }) => (
   <Container>

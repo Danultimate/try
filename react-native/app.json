@@ -14,6 +14,7 @@
       "package": "elenas.la.embajadoras",
       "versionCode": 1,
       "icon": "./src/images/app-icon.png",
+      "permissions": [],
       "googleServicesFile": "./google-services.json"
     }
   }

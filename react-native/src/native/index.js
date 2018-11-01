@@ -55,7 +55,11 @@ class App extends React.Component {
             <StyleProvider style={getTheme(theme)}>
               <Router>
                 <Stack key="root">{Routes}</Stack>
-                {/* <Stack key="public">{PublicRoutes}</Stack> */}
+                {/* {this.state.hasToken ? (
+                  <Stack key="private">{PrivateRoutes}</Stack>
+                ):(
+                  <Stack key="public">{PublicRoutes}</Stack>
+                )} */}
               </Router>
             </StyleProvider>
           </PersistGate>

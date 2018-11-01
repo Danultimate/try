@@ -1,5 +1,5 @@
 import React from "react";
-import { Drawer, Scene, Tabs, Stack } from "react-native-router-flux";
+import { Drawer, Scene, Tabs, Stack, Modal } from "react-native-router-flux";
 import TabIcon from "../components/TabIcon";
 
 import DefaultProps from "../constants/navigation";
@@ -72,7 +72,11 @@ const Index = (
           icon={TabIcon}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="clients" component={DashboardContainer} Layout={ClientsComponent} />
+          <Scene
+            key="clients"
+            component={DashboardContainer}
+            Layout={ClientsComponent}
+          />
         </Stack>
 
         <Stack
@@ -82,7 +86,11 @@ const Index = (
           icon={TabIcon}
           {...DefaultProps.navbarProps}
         >
-          <Scene key="orders" component={DashboardContainer} Layout={OrdersComponent} />
+          <Scene
+            key="orders"
+            component={DashboardContainer}
+            Layout={OrdersComponent}
+          />
         </Stack>
 
         <Stack
@@ -128,24 +136,7 @@ const Index = (
             {...DefaultProps.navbarProps}
             Layout={MoreComponent}
           />
-          <Scene
-            key="terms"
-            title="Terminos y condiciones"
-            {...DefaultProps.navbarProps}
-            component={TermsComponent}
-          />
-          <Scene
-            key="support"
-            title="Soporte"
-            {...DefaultProps.navbarProps}
-            component={SupportComponent}
-          />
-          <Scene
-            key="contact"
-            title="Contacto"
-            {...DefaultProps.navbarProps}
-            component={ContactComponent}
-          />
+
           <Scene
             key="about"
             title="Acerca de Elenas"
@@ -155,7 +146,60 @@ const Index = (
         </Stack>
       </Tabs>
     </Scene>
-
+    <Scene key="welcome" component={WelcomeComponent} />
+    <Scene
+      key="signUp"
+      title="Crea tu cuenta"
+      {...DefaultProps.navbarProps}
+      component={SignUpContainer}
+      Layout={SignUpComponent}
+    />
+    <Scene
+      key="login"
+      title="Inicia sesión"
+      {...DefaultProps.navbarProps}
+      component={LoginContainer}
+      Layout={LoginComponent}
+    />
+    <Scene
+      key="forgotPassword"
+      title="Reestablecer contraseña"
+      {...DefaultProps.navbarProps}
+      component={ForgotPasswordContainer}
+      Layout={ForgotPasswordComponent}
+    />
+    <Scene
+      back
+      clone
+      key="terms"
+      title="Terminos y condiciones"
+      {...DefaultProps.navbarProps}
+      component={TermsComponent}
+    />
+    <Scene
+      back
+      clone
+      key="support"
+      title="Soporte"
+      {...DefaultProps.navbarProps}
+      component={SupportComponent}
+    />
+    <Scene
+      back
+      clone
+      key="contact"
+      title="Contacto"
+      {...DefaultProps.navbarProps}
+      component={ContactComponent}
+    />
+    <Scene
+      back
+      clone
+      key="terms"
+      title="Terminos y condiciones"
+      {...DefaultProps.navbarProps}
+      component={TermsComponent}
+    />
     <Scene
       back
       clone
@@ -165,7 +209,6 @@ const Index = (
       component={RecipesContainer}
       Layout={RecipeViewComponent}
     />
-
     <Scene
       back
       clone

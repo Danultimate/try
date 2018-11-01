@@ -4,6 +4,7 @@ import { AsyncStorage } from "react-native";
 import { Firebase, FirebaseRef } from '../lib/firebase';
 import axios from "axios";
 import API from '../constants/api';
+import { Actions } from "react-native-router-flux";
 
 /**
   * Sign Up to Firebase
@@ -200,7 +201,8 @@ export function login(formData) {
           }          
 
           await statusMessage(dispatch, 'loading', false);
-
+          
+          Actions.home;
           // Send Login data to Redux
           return resolve(dispatch({
             type: 'USER_LOGIN',
@@ -302,6 +304,8 @@ export function logout() {
       .then(() => {
         dispatch({ type: 'USER_RESET' });
         API.defaults.headers.common['Authorization'] = '';
+        AsyncStorage.removeItem('token');
+        Actions.login;
         setTimeout(resolve, 1000); // Resolve after 1s so that user sees a message
       }).catch(reject);
   }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });
