@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, Image, Dimensions, TouchableOpacity } from "react-native";
+import { StyleSheet, Image, Dimensions, TouchableOpacity, AsyncStorage } from "react-native";
 import {
   Container,
   Content,
@@ -24,101 +24,107 @@ import { Actions } from "react-native-router-flux";
 import AppLogoAuth from "./AppLogoAuth";
 import Spacer from "./Spacer";
 
-const Welcome = () => (
-  <Container>
-    <Content padder>
-      <AppLogoAuth />
-      <Card style={styles.card}>
-        <CardItem style={styles.cardBody}>
-          <Body style={styles.authCard}>
-            <Spacer size={16} />
-            <SwiperFlatList
-              showPagination
-              paginationDefaultColor={"#F7F7FF"}
-              paginationActiveColor={Colors.brandPrimary}
-            >
-              <View style={[styles.child]}>
-                <Text
-                  style={[styles.header, styles.primaryMsg, styles.textCenter]}
-                >
-                  ¡Bienvenida a Elenas!
-                </Text>
-                <Spacer size={8} />
-                <Text style={[styles.description, styles.textCenter]}>
-                  Únete a la comunidad de mujeres empoderadas y emprendedoras.
-                </Text>
-                <Spacer size={16} />
-                <Image
-                  style={styles.onboardingImg}
-                  source={require("../assets/images/onboarding-1.png")}
-                />
-              </View>
-              <View style={[styles.child]}>
-                <Text
-                  style={[styles.header, styles.primaryMsg, styles.textCenter]}
-                >
-                  ¡Vende más y mejor!
-                </Text>
-                <Spacer size={8} />
-                <Text style={[styles.description, styles.textCenter]}>
-                  No pierdas más energía entregando productos o cobrando a tus
-                  clientes.
-                </Text>
-                <Spacer size={16} />
-                <Image
-                  style={styles.onboardingImg}
-                  source={require("../assets/images/onboarding-2.png")}
-                />
-              </View>
-              <View style={[styles.child]}>
-                <Text
-                  style={[styles.header, styles.primaryMsg, styles.textCenter]}
-                >
-                  ¡Eres una mujer poderosa!
-                </Text>
-                <Spacer size={8} />
-                <Text style={[styles.description, styles.textCenter]}>
-                  Recibe consejos de las mejores vendedoras y expertas en
-                  belleza.
-                </Text>
-                <Spacer size={16} />
-                <Image
-                  style={styles.onboardingImg}
-                  source={require("../assets/images/onboarding-3.png")}
-                />
-              </View>
-            </SwiperFlatList>
-            <Spacer size={40} />
-          </Body>
-        </CardItem>
-        <CardItem styles={styles.cardBody}>
-          <Body style={styles.authCard}>
-            <Button diasbled block primary onPress={Actions.login}>
-              <Text>Ingresa a tu cuenta</Text>
-            </Button>
-            <Spacer size={16} />
-            <Button diasbled block success onPress={Actions.signUp}>
-              <Text>Crea tu cuenta</Text>
-            </Button>
-            <Spacer size={16} />
-            <TouchableOpacity onPress={Actions.home}>
-              <Text
-                style={[
-                  styles.supportText,
-                  styles.textCenter,
-                  { color: Colors.brandInfo }
-                ]}
+const Welcome = () => {
+  AsyncStorage.getItem("token").then(token => {
+    if (token) {
+      Actions.home({});
+    }
+  })
+  return (
+    <Container>
+      <Content padder>
+        <AppLogoAuth />
+        <Card style={styles.card}>
+          <CardItem style={styles.cardBody}>
+            <Body style={styles.authCard}>
+              <Spacer size={16} />
+              <SwiperFlatList
+                showPagination
+                paginationDefaultColor={"#F7F7FF"}
+                paginationActiveColor={Colors.brandPrimary}
               >
-                Lo haré despues
+                <View style={[styles.child]}>
+                  <Text
+                    style={[styles.header, styles.primaryMsg, styles.textCenter]}
+                  >
+                    ¡Bienvenida a Elenas!
+                </Text>
+                  <Spacer size={8} />
+                  <Text style={[styles.description, styles.textCenter]}>
+                    Únete a la comunidad de mujeres empoderadas y emprendedoras.
+                </Text>
+                  <Spacer size={16} />
+                  <Image
+                    style={styles.onboardingImg}
+                    source={require("../assets/images/onboarding-1.png")}
+                  />
+                </View>
+                <View style={[styles.child]}>
+                  <Text
+                    style={[styles.header, styles.primaryMsg, styles.textCenter]}
+                  >
+                    ¡Vende más y mejor!
+                </Text>
+                  <Spacer size={8} />
+                  <Text style={[styles.description, styles.textCenter]}>
+                    No pierdas más energía entregando productos o cobrando a tus
+                    clientes.
+                </Text>
+                  <Spacer size={16} />
+                  <Image
+                    style={styles.onboardingImg}
+                    source={require("../assets/images/onboarding-2.png")}
+                  />
+                </View>
+                <View style={[styles.child]}>
+                  <Text
+                    style={[styles.header, styles.primaryMsg, styles.textCenter]}
+                  >
+                    ¡Eres una mujer poderosa!
+                </Text>
+                  <Spacer size={8} />
+                  <Text style={[styles.description, styles.textCenter]}>
+                    Recibe consejos de las mejores vendedoras y expertas en
+                    belleza.
+                </Text>
+                  <Spacer size={16} />
+                  <Image
+                    style={styles.onboardingImg}
+                    source={require("../assets/images/onboarding-3.png")}
+                  />
+                </View>
+              </SwiperFlatList>
+              <Spacer size={40} />
+            </Body>
+          </CardItem>
+          <CardItem styles={styles.cardBody}>
+            <Body style={styles.authCard}>
+              <Button diasbled block primary onPress={Actions.login}>
+                <Text>Ingresa a tu cuenta</Text>
+              </Button>
+              <Spacer size={16} />
+              <Button diasbled block success onPress={Actions.signUp}>
+                <Text>Crea tu cuenta</Text>
+              </Button>
+              <Spacer size={16} />
+              <TouchableOpacity onPress={Actions.home}>
+                <Text
+                  style={[
+                    styles.supportText,
+                    styles.textCenter,
+                    { color: Colors.brandInfo }
+                  ]}
+                >
+                  Lo haré despues
               </Text>
-            </TouchableOpacity>
-          </Body>
-        </CardItem>
-      </Card>
-    </Content>
-  </Container>
-);
-
+              </TouchableOpacity>
+            </Body>
+          </CardItem>
+        </Card>
+      </Content>
+    </Container>
+  );
+}
 export default Welcome;
 
 export const { width, height } = Dimensions.get("window");

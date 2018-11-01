@@ -143,31 +143,33 @@ const Index = (
             {...DefaultProps.navbarProps}
             component={AboutComponent}
           />
+
+          
+           <Scene key="welcome" component={WelcomeComponent} />
+        <Scene
+          key="signUp"
+          title="Crea tu cuenta"
+          {...DefaultProps.navbarProps}
+          component={SignUpContainer}
+          Layout={SignUpComponent}
+        />
+        <Scene
+          key="login"
+          title="Inicia sesión"
+          {...DefaultProps.navbarProps}
+          component={LoginContainer}
+          Layout={LoginComponent}
+        />
+        <Scene
+          key="forgotPassword"
+          title="Reestablecer contraseña"
+          {...DefaultProps.navbarProps}
+          component={ForgotPasswordContainer}
+          Layout={ForgotPasswordComponent}
+        />
         </Stack>
       </Tabs>
     </Scene>
-    <Scene key="welcome" component={WelcomeComponent} />
-    <Scene
-      key="signUp"
-      title="Crea tu cuenta"
-      {...DefaultProps.navbarProps}
-      component={SignUpContainer}
-      Layout={SignUpComponent}
-    />
-    <Scene
-      key="login"
-      title="Inicia sesión"
-      {...DefaultProps.navbarProps}
-      component={LoginContainer}
-      Layout={LoginComponent}
-    />
-    <Scene
-      key="forgotPassword"
-      title="Reestablecer contraseña"
-      {...DefaultProps.navbarProps}
-      component={ForgotPasswordContainer}
-      Layout={ForgotPasswordComponent}
-    />
     <Scene
       back
       clone
