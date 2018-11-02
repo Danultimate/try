@@ -54,8 +54,8 @@ Error.propTypes = {
 };
 
 Error.defaultProps = {
-  title: "Uh oh",
-  content: "An unexpected error came up"
+  title: "Ups...",
+  content: "Ha surgido un error inesperado."
 };
 
 export default Error;

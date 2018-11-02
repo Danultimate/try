@@ -23,6 +23,7 @@ import {
   Label,
   Input,
   Text,
+  CheckBox,
   Button,
   View
 } from "native-base";
@@ -45,14 +46,18 @@ class Login extends React.Component {
     error: PropTypes.string,
     success: PropTypes.string,
     loading: PropTypes.bool.isRequired,
-    onFormSubmit: PropTypes.func.isRequired
+    onFormSubmit: PropTypes.func.isRequired,
+    isHidden: PropTypes.bool.isRequired,
+    userWithEmail: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
     error: null,
     success: null,
     locale: null,
-    member: {}
+    member: {},
+    isHidden: true,
+    userWithEmail: false
   };
 
   constructor(props) {
@@ -60,7 +65,9 @@ class Login extends React.Component {
     this.state = {
       email: props.member && props.member.email ? props.member.email : "",
       password: "",
-      cellphone: ""
+      cellphone: "",
+      isHidden: true,
+      userWithEmail: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -68,6 +75,17 @@ class Login extends React.Component {
   }
 
   handleChange = (name, val) => {
+    if (name === "cellphone" && val.length === 10) {
+      this.setState({
+        isHidden: false,
+        userWithEmail: false
+      });
+    } else if (name === "cellphone" && val.length !== 10) {
+      this.setState({
+        isHidden: true
+      });
+    }
+    console.log(name);
     this.setState({
       [name]: val
     });
@@ -123,58 +141,168 @@ class Login extends React.Component {
               <CardItem style={styles.cardBody}>
                 <Body style={styles.authCard}>
                   <Form style={styles.authForm}>
-                    <Item floatingLabel style={styles.formElement}>
-                      <Label style={styles.formLabel}>Correo electrónico</Label>
-                      <Input
-                        autoCapitalize="none"
-                        value={email}
-                        keyboardType="email-address"
-                        onChangeText={v => this.handleChange("email", v)}
-                      />
-                    </Item>
-                    <Item floatingLabel style={styles.formElement}>
+                    <Item
+                      floatingLabel
+                      style={styles.formElement}
+                      success={!this.state.isHidden ? true : false}
+                    >
                       <Label style={styles.formLabel}>Teléfono celular</Label>
                       <Input
                         autoCapitalize="none"
                         keyboardType="phone-pad"
                         onChangeText={v => this.handleChange("cellphone", v)}
                       />
-                    </Item>
-                    <Item floatingLabel style={styles.formElement}>
-                      <Label style={styles.formLabel}>Contraseña</Label>
-                      <Input
-                        secureTextEntry
-                        onChangeText={v => this.handleChange("password", v)}
+                      <Icon
+                        type="SimpleLineIcons"
+                        name={!this.state.isHidden ? "check" : "close"}
+                        style={
+                          !this.state.isHidden
+                            ? { color: Colors.brandSuccess }
+                            : { color: "transparent" }
+                        }
                       />
                     </Item>
-                    <Spacer size={16} />
-                    <TouchableOpacity onPress={Actions.forgotPassword}>
-                      <Text
-                        style={[styles.supportTextLink, { marginLeft: "auto" }]}
-                      >
-                        ¡Olvide mi contraseña!
-                      </Text>
-                    </TouchableOpacity>
-                    <Spacer size={16} />
+                    {this.state.isHidden && (
+                      <View>
+                        <Spacer size={8} />
+                        <Text note>
+                          Ingresa tu número de celular para continuar
+                        </Text>
+                      </View>
+                    )}
+                    {!this.state.isHidden &&
+                      !this.state.userWithEmail && (
+                        <View>
+                          <Item floatingLabel style={styles.formElement}>
+                            <Label style={styles.formLabel}>
+                              Correo electrónico
+                            </Label>
+                            <Input
+                              autoCapitalize="none"
+                              value={email}
+                              keyboardType="email-address"
+                              onChangeText={v => this.handleChange("email", v)}
+                            />
+                          </Item>
+                          <Item floatingLabel style={styles.formElement}>
+                            <Label style={styles.formLabel}>Contraseña</Label>
+                            <Input
+                              secureTextEntry
+                              onChangeText={v =>
+                                this.handleChange("password", v)
+                              }
+                            />
+                          </Item>
+                          <Spacer size={16} />
+                          <TouchableOpacity onPress={Actions.forgotPassword}>
+                            <Text
+                              style={[
+                                styles.supportTextLink,
+                                { marginLeft: "auto" }
+                              ]}
+                            >
+                              ¡Olvide mi contraseña!
+                            </Text>
+                          </TouchableOpacity>
+                          <Spacer size={8} />
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              flex: 1
+                            }}
+                          >
+                            <CheckBox
+                              color={Colors.brandPrimary}
+                              onPress={this.checked}
+                              value={this.checked}
+                              style={{ marginLeft: -8, marginRight: 16 }}
+                            />
+                            <View>
+                              <Text style={[styles.supportText]}>
+                                He leido y acepto los nuevos{" "}
+                              </Text>
+                              <TouchableOpacity onPress={Actions.terms}>
+                                <Text style={styles.supportTextLink}>
+                                  Terminos y condiciones
+                                </Text>
+                              </TouchableOpacity>
+                            </View>
+                          </View>
+                          <Spacer size={16} />
 
-                    <Button block success onPress={this.handleSubmit}>
-                      <Text>Inicia sesión</Text>
-                    </Button>
-                    <Spacer size={16} />
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "center",
-                        alignItems: "center"
-                      }}
-                    >
-                      <Text style={[styles.supportText, styles.textCenter]}>
-                        ¿No tienes una cuenta aún?{" "}
-                      </Text>
-                      <TouchableOpacity onPress={Actions.signUp}>
-                        <Text style={styles.supportTextLink}>Regístrate</Text>
-                      </TouchableOpacity>
-                    </View>
+                          <Button block success onPress={this.handleSubmit}>
+                            <Text>Inicia sesión</Text>
+                          </Button>
+                          <Spacer size={16} />
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              justifyContent: "center",
+                              alignItems: "center"
+                            }}
+                          >
+                            <Text
+                              style={[styles.supportText, styles.textCenter]}
+                            >
+                              ¿No tienes una cuenta aún?{" "}
+                            </Text>
+                            <TouchableOpacity onPress={Actions.signUp}>
+                              <Text style={styles.supportTextLink}>
+                                Regístrate
+                              </Text>
+                            </TouchableOpacity>
+                          </View>
+                        </View>
+                      )}
+                    {!this.state.isHidden &&
+                      this.state.userWithEmail && (
+                        <View>
+                          <Item floatingLabel style={styles.formElement}>
+                            <Label style={styles.formLabel}>Contraseña</Label>
+                            <Input
+                              secureTextEntry
+                              onChangeText={v =>
+                                this.handleChange("password", v)
+                              }
+                            />
+                          </Item>
+                          <Spacer size={16} />
+                          <TouchableOpacity onPress={Actions.forgotPassword}>
+                            <Text
+                              style={[
+                                styles.supportTextLink,
+                                { marginLeft: "auto" }
+                              ]}
+                            >
+                              ¡Olvide mi contraseña!
+                            </Text>
+                          </TouchableOpacity>
+                          <Spacer size={16} />
+
+                          <Button block success onPress={this.handleSubmit}>
+                            <Text>Inicia sesión</Text>
+                          </Button>
+                          <Spacer size={16} />
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              justifyContent: "center",
+                              alignItems: "center"
+                            }}
+                          >
+                            <Text
+                              style={[styles.supportText, styles.textCenter]}
+                            >
+                              ¿No tienes una cuenta aún?{" "}
+                            </Text>
+                            <TouchableOpacity onPress={Actions.signUp}>
+                              <Text style={styles.supportTextLink}>
+                                Regístrate
+                              </Text>
+                            </TouchableOpacity>
+                          </View>
+                        </View>
+                      )}
                   </Form>
                 </Body>
               </CardItem>

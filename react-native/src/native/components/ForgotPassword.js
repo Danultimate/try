@@ -16,8 +16,7 @@ import {
   Input,
   Text,
   Button,
-  View,
-  H3
+  View
 } from "native-base";
 import Colors from "../../../native-base-theme/variables/commonColor";
 
@@ -89,11 +88,11 @@ class ForgotPassword extends React.Component {
             </CardItem>
             <CardItem style={styles.cardBody}>
               <Body style={styles.authCard}>
-                <H3
+                <Text
                   style={[styles.header, styles.primaryMsg, styles.textCenter]}
                 >
                   Reestablece tu contraseña
-                </H3>
+                </Text>
                 <Spacer size={8} />
                 <Text style={[styles.description, styles.textCenter]}>
                   ¡Pronto recibiras en tu correo instrucciones para

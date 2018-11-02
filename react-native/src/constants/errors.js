@@ -1,11 +1,12 @@
 export default {
   // Defaults
-  default: "Hmm, an unknown error occured",
-  timeout: "Server Timed Out. Check your internet connection",
-  invalidJson: "Response returned is not valid JSON",
+  default: "Hmm, ha ocurrido un error inesperado",
+  timeout:
+    "El servidor no ha respondido en el tiempo de espera. Revisa tu conexión a internet",
+  invalidJson: "La respuesta no es un JSON válido",
 
   // Firebase Related
-  invalidFirebase: "Firebase is not connected correctly",
+  invalidFirebase: "Firebase no esta conectado correctamente",
 
   // Member
   memberExists: "Ya existe ese usuario",
@@ -18,11 +19,11 @@ export default {
 
   // Recipes
   recipe404: "Receta no encontrada",
-  missingMealId: "Missing meal definition",
+  missingMealId: "Definición no encontrada",
 
   // Content
   content404: "No encontramos el contenido",
 
   // Locale
-  localeDoesNotExist: "Sorry, we do not support that local"
+  localeDoesNotExist: "Lo sentimos, no manejamos ese idioma"
 };

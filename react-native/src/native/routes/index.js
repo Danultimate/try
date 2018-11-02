@@ -47,29 +47,43 @@ import MoreComponent from "../components/More";
 import SideMenu from "../components/SideMenu";
 
 const Index = (
-  <Stack hideNavBar>
-    <Scene key="welcome" component={WelcomeComponent} />
-    <Scene
-      key="signUp"
-      title="Crea tu cuenta"
-      {...DefaultProps.navbarProps}
-      component={SignUpContainer}
-      Layout={SignUpComponent}
-    />
-    <Scene
-      key="login"
-      title="Inicia sesión"
-      {...DefaultProps.navbarProps}
-      component={LoginContainer}
-      Layout={LoginComponent}
-    />
-    <Scene
-      key="forgotPassword"
-      title="Reestablecer contraseña"
-      {...DefaultProps.navbarProps}
-      component={ForgotPasswordContainer}
-      Layout={ForgotPasswordComponent}
-    />
+  <Scene hideNavBar>
+    <Scene key="auth">
+      <Scene key="welcome" hideNavBar component={WelcomeComponent} />
+      <Scene
+        key="signUp"
+        hideNavBar
+        title="Crea tu cuenta"
+        {...DefaultProps.navbarProps}
+        component={SignUpContainer}
+        Layout={SignUpComponent}
+      />
+      <Scene
+        key="login"
+        hideNavBar
+        title="Inicia sesión"
+        {...DefaultProps.navbarProps}
+        component={LoginContainer}
+        Layout={LoginComponent}
+      />
+      <Scene
+        key="forgotPassword"
+        hideNavBar
+        title="Reestablecer contraseña"
+        {...DefaultProps.navbarProps}
+        component={ForgotPasswordContainer}
+        Layout={ForgotPasswordComponent}
+      />
+      <Scene
+        renderRightButton={() => {
+          return <View />;
+        }}
+        key="terms"
+        title="Terminos y condiciones"
+        {...DefaultProps.navbarProps}
+        component={TermsComponent}
+      />
+    </Scene>
     <Scene hideNavBar activeTintColor="#93a8d5" inactiveTintColor="#3b5998">
       <Tabs key="tabbar" swipeEnabled type="replace" {...DefaultProps.tabProps}>
         <Stack
@@ -198,6 +212,7 @@ const Index = (
       renderRightButton={() => {
         return <View />;
       }}
+      modal
       key="terms"
       title="Terminos y condiciones"
       {...DefaultProps.navbarProps}
@@ -236,7 +251,7 @@ const Index = (
       component={DashboardContainer}
       Layout={PreviewProductComponent}
     />
-  </Stack>
+  </Scene>
 );
 
 export default Index;
