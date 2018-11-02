@@ -1,6 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, Image, Dimensions, TouchableOpacity, AsyncStorage } from "react-native";
+import {
+  StyleSheet,
+  Image,
+  Dimensions,
+  TouchableOpacity,
+  AsyncStorage
+} from "react-native";
 import {
   Container,
   Content,
@@ -29,7 +35,7 @@ const Welcome = () => {
     if (token) {
       Actions.home({});
     }
-  })
+  });
   return (
     <Container>
       <Content padder>
@@ -45,14 +51,19 @@ const Welcome = () => {
               >
                 <View style={[styles.child]}>
                   <Text
-                    style={[styles.header, styles.primaryMsg, styles.textCenter]}
+                    style={[
+                      styles.header,
+                      styles.primaryMsg,
+                      styles.textCenter
+                    ]}
                   >
                     ¡Bienvenida a Elenas!
-                </Text>
+                  </Text>
                   <Spacer size={8} />
                   <Text style={[styles.description, styles.textCenter]}>
-                    Únete a la comunidad de mujeres empoderadas y emprendedoras.
-                </Text>
+                    Únete a nuestra comunidad de miles de mujeres ganando un
+                    ingreso extra vendiendo cosmeticos
+                  </Text>
                   <Spacer size={16} />
                   <Image
                     style={styles.onboardingImg}
@@ -61,15 +72,19 @@ const Welcome = () => {
                 </View>
                 <View style={[styles.child]}>
                   <Text
-                    style={[styles.header, styles.primaryMsg, styles.textCenter]}
+                    style={[
+                      styles.header,
+                      styles.primaryMsg,
+                      styles.textCenter
+                    ]}
                   >
-                    ¡Vende más y mejor!
-                </Text>
+                    Gana dinero...
+                  </Text>
                   <Spacer size={8} />
                   <Text style={[styles.description, styles.textCenter]}>
-                    No pierdas más energía entregando productos o cobrando a tus
-                    clientes.
-                </Text>
+                    Cada vez que una clienta tuya compra, te ganas una comisión
+                    del 30%
+                  </Text>
                   <Spacer size={16} />
                   <Image
                     style={styles.onboardingImg}
@@ -78,15 +93,19 @@ const Welcome = () => {
                 </View>
                 <View style={[styles.child]}>
                   <Text
-                    style={[styles.header, styles.primaryMsg, styles.textCenter]}
+                    style={[
+                      styles.header,
+                      styles.primaryMsg,
+                      styles.textCenter
+                    ]}
                   >
-                    ¡Eres una mujer poderosa!
-                </Text>
+                    ...fácil y sin riesgo
+                  </Text>
                   <Spacer size={8} />
                   <Text style={[styles.description, styles.textCenter]}>
-                    Recibe consejos de las mejores vendedoras y expertas en
-                    belleza.
-                </Text>
+                    Nosotros cobramos y entregamos los productos. Tú te enfocas
+                    en promocionarlos.
+                  </Text>
                   <Spacer size={16} />
                   <Image
                     style={styles.onboardingImg}
@@ -116,7 +135,7 @@ const Welcome = () => {
                   ]}
                 >
                   Lo haré despues
-              </Text>
+                </Text>
               </TouchableOpacity>
             </Body>
           </CardItem>
@@ -124,7 +143,7 @@ const Welcome = () => {
       </Content>
     </Container>
   );
-}
+};
 export default Welcome;
 
 export const { width, height } = Dimensions.get("window");

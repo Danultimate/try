@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    paddingHorizontal: 40
+    paddingHorizontal: 16
   },
   supportHeader: {
     fontSize: 24

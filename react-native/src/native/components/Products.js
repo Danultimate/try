@@ -63,7 +63,10 @@ const Products = props => {
             <CardItem cardBody style={styles.transparentCard}>
               <Body>
                 <Spacer size={8} />
-                <Text style={[styles.header, styles.productTitle]}>
+                <Text
+                  numberOfLines={2}
+                  style={[styles.header, styles.productTitle]}
+                >
                   {item.title}
                 </Text>
                 <Text style={styles.meta}>{item.vendor.toUpperCase()}</Text>
@@ -277,7 +280,8 @@ const styles = StyleSheet.create({
   },
   productTitle: {
     fontSize: 16,
-    lineHeight: 16
+    lineHeight: 16,
+    height: 32
   },
   loadMore: {
     backgroundColor: "#F1EDFA",

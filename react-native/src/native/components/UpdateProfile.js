@@ -18,8 +18,7 @@ import {
   Text,
   CheckBox,
   Button,
-  View,
-  H3
+  View
 } from "native-base";
 import Colors from "../../../native-base-theme/variables/commonColor";
 
@@ -100,11 +99,11 @@ class UpdateProfile extends React.Component {
             </CardItem>
             <CardItem style={styles.cardBody}>
               <Body style={styles.authCard}>
-                <H3
+                <Text
                   style={[styles.header, styles.primaryMsg, styles.textCenter]}
                 >
                   Actualiza tu perfil
-                </H3>
+                </Text>
                 <Spacer size={8} />
                 <Text style={[styles.description, styles.textCenter]}>
                   ¡Gracias por mantener tus datos al día!
