@@ -46,32 +46,23 @@ export function signUp(formData) {
             lastLoggedIn: Firebase.database.ServerValue.TIMESTAMP,
           }).then(() => {
             // Send user details to Flask DB
-            axios.post('https://seller-server-dev.herokuapp.com/api/users', {
-              user: {
+            axios.post('https://seller-server-dev.herokuapp.com/api/sign_up', {
+              sign_up: {
                 first_name: firstName,
                 last_name: lastName,
                 cellphone: cellphone,
                 password: password,
                 email: email,
+                commission: 0.3,
+                referred_by_code: referred_by
               }
             })
-            .then((user)=>{
-              console.log('user registered')
-              console.log(user.data)
-              console.log('user id: '+user.data.users[0].id)
-              console.log('Now the seller')
-              axios.post('https://seller-server-dev.herokuapp.com/api/sellers', {
-                seller: {
-                  referred_by_code: referred_by,
-                  user: user.data.users[0].id,
-                  commission: 0.3,
-                }
-              })
-              .then((seller)=> {
-                console.log('seller registered')
-                login(formData);
-              })
+            .then((response)=>{
+              console.log('user and seller registered')
+              console.log(response.data)
+              login(formData);
             })
+            .catch((error)=> console.log(error))
             
             statusMessage(dispatch, 'loading', false).then(resolve)});
         }
@@ -144,14 +135,23 @@ async function getToken(){
 
 /**
   * Get this User's Details from Backend
-  * TODO: there's a lot todo here, not working
   */
-export function setupAxios(cellphone) {
-  console.log(cellphone)
-  axios.post('https://seller-server-dev.herokuapp.com/api/login_admin', {
-    username: cellphone,
-    password: ' '
-  })
+export function setupAxios(dispatch, cellphone) {
+  console.log('heeey setupAxios')
+  AsyncStorage.removeItem('token');
+  axios({
+    url: 'https://seller-server-dev.herokuapp.com/api/login_admin',
+    method: 'post',
+    headers: {},
+    data: {
+        username: cellphone,
+        password: ' '
+      }
+    })
+  // axios.post('https://seller-server-dev.herokuapp.com/api/login_admin', {
+  //   username: cellphone,
+  //   password: ' '
+  // })
   .then((response)=>{
     console.log('el token')
     console.log(response.data.access_token)
@@ -224,7 +224,7 @@ export function login(formData) {
             
             await console.log('esto es 1')
             // Set flask backend bridge
-            await setupAxios(cellphone);
+            await setupAxios(dispatch, cellphone);
 
             // Get User Data
             // await getUserData(dispatch);
@@ -331,17 +331,10 @@ export function logout() {
   return dispatch => new Promise((resolve, reject) => {
     Firebase.auth().signOut()
       .then(() => {
-        dispatch({ type: 'USER_RESET' });
         API.defaults.headers.common['Authorization'] = '';
         AsyncStorage.removeItem('token');
-        try {
-          Actions.login({});
-          console.log('funciono el redirect')
-        } catch (error) {
-          console.log('el action login redirect')
-          console.log(error)
-        }
-        
+        dispatch({ type: 'USER_RESET' });
+        Actions.login({});
         setTimeout(resolve, 1000); // Resolve after 1s so that user sees a message
       }).catch(reject);
   }).catch(async (err) => { await statusMessage(dispatch, 'error', err.message); throw err.message; });

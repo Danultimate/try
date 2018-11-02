@@ -40,6 +40,7 @@ import moment from "moment";
 import "moment/locale/es";
 moment.locale("es");
 
+
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);

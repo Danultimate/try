@@ -71,7 +71,7 @@ const OrderListing = ({ error, loading, member }) => {
   return (
     <Container>
       <Content padder>
-        {member.orders && !member.orders.length ? (
+        {!member.orders || member.orders.length<1 ? (
           <View style={styles.supportWidget}>
             <Spacer size={16} />
             <Image source={require("../assets/images/support.png")} />

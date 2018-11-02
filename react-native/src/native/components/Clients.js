@@ -80,7 +80,7 @@ const ClientListing = ({ error, loading, member }) => {
   return (
     <Container>
       <Content padder>
-        {member.clients && !member.clients.length ? (
+        {!member.clients || member.clients.length<1 ? (
           <View style={styles.supportWidget}>
             <Spacer size={16} />
             <Image source={require("../assets/images/support.png")} />
