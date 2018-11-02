@@ -90,7 +90,9 @@ const Contents = props => (
           </Body>
         </CardItem>
         <CardItem style={styles.cardFooter} footer bordered>
-          <Left>
+          {/*
+            TO DO add favorite button when functionality OK
+            <Left>
             <Button
               style={styles.cardButton}
               block
@@ -120,6 +122,24 @@ const Contents = props => (
               <Text style={styles.cardButtonText}>Compartir</Text>
             </Button>
           </Right>
+          */}
+
+          <Body>
+            <Button
+              style={styles.cardButton}
+              block
+              transparent
+              info
+              small
+              iconLeft
+              onPress={() => {
+                Share.share({ message: item.wp_message || item.title }, {});
+              }}
+            >
+              <Icon type="SimpleLineIcons" name="share-alt" />
+              <Text style={styles.cardButtonText}>Compartir</Text>
+            </Button>
+          </Body>
         </CardItem>
       </Card>
     )}
@@ -179,6 +199,15 @@ const styles = StyleSheet.create({
   },
   textCenter: {
     textAlign: "center"
+  },
+  successMsg: {
+    color: Colors.brandSuccess
+  },
+  warningMsg: {
+    color: Colors.brandWarning
+  },
+  primaryMsg: {
+    color: Colors.brandPrimary
   },
   loadMore: {
     backgroundColor: "#F1EDFA",

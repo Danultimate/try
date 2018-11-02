@@ -163,7 +163,8 @@ class Dashboard extends React.Component {
               {/* aqui terminar el condicional */}
             </CardItem>
             <CardItem style={styles.cardFooter} footer bordered>
-              <Left>
+              {/* 
+                <Left>
                 <Button
                   style={styles.cardButton}
                   block
@@ -198,7 +199,29 @@ class Dashboard extends React.Component {
                   <Icon type="SimpleLineIcons" name="share-alt" />
                   <Text style={styles.cardButtonText}>Compartir</Text>
                 </Button>
-              </Right>
+              </Right> */}
+              <Body>
+                <Button
+                  style={styles.cardButton}
+                  block
+                  transparent
+                  info
+                  small
+                  iconLeft
+                  onPress={() => {
+                    Share.share(
+                      {
+                        message:
+                          "¡Conviertete cómo yo en una vendedora super poderosa con Elenas!"
+                      },
+                      {}
+                    );
+                  }}
+                >
+                  <Icon type="SimpleLineIcons" name="share-alt" />
+                  <Text style={styles.cardButtonText}>Compartir</Text>
+                </Button>
+              </Body>
             </CardItem>
           </Card>
           <Card style={styles.card}>
