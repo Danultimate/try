@@ -17,6 +17,7 @@ export function signUp(formData) {
     firstName,
     lastName,
     cellphone,
+    referred_by, //optional
   } = formData;
 
   return dispatch => new Promise(async (resolve, reject) => {
@@ -43,7 +44,36 @@ export function signUp(formData) {
             phoneNumber: cellphone,
             signedUp: Firebase.database.ServerValue.TIMESTAMP,
             lastLoggedIn: Firebase.database.ServerValue.TIMESTAMP,
-          }).then(() => statusMessage(dispatch, 'loading', false).then(resolve));
+          }).then(() => {
+            // Send user details to Flask DB
+            axios.post('https://seller-server-dev.herokuapp.com/api/users', {
+              user: {
+                first_name: firstName,
+                last_name: lastName,
+                cellphone: cellphone,
+                password: password,
+                email: email,
+              }
+            })
+            .then((user)=>{
+              console.log('user registered')
+              console.log(user.data)
+              console.log('user id: '+user.data.users[0].id)
+              console.log('Now the seller')
+              axios.post('https://seller-server-dev.herokuapp.com/api/sellers', {
+                seller: {
+                  referred_by_code: referred_by,
+                  user: user.data.users[0].id,
+                  commission: 0.3,
+                }
+              })
+              .then((seller)=> {
+                console.log('seller registered')
+                login(formData);
+              })
+            })
+            
+            statusMessage(dispatch, 'loading', false).then(resolve)});
         }
       }).catch(reject);
   }).catch(async (err) => {

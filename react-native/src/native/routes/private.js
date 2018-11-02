@@ -42,7 +42,6 @@ import TermsComponent from "../components/Terms";
 import SupportComponent from "../components/Support";
 import AboutComponent from "../components/About";
 import MoreComponent from "../components/More";
-import SideMenu from "../components/SideMenu";
 
 const Index = (
   <Stack hideNavBar>
@@ -144,7 +143,7 @@ const Index = (
             component={AboutComponent}
           />
 
-          
+
            <Scene key="welcome" component={WelcomeComponent} />
         <Scene
           key="signUp"

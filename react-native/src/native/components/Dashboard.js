@@ -36,8 +36,8 @@ import Contents from "./Contents";
 import Products from "./Products";
 
 import TimeAgo from "react-native-timeago";
-import moment from "moment"; //load moment module to set local language
-import "moment/locale/es"; //for import moment local language file during the application build
+import moment from "moment";
+import "moment/locale/es";
 moment.locale("es");
 
 class Dashboard extends React.Component {
@@ -54,7 +54,7 @@ class Dashboard extends React.Component {
   componentWillMount() {
     const productQuery = {
       first: 5,
-      query: "tag:['halloween']"
+      query: "tag:['diciembre']"
     };
 
     this.props.shopify.product
