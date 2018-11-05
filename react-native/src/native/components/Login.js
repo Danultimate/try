@@ -36,6 +36,9 @@ import Loading from "./Loading";
 import Messages from "./Messages";
 import Spacer from "./Spacer";
 import AppLogoAuth from "./AppLogoAuth";
+import axios from "axios";
+
+import publicAPI from "../../constants/api_public";
 
 class Login extends React.Component {
   static propTypes = {
@@ -76,16 +79,20 @@ class Login extends React.Component {
 
   handleChange = (name, val) => {
     if (name === "cellphone" && val.length === 10) {
-      this.setState({
-        isHidden: false,
-        userWithEmail: false
-      });
+      publicAPI.post('/already_user', JSON.stringify({cellphone: val}))
+      .then((response)=>{
+        this.setState({
+          isHidden: !response.data.is_user,
+          userWithEmail: response.data.has_email,
+          email: response.data.email
+        });
+      })
+      .catch((error)=> console.log(error))
     } else if (name === "cellphone" && val.length !== 10) {
       this.setState({
         isHidden: true
       });
     }
-    console.log(name);
     this.setState({
       [name]: val
     });
@@ -170,6 +177,26 @@ class Login extends React.Component {
                         </Text>
                       </View>
                     )}
+                    {this.state.isHidden && !this.state.userWithEmail && (
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "center",
+                          alignItems: "center"
+                        }}
+                      >
+                        <Text
+                          style={[styles.supportText, styles.textCenter]}
+                        >
+                          ¿No tienes una cuenta aún?{" "}
+                        </Text>
+                        <TouchableOpacity onPress={Actions.signUp}>
+                          <Text style={styles.supportTextLink}>
+                            Regístrate
+                        </Text>
+                        </TouchableOpacity>
+                      </View>
+                    )}
                     {!this.state.isHidden &&
                       !this.state.userWithEmail && (
                         <View>
@@ -179,7 +206,7 @@ class Login extends React.Component {
                             </Label>
                             <Input
                               autoCapitalize="none"
-                              value={email}
+                              value={this.state.email}
                               keyboardType="email-address"
                               onChangeText={v => this.handleChange("email", v)}
                             />
