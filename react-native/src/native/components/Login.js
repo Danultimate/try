@@ -185,13 +185,13 @@ class Login extends React.Component {
                       !this.state.isUser && (
                         <View
                           style={{
-                            flexDirection: "row",
                             justifyContent: "center",
-                            alignItems: "center"
+                            alignItems: "center",
+                            marginTop: 8
                           }}
                         >
                           <Text style={[styles.supportText, styles.textCenter]}>
-                            ¿No tienes una cuenta aún?{" "}
+                            Parece que no tienes una cuenta aún.{" "}
                           </Text>
                           <TouchableOpacity onPress={Actions.signUp}>
                             <Text style={styles.supportTextLink}>
@@ -225,17 +225,18 @@ class Login extends React.Component {
                             />
                           </Item>
                           <Spacer size={16} />
-                          <TouchableOpacity onPress={Actions.forgotPassword}>
-                            <Text
-                              style={[
-                                styles.supportTextLink,
-                                { marginLeft: "auto" }
-                              ]}
-                            >
-                              ¡Olvide mi contraseña!
-                            </Text>
-                          </TouchableOpacity>
-                          <Spacer size={8} />
+                          {/*<TouchableOpacity onPress={Actions.forgotPassword}>
+                              <Text
+                                style={[
+                                  styles.supportTextLink,
+                                  { marginLeft: "auto" }
+                                ]}
+                              >
+                                ¡Olvide mi contraseña!
+                              </Text>
+                            </TouchableOpacity>
+                            <Spacer size={16} />
+                            */}
                           <View
                             style={{
                               flexDirection: "row",
@@ -285,7 +286,8 @@ class Login extends React.Component {
                           </View>
                         </View>
                       )}
-                    {!this.state.isHidden &&
+                    {this.state.isUser &&
+                      !this.state.isHidden &&
                       this.state.userWithEmail && (
                         <View>
                           <Item floatingLabel style={styles.formElement}>
@@ -298,7 +300,7 @@ class Login extends React.Component {
                             />
                           </Item>
                           <Spacer size={16} />
-                          <TouchableOpacity onPress={Actions.forgotPassword}>
+                          {/*<TouchableOpacity onPress={Actions.forgotPassword}>
                             <Text
                               style={[
                                 styles.supportTextLink,
@@ -309,6 +311,7 @@ class Login extends React.Component {
                             </Text>
                           </TouchableOpacity>
                           <Spacer size={16} />
+                          */}
 
                           <Button block success onPress={this.handleSubmit}>
                             <Text>Inicia sesión</Text>
