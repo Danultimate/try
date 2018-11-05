@@ -5,9 +5,10 @@ import { Firebase, FirebaseRef } from '../lib/firebase';
 import axios from "axios";
 import API from '../constants/api';
 import { Actions } from "react-native-router-flux";
+import publicAPI from '../constants/api_public';
 
 /**
-  * Sign Up to Firebase
+  * Sign Up to Firebase and Backend
   */
 export function signUp(formData) {
   const {
@@ -18,6 +19,7 @@ export function signUp(formData) {
     lastName,
     cellphone,
     referred_by, //optional
+    checked,
   } = formData;
 
   return dispatch => new Promise(async (resolve, reject) => {
@@ -29,6 +31,7 @@ export function signUp(formData) {
     if (!password) return reject({ message: ErrorMessages.missingPassword });
     if (!password2) return reject({ message: ErrorMessages.missingPassword });
     if (password !== password2) return reject({ message: ErrorMessages.passwordsDontMatch });
+    if (!checked) return reject({message: ErrorMessages.missingTandC})
 
     await statusMessage(dispatch, 'loading', true);
 
@@ -57,14 +60,65 @@ export function signUp(formData) {
                 referred_by_code: referred_by
               }
             })
-            .then((response)=>{
-              console.log('user and seller registered')
-              console.log(response.data)
-              login(formData);
-            })
-            .catch((error)=> console.log(error))
-            
-            statusMessage(dispatch, 'loading', false).then(resolve)});
+              .then((response) => {
+                console.log('user and seller registered')
+                console.log(response.data)
+                login(formData);
+              })
+              .catch((error) => console.log(error))
+
+            statusMessage(dispatch, 'loading', false).then(resolve)
+          });
+        }
+      }).catch(reject);
+  }).catch(async (err) => {
+    await statusMessage(dispatch, 'loading', false);
+    throw err.message;
+  });
+}
+
+/**
+  * Sign Up to Firebase
+  */
+export function signUpFB(formData) {
+  const {
+    email,
+    password,
+    password2,
+    firstName,
+    lastName,
+    cellphone,
+  } = formData;
+
+  return dispatch => new Promise(async (resolve, reject) => {
+    // Validation checks
+    console.log('entra aca al signup only FB')
+    if (!firstName) return reject({ message: ErrorMessages.missingFirstName });
+    if (!lastName) return reject({ message: ErrorMessages.missingLastName });
+    if (!cellphone) return reject({ message: ErrorMessages.missingCellphone });
+    if (!email) return reject({ message: ErrorMessages.missingEmail });
+    if (!password) return reject({ message: ErrorMessages.missingPassword });
+    if (!password2) return reject({ message: ErrorMessages.missingPassword });
+    if (password !== password2) return reject({ message: ErrorMessages.passwordsDontMatch });
+
+    await statusMessage(dispatch, 'loading', true);
+
+    // Go to Firebase
+    return Firebase.auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((res) => {
+        // Send user details to Firebase database
+        if (res && res.user.uid) {
+          FirebaseRef.child(`users/${res.user.uid}`).set({
+            firstName,
+            lastName,
+            phoneNumber: cellphone,
+            signedUp: Firebase.database.ServerValue.TIMESTAMP,
+            lastLoggedIn: Firebase.database.ServerValue.TIMESTAMP,
+          }).then(() => {
+            statusMessage(dispatch, 'loading', false).then(resolve)
+          });
+          login(formData);
         }
       }).catch(reject);
   }).catch(async (err) => {
@@ -91,80 +145,81 @@ function getUserData(dispatch) {
 
   return ref.on('value', (snapshot) => {
     const userData = snapshot.val() || [];
-    
+
     // Get data from backend
     console.log('getSellerData')
-    getToken().then((token)=> {
-    API.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    getToken().then((token) => {
+      API.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-    // Get user backend data
-    API.get('/sellers')
-      .then((seller)=>{ 
-        console.log('getSellerData succeed');
-        // console.log(seller.data.sellers)
-        API.get('/orders')
-        .then((orders)=>{ 
-          console.log('getOrdersData succeed')
-          //console.log(orders.data)
-          let total = orders.data.orders.reduce((a, b) => +a + +b.total - b.tax - b.shipping, 0);
-          API.get('/clients_react')
-          .then((clients)=>{ 
-            console.log('getClientsData succeed')
-            //console.log(clients.data)
-            return dispatch({
-              type: 'USER_DETAILS_UPDATE',
-              data: userData,
-              dataSeller: seller.data.sellers[0],
-              dataOrders: orders.data.orders,
-              dataClients: clients.data.clients,
-              dataTotalOrders: total,
-            });
+      // Get user backend data
+      API.get('/sellers')
+        .then((seller) => {
+          console.log('getSellerData succeed');
+          // console.log(seller.data.sellers)
+          API.get('/orders')
+            .then((orders) => {
+              console.log('getOrdersData succeed')
+              //console.log(orders.data)
+              let total = orders.data.orders.reduce((a, b) => +a + +b.total - b.tax - b.shipping, 0);
+              API.get('/clients_react')
+                .then((clients) => {
+                  console.log('getClientsData succeed')
+                  //console.log(clients.data)
+                  return dispatch({
+                    type: 'USER_DETAILS_UPDATE',
+                    data: userData,
+                    dataSeller: seller.data.sellers[0],
+                    dataOrders: orders.data.orders,
+                    dataClients: clients.data.clients,
+                    dataTotalOrders: total,
+                  });
 
-          })
+                })
+            })
         })
-      })      
     })
   });
 }
 
 // TODO: Integrate with dispatch etc
 
-async function getToken(){
+async function getToken() {
   return await AsyncStorage.getItem('token') || 'none'
 }
 
 /**
   * Get this User's Details from Backend
   */
-export function setupAxios(dispatch, cellphone) {
+export function setupAxios(dispatch, cellphone, password) {
   AsyncStorage.removeItem('token');
-  axios({
-    url: 'https://seller-server-dev.herokuapp.com/api/login_admin',
-    method: 'post',
-    headers: {},
-    data: {
-        username: cellphone,
-        password: ' '
-      }
-    })
-  // axios.post('https://seller-server-dev.herokuapp.com/api/login_admin', {
-  //   username: cellphone,
-  //   password: ' '
-  // })
-  .then((response)=>{
-    console.log('el token')
-    console.log(response.data.access_token)
-    AsyncStorage.setItem('token', response.data.access_token)
-    .then(()=>{
-      API.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;    
-      console.log('@auth-backend success')
-      getUserData(dispatch);
-    })
+  publicAPI.defaults.headers.common = {};
+  publicAPI.post('/login', {
+    username: cellphone,
+    password: password
   })
-  .catch((res)=>{
-    console.log('Error @auth-backend')
-    console.log(res)
-  })
+    .then((response) => {
+      console.log('el token')
+      console.log(response.data.access_token)
+      AsyncStorage.setItem('token', response.data.access_token)
+        .then(() => {
+          API.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
+          // POST the token to your backend server from where you can retrieve it to send push notifications.
+          AsyncStorage.getItem('notificationToken')
+          .then((notificationToken)=>{
+            console.log('El notiification token')
+            console.log(notificationToken)
+            API.put(`/users/${response.data.user.id}`, { user: {device_token: notificationToken }})
+          })
+          console.log('@auth-backend success')
+          getUserData(dispatch);
+        })
+    })
+    .catch(async (err) => {
+      console.log('Error @auth-backend')
+      console.log(err)
+      await statusMessage(dispatch, 'loading', false);
+      throw err.message;
+    });
 }
 
 export function getMemberData() {
@@ -190,7 +245,8 @@ export function login(formData) {
     email,
     password,
     cellphone,
-    hasEmail,
+    userWithEmail,
+    checked,
   } = formData;
 
   return dispatch => new Promise(async (resolve, reject) => {
@@ -201,51 +257,104 @@ export function login(formData) {
     if (!password) return reject({ message: ErrorMessages.missingPassword });
     if (!cellphone) return reject({ message: ErrorMessages.missingCellphone });
 
-    if (!hasEmail) {
-      // Sign up then login in Firebase
+    if (!userWithEmail) {
+      if (!checked) return reject({message: ErrorMessages.missingTandC})
       // Update email at Backend
-      
-    }
-    // Go to Firebase
-    return Firebase.auth()
-      .setPersistence(Firebase.auth.Auth.Persistence.LOCAL)
-      .then(() => Firebase.auth()
-        .signInWithEmailAndPassword(email, password)
-        .then(async (res) => {
-          const userDetails = res && res.user ? res.user : null;
-
-          if (userDetails.uid) {
-            // Update last logged in data
-            FirebaseRef.child(`users/${userDetails.uid}`).update({
-              lastLoggedIn: Firebase.database.ServerValue.TIMESTAMP,
-            });
-
-            // Send verification Email when email hasn't been verified
-            if (userDetails.emailVerified === false) {
-              Firebase.auth().currentUser
-                .sendEmailVerification()
-                .catch(() => console.log('Verification email failed to send'));
-            }
+      publicAPI.defaults.headers.common = {};
+      publicAPI.post('https://seller-server-dev.herokuapp.com/api/login', {
+        username: cellphone,
+        password: password
+      })
+        .then((response) => {
+          let user_data = response.data.user
+          console.log('el user_id')
+          console.log(user_data.id)
+          publicAPI.defaults.headers.common['Authorization'] = `Bearer ${response.data.access_token}`;
+          publicAPI.put(`/users/${user_data.id}`, {user: {email: email}})
+            .then(async (uppdatedUserRes) => {
+              console.log(uppdatedUserRes.data)
+              publicAPI.defaults.headers.common = {};
+              // Sign up then login in Firebase
+              // return dispatch => new Promise(async (resolve, reject) => {
+              //   console.log('entra aca al signup only FB')
             
-            // Set flask backend bridge
-            await setupAxios(dispatch, cellphone);
+              //   await statusMessage(dispatch, 'loading', true);
+            
+                // Go to Firebase
+                return Firebase.auth()
+                  .createUserWithEmailAndPassword(email, password)
+                  .then((res) => {
+                    console.log('ok entra aca...')
+                    console.log(res)
+                    // Send user details to Firebase database
 
-            // Get User Data
-            // await getUserData(dispatch);
-          }          
-
+                    if (res && res.user.uid) {
+                      FirebaseRef.child(`users/${res.user.uid}`).set({
+                        firstName: user_data.first_name,
+                        lastName: user_data.last_name,
+                        phoneNumber: cellphone,
+                        signedUp: Firebase.database.ServerValue.TIMESTAMP,
+                        lastLoggedIn: Firebase.database.ServerValue.TIMESTAMP,
+                      }).then(() => {
+                        statusMessage(dispatch, 'loading', false).then(resolve)
+                      });
+                      login(formData);
+                    }
+                  // }).catch(reject);
+              }).catch(async (err) => {
+                await statusMessage(dispatch, 'loading', false);
+                throw err.message;
+              });
+            })
+        }).catch(async (err) => {
+          console.log('error accaaaaa')
           await statusMessage(dispatch, 'loading', false);
-          
-          // Send Login data to Redux
-          return resolve(dispatch({
-            type: 'USER_LOGIN',
-            data: userDetails,
-          }));
-        }).catch(reject));
-  }).catch(async (err) => {
-    await statusMessage(dispatch, 'loading', false);
-    throw err.message;
-  });
+          //throw err.message;
+          return reject({ message: ErrorMessages.missingEmail });
+        });
+    }
+
+      // Go to Firebase
+      return Firebase.auth()
+        .setPersistence(Firebase.auth.Auth.Persistence.LOCAL)
+        .then(() => Firebase.auth()
+          .signInWithEmailAndPassword(email, password)
+          .then(async (res) => {
+            const userDetails = res && res.user ? res.user : null;
+
+            if (userDetails.uid) {
+              // Update last logged in data
+              FirebaseRef.child(`users/${userDetails.uid}`).update({
+                lastLoggedIn: Firebase.database.ServerValue.TIMESTAMP,
+              });
+
+              // Send verification Email when email hasn't been verified
+              if (userDetails.emailVerified === false) {
+                Firebase.auth().currentUser
+                  .sendEmailVerification()
+                  .catch(() => console.log('Verification email failed to send'));
+              }
+
+              // Set flask backend bridge
+              await setupAxios(dispatch, cellphone, password);
+
+              // Get User Data
+              //await getUserData(dispatch);
+            }
+
+            await statusMessage(dispatch, 'loading', false);
+
+            // Send Login data to Redux
+            return resolve(dispatch({
+              type: 'USER_LOGIN',
+              data: userDetails,
+            }));
+          }).catch(reject));
+    }).catch(async (err) => {
+      await statusMessage(dispatch, 'loading', false);
+      throw err.message;
+    });
+
 }
 
 /**
