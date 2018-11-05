@@ -53,7 +53,7 @@ class SignUp extends React.Component {
       password: "",
       password2: "",
       referred_by: "",
-      tc_accepted: false,
+      tc_accepted: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -69,7 +69,7 @@ class SignUp extends React.Component {
   handleSubmit = () => {
     const { onFormSubmit } = this.props;
     onFormSubmit(this.state)
-      .then(() => Actions.home())
+      .then(() => Actions.onboarding())
       .catch(e => console.log(`Error: ${e}`));
   };
 
@@ -142,12 +142,13 @@ class SignUp extends React.Component {
                     </Item>
 
                     <Item floatingLabel style={styles.formElement}>
-                      <Label style={styles.formLabel}>Código Amiga Vendedora [Opcional]</Label>
+                      <Label style={styles.formLabel} numberOfLines={1}>
+                        Código Amiga Vendedora (Opcional)
+                      </Label>
                       <Input
                         onChangeText={v => this.handleChange("referred_by", v)}
                       />
                     </Item>
-                    
 
                     <Item floatingLabel style={styles.formElement}>
                       <Label style={styles.formLabel}>Contraseña</Label>
@@ -322,7 +323,8 @@ const styles = StyleSheet.create({
     borderRightWidth: 1
   },
   formLabel: {
+    paddingLeft: 4,
     paddingTop: 8,
-    paddingLeft: 4
+    fontSize: 12
   }
 });

@@ -166,7 +166,7 @@ const Onboarding = () => {
             image: (
               <Image
                 style={styles.onboardingImg}
-                source={require("../assets/images/onboarding-2.png")}
+                source={require("../assets/images/onboarding-4.png")}
               />
             ),
             title: (
@@ -184,7 +184,7 @@ const Onboarding = () => {
             image: (
               <Image
                 style={styles.onboardingImg}
-                source={require("../assets/images/onboarding-1.png")}
+                source={require("../assets/images/onboarding-5.png")}
               />
             ),
             title: (

@@ -52,7 +52,6 @@ const Index = (
   <Scene hideNavBar>
     <Scene key="auth">
       <Scene key="welcome" hideNavBar component={WelcomeComponent} />
-      <Scene key="onboarding" hideNavBar component={OnboardingComponent} />
 
       <Scene
         key="signUp"
@@ -78,6 +77,7 @@ const Index = (
         component={ForgotPasswordContainer}
         Layout={ForgotPasswordComponent}
       />
+      <Scene key="onboarding" hideNavBar component={OnboardingComponent} />
       <Scene
         renderRightButton={() => {
           return <View />;

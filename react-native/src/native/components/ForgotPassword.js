@@ -228,7 +228,8 @@ const styles = StyleSheet.create({
     borderRightWidth: 1
   },
   formLabel: {
+    paddingLeft: 4,
     paddingTop: 8,
-    paddingLeft: 4
+    fontSize: 12
   }
 });

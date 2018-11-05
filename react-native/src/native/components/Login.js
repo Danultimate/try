@@ -79,15 +79,17 @@ class Login extends React.Component {
 
   handleChange = (name, val) => {
     if (name === "cellphone" && val.length === 10) {
-      publicAPI.post('/already_user', JSON.stringify({cellphone: val}))
-      .then((response)=>{
-        this.setState({
-          isHidden: !response.data.is_user,
-          userWithEmail: response.data.has_email,
-          email: response.data.email
-        });
-      })
-      .catch((error)=> console.log(error))
+      publicAPI
+        .post("/already_user", JSON.stringify({ cellphone: val }))
+        .then(response => {
+          this.setState({
+            isHidden: false,
+            userWithEmail: response.data.has_email,
+            email: response.data.email,
+            isUser: response.data.is_user
+          });
+        })
+        .catch(error => console.log(error));
     } else if (name === "cellphone" && val.length !== 10) {
       this.setState({
         isHidden: true
@@ -151,7 +153,7 @@ class Login extends React.Component {
                     <Item
                       floatingLabel
                       style={styles.formElement}
-                      success={!this.state.isHidden ? true : false}
+                      success={this.state.isUser ? true : false}
                     >
                       <Label style={styles.formLabel}>Teléfono celular</Label>
                       <Input
@@ -161,11 +163,13 @@ class Login extends React.Component {
                       />
                       <Icon
                         type="SimpleLineIcons"
-                        name={!this.state.isHidden ? "check" : "close"}
+                        name={this.state.isUser ? "check" : "close"}
                         style={
-                          !this.state.isHidden
+                          this.state.isUser
                             ? { color: Colors.brandSuccess }
-                            : { color: "transparent" }
+                            : !this.state.isUser && !this.state.isHidden
+                              ? { color: Colors.brandDanger }
+                              : { color: "transparent" }
                         }
                       />
                     </Item>
@@ -177,27 +181,27 @@ class Login extends React.Component {
                         </Text>
                       </View>
                     )}
-                    {this.state.isHidden && !this.state.userWithEmail && (
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          justifyContent: "center",
-                          alignItems: "center"
-                        }}
-                      >
-                        <Text
-                          style={[styles.supportText, styles.textCenter]}
-                        >
-                          ¿No tienes una cuenta aún?{" "}
-                        </Text>
-                        <TouchableOpacity onPress={Actions.signUp}>
-                          <Text style={styles.supportTextLink}>
-                            Regístrate
-                        </Text>
-                        </TouchableOpacity>
-                      </View>
-                    )}
                     {!this.state.isHidden &&
+                      !this.state.isUser && (
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            justifyContent: "center",
+                            alignItems: "center"
+                          }}
+                        >
+                          <Text style={[styles.supportText, styles.textCenter]}>
+                            ¿No tienes una cuenta aún?{" "}
+                          </Text>
+                          <TouchableOpacity onPress={Actions.signUp}>
+                            <Text style={styles.supportTextLink}>
+                              Regístrate
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                      )}
+                    {this.state.isUser &&
+                      !this.state.isHidden &&
                       !this.state.userWithEmail && (
                         <View>
                           <Item floatingLabel style={styles.formElement}>
@@ -450,7 +454,8 @@ const styles = StyleSheet.create({
     borderRightWidth: 1
   },
   formLabel: {
+    paddingLeft: 4,
     paddingTop: 8,
-    paddingLeft: 4
+    fontSize: 12
   }
 });

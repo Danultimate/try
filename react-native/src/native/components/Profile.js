@@ -46,7 +46,11 @@ const Profile = ({ member, logout }) => (
                 <Text style={styles.userNumberLabel}>Ventas </Text>
                 <Text style={styles.userSales}>
                   <Text style={styles.userCurrency}>$</Text>
-                  {member.total_month ? member.total_month : 0}
+                  {member.total_month
+                    ? member.total_month.toLocaleString("es-CO", {
+                        maximumFractionDigits: 0
+                      })
+                    : 0}
                 </Text>
                 <Spacer size={20} />
                 <Text style={styles.userClients}>

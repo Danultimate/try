@@ -40,7 +40,6 @@ import moment from "moment";
 import "moment/locale/es";
 moment.locale("es");
 
-
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -114,7 +113,9 @@ class Dashboard extends React.Component {
                 <Text style={styles.userSales}>
                   <Text style={styles.userCurrency}>$</Text>
                   {this.props.member.total_month
-                    ? this.props.member.total_month
+                    ? this.props.member.total_month.toLocaleString("es-CO", {
+                        maximumFractionDigits: 0
+                      })
                     : 0}
                 </Text>
                 <Spacer size={10} />
@@ -128,7 +129,9 @@ class Dashboard extends React.Component {
             </View>
           </View>
 
-          <Notifications orders={this.props.member.orders} />
+          {this.props.member.orders ? (
+            <Notifications orders={this.props.member.orders.slice(0, 4)} />
+          ) : null}
 
           <Contents contents={this.props.contents} />
           <Spacer size={8} />
@@ -164,7 +167,7 @@ class Dashboard extends React.Component {
               {/* aqui terminar el condicional */}
             </CardItem>
             <CardItem style={styles.cardFooter} footer bordered>
-              {/* 
+              {/*
                 <Left>
                 <Button
                   style={styles.cardButton}
@@ -450,7 +453,7 @@ const styles = StyleSheet.create({
     marginBottom: 12
   },
   userCode: {
-    fontSize: 10,
+    fontSize: 9,
     textAlign: "center",
     color: "#B09DE0"
   },
