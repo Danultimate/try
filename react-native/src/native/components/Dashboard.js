@@ -1,12 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Asset, Font } from "expo";
+import { Asset, Font, Notifications } from "expo";
 import {
   StatusBar,
   StyleSheet,
-  FlatList,
   TouchableOpacity,
-  RefreshControl,
   Image,
   Share
 } from "react-native";
@@ -15,11 +13,8 @@ import {
   Container,
   Content,
   Icon,
-  Thumbnail,
   Card,
   CardItem,
-  Left,
-  Right,
   Body,
   Text,
   Button
@@ -31,11 +26,10 @@ import Loading from "./Loading";
 import Error from "./Error";
 import Spacer from "./Spacer";
 
-import Notifications from "./Notifications";
+import OrderNotifications from "./OrderNotifications";
 import Contents from "./Contents";
 import Products from "./Products";
 
-import TimeAgo from "react-native-timeago";
 import moment from "moment";
 import "moment/locale/es";
 moment.locale("es");
@@ -53,6 +47,14 @@ class Dashboard extends React.Component {
   }
 
   componentWillMount() {
+    // shopify.collection.fetchAllWithProducts().then((collections) => {
+    //   // Do something with the collections
+    //   console.log('with products')
+    //   console.log(collections);
+    //   console.log(collections[0].products);
+    // })
+    // .catch((err)=>err)
+
     const productQuery = {
       first: 5,
       query: "tag:['diciembre']"
@@ -128,7 +130,7 @@ class Dashboard extends React.Component {
             </View>
           </View>
 
-          <Notifications orders={this.props.member.orders} />
+          <OrderNotifications orders={this.props.member.orders} />
 
           <Contents contents={this.props.contents} />
           <Spacer size={8} />

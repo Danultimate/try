@@ -16,6 +16,7 @@ export default {
   missingEmail: "Hace falta tu correo electrónico",
   missingPassword: "Hace falta tu contraseña",
   passwordsDontMatch: "Las contraseñas no coinciden",
+  missingTandC: "Hace falta aceptar los terminos y condiciones",
 
   // Recipes
   recipe404: "Receta no encontrada",

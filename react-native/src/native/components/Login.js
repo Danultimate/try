@@ -51,7 +51,8 @@ class Login extends React.Component {
     loading: PropTypes.bool.isRequired,
     onFormSubmit: PropTypes.func.isRequired,
     isHidden: PropTypes.bool.isRequired,
-    userWithEmail: PropTypes.bool.isRequired
+    userWithEmail: PropTypes.bool.isRequired,
+    checked: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -60,7 +61,8 @@ class Login extends React.Component {
     locale: null,
     member: {},
     isHidden: true,
-    userWithEmail: false
+    userWithEmail: false,
+    checked: false,
   };
 
   constructor(props) {
@@ -70,7 +72,8 @@ class Login extends React.Component {
       password: "",
       cellphone: "",
       isHidden: true,
-      userWithEmail: false
+      userWithEmail: false,
+      checked: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -79,12 +82,13 @@ class Login extends React.Component {
 
   handleChange = (name, val) => {
     if (name === "cellphone" && val.length === 10) {
+      publicAPI.defaults.headers.common = {};
       publicAPI.post('/already_user', JSON.stringify({cellphone: val}))
       .then((response)=>{
         this.setState({
           isHidden: !response.data.is_user,
           userWithEmail: response.data.has_email,
-          email: response.data.email
+          email: response.data.email,
         });
       })
       .catch((error)=> console.log(error))
@@ -107,7 +111,7 @@ class Login extends React.Component {
 
   render() {
     const { loading, error, success, locale } = this.props;
-    const { email } = this.state;
+    // const { email } = this.state;
 
     if (loading) return <Loading />;
 
@@ -157,6 +161,7 @@ class Login extends React.Component {
                       <Input
                         autoCapitalize="none"
                         keyboardType="phone-pad"
+                        value={this.state.cellphone}
                         onChangeText={v => this.handleChange("cellphone", v)}
                       />
                       <Icon
@@ -240,9 +245,9 @@ class Login extends React.Component {
                           >
                             <CheckBox
                               color={Colors.brandPrimary}
-                              onPress={this.checked}
-                              value={this.checked}
                               style={{ marginLeft: -8, marginRight: 16 }}
+                              checked={this.state.checked}
+                              onPress={() => this.setState({checked: !this.state.checked})}
                             />
                             <View>
                               <Text style={[styles.supportText]}>

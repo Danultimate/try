@@ -26,8 +26,6 @@ export default function contentReducer(state = initialState, action) {
     }
     case 'CONTENTS_REPLACE': {
       let contents = [];
-      console.log('contents replace action')
-      console.log(action.dataMessages)
       // Pick out the props I need
       if (action.data && typeof action.data === 'object') {
         
@@ -41,7 +39,7 @@ export default function contentReducer(state = initialState, action) {
           image: item.image,
           refetchQuery: item.refetchQuery,
           type: item.type,
-          wp_message: action.dataMessages[index],
+          //wp_message: action.dataMessages[index],
         }));
       }
       return {

@@ -37,11 +37,13 @@ class SignUp extends React.Component {
   static propTypes = {
     error: PropTypes.string,
     loading: PropTypes.bool.isRequired,
+    checked: PropTypes.bool.isRequired,
     onFormSubmit: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-    error: null
+    error: null,
+    checked: false,
   };
 
   constructor(props) {
@@ -53,7 +55,7 @@ class SignUp extends React.Component {
       password: "",
       password2: "",
       referred_by: "",
-      tc_accepted: false,
+      checked: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -115,6 +117,7 @@ class SignUp extends React.Component {
                       <Label style={styles.formLabel}>Nombre(s)</Label>
                       <Input
                         onChangeText={v => this.handleChange("firstName", v)}
+                        value={this.state.firstName}
                       />
                     </Item>
 
@@ -122,6 +125,7 @@ class SignUp extends React.Component {
                       <Label style={styles.formLabel}>Apellido(s)</Label>
                       <Input
                         onChangeText={v => this.handleChange("lastName", v)}
+                        value={this.state.lastName}
                       />
                     </Item>
 
@@ -129,6 +133,7 @@ class SignUp extends React.Component {
                       <Label style={styles.formLabel}>Teléfono celular</Label>
                       <Input
                         onChangeText={v => this.handleChange("cellphone", v)}
+                        value={this.state.cellphone}
                       />
                     </Item>
 
@@ -137,6 +142,7 @@ class SignUp extends React.Component {
                       <Input
                         autoCapitalize="none"
                         keyboardType="email-address"
+                        value={this.state.email}
                         onChangeText={v => this.handleChange("email", v)}
                       />
                     </Item>
@@ -144,6 +150,7 @@ class SignUp extends React.Component {
                     <Item floatingLabel style={styles.formElement}>
                       <Label style={styles.formLabel}>Código Amiga Vendedora [Opcional]</Label>
                       <Input
+                      value={this.state.referred_by}
                         onChangeText={v => this.handleChange("referred_by", v)}
                       />
                     </Item>
@@ -176,10 +183,9 @@ class SignUp extends React.Component {
                     >
                       <CheckBox
                         color={Colors.brandPrimary}
-                        checked={this.tc_accepted}
-                        onPress={this.tc_accepted}
-                        value={this.tc_accepted}
                         style={{ marginLeft: -8, marginRight: 16 }}
+                        checked={this.state.checked}
+                        onPress={() => this.setState({checked: !this.state.checked})}
                       />
                       <View>
                         <Text style={[styles.supportText]}>

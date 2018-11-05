@@ -17,30 +17,7 @@ export function setError(message) {
       )
     );
 }
-export function getWhatsappMessages(collections) {
-  dataMessages = [];
-  collections.forEach(collection => {
-    id_number = atob(collection.id).split("/")[4];
 
-    shopifyAPI
-      .get(`/collections/${id_number}/metafields.json`)
-      .then(metafields => {
-        metafields.data.metafields.forEach(metafield => {
-          let message = "Mira este contenido para ti";
-          if (metafield.key == "wp_message") {
-            message = metafield.value;
-          }
-
-          dataMessages.push(message);
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  });
-  console.log(dataMessages);
-  return dataMessages;
-}
 
 /**
  * Get Collections
@@ -59,18 +36,28 @@ export function getCollections() {
       shopify.collection
         .fetchQuery(collectionQuery)
         .then(collections => {
-          let dataMessages = getWhatsappMessages(collections);
-          return resolve(
-            dispatch({
-              type: "CONTENTS_REPLACE",
-              data: collections,
-              dataMessages: dataMessages
-            })
-          );
+          
+          //let dataMessages = getWhatsappMessages(collections);
+
+          // Get collection's products          
+          shopify.product
+          .fetchQuery({
+                        first: 5,
+                        query: "tag:['diciembre']"
+                      })
+          .then(products => {
+            return resolve(
+              dispatch({
+                type: "CONTENTS_REPLACE",
+                data: collections,
+                products: products,
+                //dataMessages: dataMessages
+              })
+            );
+          })
         })
         .catch(reject)
     ).catch(error => {
-      // this.setState({ error, isLoading: false })
       console.log("Error @fetching collections");
       console.log(error);
       return [];

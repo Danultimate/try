@@ -7,6 +7,7 @@ import { shopify } from '../actions/shopify';
 import {getContents} from '../actions/contents';
 
 
+
 class Dashboard extends Component {
   static propTypes = {
     Layout: PropTypes.func.isRequired,
@@ -32,6 +33,7 @@ class Dashboard extends Component {
 
   componentDidMount = () => {
     const { fetchData, fetchContent } = this.props;
+    //registerForPushNotificationsAsync();
     fetchData();
     fetchContent();
   };
