@@ -5,6 +5,7 @@ import {
   StatusBar,
   StyleSheet,
   TouchableOpacity,
+  FlatList,
   Image,
   Share
 } from "react-native";
@@ -140,11 +141,22 @@ class Dashboard extends React.Component {
               </View>
             </View>
           </View>
+          {this.props.member.orders ?
+          (<OrderNotifications orders={this.props.member.orders.slice(0, 4)} />)
+          : (<OrderNotifications orders={[]} />)
+          }
 
-          <OrderNotifications orders={this.props.member.orders.slice(0, 4)} />
+         
 
-          {/* <Articles contents={this.state.articles.slice(0, 3)} /> */}
-          <Contents contents={this.props.contents} />
+
+          <Contents contents={this.props.item} />
+
+          {this.state.articles ?
+          (<Articles contents={this.state.articles.slice(0, 3)} />)
+          : (<Articles contents={[]} />)
+          }
+          
+          
           <Spacer size={8} />
           <Products products={this.state.products} />
 

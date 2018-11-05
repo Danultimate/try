@@ -26,17 +26,29 @@ import TimeAgo from "react-native-timeago";
 import { decode as atob } from "base-64";
 import shopifyAPI from "../../constants/shopify_axios";
 
-import WebView from "./OpenInBrowser";
+// import WebView from "./OpenInBrowser";
+
+import { WebView, Linking } from 'react-native';
 
 const keyExtractor = item => item.id.toString();
 
 export function openLink(collection) {	
- <WebView></WebView>
+  const uri = 'https://google.com.co';
+  <WebView
+  ref={(ref) => { this.webview = ref; }}
+  source={{ uri }}
+  onNavigationStateChange={(event) => {
+    if (event.url !== uri) {
+      this.webview.stopLoading();
+      Linking.openURL(event.url);
+    }
+  }}
+/>
 }
 
 const onPress = item => {
   console.log(item.id);
-  Actions.preview({ match: { params: { id: String(item.id) } } });
+  //Actions.preview({ match: { params: { id: String(item.id) } } });
 };
 
 const propTypes = {
@@ -87,7 +99,7 @@ const Contents = props => {
                 Para ti{" "}
               </Text>
               <Text style={[styles.meta, styles.date]}>
-                • <TimeAgo time={item.updatedAt} />
+                • <TimeAgo time={item.created_at} />
               </Text>
             </Text>
             <Spacer size={8} />
@@ -162,7 +174,7 @@ export default Contents;
 
 const styles = StyleSheet.create({
   card: {
-    shadowColor: "#E2E1E6",
+    shadowColor: "blue",
     shadowOffset: {
       width: 0,
       height: 1
@@ -218,7 +230,7 @@ const styles = StyleSheet.create({
     color: Colors.brandPrimary
   },
   loadMore: {
-    backgroundColor: "#F1EDFA",
+    backgroundColor: "blue",
     marginTop: 8,
     marginBottom: 8,
     marginHorizontal: 2,
