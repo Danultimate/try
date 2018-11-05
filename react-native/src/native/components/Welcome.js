@@ -37,7 +37,7 @@ const Welcome = () => {
     }
   });
   return (
-    <Container>
+    <Container style={styles.container}>
       <Content padder>
         <AppLogoAuth />
         <Card style={styles.card}>
@@ -67,7 +67,7 @@ const Welcome = () => {
                   <Spacer size={16} />
                   <Image
                     style={styles.onboardingImg}
-                    source={require("../assets/images/onboarding-1.png")}
+                    source={require("../assets/images/welcome-1.png")}
                   />
                 </View>
                 <View style={[styles.child]}>
@@ -88,7 +88,7 @@ const Welcome = () => {
                   <Spacer size={16} />
                   <Image
                     style={styles.onboardingImg}
-                    source={require("../assets/images/onboarding-2.png")}
+                    source={require("../assets/images/welcome-2.png")}
                   />
                 </View>
                 <View style={[styles.child]}>
@@ -109,7 +109,7 @@ const Welcome = () => {
                   <Spacer size={16} />
                   <Image
                     style={styles.onboardingImg}
-                    source={require("../assets/images/onboarding-3.png")}
+                    source={require("../assets/images/welcome-3.png")}
                   />
                 </View>
               </SwiperFlatList>

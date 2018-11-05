@@ -129,7 +129,7 @@ export default {
   textColor: "rgba(64,57,82,1)",
   inverseTextColor: "#fff",
   noteFontSize: 14,
-  defaultTextColor: "#000",
+  defaultTextColor: "#403952",
   titleFontfamily: "System",
   titleFontSize: 18,
   subTitleFontSize: 14,
