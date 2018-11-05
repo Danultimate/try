@@ -1,7 +1,9 @@
 import React from "react";
 import { Drawer, Scene, Tabs, Stack, Modal } from "react-native-router-flux";
 import { View } from "react-native";
+
 import TabIcon from "../components/TabIcon";
+import AppLogoComponent from "../components/AppLogo";
 
 import DefaultProps from "../constants/navigation";
 import AppConfig from "../../constants/config";
@@ -35,7 +37,7 @@ import PreviewComponent from "../components/Preview";
 import PreviewProductComponent from "../components/PreviewProduct";
 
 import WelcomeComponent from "../components/Welcome";
-import AppLogoComponent from "../components/AppLogo";
+import OnboardingComponent from "../components/Onboarding";
 
 import ClientsComponent from "../components/Clients";
 import OrdersComponent from "../components/Orders";
@@ -50,6 +52,8 @@ const Index = (
   <Scene hideNavBar>
     <Scene key="auth">
       <Scene key="welcome" hideNavBar component={WelcomeComponent} />
+      <Scene key="onboarding" hideNavBar component={OnboardingComponent} />
+
       <Scene
         key="signUp"
         hideNavBar

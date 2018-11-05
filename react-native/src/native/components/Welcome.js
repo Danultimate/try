@@ -37,7 +37,7 @@ const Welcome = () => {
     }
   });
   return (
-    <Container>
+    <Container style={styles.container}>
       <Content padder>
         <AppLogoAuth />
         <Card style={styles.card}>
