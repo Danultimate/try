@@ -137,7 +137,6 @@ async function getToken(){
   * Get this User's Details from Backend
   */
 export function setupAxios(dispatch, cellphone) {
-  console.log('heeey setupAxios')
   AsyncStorage.removeItem('token');
   axios({
     url: 'https://seller-server-dev.herokuapp.com/api/login_admin',
@@ -191,6 +190,7 @@ export function login(formData) {
     email,
     password,
     cellphone,
+    hasEmail,
   } = formData;
 
   return dispatch => new Promise(async (resolve, reject) => {
@@ -201,6 +201,11 @@ export function login(formData) {
     if (!password) return reject({ message: ErrorMessages.missingPassword });
     if (!cellphone) return reject({ message: ErrorMessages.missingCellphone });
 
+    if (!hasEmail) {
+      // Sign up then login in Firebase
+      // Update email at Backend
+      
+    }
     // Go to Firebase
     return Firebase.auth()
       .setPersistence(Firebase.auth.Auth.Persistence.LOCAL)
@@ -222,7 +227,6 @@ export function login(formData) {
                 .catch(() => console.log('Verification email failed to send'));
             }
             
-            await console.log('esto es 1')
             // Set flask backend bridge
             await setupAxios(dispatch, cellphone);
 
@@ -331,7 +335,7 @@ export function logout() {
   return dispatch => new Promise((resolve, reject) => {
     Firebase.auth().signOut()
       .then(() => {
-        API.defaults.headers.common['Authorization'] = '';
+        API.defaults.headers.common = {};
         AsyncStorage.removeItem('token');
         dispatch({ type: 'USER_RESET' });
         Actions.login({});
