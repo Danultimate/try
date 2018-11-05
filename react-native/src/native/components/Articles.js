@@ -26,24 +26,12 @@ import TimeAgo from "react-native-timeago";
 import { decode as atob } from "base-64";
 import shopifyAPI from "../../constants/shopify_axios";
 
+import WebView from "./OpenInBrowser";
+
 const keyExtractor = item => item.id.toString();
 
-export function shareMessage(collection) {	
-  id_number = atob(collection.id).split("/")[4];	
-    shopifyAPI	
-    .get(`/collections/${id_number}/metafields.json`)	
-    .then(metafields => {	
-      metafields.data.metafields.forEach(metafield => {	
-        if (metafield.key == "wp_message") {	
-          message = metafield.value;	
-        }	          
-          Share.share({ message: message || collection.title}, {});
-      });	
-    })	
-    .catch(error => {	
-      console.log(error);
-      Share.share({ message: collection.title}, {});
-    });
+export function openLink(collection) {	
+ <WebView></WebView>
 }
 
 const onPress = item => {
@@ -62,7 +50,9 @@ const defaultProps = {
   contents: []
 };
 
-const Contents = props => (
+const Contents = props => {
+  console.log(props.contents[0])
+  return (
   <FlatList
     numColumns={1}
     data={props.contents}
@@ -94,7 +84,7 @@ const Contents = props => (
             </TouchableOpacity>
             <Text style={styles.meta}>
               <Text style={[styles.meta, styles.category, styles.successMsg]}>
-                Para compartir{" "}
+                Para ti{" "}
               </Text>
               <Text style={[styles.meta, styles.date]}>
                 • <TimeAgo time={item.updatedAt} />
@@ -152,10 +142,10 @@ const Contents = props => (
               info
               small
               iconLeft
-              onPress={()=>shareMessage(item)}
+              onPress={()=>openLink(item)}
             >
               <Icon type="SimpleLineIcons" name="share-alt" />
-              <Text style={styles.cardButtonText}>Compartir</Text>
+              <Text style={styles.cardButtonText}>Ver Mas</Text>
             </Button>
           </Body>
         </CardItem>
@@ -163,7 +153,7 @@ const Contents = props => (
     )}
     keyExtractor={keyExtractor}
   />
-);
+)};
 
 Contents.propTypes = propTypes;
 Contents.defaultProps = defaultProps;
@@ -212,7 +202,7 @@ const styles = StyleSheet.create({
   },
   cardFooter: {
     borderBottomWidth: 0,
-    borderTopColor: "#EBEDF0",
+    borderTopColor: "blue",
     paddingHorizontal: 0
   },
   textCenter: {
