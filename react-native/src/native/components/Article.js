@@ -46,6 +46,12 @@ export function openLink(collection) {
 />
 }
 
+const onPress = item => {
+  console.log(item.id);
+  // Actions.preview({ match: { params: { id: String(item.id) } } });
+  Actions.preview({content: item});
+};
+
 const propTypes = {
   focused: PropTypes.bool,
   title: PropTypes.string,
@@ -65,7 +71,7 @@ const Contents = props => {
         !!props.item.image.src && (
         <CardItem cardBody>
             <TouchableOpacity
-            //onPress={() => onPress(props.item)}
+            onPress={() => onPress(props.item)}
             style={{ flex: 1 }}
             >
             <Image
@@ -94,9 +100,9 @@ const Contents = props => {
             </Text>
         </Text>
         <Spacer size={8} />
-        {!!props.item.description && (
+        {!!props.item.body_html && (
             <Text numberOfLines={3} style={styles.description}>
-            {props.item.description}
+            {props.item.description || props.item.body_html.replace(/<(?:.|\n)*?>/gm, '')}
             </Text>
         )}
         <Spacer size={16} />

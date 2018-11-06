@@ -172,6 +172,7 @@ function getUserData(dispatch) {
 
     // Get data from backend
     console.log("getSellerData");
+    API.defaults.headers.common = {};
     getToken().then(token => {
       API.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
@@ -184,7 +185,6 @@ function getUserData(dispatch) {
             .then((orders) => {
               console.log('getOrdersData succeed')
               //console.log(orders.data)
-              let total = orders.data.orders.reduce((a, b) => +a + +b.total - b.tax - b.shipping, 0);
               API.get('/clients_react')
                 .then((clients) => {
                   console.log('getClientsData succeed')
@@ -193,9 +193,9 @@ function getUserData(dispatch) {
                     type: 'USER_DETAILS_UPDATE',
                     data: userData,
                     dataSeller: seller.data.sellers[0],
+                    dataValidOrders: seller.data.orders,
                     dataOrders: orders.data.orders,
                     dataClients: clients.data.clients,
-                    dataTotalOrders: total,
                   });
 
                 })

@@ -46,8 +46,8 @@ const Profile = ({ member, logout }) => (
                 <Text style={styles.userNumberLabel}>Ventas </Text>
                 <Text style={styles.userSales}>
                   <Text style={styles.userCurrency}>$</Text>
-                  {member.total_month
-                    ? member.total_month.toLocaleString("es-CO", {
+                  {member.validOrders
+                    ? member.validOrders.reduce((a, b) => +a +b.total - b.tax - b.shipping, 0).toLocaleString("es-CO", {
                         maximumFractionDigits: 0
                       })
                     : 0}

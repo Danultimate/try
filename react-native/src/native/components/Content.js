@@ -98,9 +98,9 @@ const Contents = props => (
           </Text>
         </Text>
         <Spacer size={8} />
-        {!!props.item.description && (
+        {!!props.item.body_html && (
           <Text numberOfLines={3} style={styles.description}>
-            {props.item.description}
+            {props.item.body_html.replace(/<(?:.|\n)*?>/gm, '')}
           </Text>
         )}
         <Spacer size={16} />

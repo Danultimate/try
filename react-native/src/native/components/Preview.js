@@ -97,7 +97,9 @@ const Preview = ({ error, content }) => {
                 </Text>
               </Text>
               <Spacer size={8} />
-              <Text style={styles.description}>{content.description}</Text>
+              <Text style={styles.description}>
+              {content.description || content.body_html.replace(/<(?:.|\n)*?>/gm, '')}
+              </Text>
               <Spacer size={16} />
             </Body>
           </CardItem>
