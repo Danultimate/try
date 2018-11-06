@@ -79,6 +79,7 @@
     "react-native-onboarding-swiper": "^0.8.0",
     "react-native-phone-call": "^1.0.9",
     "react-native-router-flux": "4.0.1",
+    "react-native-sentry": "^0.39.1",
     "react-native-swiper-flatlist": "^1.0.8",
     "react-native-timeago": "^0.4.0",
     "react-redux": "^5.0.7",

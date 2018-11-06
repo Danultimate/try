@@ -94,63 +94,6 @@ export function signUp(formData) {
 }
 
 /**
- * Sign Up to Firebase
- */
-export function signUpFB(formData) {
-  const {
-    email,
-    password,
-    password2,
-    firstName,
-    lastName,
-    cellphone
-  } = formData;
-
-  return dispatch =>
-    new Promise(async (resolve, reject) => {
-      // Validation checks
-      console.log("entra aca al signup only FB");
-      if (!firstName)
-        return reject({ message: ErrorMessages.missingFirstName });
-      if (!lastName) return reject({ message: ErrorMessages.missingLastName });
-      if (!cellphone)
-        return reject({ message: ErrorMessages.missingCellphone });
-      if (!email) return reject({ message: ErrorMessages.missingEmail });
-      if (!password) return reject({ message: ErrorMessages.missingPassword });
-      if (!password2) return reject({ message: ErrorMessages.missingPassword });
-      if (password !== password2)
-        return reject({ message: ErrorMessages.passwordsDontMatch });
-
-      await statusMessage(dispatch, "loading", true);
-
-      // Go to Firebase
-      return Firebase.auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then(res => {
-          // Send user details to Firebase database
-          if (res && res.user.uid) {
-            FirebaseRef.child(`users/${res.user.uid}`)
-              .set({
-                firstName,
-                lastName,
-                phoneNumber: cellphone,
-                signedUp: Firebase.database.ServerValue.TIMESTAMP,
-                lastLoggedIn: Firebase.database.ServerValue.TIMESTAMP
-              })
-              .then(() => {
-                statusMessage(dispatch, "loading", false).then(resolve);
-              });
-            login(formData);
-          }
-        })
-        .catch(reject);
-    }).catch(async err => {
-      await statusMessage(dispatch, "loading", false);
-      throw err.message;
-    });
-}
-
-/**
  * Get this User's Details from Firebase
  */
 function getUserData(dispatch) {
@@ -177,31 +120,27 @@ function getUserData(dispatch) {
       API.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       // Get user backend data
-      API.get('/sellers')
-        .then((seller) => {
-          console.log('getSellerData succeed');
-          //console.log(seller.data.sellers)
-          API.get('/orders')
-            .then((orders) => {
-              console.log('getOrdersData succeed')
-              //console.log(orders.data)
-              API.get('/clients_react')
-                .then((clients) => {
-                  console.log('getClientsData succeed')
-                  //console.log(clients.data)
-                  return dispatch({
-                    type: 'USER_DETAILS_UPDATE',
-                    data: userData,
-                    dataSeller: seller.data.sellers[0],
-                    dataValidOrders: seller.data.orders,
-                    dataOrders: orders.data.orders,
-                    dataClients: clients.data.clients,
-                  });
-
-                })
-            })
-        })
-    })
+      API.get("/sellers").then(seller => {
+        console.log("getSellerData succeed");
+        //console.log(seller.data.sellers)
+        API.get("/orders").then(orders => {
+          console.log("getOrdersData succeed");
+          //console.log(orders.data)
+          API.get("/clients_react").then(clients => {
+            console.log("getClientsData succeed");
+            //console.log(clients.data)
+            return dispatch({
+              type: "USER_DETAILS_UPDATE",
+              data: userData,
+              dataSeller: seller.data.sellers[0],
+              dataValidOrders: seller.data.orders,
+              dataOrders: orders.data.orders,
+              dataClients: clients.data.clients
+            });
+          });
+        });
+      });
+    });
   });
 }
 
@@ -225,11 +164,10 @@ export function setupAxios(dispatch, cellphone, password) {
     .then(response => {
       console.log("el token");
       console.log(response.data.access_token);
-      AsyncStorage.setItem("token", response.data.access_token)
-      .then((res) => {
-        console.log('set the token')
-        console.log(res)
-        console.log(response.data.access_token)
+      AsyncStorage.setItem("token", response.data.access_token).then(res => {
+        console.log("set the token");
+        console.log(res);
+        console.log(response.data.access_token);
         API.defaults.headers.common["Authorization"] = `Bearer ${
           response.data.access_token
         }`;
@@ -289,7 +227,7 @@ export function login(formData) {
         if (!checked) return reject({ message: ErrorMessages.missingTandC });
         // Update email at Backend
         publicAPI.defaults.headers.common = {};
-        publicAPI
+        return publicAPI
           .post("https://seller-server-dev.herokuapp.com/api/login", {
             username: cellphone,
             password: password
@@ -301,9 +239,15 @@ export function login(formData) {
             publicAPI.defaults.headers.common["Authorization"] = `Bearer ${
               response.data.access_token
             }`;
-            publicAPI
-              .put(`/users/${user_data.id}`, { user: { email: email } })
+            return publicAPI
+              .put(
+                `https://seller-server-dev.herokuapp.com/api/users/${
+                  user_data.id
+                }`,
+                { user: { email: email } }
+              )
               .then(async uppdatedUserRes => {
+                console.log("entra al update del email");
                 console.log(uppdatedUserRes.data);
                 publicAPI.defaults.headers.common = {};
                 // Sign up then login in Firebase
@@ -315,8 +259,8 @@ export function login(formData) {
                 // Go to Firebase
                 return Firebase.auth()
                   .createUserWithEmailAndPassword(email, password)
-                  .then((res) => {
-                    console.log(res)
+                  .then(res => {
+                    console.log(res);
                     // Send user details to Firebase database
 
                     if (res && res.user.uid) {
@@ -328,12 +272,60 @@ export function login(formData) {
                           signedUp: Firebase.database.ServerValue.TIMESTAMP,
                           lastLoggedIn: Firebase.database.ServerValue.TIMESTAMP
                         })
-                        .then(() => {
-                          statusMessage(dispatch, "loading", false).then(
-                            resolve
+                        .then(async () => {
+                          
+                          return await Firebase.auth()
+                          .setPersistence(Firebase.auth.Auth.Persistence.LOCAL)
+                          .then(() =>
+                            Firebase.auth()
+                              .signInWithEmailAndPassword(email, password)
+                              .then(async res => {
+                                const userDetails = res && res.user ? res.user : null;
+                  
+                                if (userDetails.uid) {
+                                  // Update last logged in data
+                                  FirebaseRef.child(`users/${userDetails.uid}`).update({
+                                    lastLoggedIn: Firebase.database.ServerValue.TIMESTAMP
+                                  });
+                  
+                                  // Send verification Email when email hasn't been verified
+                                  if (userDetails.emailVerified === false) {
+                                    Firebase.auth()
+                                      .currentUser.sendEmailVerification()
+                                      .catch(() =>
+                                        console.log("Verification email failed to send")
+                                      );
+                                  }
+                  
+                                  // Set flask backend bridge
+                                  await setupAxios(dispatch, cellphone, password);
+                                  AsyncStorage.getItem("token").then(res => {
+                                    console.log("here's the token");
+                                    console.log(res);
+                                  });
+                  
+                                  // Get User Data
+                                  //await getUserData(dispatch);
+                                }
+                  
+                                await statusMessage(dispatch, "loading", false);
+                  
+                                // Send Login data to Redux
+                                return resolve(
+                                  dispatch({
+                                    type: "USER_LOGIN",
+                                    data: userDetails
+                                  })
+                                );
+                              })
+                              .catch(reject)
                           );
+
+                          // return statusMessage(dispatch, "loading", false).then(
+                          //   resolve
+                          // );
                         });
-                      login(formData);
+                      
                     }
                     // }).catch(reject);
                   })
@@ -346,8 +338,7 @@ export function login(formData) {
           .catch(async err => {
             console.log("error accaaaaa");
             await statusMessage(dispatch, "loading", false);
-            //throw err.message;
-            return reject({ message: ErrorMessages.missingEmail });
+            throw ErrorMessages.wrongPassword;
           });
       }
 
@@ -377,12 +368,11 @@ export function login(formData) {
 
                 // Set flask backend bridge
                 await setupAxios(dispatch, cellphone, password);
-                AsyncStorage.getItem('token')
-                .then((res)=>{
-                  console.log("here's the token")
-                  console.log(res)
-                })
-                
+                AsyncStorage.getItem("token").then(res => {
+                  console.log("here's the token");
+                  console.log(res);
+                });
+
                 // Get User Data
                 //await getUserData(dispatch);
               }
