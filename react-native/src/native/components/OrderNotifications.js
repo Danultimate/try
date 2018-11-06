@@ -73,7 +73,7 @@ const Notifications = props => (
                   </View>
                   <View style={styles.rightContainer}>
                     <Text style={[styles.meta, styles.notificationDate]}>
-                      <TimeAgo time={item.created_at} />
+                      <TimeAgo time={item.date} />
                     </Text>
                   </View>
                 </View>

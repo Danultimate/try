@@ -1,13 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Asset, Font, Notifications } from "expo";
+import { Asset, Font } from "expo";
 import {
   StatusBar,
   StyleSheet,
   TouchableOpacity,
   FlatList,
   Image,
-  Share
+  Share,
+  AsyncStorage
 } from "react-native";
 import {
   View,
@@ -28,16 +29,16 @@ import Error from "./Error";
 import Spacer from "./Spacer";
 
 import OrderNotifications from "./OrderNotifications";
-import Contents from "./Contents";
-import Articles from "./Articles";
+import Feed from "./Feed";
 import Products from "./Products";
 
 import moment from "moment";
 import "moment/locale/es";
 moment.locale("es");
+var jsonQuery = require("json-query");
 
 import shopifyAPI from "../../constants/shopify_axios";
-
+import API from "../../constants/api";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -53,32 +54,32 @@ class Dashboard extends React.Component {
   }
 
   componentWillMount() {
-    // Products of this campaign
-    const productQuery = {
-      first: 5,
-      query: "tag:['diciembre']"
-    };
-
-    this.props.shopify.product
-      .fetchQuery(productQuery)
-      .then(res => {
-        this.setState({
-          products: res,
-          
-        });
+    AsyncStorage.getItem("token")
+      .then(token => {
+        console.log('el tooooken')
+        console.log(token)
+        API.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        API.get("/feed")
+          .then(response => {
+            console.log("Retrieve Feed");
+            console.log(response.data.feed[0].type);
+            this.setState({
+              feed: response.data.feed,
+              products: response.data.products,
+              orders: response.data.orders,
+              headerMessage: response.data.header_message.value,
+              loading: false
+            });
+          })
+          .catch(error => {
+            console.log("Error @getting content1");
+            console.log(error);
+          });
       })
-      .catch(error => this.setState({ error, loading: false }));
-    
-      //Articles
-      shopifyAPI.get('/articles.json').then((res)=>{
-        console.log('the articleees', res.data.articles.length)
-        this.setState({
-          articles: res.data.articles,
-          loading: false
-        })
-      })
-      // Abandoned checkouts
-
+      .catch(error => {
+        console.log("Error @getting content2");
+        console.log(error);
+      });
   }
   render() {
     // Loading
@@ -88,6 +89,7 @@ class Dashboard extends React.Component {
     if (this.state.error) return <Error content={this.state.error} />;
 
     const keyExtractor = item => item.id.toString();
+    const feedKeyExtractor = item => item.content.id.toString();
 
     const onPress = item => {
       console.log(item.id);
@@ -113,22 +115,26 @@ class Dashboard extends React.Component {
               <Text style={styles.userGreeting}>
                 {this.props.member.firstName
                   ? "¡Hola " + this.props.member.firstName + ", muy bien!"
-                  : "¡Hola, mujer poderosa!"}
+                  : // : "¡Hola, mujer poderosa!"}
+                    this.state.headerMessage}
               </Text>
               <Text style={styles.userMessage}>
-                {this.props.member.total_month
+                {/* {this.props.member.total_month
                   ? "Vas mejorando tu anterior mes :)"
-                  : "Hoy puede ser un gran día :)"}
+                  : "Hoy puede ser un gran día :)"} */}
+                {this.state.headerMessage}
               </Text>
               <Spacer size={10} />
               <View style={styles.userNumbers}>
                 <Text style={styles.userNumberLabel}>Ventas </Text>
                 <Text style={styles.userSales}>
                   <Text style={styles.userCurrency}>$</Text>
-                  {this.props.member.total_month
-                    ? this.props.member.total_month.toLocaleString("es-CO", {
-                        maximumFractionDigits: 0
-                      })
+                  {this.props.member.validOrders
+                    ? this.props.member.validOrders
+                        .reduce((a, b) => +a + b.total - b.tax - b.shipping, 0)
+                        .toLocaleString("es-CO", {
+                          maximumFractionDigits: 0
+                        })
                     : 0}
                 </Text>
                 <Spacer size={10} />
@@ -141,160 +147,24 @@ class Dashboard extends React.Component {
               </View>
             </View>
           </View>
-          {this.props.member.orders ?
-          (<OrderNotifications orders={this.props.member.orders.slice(0, 4)} />)
-          : (<OrderNotifications orders={[]} />)
-          }
 
-         
+          {this.state.orders ? (
+            <OrderNotifications orders={this.state.orders.slice(0, 4)} />
+          ) : (
+            <OrderNotifications orders={[]} />
+          )}
 
+          <FlatList
+            numColumns={1}
+            data={this.state.feed}
+            renderItem={({ item }) => <Feed item={item} />}
+            keyExtractor={feedKeyExtractor}
+          />
 
-          <Contents contents={this.props.item} />
-
-          {this.state.articles ?
-          (<Articles contents={this.state.articles.slice(0, 3)} />)
-          : (<Articles contents={[]} />)
-          }
-          
-          
           <Spacer size={8} />
           <Products products={this.state.products} />
 
-          <Card style={styles.card}>
-            <CardItem
-              header
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                paddingBottom: 0
-              }}
-            >
-              <Image source={require("../assets/images/msg-success.png")} />
-            </CardItem>
-            <CardItem style={styles.cardBody}>
-              {/* aqui colocar el condicional */}
-              <Body>
-                <Text
-                  style={[styles.header, styles.successMsg, styles.textCenter]}
-                >
-                  ¡Eres una vendedora super poderosa!
-                </Text>
-                <Text style={[styles.meta, styles.date]}>Hace 26 minutos</Text>
-                <Spacer size={8} />
-                <Text style={styles.description}>
-                  Tus ventas de la semana pasada te colocan dentro de nuestras
-                  mejores 50 vendedoras. ¡Felicitaciones!
-                </Text>
-                <Spacer size={16} />
-              </Body>
-              {/* aqui terminar el condicional */}
-            </CardItem>
-            <CardItem style={styles.cardFooter} footer bordered>
-              {/*
-                <Left>
-                <Button
-                  style={styles.cardButton}
-                  block
-                  transparent
-                  info
-                  small
-                  iconLeft
-                  onPress={() => onPress(item)}
-                >
-                  <Icon type="SimpleLineIcons" name="heart" />
-                  <Text style={styles.cardButtonText}>Me encanta</Text>
-                </Button>
-              </Left>
-              <Right>
-                <Button
-                  style={styles.cardButton}
-                  block
-                  transparent
-                  info
-                  small
-                  iconLeft
-                  onPress={() => {
-                    Share.share(
-                      {
-                        message:
-                          "¡Conviertete cómo yo en una vendedora super poderosa con Elenas!"
-                      },
-                      {}
-                    );
-                  }}
-                >
-                  <Icon type="SimpleLineIcons" name="share-alt" />
-                  <Text style={styles.cardButtonText}>Compartir</Text>
-                </Button>
-              </Right> */}
-              <Body>
-                <Button
-                  style={styles.cardButton}
-                  block
-                  transparent
-                  info
-                  small
-                  iconLeft
-                  onPress={() => {
-                    Share.share(
-                      {
-                        message:
-                          "¡Conviertete cómo yo en una vendedora super poderosa con Elenas!"
-                      },
-                      {}
-                    );
-                  }}
-                >
-                  <Icon type="SimpleLineIcons" name="share-alt" />
-                  <Text style={styles.cardButtonText}>Compartir</Text>
-                </Button>
-              </Body>
-            </CardItem>
-          </Card>
-          {/* <Card style={styles.card}>
-            <CardItem
-              header
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                paddingBottom: 0
-              }}
-            >
-              <Image source={require("../assets/images/msg-warning.png")} />
-            </CardItem>
-            <CardItem style={styles.cardBody}>
-              <Body>
-                <Text
-                  style={[styles.header, styles.warningMsg, styles.textCenter]}
-                >
-                  Tu cliente abandonó el carrito de compra
-                </Text>
-                <Text style={[styles.meta, styles.date]}>Hace 26 minutos</Text>
-                <Spacer size={8} />
-                <Text style={styles.description}>
-                  Tu cliente Maria Perez agregó tres productos pero no terminó
-                  su proceso de compra en el sitio web de Elenas…
-                  <Text style={{ color: Colors.brandInfo }}>Ver más</Text>
-                </Text>
-                <Spacer size={16} />
-              </Body>
-            </CardItem>
-            <CardItem style={styles.cardFooter} footer bordered>
-              <Body>
-                <Button
-                  style={styles.cardButton}
-                  block
-                  transparent
-                  info
-                  small
-                  iconLeft
-                >
-                  <Icon type="SimpleLineIcons" name="phone" />
-                  <Text style={styles.cardButtonText}>Llamar</Text>
-                </Button>
-              </Body>
-            </CardItem>
-          </Card> */}
+          
 
           {/* <Button style={styles.loadMore} block light>
             <Text style={styles.loadMoreText}>Cargar más</Text>
@@ -411,7 +281,7 @@ class Dashboard extends React.Component {
 Dashboard.propTypes = {
   eror: PropTypes.string,
   //loading: PropTypes.bool.isRequired,
-  contents: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  //feed: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   member: PropTypes.shape({}),
   reFetch: PropTypes.func
 };

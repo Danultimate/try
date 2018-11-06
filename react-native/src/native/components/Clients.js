@@ -34,39 +34,8 @@ import call from "react-native-phone-call";
 moment.locale("es");
 
 const ClientListing = ({ error, loading, member }) => {
-  const clients = [
-    {
-      name: "Juliana Villa",
-      addedAt: "20111031",
-      totalOrders: 678950,
-      averageOrder: 67950,
-      lastOrder: 79900,
-      avatar: "../assets/images/avatar.png",
-      id: 1
-    },
-    {
-      name: "Andrea del Villar",
-      addedAt: "20111031",
-      totalOrders: 678950,
-      averageOrder: 67950,
-      lastOrder: 79900,
-      avatar: "../assets/images/avatar.png",
-      id: 2
-    },
-    {
-      name: "Pedro Villate",
-      addedAt: "20111031",
-      totalOrders: 678950,
-      averageOrder: 67950,
-      lastOrder: 79900,
-      avatar: "../assets/images/avatar.png",
-      id: 3
-    }
-  ];
   // Loading
   if (loading) return <Loading />;
-
-  console.log(clients[0].avatar);
 
   // Error
   if (error) return <Error content={error} />;

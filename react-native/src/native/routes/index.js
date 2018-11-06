@@ -240,8 +240,9 @@ const Index = (
       key="preview"
       title="Vista Previa"
       {...DefaultProps.navbarProps}
-      component={DashboardContainer}
-      Layout={PreviewComponent}
+      // component={DashboardContainer}
+      // Layout={PreviewComponent}
+      component={PreviewComponent}
     />
     <Scene
       back

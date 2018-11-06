@@ -27,26 +27,23 @@ export default function contentReducer(state = initialState, action) {
     case 'CONTENTS_REPLACE': {
       let contents = [];
       // Pick out the props I need
-      if (action.data && typeof action.data === 'object') {
-        
-        contents = action.data.map((item, index) => ({
-          id: item.id,
-          handle: item.handle,
-          description: item.description,
-          descriptionHtml: item.descriptionHtml,
-          updatedAt: item.updatedAt,
-          title: item.title,
-          image: item.image,
-          refetchQuery: item.refetchQuery,
+      if (action.feed) {
+        //&& typeof action.f === 'object'
+        feed = action.feed.map((item, index) => ({
           type: item.type,
-          //wp_message: action.dataMessages[index],
+          content: item.content,
+          date: item.date
         }));
       }
       return {
         ...state,
         error: null,
+        loading: false,
         isLoading: false,
-        contents,
+        feed,
+        products: action.products,
+        orders: action.orders,
+        headerMessage: action.header_message,
       };
     }
     default:
