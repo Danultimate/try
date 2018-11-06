@@ -5,6 +5,7 @@ import {
   StatusBar,
   StyleSheet,
   TouchableOpacity,
+  FlatList,
   Image,
   Share
 } from "react-native";
@@ -28,11 +29,15 @@ import Spacer from "./Spacer";
 
 import OrderNotifications from "./OrderNotifications";
 import Contents from "./Contents";
+import Articles from "./Articles";
 import Products from "./Products";
 
 import moment from "moment";
 import "moment/locale/es";
 moment.locale("es");
+
+import shopifyAPI from "../../constants/shopify_axios";
+
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -41,19 +46,14 @@ class Dashboard extends React.Component {
     this.state = {
       loading: true,
       products: [],
+      articles: [],
+      feed: [],
       error: null
     };
   }
 
   componentWillMount() {
-    // shopify.collection.fetchAllWithProducts().then((collections) => {
-    //   // Do something with the collections
-    //   console.log('with products')
-    //   console.log(collections);
-    //   console.log(collections[0].products);
-    // })
-    // .catch((err)=>err)
-
+    // Products of this campaign
     const productQuery = {
       first: 5,
       query: "tag:['diciembre']"
@@ -64,10 +64,21 @@ class Dashboard extends React.Component {
       .then(res => {
         this.setState({
           products: res,
-          loading: false
+          
         });
       })
       .catch(error => this.setState({ error, loading: false }));
+    
+      //Articles
+      shopifyAPI.get('/articles.json').then((res)=>{
+        console.log('the articleees', res.data.articles.length)
+        this.setState({
+          articles: res.data.articles,
+          loading: false
+        })
+      })
+      // Abandoned checkouts
+
   }
   render() {
     // Loading
@@ -130,10 +141,22 @@ class Dashboard extends React.Component {
               </View>
             </View>
           </View>
+          {this.props.member.orders ?
+          (<OrderNotifications orders={this.props.member.orders.slice(0, 4)} />)
+          : (<OrderNotifications orders={[]} />)
+          }
 
-          <OrderNotifications orders={this.props.member.orders.slice(0, 4)} />
+         
 
-          <Contents contents={this.props.contents} />
+
+          <Contents contents={this.props.item} />
+
+          {this.state.articles ?
+          (<Articles contents={this.state.articles.slice(0, 3)} />)
+          : (<Articles contents={[]} />)
+          }
+          
+          
           <Spacer size={8} />
           <Products products={this.state.products} />
 
@@ -228,7 +251,7 @@ class Dashboard extends React.Component {
               </Body>
             </CardItem>
           </Card>
-          <Card style={styles.card}>
+          {/* <Card style={styles.card}>
             <CardItem
               header
               style={{
@@ -271,11 +294,11 @@ class Dashboard extends React.Component {
                 </Button>
               </Body>
             </CardItem>
-          </Card>
+          </Card> */}
 
-          <Button style={styles.loadMore} block light>
+          {/* <Button style={styles.loadMore} block light>
             <Text style={styles.loadMoreText}>Cargar más</Text>
-          </Button>
+          </Button> */}
 
           <Card style={styles.card}>
             <CardItem

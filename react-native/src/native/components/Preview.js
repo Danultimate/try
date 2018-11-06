@@ -25,6 +25,24 @@ import moment from "moment"; //load moment module to set local language
 import "moment/locale/es"; //for import moment local language file during the application build
 moment.locale("es");
 
+export function shareMessage(collection) {	
+  id_number = atob(collection.id).split("/")[4];	
+    shopifyAPI	
+    .get(`/collections/${id_number}/metafields.json`)	
+    .then(metafields => {	
+      metafields.data.metafields.forEach(metafield => {	
+        if (metafield.key == "wp_message") {	
+          message = metafield.value;	
+        }	          
+          Share.share({ message: message || collection.title}, {});
+      });	
+    })	
+    .catch(error => {	
+      console.log(error);
+      Share.share({ message: collection.title}, {});
+    });
+}
+
 const Preview = ({ error, contents, contentId }) => {
   // Error
   if (error) return <Error content={error} />;
@@ -110,9 +128,7 @@ const Preview = ({ error, contents, contentId }) => {
                 info
                 small
                 iconLeft
-                onPress={() => {
-                  Share.share({ message: content.title }, {});
-                }}
+                onPress={() => {shareMessage(item)}}
               >
                 <Icon type="SimpleLineIcons" name="share-alt" />
                 <Text style={styles.cardButtonText}>Compartir</Text>

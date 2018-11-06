@@ -26,29 +26,29 @@ import TimeAgo from "react-native-timeago";
 import { decode as atob } from "base-64";
 import shopifyAPI from "../../constants/shopify_axios";
 
+// import WebView from "./OpenInBrowser";
+
+import { WebView, Linking } from 'react-native';
+
 const keyExtractor = item => item.id.toString();
 
-export function shareMessage(collection) {	
-  id_number = atob(collection.id).split("/")[4];	
-    shopifyAPI	
-    .get(`/collections/${id_number}/metafields.json`)	
-    .then(metafields => {	
-      metafields.data.metafields.forEach(metafield => {	
-        if (metafield.key == "wp_message") {	
-          message = metafield.value;	
-        }	          
-          Share.share({ message: message || collection.title}, {});
-      });	
-    })	
-    .catch(error => {	
-      console.log(error);
-      Share.share({ message: collection.title}, {});
-    });
+export function openLink(collection) {	
+  const uri = 'https://google.com.co';
+  <WebView
+  ref={(ref) => { this.webview = ref; }}
+  source={{ uri }}
+  onNavigationStateChange={(event) => {
+    if (event.url !== uri) {
+      this.webview.stopLoading();
+      Linking.openURL(event.url);
+    }
+  }}
+/>
 }
 
 const onPress = item => {
   console.log(item.id);
-  Actions.preview({ match: { params: { id: String(item.id) } } });
+  //Actions.preview({ match: { params: { id: String(item.id) } } });
 };
 
 const propTypes = {
@@ -62,7 +62,9 @@ const defaultProps = {
   contents: []
 };
 
-const Contents = props => (
+const Contents = props => {
+  console.log(props.contents[0])
+  return (
   <FlatList
     numColumns={1}
     data={props.contents}
@@ -94,10 +96,10 @@ const Contents = props => (
             </TouchableOpacity>
             <Text style={styles.meta}>
               <Text style={[styles.meta, styles.category, styles.successMsg]}>
-                Para compartir{" "}
+                Para ti{" "}
               </Text>
               <Text style={[styles.meta, styles.date]}>
-                • <TimeAgo time={item.updatedAt} />
+                • <TimeAgo time={item.created_at} />
               </Text>
             </Text>
             <Spacer size={8} />
@@ -152,10 +154,10 @@ const Contents = props => (
               info
               small
               iconLeft
-              onPress={()=>shareMessage(item)}
+              onPress={()=>openLink(item)}
             >
               <Icon type="SimpleLineIcons" name="share-alt" />
-              <Text style={styles.cardButtonText}>Compartir</Text>
+              <Text style={styles.cardButtonText}>Ver Mas</Text>
             </Button>
           </Body>
         </CardItem>
@@ -163,7 +165,7 @@ const Contents = props => (
     )}
     keyExtractor={keyExtractor}
   />
-);
+)};
 
 Contents.propTypes = propTypes;
 Contents.defaultProps = defaultProps;
@@ -172,7 +174,7 @@ export default Contents;
 
 const styles = StyleSheet.create({
   card: {
-    shadowColor: "#E2E1E6",
+    shadowColor: "blue",
     shadowOffset: {
       width: 0,
       height: 1
@@ -212,7 +214,7 @@ const styles = StyleSheet.create({
   },
   cardFooter: {
     borderBottomWidth: 0,
-    borderTopColor: "#EBEDF0",
+    borderTopColor: "blue",
     paddingHorizontal: 0
   },
   textCenter: {
@@ -228,7 +230,7 @@ const styles = StyleSheet.create({
     color: Colors.brandPrimary
   },
   loadMore: {
-    backgroundColor: "#F1EDFA",
+    backgroundColor: "blue",
     marginTop: 8,
     marginBottom: 8,
     marginHorizontal: 2,
