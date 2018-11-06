@@ -37,8 +37,6 @@ const ClientListing = ({ error, loading, member }) => {
   // Loading
   if (loading) return <Loading />;
 
-  console.log(clients[0].avatar);
-
   // Error
   if (error) return <Error content={error} />;
 

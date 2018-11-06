@@ -63,7 +63,7 @@ class Dashboard extends React.Component {
           feed: response.data.feed,
           products: response.data.products,
           orders: response.data.orders,
-          headerMessage: response.data.header_message,
+          headerMessage: response.data.header_message.value,
           loading: false
         });
       });
@@ -108,12 +108,14 @@ class Dashboard extends React.Component {
               <Text style={styles.userGreeting}>
                 {this.props.member.firstName
                   ? "¡Hola " + this.props.member.firstName + ", muy bien!"
-                  : "¡Hola, mujer poderosa!"}
+                  // : "¡Hola, mujer poderosa!"}
+                  : this.state.headerMessage}
               </Text>
               <Text style={styles.userMessage}>
-                {this.props.member.total_month
+                {/* {this.props.member.total_month
                   ? "Vas mejorando tu anterior mes :)"
-                  : "Hoy puede ser un gran día :)"}
+                  : "Hoy puede ser un gran día :)"} */}
+                {this.state.headerMessage}
               </Text>
               <Spacer size={10} />
               <View style={styles.userNumbers}>
@@ -192,7 +194,7 @@ class Dashboard extends React.Component {
                   block
                   transparent
                   info
-                  small
+                  smallheaderMessage
                   iconLeft
                   onPress={() => onPress(item)}
                 >

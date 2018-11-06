@@ -13,11 +13,11 @@ class Dashboard extends Component {
     Layout: PropTypes.func.isRequired,
     memberLogout: PropTypes.func.isRequired,
     fetchData: PropTypes.func.isRequired,
-    fetchContent: PropTypes.func.isRequired,
-    contents: PropTypes.shape({
-      isLoading: PropTypes.bool.isRequired,
-      error: PropTypes.string
-    }).isRequired,
+    //fetchContent: PropTypes.func.isRequired,
+    // contents: PropTypes.shape({
+    //   isLoading: PropTypes.bool.isRequired,
+    //   error: PropTypes.string
+    // }).isRequired,
     member: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       error: PropTypes.string
@@ -39,7 +39,7 @@ class Dashboard extends Component {
   };
 
   render = () => {
-    const { Layout, member, memberLogout, match, feed } = this.props;
+    const { Layout, member, memberLogout, match } = this.props;
 
     const id =
       match && match.params && match.params.id ? match.params.id : null;
@@ -64,7 +64,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   memberLogout: logout,
   fetchData: getMemberData,
-  fetchContent: getContents
+  //fetchContent: getContents
 };
 
 export default connect(
