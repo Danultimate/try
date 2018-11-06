@@ -39,6 +39,48 @@ var jsonQuery = require("json-query");
 
 import shopifyAPI from "../../constants/shopify_axios";
 import API from "../../constants/api";
+import publicAPI from "../../constants/api_public";
+import axios from "axios"
+
+async function getToken() {
+  const token = await AsyncStorage.getItem("token");
+
+  console.log('el tokeeen')
+  console.log(token)
+  axios({
+    method: 'GET',
+    url: 'https://seller-server-dev.herokuapp.com/api/feed',
+    headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    "Authorization": `Bearer ${token}`,
+   }
+  }).then(res => {
+    console.log('la respuesta')  
+    console.log(res)
+    let response = res.data
+    console.log("Retrieve Feed");
+    console.log(response.feed[0].type);
+    this.setState({
+      feed: response.feed,
+      products: response.products,
+      orders: response.orders,
+      headerMessage: response.header_message.value,
+      loading: false
+    });
+  })
+  .catch(error => {
+    console.log("Error @getting content1");
+    console.log(error)
+    console.log(error.response);
+    // try again
+    // this.setState({
+    //   loading: false
+    // })
+    //
+  });
+
+}
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -48,37 +90,52 @@ class Dashboard extends React.Component {
       loading: true,
       products: [],
       articles: [],
+      orders: [],
       feed: [],
+      headerMessage: [],
       error: null
     };
   }
 
   componentWillMount() {
+    
     AsyncStorage.getItem("token")
       .then(token => {
         console.log('el tooooken')
         console.log(token)
+
         API.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        API.get("/feed")
-          .then(response => {
-            console.log("Retrieve Feed");
-            console.log(response.data.feed[0].type);
-            this.setState({
-              feed: response.data.feed,
-              products: response.data.products,
-              orders: response.data.orders,
-              headerMessage: response.data.header_message.value,
-              loading: false
-            });
-          })
-          .catch(error => {
-            console.log("Error @getting content1");
-            console.log(error);
+        publicAPI.defaults.headers.common = {};
+        API.get('/feed')
+        .then(res => {
+          //console.log('la respuesta')  
+          //console.log(res)
+          let response = res.data
+          console.log("Retrieve Feed");
+          console.log(response.feed[0].type);
+          this.setState({
+            feed: response.feed,
+            products: response.products,
+            orders: response.orders,
+            headerMessage: response.header_message.value,
+            loading: false
           });
+        })
+        .catch(error => {
+          console.log("Error @getting content1");
+          console.log(error)
+          console.log(error.response);
+        });
+        
+
+        
       })
       .catch(error => {
         console.log("Error @getting content2");
         console.log(error);
+        this.setState({
+          loading: false
+        });
       });
   }
   render() {
@@ -90,11 +147,6 @@ class Dashboard extends React.Component {
 
     const keyExtractor = item => item.id.toString();
     const feedKeyExtractor = item => item.content.id.toString();
-
-    const onPress = item => {
-      console.log(item.id);
-      Actions.preview({ match: { params: { id: String(item.id) } } });
-    };
 
     if (this.state.loading) {
       return <AppLoading />;
@@ -163,8 +215,6 @@ class Dashboard extends React.Component {
 
           <Spacer size={8} />
           <Products products={this.state.products} />
-
-          
 
           {/* <Button style={styles.loadMore} block light>
             <Text style={styles.loadMoreText}>Cargar más</Text>

@@ -180,7 +180,7 @@ function getUserData(dispatch) {
       API.get('/sellers')
         .then((seller) => {
           console.log('getSellerData succeed');
-          console.log(seller.data.sellers)
+          //console.log(seller.data.sellers)
           API.get('/orders')
             .then((orders) => {
               console.log('getOrdersData succeed')
@@ -217,7 +217,7 @@ async function getToken() {
 export function setupAxios(dispatch, cellphone, password) {
   AsyncStorage.removeItem("token");
   publicAPI.defaults.headers.common = {};
-  publicAPI
+  return publicAPI
     .post("/login", {
       username: cellphone,
       password: password
@@ -225,7 +225,11 @@ export function setupAxios(dispatch, cellphone, password) {
     .then(response => {
       console.log("el token");
       console.log(response.data.access_token);
-      AsyncStorage.setItem("token", response.data.access_token).then(() => {
+      AsyncStorage.setItem("token", response.data.access_token)
+      .then((res) => {
+        console.log('set the token')
+        console.log(res)
+        console.log(response.data.access_token)
         API.defaults.headers.common["Authorization"] = `Bearer ${
           response.data.access_token
         }`;
@@ -348,7 +352,7 @@ export function login(formData) {
       }
 
       // Go to Firebase
-      return Firebase.auth()
+      return await Firebase.auth()
         .setPersistence(Firebase.auth.Auth.Persistence.LOCAL)
         .then(() =>
           Firebase.auth()
@@ -373,7 +377,12 @@ export function login(formData) {
 
                 // Set flask backend bridge
                 await setupAxios(dispatch, cellphone, password);
-
+                AsyncStorage.getItem('token')
+                .then((res)=>{
+                  console.log("here's the token")
+                  console.log(res)
+                })
+                
                 // Get User Data
                 //await getUserData(dispatch);
               }
