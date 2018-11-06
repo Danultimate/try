@@ -25,6 +25,9 @@ import moment from "moment"; //load moment module to set local language
 import "moment/locale/es"; //for import moment local language file during the application build
 moment.locale("es");
 
+import { decode as atob } from "base-64";
+import shopifyAPI from "../../constants/shopify_axios";
+
 export function shareMessage(collection) {	
   id_number = atob(collection.id).split("/")[4];	
     shopifyAPI	
@@ -43,41 +46,33 @@ export function shareMessage(collection) {
     });
 }
 
-const Preview = ({ error, contents, contentId }) => {
+const Preview = ({ error, content }) => {
   // Error
   if (error) return <Error content={error} />;
 
-  console.log("hey esto es Preview Component: id, contents:");
-  console.log(contentId);
-  console.log(contents.length);
-  console.log(contents[0].wp_message);
+  console.log("hey esto es Preview Component: id, feed:");
+  // console.log(contentId);
+  console.log(content)
 
   // Get this Recipe from all recipes
-  let content = null;
+  // let content = null;
 
-  if (contentId && contents) {
-    content = contents.find(
-      //item => parseInt(item.id, 10) === parseInt(contentId, 10)
-      item => item.id === contentId
-    );
-  }
+  // if (contentId && feed) {
+  //   content = feed.find(
+  //     //item => parseInt(item.id, 10) === parseInt(contentId, 10)
+  //     item => item.id === contentId
+  //   );
+  // }
 
   // Recipe not found
   if (!content) return <Error content={ErrorMessages.content404} />;
-
-  // Build Ingredients listing
-  // const ingredients = recipe.ingredients.map(item => (
-  //   <ListItem key={item} rightIcon={{ style: { opacity: 0 } }}>
-  //     <Text>
-  //       {item}
-  //     </Text>
-  //   </ListItem>
-  // ));
 
   return (
     <Container>
       <Content padder>
         <Card style={styles.card}>
+        {!!content.image &&
+          !!content.image.src && (
           <CardItem cardBody>
             <Image
               source={{ uri: content.image.src }}
@@ -88,6 +83,7 @@ const Preview = ({ error, contents, contentId }) => {
               }}
             />
           </CardItem>
+          )}
           <CardItem cardBody>
             <Body style={[styles.cardBody, styles.cardSuccess]}>
               <Spacer size={8} />
@@ -106,7 +102,7 @@ const Preview = ({ error, contents, contentId }) => {
             </Body>
           </CardItem>
           <CardItem style={styles.cardFooter} footer bordered>
-            <Left>
+            {/* <Left>
               <Button
                 style={styles.cardButton}
                 block
@@ -114,13 +110,13 @@ const Preview = ({ error, contents, contentId }) => {
                 info
                 small
                 iconLeft
-                onPress={() => onPress(item)}
+                onPress={() => onPress(content)}
               >
                 <Icon type="SimpleLineIcons" name="heart" />
                 <Text style={styles.cardButtonText}>Me encanta</Text>
               </Button>
-            </Left>
-            <Right>
+            </Left> */}
+            {/* <Right> */}
               <Button
                 style={styles.cardButton}
                 block
@@ -128,12 +124,12 @@ const Preview = ({ error, contents, contentId }) => {
                 info
                 small
                 iconLeft
-                onPress={() => {shareMessage(item)}}
+                onPress={() => {shareMessage(content)}}
               >
                 <Icon type="SimpleLineIcons" name="share-alt" />
                 <Text style={styles.cardButtonText}>Compartir</Text>
               </Button>
-            </Right>
+            {/* </Right> */}
           </CardItem>
         </Card>
       </Content>
@@ -143,8 +139,8 @@ const Preview = ({ error, contents, contentId }) => {
 
 Preview.propTypes = {
   error: PropTypes.string,
-  contentId: PropTypes.string.isRequired
-  //contents: PropTypes.arrayOf(PropTypes.shape()).isRequired
+  // contentId: PropTypes.string.isRequired
+  //feed: PropTypes.arrayOf(PropTypes.shape()).isRequired
 };
 
 Preview.defaultProps = {

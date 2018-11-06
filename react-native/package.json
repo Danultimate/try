@@ -64,6 +64,7 @@
     "expo": "^29.0.0",
     "expo-mixpanel-analytics": "^0.0.7",
     "firebase": "^5.4.1",
+    "json-query": "^2.2.2",
     "moment": "^2.22.2",
     "morgan": "^1.9.0",
     "native-base": "^2.4.2",

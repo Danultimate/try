@@ -47,7 +47,7 @@ export function openLink(collection) {
 }
 
 const onPress = item => {
-  console.log(item.id);
+  // console.log(item.id);
   //Actions.preview({ match: { params: { id: String(item.id) } } });
 };
 
@@ -63,7 +63,7 @@ const defaultProps = {
 };
 
 const Contents = props => {
-  console.log(props.contents[0])
+  // console.log(props.contents[0])
   return (
   <FlatList
     numColumns={1}

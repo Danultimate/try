@@ -155,7 +155,7 @@ function getUserData(dispatch) {
       API.get('/sellers')
         .then((seller) => {
           console.log('getSellerData succeed');
-          // console.log(seller.data.sellers)
+          console.log(seller.data.sellers)
           API.get('/orders')
             .then((orders) => {
               console.log('getOrdersData succeed')
@@ -284,7 +284,6 @@ export function login(formData) {
                 return Firebase.auth()
                   .createUserWithEmailAndPassword(email, password)
                   .then((res) => {
-                    console.log('ok entra aca...')
                     console.log(res)
                     // Send user details to Firebase database
 
@@ -307,7 +306,6 @@ export function login(formData) {
               });
             })
         }).catch(async (err) => {
-          console.log('error accaaaaa')
           await statusMessage(dispatch, 'loading', false);
           //throw err.message;
           return reject({ message: ErrorMessages.missingEmail });

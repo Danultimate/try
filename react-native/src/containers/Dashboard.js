@@ -35,22 +35,22 @@ class Dashboard extends Component {
     const { fetchData, fetchContent } = this.props;
     //registerForPushNotificationsAsync();
     fetchData();
-    fetchContent();
+    // fetchContent();
   };
 
   render = () => {
-    const { Layout, member, memberLogout, match, contents } = this.props;
+    const { Layout, member, memberLogout, match, feed } = this.props;
 
     const id =
       match && match.params && match.params.id ? match.params.id : null;
-    const shopify_client = shopify();
+//    const shopify_client = shopify();
 
     return (<Layout 
       member={member} 
       logout={memberLogout} 
-      shopify={shopify_client}
-      contentId={id}
-      contents={contents.contents}
+      //shopify={shopify_client}
+      // contentId={id}
+      // contents={feed}
       />);
   }
 }

@@ -1,13 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Asset, Font, Notifications } from "expo";
+import { Asset, Font } from "expo";
 import {
   StatusBar,
   StyleSheet,
   TouchableOpacity,
   FlatList,
   Image,
-  Share
+  Share,
+  AsyncStorage
 } from "react-native";
 import {
   View,
@@ -28,16 +29,16 @@ import Error from "./Error";
 import Spacer from "./Spacer";
 
 import OrderNotifications from "./OrderNotifications";
-import Contents from "./Contents";
-import Articles from "./Articles";
+import Feed from "./Feed";
 import Products from "./Products";
 
 import moment from "moment";
 import "moment/locale/es";
 moment.locale("es");
+var jsonQuery = require("json-query");
 
 import shopifyAPI from "../../constants/shopify_axios";
-
+import API from "../../constants/api";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -53,33 +54,26 @@ class Dashboard extends React.Component {
   }
 
   componentWillMount() {
-    // Products of this campaign
-    const productQuery = {
-      first: 5,
-      query: "tag:['diciembre']"
-    };
-
-    this.props.shopify.product
-      .fetchQuery(productQuery)
-      .then(res => {
+    AsyncStorage.getItem("token").then(token => {
+      API.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      API.get("/feed").then(response => {
+        console.log("Retrieve Feed");
+        console.log(response.data.feed[0].type);
         this.setState({
-          products: res,
-          
-        });
-      })
-      .catch(error => this.setState({ error, loading: false }));
-    
-      //Articles
-      shopifyAPI.get('/articles.json').then((res)=>{
-        console.log('the articleees', res.data.articles.length)
-        this.setState({
-          articles: res.data.articles,
+          feed: response.data.feed,
+          products: response.data.products,
+          orders: response.data.orders,
+          headerMessage: response.data.header_message,
           loading: false
-        })
-      })
-      // Abandoned checkouts
-
+        });
+      });
+    });
   }
+  // componentDidMount() {
+  //   this.setState({
+      
+  //   })
+  // }
   render() {
     // Loading
     if (this.state.loading) return <Loading />;
@@ -88,6 +82,7 @@ class Dashboard extends React.Component {
     if (this.state.error) return <Error content={this.state.error} />;
 
     const keyExtractor = item => item.id.toString();
+    const feedKeyExtractor = item => item.content.id.toString();
 
     const onPress = item => {
       console.log(item.id);
@@ -141,22 +136,22 @@ class Dashboard extends React.Component {
               </View>
             </View>
           </View>
-          {this.props.member.orders ?
-          (<OrderNotifications orders={this.props.member.orders.slice(0, 4)} />)
-          : (<OrderNotifications orders={[]} />)
-          }
 
-         
+          {this.state.orders ? (
+            <OrderNotifications orders={this.state.orders.slice(0, 4)} />
+          ) : (
+            <OrderNotifications orders={[]} />
+          )}
 
+          <FlatList
+            numColumns={1}
+            data={this.state.feed}
+            renderItem={({ item }) =>
+                <Feed item={item} />
+            }
+            keyExtractor={feedKeyExtractor}
+          />
 
-          <Contents contents={this.props.item} />
-
-          {this.state.articles ?
-          (<Articles contents={this.state.articles.slice(0, 3)} />)
-          : (<Articles contents={[]} />)
-          }
-          
-          
           <Spacer size={8} />
           <Products products={this.state.products} />
 
@@ -411,7 +406,7 @@ class Dashboard extends React.Component {
 Dashboard.propTypes = {
   eror: PropTypes.string,
   //loading: PropTypes.bool.isRequired,
-  contents: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  //feed: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   member: PropTypes.shape({}),
   reFetch: PropTypes.func
 };
