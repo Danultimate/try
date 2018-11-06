@@ -26,6 +26,7 @@ import {
 } from "native-base";
 import SwiperFlatList from "react-native-swiper-flatlist";
 import Colors from "../../../native-base-theme/variables/commonColor";
+import { Mixpanel } from "../../actions/mixpanel";
 import { Actions } from "react-native-router-flux";
 import AppLogoAuth from "./AppLogoAuth";
 import Spacer from "./Spacer";
@@ -36,6 +37,8 @@ const Welcome = () => {
       Actions.home({});
     }
   });
+  Mixpanel.identify("666");
+
   return (
     <Container style={styles.container}>
       <Content padder>
@@ -60,6 +63,7 @@ const Welcome = () => {
                     ¡Bienvenida a Elenas!
                   </Text>
                   <Spacer size={8} />
+
                   <Text style={[styles.description, styles.textCenter]}>
                     Únete a nuestra comunidad, somos miles de mujeres que
                     ganamos un ingreso extra vendiendo cosméticos.
@@ -118,25 +122,14 @@ const Welcome = () => {
           </CardItem>
           <CardItem styles={styles.cardBody}>
             <Body style={styles.authCard}>
-              <Button diasbled block primary onPress={Actions.login}>
+              <Button block primary onPress={Actions.login}>
                 <Text>Ingresa a tu cuenta</Text>
               </Button>
               <Spacer size={16} />
-              <Button diasbled block success onPress={Actions.signUp}>
+              <Button block success onPress={Actions.signUp}>
                 <Text>Crea tu cuenta</Text>
               </Button>
               <Spacer size={16} />
-              <TouchableOpacity onPress={Actions.home}>
-                <Text
-                  style={[
-                    styles.supportText,
-                    styles.textCenter,
-                    { color: Colors.brandInfo }
-                  ]}
-                >
-                  Lo haré despues
-                </Text>
-              </TouchableOpacity>
             </Body>
           </CardItem>
         </Card>
