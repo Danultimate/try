@@ -14,7 +14,10 @@ export default {
   missingLastName: "Hace(n) falta tu(s) Apellido(s)",
   missingCellphone: "Hace falta tu número de teléfono",
   missingEmail: "Hace falta tu correo electrónico",
+  existingEmail: "El correo electrónico esta siendo usado por otra cuenta",
+  invalidEmail: "El correo electrónico no es válido",
   missingPassword: "Hace falta tu contraseña",
+  wrongPassword: "La contraseña no es valida, revísala e inténtalo nuevamente",
   passwordsDontMatch: "Las contraseñas no coinciden",
   missingTandC: "Hace falta aceptar los terminos y condiciones",
 

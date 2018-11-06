@@ -61,8 +61,8 @@ const Welcome = () => {
                   </Text>
                   <Spacer size={8} />
                   <Text style={[styles.description, styles.textCenter]}>
-                    Únete a nuestra comunidad de miles de mujeres ganando un
-                    ingreso extra vendiendo cosmeticos
+                    Únete a nuestra comunidad, somos miles de mujeres que
+                    ganamos un ingreso extra vendiendo cosméticos.
                   </Text>
                   <Spacer size={16} />
                   <Image
@@ -82,8 +82,8 @@ const Welcome = () => {
                   </Text>
                   <Spacer size={8} />
                   <Text style={[styles.description, styles.textCenter]}>
-                    Cada vez que una clienta tuya compra, te ganas una comisión
-                    del 30%
+                    Cada vez que una clienta tuya hace una compra, te ganas una
+                    comisión del 30%. Así de fácil.
                   </Text>
                   <Spacer size={16} />
                   <Image
@@ -103,8 +103,8 @@ const Welcome = () => {
                   </Text>
                   <Spacer size={8} />
                   <Text style={[styles.description, styles.textCenter]}>
-                    Nosotros cobramos y entregamos los productos. Tú te enfocas
-                    en promocionarlos.
+                    Nosotros entregamos los productos y hacemos el cobro. Tú te
+                    enfocas en promocionarlos.
                   </Text>
                   <Spacer size={16} />
                   <Image
