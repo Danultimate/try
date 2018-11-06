@@ -293,7 +293,7 @@ class Dashboard extends React.Component {
                 <Text
                   style={[styles.header, styles.primaryMsg, styles.textCenter]}
                 >
-                  ¡Gana $50,000 por cada amiga referida!
+                  ¡Gana $20.000 por cada amiga referida!
                 </Text>
                 <View
                   style={{
@@ -312,8 +312,8 @@ class Dashboard extends React.Component {
                 </View>
                 <Spacer size={8} />
                 <Text style={styles.description}>
-                  Comparte tu código y gana $50.000 que podrás reclamar en tu
-                  próxima compra.
+                  Comparte tu código y gana $20.000 por cada amiga que realiza
+                  su primera orden.
                 </Text>
                 <Spacer size={16} />
               </Body>

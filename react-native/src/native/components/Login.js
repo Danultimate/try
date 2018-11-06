@@ -52,7 +52,7 @@ class Login extends React.Component {
     onFormSubmit: PropTypes.func.isRequired,
     isHidden: PropTypes.bool.isRequired,
     userWithEmail: PropTypes.bool.isRequired,
-    checked: PropTypes.bool.isRequired,
+    checked: PropTypes.bool.isRequired
   };
 
   static defaultProps = {
@@ -62,7 +62,7 @@ class Login extends React.Component {
     member: {},
     isHidden: true,
     userWithEmail: false,
-    checked: false,
+    checked: false
   };
 
   constructor(props) {
@@ -141,8 +141,8 @@ class Login extends React.Component {
                   </Text>
                   <Spacer size={8} />
                   <Text style={[styles.description, styles.textCenter]}>
-                    ¡Revisa tus pedidos, maneja tus clientes y aumenta tus
-                    ventas!
+                    Comparte las campañas, revisa tus ordenes y aumenta tus
+                    ventas.
                   </Text>
                   {success ? (
                     <Messages type="success" message={success} />
@@ -181,7 +181,7 @@ class Login extends React.Component {
                       <View>
                         <Spacer size={8} />
                         <Text note>
-                          Ingresa tu número de celular para continuar
+                          Ingresa tu teléfono celular para continuar
                         </Text>
                       </View>
                     )}
@@ -251,7 +251,9 @@ class Login extends React.Component {
                               color={Colors.brandPrimary}
                               style={{ marginLeft: -8, marginRight: 16 }}
                               checked={this.state.checked}
-                              onPress={() => this.setState({checked: !this.state.checked})}
+                              onPress={() =>
+                                this.setState({ checked: !this.state.checked })
+                              }
                             />
                             <View>
                               <Text style={[styles.supportText]}>
