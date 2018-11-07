@@ -76,7 +76,7 @@ const Contents = props => (
             Para compartir{" "}
           </Text>
           <Text style={[styles.meta, styles.date]}>
-            • <TimeAgo time={props.item.created_at} />
+            • <TimeAgo time={props.item.published_at} />
           </Text>
         </Text>
         <Spacer size={8} />
