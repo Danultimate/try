@@ -16,8 +16,7 @@ const Contact = () => (
         </Text>
         <Spacer size={16} />
         <Text style={styles.textCenter}>
-          ¡Nos encanta que nos escribas! Te dejamos nuestros datos de contacto y
-          los accesos a nuestras redes sociales:
+          ¡Nos encanta que nos escribas! Te dejamos nuestros datos de contacto:
         </Text>
         <Spacer size={16} />
 

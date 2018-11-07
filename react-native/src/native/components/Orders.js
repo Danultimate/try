@@ -33,7 +33,10 @@ import moment from "moment"; //load moment module to set local language
 import "moment/locale/es"; //for import moment local language file during the application build
 moment.locale("es");
 
+import { Mixpanel } from "../../actions/mixpanel";
+
 const OrderListing = ({ error, loading, member }) => {
+  Mixpanel.track("Orders");
   // Loading
   if (loading) return <Loading />;
 
@@ -48,7 +51,7 @@ const OrderListing = ({ error, loading, member }) => {
   return (
     <Container>
       <Content padder>
-        {!member.orders || member.orders.length<1 ? (
+        {!member.orders || member.orders.length < 1 ? (
           <View style={styles.supportWidget}>
             <Spacer size={16} />
             <Image source={require("../assets/images/support.png")} />

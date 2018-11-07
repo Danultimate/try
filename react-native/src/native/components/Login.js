@@ -39,6 +39,7 @@ import AppLogoAuth from "./AppLogoAuth";
 import axios from "axios";
 
 import publicAPI from "../../constants/api_public";
+import { Mixpanel } from "../../actions/mixpanel";
 
 class Login extends React.Component {
   static propTypes = {
@@ -83,7 +84,9 @@ class Login extends React.Component {
   handleChange = (name, val) => {
     if (name === "cellphone" && val.length === 10) {
       publicAPI
-        .post("/already_user", JSON.stringify({ cellphone: val }), {headers: {common: {} }})
+        .post("/already_user", JSON.stringify({ cellphone: val }), {
+          headers: { common: {} }
+        })
         .then(response => {
           this.setState({
             isHidden: false,
@@ -106,18 +109,27 @@ class Login extends React.Component {
   handleSubmit = () => {
     const { onFormSubmit } = this.props;
     onFormSubmit(this.state)
-      .then(() => Actions.home({}))
-      .catch(e => console.log(`Error: ${e}`));
+      .then(() => {
+        Mixpanel.track("Login Success");
+        Actions.home({});
+      })
+      .catch(e => {
+        Mixpanel.track("Login Error");
+        console.log(`Error: ${e}`);
+      });
   };
 
   render() {
     const { loading, error, success, locale } = this.props;
     // const { email } = this.state;
-
+    Mixpanel.screen("Login");
     if (loading) return <Loading />;
 
     return (
-      <KeyboardAvoidingView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : null}
+        style={{ flex: 1 }}
+      >
         <Container>
           <Content padder>
             <AppLogoAuth />

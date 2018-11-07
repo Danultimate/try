@@ -20,6 +20,11 @@ let actions = {
     // analytics.alias(id);
     Segment.alias(id);
   },
+  screen: screenName => {
+    // if (env_check) analytics.alias(id);
+    // analytics.alias(id);
+    Segment.screen(screenName);
+  },
   track: (name, props) => {
     // if (env_check) analytics.track(name, props);
     // analytics.track(name, props);

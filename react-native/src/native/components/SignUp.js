@@ -33,6 +33,8 @@ import Header from "./Header";
 import AppLogoAuth from "./AppLogoAuth";
 import Spacer from "./Spacer";
 
+import { Mixpanel } from "../../actions/mixpanel";
+
 class SignUp extends React.Component {
   static propTypes = {
     error: PropTypes.string,
@@ -44,7 +46,7 @@ class SignUp extends React.Component {
 
   static defaultProps = {
     error: null,
-    checked: false,
+    checked: false
   };
 
   constructor(props) {
@@ -57,7 +59,7 @@ class SignUp extends React.Component {
       password2: "",
       referred_by: "",
       checked: false,
-      userWithEmail: true,
+      userWithEmail: true
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -75,18 +77,29 @@ class SignUp extends React.Component {
     onFormSubmit(this.state)
       .then(() => {
         onFormSuccess(this.state)
-        .then(()=> Actions.onboarding({}))
+        .then(()=> {
+          Mixpanel.track("Signup Success");
+          Actions.onboarding({})
+        })
       })
-      .catch(e => console.log(`Error: ${e}`));
+      .catch(e => {
+        Mixpanel.track("Signup Error");
+        console.log(`Error: ${e}`);
+      });
   };
 
   render() {
     const { loading, error } = this.props;
 
+    Mixpanel.screen("Signup");
+
     if (loading) return <Loading />;
 
     return (
-      <KeyboardAvoidingView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : null}
+        style={{ flex: 1 }}
+      >
         <Container>
           <Content padder>
             <AppLogoAuth />
@@ -157,7 +170,7 @@ class SignUp extends React.Component {
                         Código Amiga Vendedora (Opcional)
                       </Label>
                       <Input
-                      value={this.state.referred_by}
+                        value={this.state.referred_by}
                         onChangeText={v => this.handleChange("referred_by", v)}
                       />
                     </Item>
@@ -191,7 +204,9 @@ class SignUp extends React.Component {
                         color={Colors.brandPrimary}
                         style={{ marginLeft: -8, marginRight: 16 }}
                         checked={this.state.checked}
-                        onPress={() => this.setState({checked: !this.state.checked})}
+                        onPress={() =>
+                          this.setState({ checked: !this.state.checked })
+                        }
                       />
                       <View>
                         <Text style={[styles.supportText]}>

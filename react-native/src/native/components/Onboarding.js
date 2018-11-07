@@ -30,6 +30,8 @@ import { Actions } from "react-native-router-flux";
 import AppLogoAuth from "./AppLogoAuth";
 import Spacer from "./Spacer";
 
+import { Mixpanel } from "../../actions/mixpanel";
+
 const Dot = ({ isLight, selected }) => {
   let backgroundColor;
   if (isLight) {
@@ -91,8 +93,10 @@ const Onboarding = () => {
   AsyncStorage.getItem("token").then(token => {
     if (token) {
       Actions.home({});
+      Mixpanel.track("Usuario con Token");
     }
   });
+  Mixpanel.screen("Onboarding");
   return (
     <Container style={styles.container}>
       <OnboardingComponent

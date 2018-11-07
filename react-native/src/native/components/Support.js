@@ -16,8 +16,8 @@ const Support = () => (
         </Text>
         <Spacer size={16} />
         <Text style={styles.textCenter}>
-          ¡Estamos trabajando en actualizar nuestro centro de soporte! Te
-          invitamos a escribir al correo electrónico a continuación.
+          Te invitamos a escribir a al correo electrónico a continuación con
+          cualquier duda o inquietud que tengas:
         </Text>
         <Spacer size={16} />
 

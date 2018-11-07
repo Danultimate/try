@@ -28,13 +28,16 @@ moment.locale("es");
 import { decode as atob } from "base-64";
 import shopifyAPI from "../../constants/shopify_axios";
 
+import { Mixpanel } from "../../actions/mixpanel";
+
 const Preview = ({ error, content }) => {
+  Mixpanel.screen("Preview Content");
   // Error
   if (error) return <Error content={error} />;
 
   console.log("hey esto es Preview Component: id, feed:");
   // console.log(contentId);
-  console.log(content)
+  console.log(content);
 
   // Get this Recipe from all recipes
   // let content = null;
@@ -53,19 +56,19 @@ const Preview = ({ error, content }) => {
     <Container>
       <Content padder>
         <Card style={styles.card}>
-        {!!content.image &&
-          !!content.image.src && (
-          <CardItem cardBody>
-            <Image
-              source={{ uri: content.image.src }}
-              style={{
-                height: 192,
-                width: null,
-                flex: 1
-              }}
-            />
-          </CardItem>
-          )}
+          {!!content.image &&
+            !!content.image.src && (
+              <CardItem cardBody>
+                <Image
+                  source={{ uri: content.image.src }}
+                  style={{
+                    height: 192,
+                    width: null,
+                    flex: 1
+                  }}
+                />
+              </CardItem>
+            )}
           <CardItem cardBody>
             <Body style={[styles.cardBody, styles.cardSuccess]}>
               <Spacer size={8} />
@@ -80,7 +83,8 @@ const Preview = ({ error, content }) => {
               </Text>
               <Spacer size={8} />
               <Text style={styles.description}>
-              {content.description || content.body_html.replace(/<(?:.|\n)*?>/gm, '')}
+                {content.description ||
+                  content.body_html.replace(/<(?:.|\n)*?>/gm, "")}
               </Text>
               <Spacer size={16} />
             </Body>
@@ -101,18 +105,21 @@ const Preview = ({ error, content }) => {
               </Button>
             </Left> */}
             {/* <Right> */}
-              <Button
-                style={styles.cardButton}
-                block
-                transparent
-                info
-                small
-                iconLeft
-                onPress={() => Share.share({ message: content.wp_message || content.title })}
-              >
-                <Icon type="SimpleLineIcons" name="share-alt" />
-                <Text style={styles.cardButtonText}>Compartir</Text>
-              </Button>
+            <Button
+              style={styles.cardButton}
+              block
+              transparent
+              info
+              small
+              iconLeft
+              onPress={() => {
+                Mixpanel.track("Share Content: " + content.title);
+                Share.share({ message: content.wp_message || content.title });
+              }}
+            >
+              <Icon type="SimpleLineIcons" name="share-alt" />
+              <Text style={styles.cardButtonText}>Compartir</Text>
+            </Button>
             {/* </Right> */}
           </CardItem>
         </Card>
@@ -122,7 +129,7 @@ const Preview = ({ error, content }) => {
 };
 
 Preview.propTypes = {
-  error: PropTypes.string,
+  error: PropTypes.string
   // contentId: PropTypes.string.isRequired
   //feed: PropTypes.arrayOf(PropTypes.shape()).isRequired
 };
