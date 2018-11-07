@@ -29,16 +29,21 @@ import shopifyAPI from "../../constants/shopify_axios";
 const keyExtractor = item => item.id.toString();
 
 export function shareMessage(collection) {
+  console.log(collection.id)
   id_number = atob(collection.id).split("/")[4];
+
   shopifyAPI
     .get(`/collections/${id_number}/metafields.json`)
     .then(metafields => {
+      console.log('los metafields')
       metafields.data.metafields.forEach(metafield => {
+        console.log(metafield)
         if (metafield.key == "wp_message") {
           message = metafield.value;
         }
-        Share.share({ message: message || collection.title }, {});
+        
       });
+      Share.share({ message: message || collection.title }, {});
     })
     .catch(error => {
       console.log(error);
@@ -100,7 +105,7 @@ const Contents = props => (
         <Spacer size={8} />
         {!!props.item.body_html && (
           <Text numberOfLines={3} style={styles.description}>
-            {props.item.body_html.replace(/<(?:.|\n)*?>/gm, '')}
+            {props.item.description || props.item.body_html.replace(/<(?:.|\n)*?>/gm, '')}
           </Text>
         )}
         <Spacer size={16} />
@@ -149,7 +154,7 @@ const Contents = props => (
           info
           small
           iconLeft
-          onPress={() => shareMessage(props.item)}
+          onPress={() => Share.share({ message: props.item.wp_message || props.item.title })}
         >
           <Icon type="SimpleLineIcons" name="share-alt" />
           <Text style={styles.cardButtonText}>Compartir</Text>

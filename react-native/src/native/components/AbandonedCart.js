@@ -28,12 +28,6 @@ import shopifyAPI from "../../constants/shopify_axios";
 
 const keyExtractor = item => item.id.toString();
 
-const onPress = item => {
-  console.log(item.id);
-  // Actions.preview({ match: { params: { id: String(item.id) } } });
-  Actions.preview({content: item});
-};
-
 const propTypes = {
   focused: PropTypes.bool,
   title: PropTypes.string,
@@ -67,7 +61,7 @@ const Contents = props => (
         <Text style={[styles.meta, styles.date]}>Hace 26 minutos</Text>
         <Spacer size={8} />
         <Text style={styles.description}>
-            Tu cliente Maria Perez agregó tres productos pero no terminó
+            Tu cliente {props.item.shipping_address.first_name} {props.item.shipping_address.last_name} agregó tres productos pero no terminó
             su proceso de compra en el sitio web de Elenas…
             <Text style={{ color: Colors.brandInfo }}>Ver más</Text>
         </Text>
@@ -85,7 +79,14 @@ const Contents = props => (
             iconLeft
         >
             <Icon type="SimpleLineIcons" name="phone" />
-            <Text style={styles.cardButtonText}>Llamar</Text>
+            <Text style={styles.cardButtonText}
+            onPress={() =>
+              call({
+                number: "" + props.item.shipping_address.phone,
+                prompt: false
+              })
+            }
+            >Llamar</Text>
         </Button>
         </Body>
     </CardItem>

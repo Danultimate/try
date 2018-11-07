@@ -42,46 +42,6 @@ import API from "../../constants/api";
 import publicAPI from "../../constants/api_public";
 import axios from "axios"
 
-async function getToken() {
-  const token = await AsyncStorage.getItem("token");
-
-  console.log('el tokeeen')
-  console.log(token)
-  axios({
-    method: 'GET',
-    url: 'https://seller-server-dev.herokuapp.com/api/feed',
-    headers: {
-    Accept: 'application/json',
-    'Content-Type': 'application/json',
-    "Authorization": `Bearer ${token}`,
-   }
-  }).then(res => {
-    console.log('la respuesta')  
-    console.log(res)
-    let response = res.data
-    console.log("Retrieve Feed");
-    console.log(response.feed[0].type);
-    this.setState({
-      feed: response.feed,
-      products: response.products,
-      orders: response.orders,
-      headerMessage: response.header_message.value,
-      loading: false
-    });
-  })
-  .catch(error => {
-    console.log("Error @getting content1");
-    console.log(error)
-    console.log(error.response);
-    // try again
-    // this.setState({
-    //   loading: false
-    // })
-    //
-  });
-
-}
-
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -117,7 +77,8 @@ class Dashboard extends React.Component {
             feed: response.feed,
             products: response.products,
             orders: response.orders,
-            headerMessage: response.header_message.value,
+            topMessage: response.top_message.value,
+            bottomMessage: response.bottom_message.value,
             loading: false
           });
         })
@@ -165,16 +126,14 @@ class Dashboard extends React.Component {
             </View>
             <View style={styles.userInfo}>
               <Text style={styles.userGreeting}>
-                {this.props.member.firstName
-                  ? "¡Hola " + this.props.member.firstName + ", muy bien!"
-                  : // : "¡Hola, mujer poderosa!"}
-                    this.state.headerMessage}
+                {this.state.topMessage
+                  ? this.state.topMessage
+                  : "¡Hola, mujer poderosa!"}
               </Text>
               <Text style={styles.userMessage}>
-                {/* {this.props.member.total_month
-                  ? "Vas mejorando tu anterior mes :)"
-                  : "Hoy puede ser un gran día :)"} */}
-                {this.state.headerMessage}
+                {this.state.bottomMessage
+                    ? this.state.bottomMessage
+                    : "Hoy puede ser un gran día :)"}
               </Text>
               <Spacer size={10} />
               <View style={styles.userNumbers}>

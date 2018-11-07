@@ -151,7 +151,7 @@ const Contents = props => {
             info
             small
             iconLeft
-            onPress={()=>openLink(props.item)}
+            onPress={()=>onPress(props.item)}
         >
             <Icon type="SimpleLineIcons" name="share-alt" />
             <Text style={styles.cardButtonText}>Ver Mas</Text>

@@ -28,24 +28,6 @@ moment.locale("es");
 import { decode as atob } from "base-64";
 import shopifyAPI from "../../constants/shopify_axios";
 
-export function shareMessage(collection) {	
-  id_number = atob(collection.id).split("/")[4];	
-    shopifyAPI	
-    .get(`/collections/${id_number}/metafields.json`)	
-    .then(metafields => {	
-      metafields.data.metafields.forEach(metafield => {	
-        if (metafield.key == "wp_message") {	
-          message = metafield.value;	
-        }	          
-          Share.share({ message: message || collection.title}, {});
-      });	
-    })	
-    .catch(error => {	
-      console.log(error);
-      Share.share({ message: collection.title}, {});
-    });
-}
-
 const Preview = ({ error, content }) => {
   // Error
   if (error) return <Error content={error} />;
@@ -126,7 +108,7 @@ const Preview = ({ error, content }) => {
                 info
                 small
                 iconLeft
-                onPress={() => {shareMessage(content)}}
+                onPress={() => Share.share({ message: content.wp_message || content.title })}
               >
                 <Icon type="SimpleLineIcons" name="share-alt" />
                 <Text style={styles.cardButtonText}>Compartir</Text>

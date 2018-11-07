@@ -32,24 +32,6 @@ import shopifyAPI from "../../constants/shopify_axios";
 
 const keyExtractor = item => item.id.toString();
 
-export function shareMessage(collection) {
-  id_number = atob(collection.id).split("/")[4];
-  shopifyAPI
-    .get(`/collections/${id_number}/metafields.json`)
-    .then(metafields => {
-      metafields.data.metafields.forEach(metafield => {
-        if (metafield.key == "wp_message") {
-          message = metafield.value;
-        }
-        Share.share({ message: message || collection.title }, {});
-      });
-    })
-    .catch(error => {
-      console.log(error);
-      Share.share({ message: collection.title }, {});
-    });
-}
-
 
 const propTypes = {
   focused: PropTypes.bool,
@@ -70,6 +52,9 @@ const Contents = props =>
     }
     else if(props.item.type == "article") {
       return <Article item={props.item.content} />
+    }
+    else if(props.item.type == "abandoned_cart") {
+      return <AbandonedCart item={props.item.content}/>
     }
     else{
       // return <DashboardCard item={props.item.content}/>
