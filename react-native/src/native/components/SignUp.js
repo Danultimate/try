@@ -91,7 +91,10 @@ class SignUp extends React.Component {
     if (loading) return <Loading />;
 
     return (
-      <KeyboardAvoidingView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : null}
+        style={{ flex: 1 }}
+      >
         <Container>
           <Content padder>
             <AppLogoAuth />

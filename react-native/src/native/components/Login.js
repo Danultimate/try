@@ -84,7 +84,9 @@ class Login extends React.Component {
   handleChange = (name, val) => {
     if (name === "cellphone" && val.length === 10) {
       publicAPI
-        .post("/already_user", JSON.stringify({ cellphone: val }), {headers: {common: {} }})
+        .post("/already_user", JSON.stringify({ cellphone: val }), {
+          headers: { common: {} }
+        })
         .then(response => {
           this.setState({
             isHidden: false,
@@ -124,7 +126,10 @@ class Login extends React.Component {
     if (loading) return <Loading />;
 
     return (
-      <KeyboardAvoidingView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : null}
+        style={{ flex: 1 }}
+      >
         <Container>
           <Content padder>
             <AppLogoAuth />
