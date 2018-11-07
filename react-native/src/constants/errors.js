@@ -1,6 +1,6 @@
 export default {
   // Defaults
-  default: "Hmm, ha ocurrido un error inesperado",
+  default: "Upsss, ha ocurrido un error inesperado",
   timeout:
     "El servidor no ha respondido en el tiempo de espera. Revisa tu conexión a internet",
   invalidJson: "La respuesta no es un JSON válido",

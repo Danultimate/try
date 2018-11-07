@@ -34,10 +34,12 @@ import Spacer from "./Spacer";
 const Welcome = () => {
   AsyncStorage.getItem("token").then(token => {
     if (token) {
+      Mixpanel.identify(token);
+      Mixpanel.track("Usario con token");
       Actions.home({});
     }
   });
-  Mixpanel.identify("666");
+  Mixpanel.track("Probando Mixpanel con Segment");
 
   return (
     <Container style={styles.container}>
