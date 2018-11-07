@@ -38,7 +38,8 @@ class SignUp extends React.Component {
     error: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     checked: PropTypes.bool.isRequired,
-    onFormSubmit: PropTypes.func.isRequired
+    onFormSubmit: PropTypes.func.isRequired,
+    onFormSuccess: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -56,6 +57,7 @@ class SignUp extends React.Component {
       password2: "",
       referred_by: "",
       checked: false,
+      userWithEmail: true,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -69,9 +71,12 @@ class SignUp extends React.Component {
   };
 
   handleSubmit = () => {
-    const { onFormSubmit } = this.props;
+    const { onFormSubmit, onFormSuccess } = this.props;
     onFormSubmit(this.state)
-      .then(() => Actions.onboarding())
+      .then(() => {
+        onFormSuccess(this.state)
+        .then(()=> Actions.onboarding({}))
+      })
       .catch(e => console.log(`Error: ${e}`));
   };
 

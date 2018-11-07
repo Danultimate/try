@@ -7,6 +7,7 @@ import API from "../constants/api";
 import { Actions } from "react-native-router-flux";
 import publicAPI from "../constants/api_public";
 
+
 /**
  * Sign Up to Firebase and Backend
  */
@@ -36,6 +37,15 @@ export function signUp(formData) {
       if (password !== password2)
         return reject({ message: ErrorMessages.passwordsDontMatch });
       if (!checked) return reject({ message: ErrorMessages.missingTandC });
+
+      // Check already descubre account
+      publicAPI
+        .post("/already_user", JSON.stringify({ cellphone: cellphone }), {headers: {common: {} }})
+        .then(response => {
+          console.log('el is_user', response.data.is_user)
+          if (response.data.is_user) return reject({message: ErrorMessages.existingCellphone})
+        })
+        .catch((error) => console.log("Error @check already descubre account "+error)) 
 
       await statusMessage(dispatch, "loading", true);
 
@@ -67,10 +77,9 @@ export function signUp(formData) {
                       referred_by_code: referred_by
                     }
                   })
-                  .then(response => {
+                  .then(async (response) => {
                     console.log("user and seller registered");
                     console.log(response.data);
-                    login(formData);
                   })
                   .catch(error => console.log(error));
 
@@ -187,7 +196,8 @@ export function setupAxios(dispatch, cellphone, password) {
       console.log("Error @auth-backend");
       console.log(err);
       await statusMessage(dispatch, "loading", false);
-      throw err.message;
+      //throw ErrorMessages.wrongPassword;
+      return reject({ message: ErrorMessages.wrongPassword });
     });
 }
 
@@ -212,17 +222,14 @@ export function getMemberData() {
  */
 export function login(formData) {
   const { email, password, cellphone, userWithEmail, checked } = formData;
-
   return dispatch =>
     new Promise(async (resolve, reject) => {
       await statusMessage(dispatch, "loading", true);
-
       // Validation checks
       if (!email) return reject({ message: ErrorMessages.missingEmail });
       if (!password) return reject({ message: ErrorMessages.missingPassword });
       if (!cellphone)
         return reject({ message: ErrorMessages.missingCellphone });
-
       if (!userWithEmail) {
         if (!checked) return reject({ message: ErrorMessages.missingTandC });
         // Update email at Backend
@@ -331,14 +338,16 @@ export function login(formData) {
                   })
                   .catch(async err => {
                     await statusMessage(dispatch, "loading", false);
-                    throw err.message;
+                    //throw ErrorMessages.wrongPassword;
+                    return reject({ message: ErrorMessages.wrongPassword });
                   });
               });
           })
           .catch(async err => {
             console.log("error accaaaaa");
             await statusMessage(dispatch, "loading", false);
-            throw ErrorMessages.wrongPassword;
+            //throw ErrorMessages.wrongPassword;
+            return reject({ message: ErrorMessages.wrongPassword });
           });
       }
 
