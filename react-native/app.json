@@ -15,7 +15,7 @@
     },
     "android": {
       "package": "elenas.la.embajadoras",
-      "versionCode": 3,
+      "versionCode": 4,
       "icon": "./src/images/app-icon.png",
       "permissions": [],
       "googleServicesFile": "./google-services.json"
