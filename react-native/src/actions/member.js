@@ -518,7 +518,7 @@ export function logout() {
           API.defaults.headers.common = {};
           AsyncStorage.removeItem("token");
           dispatch({ type: "USER_RESET" });
-          Actions.login({});
+          Actions.welcome({});
           setTimeout(resolve, 1000); // Resolve after 1s so that user sees a message
         })
         .catch(reject);
