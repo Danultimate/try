@@ -90,12 +90,6 @@ const Next = ({ isLight, ...props }) => (
 );
 
 const Onboarding = () => {
-  AsyncStorage.getItem("token").then(token => {
-    if (token) {
-      Actions.home({});
-      Mixpanel.track("Usuario con Token");
-    }
-  });
   Mixpanel.screen("Onboarding");
   return (
     <Container style={styles.container}>

@@ -106,7 +106,10 @@ class Dashboard extends React.Component {
     if (this.state.error) return <Error content={this.state.error} />;
 
     const keyExtractor = item => item.id.toString();
-    const feedKeyExtractor = item => item.content.id.toString();
+    const feedKeyExtractor = item => {
+      console.log(item.content.id.toString())
+      return item.content.id.toString()
+    };
 
     if (this.state.loading) {
       return <AppLoading />;

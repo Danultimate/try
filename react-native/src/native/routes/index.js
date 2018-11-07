@@ -78,7 +78,7 @@ const Index = (
         component={ForgotPasswordContainer}
         Layout={ForgotPasswordComponent}
       />
-      <Scene key="onboarding" hideNavBar component={OnboardingComponent} />
+      
       <Scene
         renderRightButton={() => {
           return <View />;
@@ -189,6 +189,7 @@ const Index = (
         </Stack>
       </Tabs>
     </Scene>
+    <Scene key="onboarding" hideNavBar component={OnboardingComponent} />
     <Scene
       back
       clone

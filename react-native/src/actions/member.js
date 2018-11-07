@@ -196,8 +196,8 @@ export function setupAxios(dispatch, cellphone, password) {
       console.log("Error @auth-backend");
       console.log(err);
       await statusMessage(dispatch, "loading", false);
-      //throw ErrorMessages.wrongPassword;
-      return reject({ message: ErrorMessages.wrongPassword });
+      throw ErrorMessages.wrongPassword;
+      //return reject({ message: ErrorMessages.wrongPassword });
     });
 }
 

@@ -4,7 +4,8 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Platform
 } from "react-native";
 import {
   Container,
