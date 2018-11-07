@@ -2,12 +2,22 @@ import React from "react";
 import PropTypes from "prop-types";
 import {
   View,
+  Share,
   StyleSheet,
   FlatList,
   TouchableOpacity,
   Image
 } from "react-native";
-import { Card, CardItem, Body, Text } from "native-base";
+import {
+  Icon,
+  Card,
+  CardItem,
+  Body,
+  Right,
+  Left,
+  Text,
+  Button
+} from "native-base";
 import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
 
@@ -16,6 +26,8 @@ import Spacer from "./Spacer";
 import moment from "moment";
 import "moment/locale/es";
 moment.locale("es");
+
+import { Mixpanel } from "../../actions/mixpanel";
 
 const keyExtractor = item => item.id.toString();
 
@@ -69,9 +81,39 @@ const Products = props => {
                 >
                   {item.title}
                 </Text>
-                <Text style={styles.meta}>{item.vendor.toUpperCase()}</Text>
-                <Spacer size={16} />
               </Body>
+            </CardItem>
+            <CardItem cardBody style={styles.transparentCard}>
+              <Left>
+                <Text style={[styles.meta, { marginLeft: 0 }]}>
+                  {item.vendor.toUpperCase()}
+                </Text>
+              </Left>
+              <Right>
+                <Button
+                  style={styles.cardButton}
+                  block
+                  transparent
+                  info
+                  small
+                  iconLeft
+                  onPress={() => {
+                    Mixpanel.track("Share Product: " + item.title);
+                    Share.share({
+                      message:
+                        "¡Te recomiendo este producto super poderoso! 😍 🎁",
+                      title: item.title,
+                      url: "https://elenas.la/products/" + item.handle
+                    });
+                  }}
+                >
+                  <Icon
+                    style={styles.cardButtonIcon}
+                    type="SimpleLineIcons"
+                    name="share-alt"
+                  />
+                </Button>
+              </Right>
             </CardItem>
           </Card>
         )}
@@ -166,6 +208,7 @@ const styles = StyleSheet.create({
   },
   meta: {
     fontSize: 10,
+    marginBottom: 8,
     color: "#C3C5C7"
   },
   description: {

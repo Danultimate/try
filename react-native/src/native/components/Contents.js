@@ -160,7 +160,7 @@ const Contents = props => (
               iconLeft
               onPress={() => {
                 Mixpanel.track("Share Content: " + item.title);
-                Share.share({ message: item.wp_message || collection.title });
+                Share.share({ message: item.wp_message || item.title });
               }}
             >
               <Icon type="SimpleLineIcons" name="share-alt" />
