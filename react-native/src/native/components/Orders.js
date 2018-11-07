@@ -36,32 +36,7 @@ moment.locale("es");
 import { Mixpanel } from "../../actions/mixpanel";
 
 const OrderListing = ({ error, loading, member }) => {
-  Mixpanel.screen("Orders");
-
-  const orders = [
-    {
-      clientName: "Juliana Villa",
-      addedAt: "20181028",
-      value: 67950,
-      status: "Ordenado",
-      id: 1
-    },
-    {
-      clientName: "Pedro Iriarte",
-      addedAt: "20181027",
-      value: 78950,
-      status: "Entregado",
-      id: 2
-    },
-    {
-      clientName: "Julia Barrera",
-      addedAt: "20181026",
-      value: 89950,
-      status: "Distribución",
-      id: 3
-    }
-  ];
-
+  Mixpanel.track("Orders");
   // Loading
   if (loading) return <Loading />;
 
@@ -86,7 +61,7 @@ const OrderListing = ({ error, loading, member }) => {
             </Text>
             <Spacer size={16} />
             <Text style={styles.textCenter}>
-              Comparte las campañas con tus clientes para ganar dinero extra con
+              Comparte el contenido con tus clientes para ganar dinero extra con
               Elenas.
             </Text>
             <Spacer size={16} />
@@ -117,7 +92,7 @@ const OrderListing = ({ error, loading, member }) => {
                         {item.client_name}
                       </Text>
                       <Text style={styles.orderTotal}>
-                        ${item.total - item.tax - item.shipping}
+                        ${Math.round(item.total - item.tax - item.shipping)}
                       </Text>
                     </View>
                     <Body style={styles.orderDate}>
