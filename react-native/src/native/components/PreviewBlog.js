@@ -1,101 +1,107 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
-import { Icon, Card, CardItem, Body, Text } from "native-base";
+import { Image, StyleSheet, TouchableOpacity, Share } from "react-native";
+import {
+  Container,
+  Content,
+  Icon,
+  Card,
+  CardItem,
+  Left,
+  Right,
+  Body,
+  List,
+  ListItem,
+  Text,
+  Button
+} from "native-base";
 import Colors from "../../../native-base-theme/variables/commonColor";
-import { Actions } from "react-native-router-flux";
+import ErrorMessages from "../../constants/errors";
+import Error from "./Error";
+import Spacer from "./Spacer";
 
 import TimeAgo from "react-native-timeago";
 import moment from "moment"; //load moment module to set local language
 import "moment/locale/es"; //for import moment local language file during the application build
 moment.locale("es");
 
-const keyExtractor = item => item.id.toString();
+import { decode as atob } from "base-64";
+import shopifyAPI from "../../constants/shopify_axios";
 
-const propTypes = {
-  focused: PropTypes.bool,
-  title: PropTypes.string,
-  notificationsTitle: PropTypes.string,
-  notificationTitle: PropTypes.object,
-  notificationDescription: PropTypes.object,
-  notifications: PropTypes.arrayOf(PropTypes.shape())
-};
+const Preview = ({ error, content }) => {
+  // Error
+  if (error) return <Error content={error} />;
 
-const defaultProps = {
-  focused: false,
-  notificationsTitle: "Notificaciones",
-  orders: [],
-  notificationTitle: {
-    ordered: "Nueva Orden",
-    completed: "Pedido Entregado",
-    cancelled: "Pedido Cancelado"
-  },
-  notificationDescription: {
-    ordered: "ha completado una orden por $",
-    completed: "ha recibido su orden por $",
-    cancelled: "ha cancelado su orden por $"
-  }
-};
+  console.log("hey esto es Preview Component: id, feed:");
+  // console.log(contentId);
+  console.log(content)
 
-const Notifications = props => (
-  <View style={styles.notifications}>
-    <Text style={styles.meta}>
-      {props.orders.length
-        ? props.notificationsTitle.toUpperCase()
-        : "No hay notificaciones".toUpperCase()}
-    </Text>
-    <FlatList
-      horizontal={true}
-      showsHorizontalScrollIndicator={false}
-      data={props.orders}
-      renderItem={({ item }) => (
-        <TouchableOpacity>
-          <Card style={styles.notification}>
-            <CardItem cardBody>
-              <Body style={styles.notificationBody}>
-                <View style={styles.notificationHeader}>
-                  <View style={styles.leftContainer}>
-                    <Text
-                      style={[
-                        styles.header,
-                        styles.notificationTitle,
-                        styles.primaryMsg
-                      ]}
-                      numberOfLines={1}
-                    >
-                      <Icon
-                        type="SimpleLineIcons"
-                        name="info"
-                        style={styles.notificationTitle}
-                      />{" "}
-                      {props.notificationTitle[item.status]}
-                    </Text>
-                  </View>
-                  <View style={styles.rightContainer}>
-                    <Text style={[styles.meta, styles.notificationDate]}>
-                      <TimeAgo time={item.date} />
-                    </Text>
-                  </View>
-                </View>
-                <Text style={styles.notificationText}>
-                  {item.client_name}{" "}
-                  {props.notificationDescription[item.status]}{" "}
-                  {Math.round(item.total - item.tax - item.shipping)}
+  // Get this Recipe from all recipes
+  // let content = null;
+
+  // if (contentId && feed) {
+  //   content = feed.find(
+  //     //item => parseInt(item.id, 10) === parseInt(contentId, 10)
+  //     item => item.id === contentId
+  //   );
+  // }
+
+  // Recipe not found
+  if (!content) return <Error content={ErrorMessages.content404} />;
+
+  return (
+    <Container>
+      <Content padder>
+        <Card style={styles.card}>
+        {!!content.image &&
+          !!content.image.src && (
+          <CardItem cardBody>
+            <Image
+              source={{ uri: content.image.src }}
+              style={{
+                height: 192,
+                width: null,
+                flex: 1
+              }}
+            />
+          </CardItem>
+          )}
+          <CardItem cardBody>
+            <Body style={[styles.cardBody, styles.cardSuccess]}>
+              <Spacer size={8} />
+              <Text style={styles.header}>{content.title}</Text>
+              <Text style={styles.meta}>
+                <Text style={[styles.meta, styles.category, styles.successMsg]}>
+                  Para compartir{" "}
                 </Text>
-              </Body>
-            </CardItem>
-          </Card>
-        </TouchableOpacity>
-      )}
-      keyExtractor={keyExtractor}
-    />
-  </View>
-);
+                <Text style={[styles.meta, styles.date]}>
+                  • <TimeAgo time={content.updatedAt} />
+                </Text>
+              </Text>
+              <Spacer size={8} />
+              <Text style={styles.description}>
+              {content.description || content.body_html.replace(/<(?:.|\n)*?>/gm, '')}
+              </Text>
+              <Spacer size={16} />
+            </Body>
+          </CardItem>
+        </Card>
+      </Content>
+    </Container>
+  );
+};
 
-Notifications.propTypes = propTypes;
-Notifications.defaultProps = defaultProps;
+Preview.propTypes = {
+  error: PropTypes.string,
+  // contentId: PropTypes.string.isRequired
+  //feed: PropTypes.arrayOf(PropTypes.shape()).isRequired
+};
 
-export default Notifications;
+Preview.defaultProps = {
+  error: null
+};
+
+export default Preview;
 
 const styles = StyleSheet.create({
   container: {
@@ -172,8 +178,7 @@ const styles = StyleSheet.create({
     fontFamily: "playfair",
     fontSize: 32,
     marginBottom: 8,
-    lineHeight: 28,
-    fontWeight: "700"
+    lineHeight: 28
   },
   meta: {
     fontSize: 10,
@@ -270,12 +275,8 @@ const styles = StyleSheet.create({
   },
   notificationTitle: {
     fontSize: 14,
-    lineHeight: 18,
+    lineHeight: 16,
     marginBottom: 0
-  },
-  notificationTitleIcon: {
-    fontSize: 6,
-    lineHeight: 24
   },
   notificationText: {
     fontSize: 12,

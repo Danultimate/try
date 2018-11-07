@@ -141,8 +141,8 @@ class Dashboard extends React.Component {
                 <Text style={styles.userSales}>
                   <Text style={styles.userCurrency}>$</Text>
                   {this.props.member.validOrders
-                    ? this.props.member.validOrders
-                        .reduce((a, b) => +a + b.total - b.tax - b.shipping, 0)
+                    ? Math.round(this.props.member.validOrders
+                        .reduce((a, b) => +a + b.total - b.tax - b.shipping, 0))
                         .toLocaleString("es-CO", {
                           maximumFractionDigits: 0
                         })
@@ -159,8 +159,8 @@ class Dashboard extends React.Component {
             </View>
           </View>
 
-          {this.state.orders ? (
-            <OrderNotifications orders={this.state.orders.slice(0, 4)} />
+          {this.props.member.orders ? (
+            <OrderNotifications orders={this.props.member.orders.slice(0, 4)} />
           ) : (
             <OrderNotifications orders={[]} />
           )}

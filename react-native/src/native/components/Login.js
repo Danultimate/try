@@ -83,7 +83,7 @@ class Login extends React.Component {
   handleChange = (name, val) => {
     if (name === "cellphone" && val.length === 10) {
       publicAPI
-        .post("/already_user", JSON.stringify({ cellphone: val }))
+        .post("/already_user", JSON.stringify({ cellphone: val }), {headers: {common: {} }})
         .then(response => {
           this.setState({
             isHidden: false,

@@ -19,13 +19,13 @@ const More = ({ member, logout }) => (
       <Card style={styles.card}>
         {member && member.email ? (
           <View>
-            <CardItem button onPress={Actions.updateProfile}>
+            {/* <CardItem button onPress={Actions.updateProfile}>
               <Icon type="SimpleLineIcons" name="pencil" />
               <Text>Actualizar mi perfil</Text>
               <Right style={styles.rightArrow}>
                 <Icon name="arrow-forward" />
               </Right>
-            </CardItem>
+            </CardItem> */}
             <CardItem button onPress={logout} icon>
               <Icon type="SimpleLineIcons" name="logout" />
               <Text>Cerrar sesión</Text>
@@ -50,13 +50,13 @@ const More = ({ member, logout }) => (
                 <Icon name="arrow-forward" />
               </Right>
             </CardItem>
-            <CardItem button onPress={Actions.forgotPassword} icon>
+            {/* <CardItem button onPress={Actions.forgotPassword} icon>
               <Icon type="SimpleLineIcons" name="key" />
               <Text>Olvidaste tu contraseña</Text>
               <Right style={styles.rightArrow}>
                 <Icon name="arrow-forward" />
               </Right>
-            </CardItem>
+            </CardItem> */}
           </View>
         )}
         <View>

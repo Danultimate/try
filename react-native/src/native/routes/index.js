@@ -34,6 +34,7 @@ import DashboardContainer from "../../containers/Dashboard";
 import DashboardComponent from "../components/Dashboard";
 
 import PreviewComponent from "../components/Preview";
+import PreviewBlogComponent from "../components/PreviewBlog";
 import PreviewProductComponent from "../components/PreviewProduct";
 
 import WelcomeComponent from "../components/Welcome";
@@ -243,6 +244,19 @@ const Index = (
       // component={DashboardContainer}
       // Layout={PreviewComponent}
       component={PreviewComponent}
+    />
+    <Scene
+      back
+      clone
+      renderRightButton={() => {
+        return <View />;
+      }}
+      key="previewBlog"
+      title="Vista Previa"
+      {...DefaultProps.navbarProps}
+      // component={DashboardContainer}
+      // Layout={PreviewComponent}
+      component={PreviewBlogComponent}
     />
     <Scene
       back

@@ -121,7 +121,7 @@ const ClientListing = ({ error, loading, member }) => {
                       </Text>
                       <Spacer size={4} />
                       <Text style={styles.clientTotal}>
-                        ${item.total_ordered}
+                        ${Math.round(item.total_ordered)}
                       </Text>
                       <Text note style={styles.meta}>
                         Ordenes Totales
@@ -133,7 +133,7 @@ const ClientListing = ({ error, loading, member }) => {
                       <Text note style={styles.meta}>
                         Orden promedio{" "}
                       </Text>{" "}
-                      ${item.avg_order}
+                      ${Math.round(item.avg_order)}
                     </Text>
 
                     <Spacer size={8} />
@@ -141,7 +141,7 @@ const ClientListing = ({ error, loading, member }) => {
                       <Text note style={styles.meta}>
                         Última orden{" "}
                       </Text>{" "}
-                      ${item.last_order}
+                      ${Math.round(item.last_order)}
                     </Text>
                   </Right>
                 </CardItem>

@@ -28,29 +28,6 @@ import shopifyAPI from "../../constants/shopify_axios";
 
 const keyExtractor = item => item.id.toString();
 
-export function shareMessage(collection) {
-  console.log(collection.id)
-  id_number = atob(collection.id).split("/")[4];
-
-  shopifyAPI
-    .get(`/collections/${id_number}/metafields.json`)
-    .then(metafields => {
-      console.log('los metafields')
-      metafields.data.metafields.forEach(metafield => {
-        console.log(metafield)
-        if (metafield.key == "wp_message") {
-          message = metafield.value;
-        }
-        
-      });
-      Share.share({ message: message || collection.title }, {});
-    })
-    .catch(error => {
-      console.log(error);
-      Share.share({ message: collection.title }, {});
-    });
-}
-
 const onPress = item => {
   console.log(item.id);
   // Actions.preview({ match: { params: { id: String(item.id) } } });
@@ -99,7 +76,7 @@ const Contents = props => (
             Para compartir{" "}
           </Text>
           <Text style={[styles.meta, styles.date]}>
-            • <TimeAgo time={props.item.updatedAt} />
+            • <TimeAgo time={props.item.created_at} />
           </Text>
         </Text>
         <Spacer size={8} />

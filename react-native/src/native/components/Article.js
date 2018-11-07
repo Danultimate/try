@@ -49,7 +49,7 @@ export function openLink(collection) {
 const onPress = item => {
   console.log(item.id);
   // Actions.preview({ match: { params: { id: String(item.id) } } });
-  Actions.preview({content: item});
+  Actions.previewBlog({content: item});
 };
 
 const propTypes = {

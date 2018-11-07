@@ -34,29 +34,6 @@ import "moment/locale/es"; //for import moment local language file during the ap
 moment.locale("es");
 
 const OrderListing = ({ error, loading, member }) => {
-  const orders = [
-    {
-      clientName: "Juliana Villa",
-      addedAt: "20181028",
-      value: 67950,
-      status: "Ordenado",
-      id: 1
-    },
-    {
-      clientName: "Pedro Iriarte",
-      addedAt: "20181027",
-      value: 78950,
-      status: "Entregado",
-      id: 2
-    },
-    {
-      clientName: "Julia Barrera",
-      addedAt: "20181026",
-      value: 89950,
-      status: "Distribución",
-      id: 3
-    }
-  ];
   // Loading
   if (loading) return <Loading />;
 
@@ -112,7 +89,7 @@ const OrderListing = ({ error, loading, member }) => {
                         {item.client_name}
                       </Text>
                       <Text style={styles.orderTotal}>
-                        ${item.total - item.tax - item.shipping}
+                        ${Math.round(item.total - item.tax - item.shipping)}
                       </Text>
                     </View>
                     <Body style={styles.orderDate}>
