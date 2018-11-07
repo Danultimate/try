@@ -33,7 +33,10 @@ import "moment/locale/es"; //for import moment local language file during the ap
 import call from "react-native-phone-call";
 moment.locale("es");
 
+import { Mixpanel } from "../../actions/mixpanel";
+
 const ClientListing = ({ error, loading, member }) => {
+  Mixpanel.screen("Clients");
   // Loading
   if (loading) return <Loading />;
 
@@ -49,7 +52,7 @@ const ClientListing = ({ error, loading, member }) => {
   return (
     <Container>
       <Content padder>
-        {!member.clients || member.clients.length<1 ? (
+        {!member.clients || member.clients.length < 1 ? (
           <View style={styles.supportWidget}>
             <Spacer size={16} />
             <Image source={require("../assets/images/support.png")} />
@@ -59,7 +62,7 @@ const ClientListing = ({ error, loading, member }) => {
             </Text>
             <Spacer size={16} />
             <Text style={styles.textCenter}>
-              Comparte el contenido con posibles clientes cómo tus familiares o
+              Comparte las campañas con posibles clientes cómo tus familiares o
               amigos cercanos y comienza hoy mismo a ganar dinero extra con
               Elenas.
             </Text>

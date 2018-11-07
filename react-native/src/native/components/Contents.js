@@ -26,22 +26,23 @@ import TimeAgo from "react-native-timeago";
 import { decode as atob } from "base-64";
 import shopifyAPI from "../../constants/shopify_axios";
 
+import { Mixpanel } from "../../actions/mixpanel";
+
 const keyExtractor = item => item.id.toString();
 
 export function shareMessage(collection) {
-  console.log(collection.id)
+  console.log(collection.id);
   id_number = atob(collection.id).split("/")[4];
 
   shopifyAPI
     .get(`/collections/${id_number}/metafields.json`)
     .then(metafields => {
-      console.log('los metafields')
+      console.log("los metafields");
       metafields.data.metafields.forEach(metafield => {
-        console.log(metafield)
+        console.log(metafield);
         if (metafield.key == "wp_message") {
           message = metafield.value;
         }
-        
       });
       Share.share({ message: message || collection.title }, {});
     })
@@ -157,7 +158,10 @@ const Contents = props => (
               info
               small
               iconLeft
-              onPress={()=> Share.share({ message: item.wp_message || collection.title })}
+              onPress={() => {
+                Mixpanel.track("Share Content: " + item.title);
+                Share.share({ message: item.wp_message || collection.title });
+              }}
             >
               <Icon type="SimpleLineIcons" name="share-alt" />
               <Text style={styles.cardButtonText}>Compartir</Text>

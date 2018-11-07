@@ -12,87 +12,91 @@ import {
 } from "native-base";
 import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
+import { Mixpanel } from "../../actions/mixpanel";
 
-const More = ({ member, logout }) => (
-  <Container>
-    <Content padder>
-      <Card style={styles.card}>
-        {member && member.email ? (
+const More = ({ member, logout }) => {
+  Mixpanel.screen("More");
+  return (
+    <Container>
+      <Content padder>
+        <Card style={styles.card}>
+          {member && member.email ? (
+            <View>
+              <CardItem button onPress={Actions.updateProfile}>
+                <Icon type="SimpleLineIcons" name="pencil" />
+                <Text>Actualizar mi perfil</Text>
+                <Right style={styles.rightArrow}>
+                  <Icon name="arrow-forward" />
+                </Right>
+              </CardItem>
+              <CardItem button onPress={logout} icon>
+                <Icon type="SimpleLineIcons" name="logout" />
+                <Text>Cerrar sesión</Text>
+                <Right style={styles.rightArrow}>
+                  <Icon name="arrow-forward" />
+                </Right>
+              </CardItem>
+            </View>
+          ) : (
+            <View>
+              <CardItem button onPress={Actions.login}>
+                <Icon type="SimpleLineIcons" name="login" />
+                <Text>Iniciar sesión</Text>
+                <Right style={styles.rightArrow}>
+                  <Icon name="arrow-forward" />
+                </Right>
+              </CardItem>
+              <CardItem button onPress={Actions.signUp} icon>
+                <Icon type="SimpleLineIcons" name="user-follow" />
+                <Text>Crear cuenta</Text>
+                <Right style={styles.rightArrow}>
+                  <Icon name="arrow-forward" />
+                </Right>
+              </CardItem>
+              <CardItem button onPress={Actions.forgotPassword} icon>
+                <Icon type="SimpleLineIcons" name="key" />
+                <Text>Olvidaste tu contraseña</Text>
+                <Right style={styles.rightArrow}>
+                  <Icon name="arrow-forward" />
+                </Right>
+              </CardItem>
+            </View>
+          )}
           <View>
-            <CardItem button onPress={Actions.updateProfile}>
-              <Icon type="SimpleLineIcons" name="pencil" />
-              <Text>Actualizar mi perfil</Text>
+            <CardItem button onPress={Actions.contact}>
+              <Icon type="SimpleLineIcons" name="envelope-letter" />
+              <Text>Contacto</Text>
               <Right style={styles.rightArrow}>
                 <Icon name="arrow-forward" />
               </Right>
             </CardItem>
-            <CardItem button onPress={logout} icon>
-              <Icon type="SimpleLineIcons" name="logout" />
-              <Text>Cerrar sesión</Text>
+            <CardItem button onPress={Actions.terms}>
+              <Icon type="SimpleLineIcons" name="docs" />
+              <Text>Terminos y condiciones</Text>
+              <Right style={styles.rightArrow}>
+                <Icon name="arrow-forward" />
+              </Right>
+            </CardItem>
+            <CardItem button onPress={Actions.support}>
+              <Icon type="SimpleLineIcons" name="umbrella" />
+              <Text>Soporte</Text>
+              <Right style={styles.rightArrow}>
+                <Icon name="arrow-forward" />
+              </Right>
+            </CardItem>
+            <CardItem button onPress={Actions.about}>
+              <Icon type="SimpleLineIcons" name="symbol-female" />
+              <Text>Acerca de Elenas</Text>
               <Right style={styles.rightArrow}>
                 <Icon name="arrow-forward" />
               </Right>
             </CardItem>
           </View>
-        ) : (
-          <View>
-            <CardItem button onPress={Actions.login}>
-              <Icon type="SimpleLineIcons" name="login" />
-              <Text>Iniciar sesión</Text>
-              <Right style={styles.rightArrow}>
-                <Icon name="arrow-forward" />
-              </Right>
-            </CardItem>
-            <CardItem button onPress={Actions.signUp} icon>
-              <Icon type="SimpleLineIcons" name="user-follow" />
-              <Text>Crear cuenta</Text>
-              <Right style={styles.rightArrow}>
-                <Icon name="arrow-forward" />
-              </Right>
-            </CardItem>
-            <CardItem button onPress={Actions.forgotPassword} icon>
-              <Icon type="SimpleLineIcons" name="key" />
-              <Text>Olvidaste tu contraseña</Text>
-              <Right style={styles.rightArrow}>
-                <Icon name="arrow-forward" />
-              </Right>
-            </CardItem>
-          </View>
-        )}
-        <View>
-          <CardItem button onPress={Actions.contact}>
-            <Icon type="SimpleLineIcons" name="envelope-letter" />
-            <Text>Contacto</Text>
-            <Right style={styles.rightArrow}>
-              <Icon name="arrow-forward" />
-            </Right>
-          </CardItem>
-          <CardItem button onPress={Actions.terms}>
-            <Icon type="SimpleLineIcons" name="docs" />
-            <Text>Terminos y condiciones</Text>
-            <Right style={styles.rightArrow}>
-              <Icon name="arrow-forward" />
-            </Right>
-          </CardItem>
-          <CardItem button onPress={Actions.support}>
-            <Icon type="SimpleLineIcons" name="umbrella" />
-            <Text>Soporte</Text>
-            <Right style={styles.rightArrow}>
-              <Icon name="arrow-forward" />
-            </Right>
-          </CardItem>
-          <CardItem button onPress={Actions.about}>
-            <Icon type="SimpleLineIcons" name="symbol-female" />
-            <Text>Acerca de Elenas</Text>
-            <Right style={styles.rightArrow}>
-              <Icon name="arrow-forward" />
-            </Right>
-          </CardItem>
-        </View>
-      </Card>
-    </Content>
-  </Container>
-);
+        </Card>
+      </Content>
+    </Container>
+  );
+};
 
 More.propTypes = {
   member: PropTypes.shape({}),

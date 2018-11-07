@@ -8,7 +8,7 @@
     "orientation": "portrait",
     "splash": {
       "image": "./src/images/splash.png",
-      "resizeMode": "contain"
+      "resizeMode": "cover"
     },
     "androidStatusBar": {
       "barStyle": "dark-content"

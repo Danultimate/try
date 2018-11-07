@@ -18,97 +18,108 @@ import { Actions } from "react-native-router-flux";
 import Spacer from "./Spacer";
 import Header from "./Header";
 
-const Profile = ({ member, logout }) => (
-  <Container>
-    <Content padder>
-      {member &&
-        member.email && (
-          <View style={styles.userBar}>
-            <View style={styles.userImg}>
-              <Image
-                style={styles.userAvatar}
-                source={require("../assets/images/avatar.png")}
-              />
-              <Text style={styles.userCode}>Cod: {member.code}</Text>
-              <Spacer size={8} />
-            </View>
-            <View style={styles.userInfo}>
-              <Text style={styles.userGreeting}>
-                {member.firstName
-                  ? "¡Hola " + member.firstName + ", muy bien!"
-                  : "¡Hola, mujer poderosa!"}
-              </Text>
-              <Text style={styles.userMessage}>
-                Tu correo es {member.email}
-              </Text>
-              <Spacer size={8} />
-              <View style={styles.userNumbers}>
-                <Text style={styles.userNumberLabel}>Ventas </Text>
-                <Text style={styles.userSales}>
-                  <Text style={styles.userCurrency}>$</Text>
-                  {member.validOrders
-                    ? member.validOrders.reduce((a, b) => +a +b.total - b.tax - b.shipping, 0).toLocaleString("es-CO", {
-                        maximumFractionDigits: 0
-                      })
-                    : 0}
+import { Mixpanel } from "../../actions/mixpanel";
+
+const Profile = ({ member, logout }) => {
+  Mixpanel.screen("Profile");
+
+  return (
+    <Container>
+      <Content padder>
+        {member &&
+          member.email && (
+            <View style={styles.userBar}>
+              <View style={styles.userImg}>
+                <Image
+                  style={styles.userAvatar}
+                  source={require("../assets/images/avatar.png")}
+                />
+                <Text style={styles.userCode}>Cod: {member.code}</Text>
+                <Spacer size={8} />
+              </View>
+              <View style={styles.userInfo}>
+                <Text style={styles.userGreeting}>
+                  {member.firstName
+                    ? "¡Hola " + member.firstName + ", muy bien!"
+                    : "¡Hola, mujer poderosa!"}
                 </Text>
-                <Spacer size={20} />
-                <Text style={styles.userClients}>
-                  {member.clients ? member.clients.length : 0}
+                <Text style={styles.userMessage}>
+                  Tu correo es {member.email}
                 </Text>
-                <Text style={styles.userNumberLabel}> clientes</Text>
+                <Spacer size={8} />
+                <View style={styles.userNumbers}>
+                  <Text style={styles.userNumberLabel}>Ventas </Text>
+                  <Text style={styles.userSales}>
+                    <Text style={styles.userCurrency}>$</Text>
+                    {member.validOrders
+                      ? member.validOrders
+                          .reduce(
+                            (a, b) => +a + b.total - b.tax - b.shipping,
+                            0
+                          )
+                          .toLocaleString("es-CO", {
+                            maximumFractionDigits: 0
+                          })
+                      : 0}
+                  </Text>
+                  <Spacer size={20} />
+                  <Text style={styles.userClients}>
+                    {member.clients ? member.clients.length : 0}
+                  </Text>
+                  <Text style={styles.userNumberLabel}> clientes</Text>
+                </View>
               </View>
             </View>
-          </View>
-        )}
+          )}
 
-      <Card style={styles.card}>
-        {member && member.email ? (
-          <View>
-            <CardItem button onPress={Actions.updateProfile}>
-              <Icon type="SimpleLineIcons" name="pencil" />
-              <Text>Actualizar mi perfil</Text>
-              <Right style={styles.rightArrow}>
-                <Icon name="arrow-forward" />
-              </Right>
-            </CardItem>
-            <CardItem button onPress={logout} icon>
-              <Icon type="SimpleLineIcons" name="logout" />
-              <Text>Cerrar sesión</Text>
-              <Right style={styles.rightArrow}>
-                <Icon name="arrow-forward" />
-              </Right>
-            </CardItem>
-          </View>
-        ) : (
-          <View>
-            <CardItem button onPress={Actions.login}>
-              <Icon type="SimpleLineIcons" name="login" />
-              <Text>Iniciar sesión</Text>
-              <Right style={styles.rightArrow}>
-                <Icon name="arrow-forward" />
-              </Right>
-            </CardItem>
-            <CardItem button onPress={Actions.signUp} icon>
-              <Icon type="SimpleLineIcons" name="user-follow" />
-              <Text>Crear cuenta</Text>
-              <Right style={styles.rightArrow}>
-                <Icon name="arrow-forward" />
-              </Right>
-            </CardItem>
-            <CardItem button onPress={Actions.forgotPassword} icon>
-              <Icon type="SimpleLineIcons" name="key" />
-              <Text>Olvidaste tu contraseña</Text>
-              <Right style={styles.rightArrow}>
-                <Icon name="arrow-forward" />
-              </Right>
-            </CardItem>
-          </View>
-        )}
-      </Card>
-    </Content>
-  </Container>
-);
+        <Card style={styles.card}>
+          {member && member.email ? (
+            <View>
+              <CardItem button onPress={Actions.updateProfile}>
+                <Icon type="SimpleLineIcons" name="pencil" />
+                <Text>Actualizar mi perfil</Text>
+                <Right style={styles.rightArrow}>
+                  <Icon name="arrow-forward" />
+                </Right>
+              </CardItem>
+              <CardItem button onPress={logout} icon>
+                <Icon type="SimpleLineIcons" name="logout" />
+                <Text>Cerrar sesión</Text>
+                <Right style={styles.rightArrow}>
+                  <Icon name="arrow-forward" />
+                </Right>
+              </CardItem>
+            </View>
+          ) : (
+            <View>
+              <CardItem button onPress={Actions.login}>
+                <Icon type="SimpleLineIcons" name="login" />
+                <Text>Iniciar sesión</Text>
+                <Right style={styles.rightArrow}>
+                  <Icon name="arrow-forward" />
+                </Right>
+              </CardItem>
+              <CardItem button onPress={Actions.signUp} icon>
+                <Icon type="SimpleLineIcons" name="user-follow" />
+                <Text>Crear cuenta</Text>
+                <Right style={styles.rightArrow}>
+                  <Icon name="arrow-forward" />
+                </Right>
+              </CardItem>
+              <CardItem button onPress={Actions.forgotPassword} icon>
+                <Icon type="SimpleLineIcons" name="key" />
+                <Text>Olvidaste tu contraseña</Text>
+                <Right style={styles.rightArrow}>
+                  <Icon name="arrow-forward" />
+                </Right>
+              </CardItem>
+            </View>
+          )}
+        </Card>
+      </Content>
+    </Container>
+  );
+};
 
 Profile.propTypes = {
   member: PropTypes.shape({}),

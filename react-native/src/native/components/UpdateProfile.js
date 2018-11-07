@@ -27,6 +27,8 @@ import Loading from "./Loading";
 import Header from "./Header";
 import Spacer from "./Spacer";
 
+import { Mixpanel } from "../../actions/mixpanel";
+
 class UpdateProfile extends React.Component {
   static propTypes = {
     error: PropTypes.string,
@@ -75,6 +77,7 @@ class UpdateProfile extends React.Component {
   };
 
   render() {
+    Mixpanel.screen("Update Profile");
     const { loading, error, success } = this.props;
     const {
       firstName,

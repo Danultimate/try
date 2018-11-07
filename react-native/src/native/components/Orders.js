@@ -33,7 +33,11 @@ import moment from "moment"; //load moment module to set local language
 import "moment/locale/es"; //for import moment local language file during the application build
 moment.locale("es");
 
+import { Mixpanel } from "../../actions/mixpanel";
+
 const OrderListing = ({ error, loading, member }) => {
+  Mixpanel.screen("Orders");
+
   const orders = [
     {
       clientName: "Juliana Villa",
@@ -57,6 +61,7 @@ const OrderListing = ({ error, loading, member }) => {
       id: 3
     }
   ];
+
   // Loading
   if (loading) return <Loading />;
 
@@ -71,7 +76,7 @@ const OrderListing = ({ error, loading, member }) => {
   return (
     <Container>
       <Content padder>
-        {!member.orders || member.orders.length<1 ? (
+        {!member.orders || member.orders.length < 1 ? (
           <View style={styles.supportWidget}>
             <Spacer size={16} />
             <Image source={require("../assets/images/support.png")} />
@@ -81,7 +86,7 @@ const OrderListing = ({ error, loading, member }) => {
             </Text>
             <Spacer size={16} />
             <Text style={styles.textCenter}>
-              Comparte el contenido con tus clientes para ganar dinero extra con
+              Comparte las campañas con tus clientes para ganar dinero extra con
               Elenas.
             </Text>
             <Spacer size={16} />

@@ -40,7 +40,9 @@ var jsonQuery = require("json-query");
 import shopifyAPI from "../../constants/shopify_axios";
 import API from "../../constants/api";
 import publicAPI from "../../constants/api_public";
-import axios from "axios"
+import axios from "axios";
+
+import { Mixpanel } from "../../actions/mixpanel";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -58,38 +60,34 @@ class Dashboard extends React.Component {
   }
 
   componentWillMount() {
-    
     AsyncStorage.getItem("token")
       .then(token => {
-        console.log('el tooooken')
-        console.log(token)
+        console.log("el tooooken");
+        console.log(token);
 
         API.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         publicAPI.defaults.headers.common = {};
-        API.get('/feed')
-        .then(res => {
-          //console.log('la respuesta')  
-          //console.log(res)
-          let response = res.data
-          console.log("Retrieve Feed");
-          console.log(response.feed[0].type);
-          this.setState({
-            feed: response.feed,
-            products: response.products,
-            orders: response.orders,
-            topMessage: response.top_message.value,
-            bottomMessage: response.bottom_message.value,
-            loading: false
+        API.get("/feed")
+          .then(res => {
+            //console.log('la respuesta')
+            //console.log(res)
+            let response = res.data;
+            console.log("Retrieve Feed");
+            console.log(response.feed[0].type);
+            this.setState({
+              feed: response.feed,
+              products: response.products,
+              orders: response.orders,
+              topMessage: response.top_message.value,
+              bottomMessage: response.bottom_message.value,
+              loading: false
+            });
+          })
+          .catch(error => {
+            console.log("Error @getting content1");
+            console.log(error);
+            console.log(error.response);
           });
-        })
-        .catch(error => {
-          console.log("Error @getting content1");
-          console.log(error)
-          console.log(error.response);
-        });
-        
-
-        
       })
       .catch(error => {
         console.log("Error @getting content2");
@@ -100,6 +98,7 @@ class Dashboard extends React.Component {
       });
   }
   render() {
+    Mixpanel.screen("Dashboard");
     // Loading
     if (this.state.loading) return <Loading />;
 
@@ -132,8 +131,8 @@ class Dashboard extends React.Component {
               </Text>
               <Text style={styles.userMessage}>
                 {this.state.bottomMessage
-                    ? this.state.bottomMessage
-                    : "Hoy puede ser un gran día :)"}
+                  ? this.state.bottomMessage
+                  : "Hoy puede ser un gran día :)"}
               </Text>
               <Spacer size={10} />
               <View style={styles.userNumbers}>
@@ -230,12 +229,12 @@ class Dashboard extends React.Component {
                   small
                   iconLeft
                   onPress={() => {
+                    Mixpanel.track("Share Referral Code");
                     Share.share(
                       {
                         message:
-                          "¡Compra en Elenas.la los mejores productos de belleza, y con mi código de vendedora recibe el envío grátis: " +
-                          this.props.member.code +
-                          "!"
+                          "Te recomiendo que te registras en Elenas, la nueva manera de vender productos de belleza. Es fácil, no tienes ningún riesgo y por cada venta de ganas una comisión del 30% (solo aplica para las Pioneras, las primeras 1.000 embajadoras y ya vamos en 700). Baja la app ahora por http://bit.ly/elenas-app y regístrate usando mi código de vendedora: " +
+                          this.props.member.code
                       },
                       {}
                     );
