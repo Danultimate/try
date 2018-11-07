@@ -21,6 +21,7 @@ import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
 
 import Spacer from "./Spacer";
+import call from "react-native-phone-call";
 
 import TimeAgo from "react-native-timeago";
 import { decode as atob } from "base-64";

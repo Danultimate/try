@@ -24,6 +24,7 @@ import Spacer from "./Spacer";
 
 import Collection from "./Content";
 import Article from "./Article";
+import AbandonedCart from "./AbandonedCart";
 
 import TimeAgo from "react-native-timeago";
 import { decode as atob } from "base-64";
