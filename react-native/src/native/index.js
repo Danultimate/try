@@ -18,7 +18,22 @@ import Loading from "./components/Loading";
 import registerForPushNotificationsAsync from "../constants/notifications";
 
 // Hide StatusBar on Android as it overlaps tabs
-if (Platform.OS === "android") StatusBar.setHidden(false);
+if (Platform.OS === "android") {
+  StatusBar.setHidden(false);
+  if (typeof Symbol === 'undefined') {
+    if (Array.prototype['@@iterator'] === undefined) {
+      Array.prototype['@@iterator'] = function() {
+        let i = 0;
+        return {
+          next: () => ({
+            done: i >= this.length,
+            value: this[i++],
+          }),
+        };
+      };
+    }
+  }
+}
 
 class App extends React.Component {
   constructor() {

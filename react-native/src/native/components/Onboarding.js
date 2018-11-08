@@ -5,21 +5,10 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
-  AsyncStorage
 } from "react-native";
 import {
   Container,
-  Content,
   Icon,
-  Form,
-  Item,
-  Card,
-  CardItem,
-  Left,
-  Right,
-  Body,
-  Label,
-  Input,
   Text,
   Button,
   View
@@ -28,7 +17,6 @@ import OnboardingComponent from "react-native-onboarding-swiper";
 import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
 import AppLogoAuth from "./AppLogoAuth";
-import Spacer from "./Spacer";
 
 import { Mixpanel } from "../../actions/mixpanel";
 
