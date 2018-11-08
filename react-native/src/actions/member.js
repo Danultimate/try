@@ -7,7 +7,6 @@ import API from "../constants/api";
 import { Actions } from "react-native-router-flux";
 import publicAPI from "../constants/api_public";
 
-
 /**
  * Sign Up to Firebase and Backend
  */
@@ -40,12 +39,17 @@ export function signUp(formData) {
 
       // Check already descubre account
       publicAPI
-        .post("/already_user", JSON.stringify({ cellphone: cellphone }), {headers: {common: {} }})
-        .then(response => {
-          console.log('el is_user', response.data.is_user)
-          if (response.data.is_user) return reject({message: ErrorMessages.existingCellphone})
+        .post("/already_user", JSON.stringify({ cellphone: cellphone }), {
+          headers: { common: {} }
         })
-        .catch((error) => console.log("Error @check already descubre account "+error)) 
+        .then(response => {
+          console.log("el is_user", response.data.is_user);
+          if (response.data.is_user)
+            return reject({ message: ErrorMessages.existingCellphone });
+        })
+        .catch(error =>
+          console.log("Error @check already descubre account " + error)
+        );
 
       await statusMessage(dispatch, "loading", true);
 
@@ -77,7 +81,7 @@ export function signUp(formData) {
                       referred_by_code: referred_by
                     }
                   })
-                  .then(async (response) => {
+                  .then(async response => {
                     console.log("user and seller registered");
                     console.log(response.data);
                   })
@@ -280,59 +284,73 @@ export function login(formData) {
                           lastLoggedIn: Firebase.database.ServerValue.TIMESTAMP
                         })
                         .then(async () => {
-                          
                           return await Firebase.auth()
-                          .setPersistence(Firebase.auth.Auth.Persistence.LOCAL)
-                          .then(() =>
-                            Firebase.auth()
-                              .signInWithEmailAndPassword(email, password)
-                              .then(async res => {
-                                const userDetails = res && res.user ? res.user : null;
-                  
-                                if (userDetails.uid) {
-                                  // Update last logged in data
-                                  FirebaseRef.child(`users/${userDetails.uid}`).update({
-                                    lastLoggedIn: Firebase.database.ServerValue.TIMESTAMP
-                                  });
-                  
-                                  // Send verification Email when email hasn't been verified
-                                  if (userDetails.emailVerified === false) {
-                                    Firebase.auth()
-                                      .currentUser.sendEmailVerification()
-                                      .catch(() =>
-                                        console.log("Verification email failed to send")
-                                      );
+                            .setPersistence(
+                              Firebase.auth.Auth.Persistence.LOCAL
+                            )
+                            .then(() =>
+                              Firebase.auth()
+                                .signInWithEmailAndPassword(email, password)
+                                .then(async res => {
+                                  const userDetails =
+                                    res && res.user ? res.user : null;
+
+                                  if (userDetails.uid) {
+                                    // Update last logged in data
+                                    FirebaseRef.child(
+                                      `users/${userDetails.uid}`
+                                    ).update({
+                                      lastLoggedIn:
+                                        Firebase.database.ServerValue.TIMESTAMP
+                                    });
+
+                                    // Send verification Email when email hasn't been verified
+                                    if (userDetails.emailVerified === false) {
+                                      Firebase.auth()
+                                        .currentUser.sendEmailVerification()
+                                        .catch(() =>
+                                          console.log(
+                                            "Verification email failed to send"
+                                          )
+                                        );
+                                    }
+
+                                    // Set flask backend bridge
+                                    await setupAxios(
+                                      dispatch,
+                                      cellphone,
+                                      password
+                                    );
+                                    AsyncStorage.getItem("token").then(res => {
+                                      console.log("here's the token");
+                                      console.log(res);
+                                    });
+
+                                    // Get User Data
+                                    //await getUserData(dispatch);
                                   }
-                  
-                                  // Set flask backend bridge
-                                  await setupAxios(dispatch, cellphone, password);
-                                  AsyncStorage.getItem("token").then(res => {
-                                    console.log("here's the token");
-                                    console.log(res);
-                                  });
-                  
-                                  // Get User Data
-                                  //await getUserData(dispatch);
-                                }
-                  
-                                await statusMessage(dispatch, "loading", false);
-                  
-                                // Send Login data to Redux
-                                return resolve(
-                                  dispatch({
-                                    type: "USER_LOGIN",
-                                    data: userDetails
-                                  })
-                                );
-                              })
-                              .catch(reject)
-                          );
+
+                                  await statusMessage(
+                                    dispatch,
+                                    "loading",
+                                    false
+                                  );
+
+                                  // Send Login data to Redux
+                                  return resolve(
+                                    dispatch({
+                                      type: "USER_LOGIN",
+                                      data: userDetails
+                                    })
+                                  );
+                                })
+                                .catch(reject)
+                            );
 
                           // return statusMessage(dispatch, "loading", false).then(
                           //   resolve
                           // );
                         });
-                      
                     }
                     // }).catch(reject);
                   })
@@ -428,7 +446,7 @@ export function resetPassword(formData) {
           statusMessage(
             dispatch,
             "success",
-            "We have emailed you a reset link"
+            "Te hemos enviado un correo electrónico con un enlace para reestablecer tu contraseña"
           ).then(resolve(dispatch({ type: "USER_RESET" })))
         )
         .catch(reject);
