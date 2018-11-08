@@ -88,8 +88,7 @@ export function signUp(formData) {
                   .then(response => {
                     console.log("user and seller registered");
                     console.log(response.data);
-                    statusMessage(dispatch, "loading", false)
-                    .then(resolve);
+                    statusMessage(dispatch, "loading", false).then(resolve);
                   })
                   .catch(error => console.log(error));
               });
@@ -450,7 +449,7 @@ export function resetPassword(formData) {
           statusMessage(
             dispatch,
             "success",
-            "We have emailed you a reset link"
+            "Te hemos enviado un correo electrónico con un enlace para reestablecer tu contraseña"
           ).then(resolve(dispatch({ type: "USER_RESET" })))
         )
         .catch(reject);

@@ -15,7 +15,8 @@ export default {
   missingCellphone: "Hace falta tu número de teléfono",
   missingEmail: "Hace falta tu correo electrónico",
   existingEmail: "El correo electrónico esta siendo usado por otra cuenta",
-  existingCellphone: "Este celular ya esta registrado como vendedora. Ingresa con tu cuenta de Descubre",
+  existingCellphone:
+    "Este celular ya esta registrado. Inicia sesión con tu cuenta anterior de Descubre",
   invalidEmail: "El correo electrónico no es válido",
   missingPassword: "Hace falta tu contraseña",
   wrongPassword: "La contraseña no es valida, revísala e inténtalo nuevamente",
