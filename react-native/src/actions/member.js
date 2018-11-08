@@ -38,7 +38,7 @@ export function signUp(formData) {
       if (!checked) return reject({ message: ErrorMessages.missingTandC });
 
       // Check already descubre account
-      await publicAPI
+      return await publicAPI
         .post("/already_user", JSON.stringify({ cellphone: cellphone }), {
           headers: { common: {} }
         })

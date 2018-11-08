@@ -1,3 +1,11 @@
+// symbol polyfills
+global.Symbol = require('core-js/es6/symbol');
+require('core-js/fn/symbol/iterator');
+
+// collection fn polyfills
+require('core-js/fn/map');
+require('core-js/fn/set');
+require('core-js/fn/array/find');
 import React from "react";
 import { StatusBar, Platform, AsyncStorage } from "react-native";
 import { AppLoading, Asset, Font, Permissions, Notifications } from "expo";
@@ -20,19 +28,19 @@ import registerForPushNotificationsAsync from "../constants/notifications";
 // Hide StatusBar on Android as it overlaps tabs
 if (Platform.OS === "android") {
   StatusBar.setHidden(false);
-  if (typeof Symbol === 'undefined') {
-    if (Array.prototype['@@iterator'] === undefined) {
-      Array.prototype['@@iterator'] = function() {
-        let i = 0;
-        return {
-          next: () => ({
-            done: i >= this.length,
-            value: this[i++],
-          }),
-        };
-      };
-    }
-  }
+  // if (typeof Symbol === 'undefined') {
+  //   if (Array.prototype['@@iterator'] === undefined) {
+  //     Array.prototype['@@iterator'] = function() {
+  //       let i = 0;
+  //       return {
+  //         next: () => ({
+  //           done: i >= this.length,
+  //           value: this[i++],
+  //         }),
+  //       };
+  //     };
+  //   }
+  // }
 }
 
 class App extends React.Component {
