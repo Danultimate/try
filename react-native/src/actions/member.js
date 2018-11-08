@@ -38,7 +38,7 @@ export function signUp(formData) {
       if (!checked) return reject({ message: ErrorMessages.missingTandC });
 
       // Check already descubre account
-      publicAPI
+      await publicAPI
         .post("/already_user", JSON.stringify({ cellphone: cellphone }), {
           headers: { common: {} }
         })
@@ -70,24 +70,27 @@ export function signUp(formData) {
               .then(() => {
                 // Send user details to Flask DB
                 axios
-                  .post("https://seller-server-dev.herokuapp.com/api/sign_up", {
-                    sign_up: {
-                      first_name: firstName,
-                      last_name: lastName,
-                      cellphone: cellphone,
-                      password: password,
-                      email: email,
-                      commission: 0.3,
-                      referred_by_code: referred_by
-                    }
-                  })
-                  .then(async response => {
+                  .post(
+                    "https://seller-server-dev.herokuapp.com/api/sign_up",
+                    {
+                      sign_up: {
+                        first_name: firstName,
+                        last_name: lastName,
+                        cellphone: cellphone,
+                        password: password,
+                        email: email,
+                        commission: 0.3,
+                        referred_by_code: referred_by
+                      }
+                    },
+                    { headers: { common: {} } }
+                  )
+                  .then(response => {
                     console.log("user and seller registered");
                     console.log(response.data);
+                    statusMessage(dispatch, "loading", false).then(resolve);
                   })
                   .catch(error => console.log(error));
-
-                statusMessage(dispatch, "loading", false).then(resolve);
               });
           }
         })
