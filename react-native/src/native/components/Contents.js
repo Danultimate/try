@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
   },
   meta: {
     fontSize: 10,
-    color: "#C3C5C7"
+    color: Colors.tabBarTextColor
   },
   description: {
     fontSize: 18

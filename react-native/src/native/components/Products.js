@@ -98,11 +98,14 @@ const Products = props => {
                   small
                   iconLeft
                   onPress={() => {
+                    Mixpanel.track("Share Product", {
+                      product_id: item.id,
+                      product_name: item.title
+                    });
                     Mixpanel.track("Share Product: " + item.title);
                     let url = `https://elenas.la/products/${item.handle}`;
                     Share.share({
-                      message:
-                        `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}`,
+                      message: `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}`,
                       title: item.title
                       // url: "https://elenas.la/products/" + item.handle
                     });
@@ -133,63 +136,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#F7F7FF"
   },
-  userBar: {
-    flexDirection: "row",
-    backgroundColor: Colors.brandPrimary,
-    height: 104,
-    padding: 12,
-    marginTop: -10,
-    marginLeft: -10,
-    marginRight: -10,
-    marginBottom: 10
-  },
-  userGreeting: {
-    fontFamily: "playfair",
-    color: "white",
-    fontSize: 24,
-    lineHeight: 24
-  },
-  userMessage: {
-    color: "#B09DE0",
-    fontSize: 14
-  },
-  userNumberLabel: {
-    color: "#B09DE0",
-    fontSize: 10,
-    marginTop: 16
-  },
-  userSales: {
-    fontSize: 26,
-    color: "white"
-  },
-  userCurrency: {
-    fontSize: 16,
-    color: "white"
-  },
-  userClients: {
-    fontSize: 18,
-    color: "white",
-    marginTop: 8
-  },
-  userImg: {
-    flex: 0.2,
-    marginRight: 10,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  userAvatar: {
-    marginBottom: 12
-  },
-  userCode: {
-    fontSize: 10,
-    textAlign: "center",
-    color: "#B09DE0"
-  },
-  userInfo: { flex: 0.8 },
-  userNumbers: {
-    flexDirection: "row",
-    height: 32
-  },
   card: {
     shadowColor: "#E2E1E6",
     shadowOffset: {
@@ -210,7 +156,7 @@ const styles = StyleSheet.create({
   meta: {
     fontSize: 10,
     marginBottom: 8,
-    color: "#C3C5C7"
+    color: Colors.tabBarTextColor
   },
   description: {
     fontSize: 18

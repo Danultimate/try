@@ -9,33 +9,36 @@ let iosWriteKey = "FpAMQ2cM1IQ08f81wsHsfPRUGATAysLU";
 Segment.initialize({ androidWriteKey, iosWriteKey });
 
 let actions = {
-  identify: id => {
+  identify: (id, props) => {
     // if (env_check) analytics.identify(id);
     // analytics.identify(id);
-    console.log("entra id");
-    Segment.identify(id);
+    if (!props) {
+      Segment.identify(id);
+    } else {
+      Segment.identifyWithTraits(id, props);
+    }
   },
   alias: id => {
     // if (env_check) analytics.alias(id);
     // analytics.alias(id);
     Segment.alias(id);
   },
-  screen: screenName => {
+  screen: (screenName, props) => {
     // if (env_check) analytics.alias(id);
     // analytics.alias(id);
-    Segment.screen(screenName);
+    if (!props) {
+      SSegment.screenWithProperties(screenName, props);
+    } else {
+      Segment.screen(screenName);
+    }
   },
   track: (name, props) => {
     // if (env_check) analytics.track(name, props);
     // analytics.track(name, props);
-    console.log("entra");
-    Segment.track(name, props);
-  },
-  people: {
-    set: props => {
-      // if (env_check) analytics.people.set(props);
-      // analytics.people.set(props);
-      Segment.people.set(props);
+    if (!props) {
+      Segment.track(name);
+    } else {
+      Segment.trackWithProperties(name, props);
     }
   }
 };

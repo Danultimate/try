@@ -39,7 +39,7 @@ export default {
   iconSizeLarge: 45,
   iconSizeSmall: 18,
   cardDefaultBg: "#fff",
-  cardBorderColor: "#ccc",
+  cardBorderColor: "#EBEDF0",
   CheckboxRadius: 4,
   CheckboxBorderWidth: 2,
   CheckboxPaddingLeft: 2,

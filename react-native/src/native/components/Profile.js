@@ -17,12 +17,15 @@ import { Actions } from "react-native-router-flux";
 
 import Spacer from "./Spacer";
 import Header from "./Header";
+import Referral from "./Referral";
+import SupportWidget from "./SupportWidget";
+
 import { Mixpanel } from "../../actions/mixpanel";
 
 const Profile = ({ member, logout }) => {
   Mixpanel.screen("Profile");
   return (
-    <Container>
+    <Container style={styles.container}>
       <Content padder>
         {member &&
           member.email && (
@@ -32,8 +35,6 @@ const Profile = ({ member, logout }) => {
                   style={styles.userAvatar}
                   source={require("../assets/images/avatar.png")}
                 />
-                <Text style={styles.userCode}>Cod: {member.code}</Text>
-                <Spacer size={8} />
               </View>
               <View style={styles.userInfo}>
                 <Text style={styles.userGreeting}>
@@ -46,74 +47,244 @@ const Profile = ({ member, logout }) => {
                 </Text>
                 <Spacer size={8} />
                 <View style={styles.userNumbers}>
-                  <Text style={styles.userNumberLabel}>Ventas </Text>
-                  <Text style={styles.userSales}>
-                    <Text style={styles.userCurrency}>$</Text>
-                    {member.validOrders
-                      ? Math.round(
-                          member.validOrders.reduce(
-                            (a, b) => +a + b.total - b.tax - b.shipping,
-                            0
-                          )
-                        ).toLocaleString("es-CO", {
-                          maximumFractionDigits: 0
-                        })
-                      : 0}
-                  </Text>
+                  <View>
+                    <Text style={styles.userCode}>{member.code}</Text>
+                    <Text style={styles.userNumberLabel}>Tu código</Text>
+                  </View>
                   <Spacer size={20} />
-                  <Text style={styles.userClients}>
-                    {member.clients ? member.clients.length : 0}
-                  </Text>
-                  <Text style={styles.userNumberLabel}> clientes</Text>
+
+                  <Spacer size={20} />
+                  <View>
+                    <Text style={styles.userClients}>
+                      {member.clients ? member.clients.length : 0}
+                    </Text>
+                    <Text style={styles.userNumberLabel}> Clientes</Text>
+                  </View>
                 </View>
               </View>
             </View>
           )}
 
+        {/*
+            <Spacer size={16} />
+            <Text style={styles.meta}>{"¿Cómo vas este mes?".toUpperCase()}</Text>
         <Card style={styles.card}>
-          {member && member.email ? (
-            <View>
-              {/* <CardItem button onPress={Actions.updateProfile}>
+          {member &&
+            member.email && (
+              <View>
+                <CardItem bordered icon>
+                  <Icon
+                    style={styles.userSales}
+                    type="SimpleLineIcons"
+                    name="graph"
+                  />
+                  <Text
+                    style={[styles.userSales, styles.leftText]}
+                    numberOfLines={1}
+                  >
+                    Ventas del mes
+                  </Text>
+                  <Right style={styles.rightNumber}>
+                    <Text style={[styles.rightText, styles.userSales]}>
+                      ${member.validOrders
+                        ? Math.round(
+                            member.validOrders.reduce(
+                              (a, b) => +a + b.total - b.tax - b.shipping,
+                              0
+                            )
+                          ).toLocaleString("es-CO", {
+                            maximumFractionDigits: 0
+                          })
+                        : 0}
+                    </Text>
+                  </Right>
+                </CardItem>
+                <CardItem icon>
+                  <Icon type="SimpleLineIcons" name="calculator" />
+                  <Text style={styles.leftText} numberOfLines={1}>
+                    Ganancias del mes
+                  </Text>
+                  <Right style={styles.rightNumber}>
+                    <Text style={styles.rightText}>
+                      ${member.validOrders
+                        ? Math.round(
+                            member.validOrders.reduce(
+                              (a, b) => +a + b.total - b.tax - b.shipping,
+                              0
+                            ) * member.commission
+                          ).toLocaleString("es-CO", {
+                            maximumFractionDigits: 0
+                          })
+                        : 0}
+                    </Text>
+                  </Right>
+                </CardItem>
+                <CardItem icon>
+                  <Icon type="SimpleLineIcons" name="share-alt" />
+                  <Text style={styles.leftText} numberOfLines={1}>
+                    Ganancias por referidos
+                  </Text>
+                  <Right style={styles.rightNumber}>
+                    <Text style={styles.rightText}>$35.500</Text>
+                  </Right>
+                </CardItem>
+                <CardItem icon>
+                  <Icon type="SimpleLineIcons" name="wallet" />
+                  <Text style={styles.leftText} numberOfLines={1}>
+                    Tu próximo pago
+                  </Text>
+                  <Right style={styles.rightNumber}>
+                    <Text style={styles.rightText}>$25.500</Text>
+                  </Right>
+                </CardItem>
+                <CardItem icon>
+                  <Icon type="SimpleLineIcons" name="refresh" />
+                  <Text style={styles.leftText} numberOfLines={1}>
+                    Ganancias en proceso
+                  </Text>
+                  <Right style={styles.rightNumber}>
+                    <Text style={styles.rightText}>$35.500</Text>
+                  </Right>
+                </CardItem>
+                <CardItem icon>
+                  <Icon type="SimpleLineIcons" name="bag" />
+                  <Text style={styles.leftText} numberOfLines={1}>
+                    Última orden
+                  </Text>
+                  <Right style={styles.rightNumber}>
+                    <Text style={styles.rightText}>$35.500</Text>
+                  </Right>
+                </CardItem>
+                <CardItem icon>
+                  <Icon type="SimpleLineIcons" name="basket-loaded" />
+                  <Text style={styles.leftText} numberOfLines={1}>
+                    Ordenes del mes
+                  </Text>
+                  <Right style={styles.rightNumber}>
+                    <Text style={styles.rightText}>8</Text>
+                  </Right>
+                </CardItem>
+              </View>
+            )}
+        </Card>
+        */}
+        <Spacer size={16} />
+        <Text style={styles.meta}>{"Todos tus números".toUpperCase()}</Text>
+        <Card style={styles.card}>
+          {member &&
+            member.email && (
+              <View>
+                {/* <CardItem button onPress={Actions.updateProfile}>
                 <Icon type="SimpleLineIcons" name="pencil" />
                 <Text>Actualizar mi perfil</Text>
-                <Right style={styles.rightArrow}>
+                <Right style={styles.rightNumber}>
                   <Icon name="arrow-forward" />
                 </Right>
               </CardItem> */}
-              <CardItem button onPress={logout} icon>
-                <Icon type="SimpleLineIcons" name="logout" />
-                <Text>Cerrar sesión</Text>
-                <Right style={styles.rightArrow}>
-                  <Icon name="arrow-forward" />
-                </Right>
-              </CardItem>
-            </View>
-          ) : (
-            <View>
-              <CardItem button onPress={Actions.login}>
-                <Icon type="SimpleLineIcons" name="login" />
-                <Text>Iniciar sesión</Text>
-                <Right style={styles.rightArrow}>
-                  <Icon name="arrow-forward" />
-                </Right>
-              </CardItem>
-              <CardItem button onPress={Actions.signUp} icon>
-                <Icon type="SimpleLineIcons" name="user-follow" />
-                <Text>Crear cuenta</Text>
-                <Right style={styles.rightArrow}>
-                  <Icon name="arrow-forward" />
-                </Right>
-              </CardItem>
-              {/* <CardItem button onPress={Actions.forgotPassword} icon>
-                <Icon type="SimpleLineIcons" name="key" />
-                <Text>Olvidaste tu contraseña</Text>
-                <Right style={styles.rightArrow}>
-                  <Icon name="arrow-forward" />
-                </Right>
-              </CardItem> */}
-            </View>
-          )}
+
+                <CardItem bordered icon>
+                  <Icon
+                    style={styles.userSales}
+                    type="SimpleLineIcons"
+                    name="graph"
+                  />
+                  <Text
+                    style={[styles.userSales, styles.leftText]}
+                    numberOfLines={1}
+                  >
+                    Ventas totales
+                  </Text>
+                  <Right style={[styles.rightNumber, { flex: 2 }]}>
+                    <Text style={[styles.rightText, styles.userSales]}>
+                      ${member.validOrders
+                        ? Math.round(
+                            member.validOrders.reduce(
+                              (a, b) => +a + b.total - b.tax - b.shipping,
+                              0
+                            )
+                          ).toLocaleString("es-CO", {
+                            maximumFractionDigits: 0
+                          })
+                        : 0}
+                    </Text>
+                  </Right>
+                </CardItem>
+                <CardItem icon>
+                  <Icon type="SimpleLineIcons" name="calculator" />
+                  <Text style={styles.leftText} numberOfLines={1}>
+                    Ganancias totales
+                  </Text>
+                  <Right style={styles.rightNumber}>
+                    <Text style={styles.rightText}>
+                      ${member.validOrders
+                        ? Math.round(
+                            member.validOrders.reduce(
+                              (a, b) => +a + b.total - b.tax - b.shipping,
+                              0
+                            ) * member.commission
+                          ).toLocaleString("es-CO", {
+                            maximumFractionDigits: 0
+                          })
+                        : 0}
+                    </Text>
+                  </Right>
+                </CardItem>
+                <CardItem icon>
+                  <Icon type="SimpleLineIcons" name="share-alt" />
+                  <Text style={styles.leftText} numberOfLines={1}>
+                    Ganancias por referidos
+                  </Text>
+                  <Right style={styles.rightNumber}>
+                    <Text style={styles.rightText}>
+                      ${member.referrals
+                        ? Math.round(
+                            member.referrals.length * 20000
+                          ).toLocaleString("es-CO", {
+                            maximumFractionDigits: 0
+                          })
+                        : 0}
+                    </Text>
+                  </Right>
+                </CardItem>
+                <CardItem icon>
+                  <Icon type="SimpleLineIcons" name="bag" />
+                  <Text style={styles.leftText} numberOfLines={1}>
+                    Orden promedio
+                  </Text>
+                  <Right style={styles.rightNumber}>
+                    <Text style={styles.rightText}>
+                      ${member.validOrders
+                        ? Math.round(
+                            member.validOrders.reduce(
+                              (a, b) => +a + b.total - b.tax - b.shipping,
+                              0
+                            ) / member.validOrders.length
+                          ).toLocaleString("es-CO", {
+                            maximumFractionDigits: 0
+                          })
+                        : 0}
+                    </Text>
+                  </Right>
+                </CardItem>
+                <CardItem icon>
+                  <Icon type="SimpleLineIcons" name="basket-loaded" />
+                  <Text style={styles.leftText} numberOfLines={1}>
+                    Total de ordenes
+                  </Text>
+                  <Right style={styles.rightNumber}>
+                    <Text style={styles.rightText}>
+                      {member.validOrders.length}
+                    </Text>
+                  </Right>
+                </CardItem>
+              </View>
+            )}
         </Card>
+        <Spacer size={30} />
+        {member && member.code && <Referral code={member.code} />}
+        <Spacer size={30} />
+        <SupportWidget />
+        <Spacer size={30} />
       </Content>
     </Container>
   );
@@ -133,6 +304,11 @@ export default Profile;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#F7F7FF"
+  },
+  meta: {
+    fontSize: 10,
+    marginBottom: 8,
+    color: Colors.tabBarTextColor
   },
   userBar: {
     // flexDirection: "row",
@@ -154,26 +330,43 @@ const styles = StyleSheet.create({
   },
   userMessage: {
     color: "#B09DE0",
-    fontSize: 14,
+    fontSize: 12,
     textAlign: "center"
   },
   userNumberLabel: {
     color: "#B09DE0",
-    fontSize: 10,
-    marginTop: 16
+    fontSize: 10
+  },
+  userNumbers: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "stretch"
+  },
+  userNumber: {
+    justifyContent: "flex-end",
+    marginBottom: 8
   },
   userSales: {
-    fontSize: 26,
-    color: "white"
+    fontSize: 20,
+    color: Colors.brandPrimary,
+    marginVertical: 16
   },
   userCurrency: {
     fontSize: 16,
     color: "white"
   },
-  userClients: {
-    fontSize: 18,
+  userCode: {
+    fontSize: 15,
+    textAlign: "center",
     color: "white",
     marginTop: 8
+  },
+  userClients: {
+    fontSize: 15,
+    color: "white",
+    marginTop: 8,
+    textAlign: "center"
   },
   userImg: {
     flex: 0.5,
@@ -183,20 +376,9 @@ const styles = StyleSheet.create({
   userAvatar: {
     marginBottom: 12
   },
-  userCode: {
-    fontSize: 10,
-    textAlign: "center",
-    color: "#B09DE0"
-  },
   userInfo: {
     flex: 1,
     width: "100%"
-  },
-  userNumbers: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "stretch"
   },
   card: {
     shadowColor: "#E2E1E6",
@@ -246,7 +428,15 @@ const styles = StyleSheet.create({
   supportText: {
     fontSize: 14
   },
-  rightArrow: {
+  leftText: {
+    flex: 1.75,
+    fontSize: 14,
+    flexWrap: "wrap"
+  },
+  rightText: {
+    fontSize: 15
+  },
+  rightNumber: {
     flex: 1
   }
 });

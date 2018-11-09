@@ -4,35 +4,41 @@ import { Container, Content, Text, H1, H2, H3 } from "native-base";
 import Colors from "../../../native-base-theme/variables/commonColor";
 import Spacer from "./Spacer";
 
-const Contact = () => (
-  <Container>
-    <Content padder>
-      <View style={styles.supportWidget}>
-        <Spacer size={16} />
-        <Image source={require("../assets/images/support.png")} />
-        <Spacer size={16} />
-        <Text style={[styles.header, styles.primaryMsg, styles.textCenter]}>
-          ¡Contáctanos!
-        </Text>
-        <Spacer size={16} />
-        <Text style={styles.textCenter}>
-          ¡Nos encanta que nos escribas! Te dejamos nuestros datos de contacto:
-        </Text>
-        <Spacer size={16} />
+import { Mixpanel } from "../../actions/mixpanel";
 
-        <Text
-          style={[
-            styles.supportText,
-            styles.textCenter,
-            { color: Colors.brandInfo }
-          ]}
-        >
-          hola@elenas.la
-        </Text>
-      </View>
-    </Content>
-  </Container>
-);
+const Contact = () => {
+  Mixpanel.screen("Contact");
+  return (
+    <Container>
+      <Content padder>
+        <View style={styles.supportWidget}>
+          <Spacer size={16} />
+          <Image source={require("../assets/images/support.png")} />
+          <Spacer size={16} />
+          <Text style={[styles.header, styles.primaryMsg, styles.textCenter]}>
+            ¡Contáctanos!
+          </Text>
+          <Spacer size={16} />
+          <Text style={styles.textCenter}>
+            ¡Nos encanta que nos escribas! Te dejamos nuestros datos de
+            contacto:
+          </Text>
+          <Spacer size={16} />
+
+          <Text
+            style={[
+              styles.supportText,
+              styles.textCenter,
+              { color: Colors.brandInfo }
+            ]}
+          >
+            hola@elenas.la
+          </Text>
+        </View>
+      </Content>
+    </Container>
+  );
+};
 
 export default Contact;
 
