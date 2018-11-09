@@ -1,10 +1,10 @@
-import Store from '../store/member';
+import Store from "../store/member";
 
 export const initialState = Store;
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
-    case 'USER_LOGIN': {
+    case "USER_LOGIN": {
       if (action.data) {
         return {
           ...state,
@@ -12,12 +12,12 @@ export default function userReducer(state = initialState, action) {
           error: null,
           uid: action.data.uid,
           email: action.data.email,
-          emailVerified: action.data.emailVerified,
+          emailVerified: action.data.emailVerified
         };
       }
       return initialState;
     }
-    case 'USER_DETAILS_UPDATE': {
+    case "USER_DETAILS_UPDATE": {
       if (action.data && action.dataSeller) {
         return {
           ...state,
@@ -30,23 +30,24 @@ export default function userReducer(state = initialState, action) {
           code: action.dataSeller.code,
           commission: action.dataSeller.commission,
           orders: action.dataOrders,
+          referrals: action.dataReferrals,
           validOrders: action.dataValidOrders,
           clients: action.dataClients
         };
       }
       return initialState;
     }
-    case 'USER_ERROR': {
+    case "USER_ERROR": {
       if (action.data) {
         return {
           ...state,
           loading: false,
-          error: action.data,
+          error: action.data
         };
       }
       return initialState;
     }
-    case 'USER_RESET': {
+    case "USER_RESET": {
       return initialState;
     }
     default:

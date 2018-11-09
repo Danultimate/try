@@ -98,6 +98,10 @@ const Products = props => {
                   small
                   iconLeft
                   onPress={() => {
+                    Mixpanel.track("Share Product", {
+                      product_id: item.id,
+                      product_name: item.title
+                    });
                     Mixpanel.track("Share Product: " + item.title);
                     let url = `https://elenas.la/products/${item.handle}`;
                     Share.share({

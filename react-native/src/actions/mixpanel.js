@@ -9,11 +9,15 @@ let iosWriteKey = "FpAMQ2cM1IQ08f81wsHsfPRUGATAysLU";
 Segment.initialize({ androidWriteKey, iosWriteKey });
 
 let actions = {
-  identify: id => {
+  identify: (id, props) => {
     // if (env_check) analytics.identify(id);
     // analytics.identify(id);
     console.log("entra id");
-    Segment.identify(id);
+    if (!props) {
+      Segment.identify(id);
+    } else {
+      Segment.identifyWithTraits(id, props);
+    }
   },
   alias: id => {
     // if (env_check) analytics.alias(id);
@@ -28,15 +32,8 @@ let actions = {
   track: (name, props) => {
     // if (env_check) analytics.track(name, props);
     // analytics.track(name, props);
-    console.log("entra");
+
     Segment.track(name, props);
-  },
-  people: {
-    set: props => {
-      // if (env_check) analytics.people.set(props);
-      // analytics.people.set(props);
-      Segment.people.set(props);
-    }
   }
 };
 

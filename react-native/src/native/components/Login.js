@@ -109,7 +109,8 @@ class Login extends React.Component {
   handleSubmit = () => {
     const { onFormSubmit } = this.props;
     onFormSubmit(this.state)
-      .then(() => {
+      .then(data => {
+        Mixpanel.identify(data.data.uid);
         Mixpanel.track("Login Success");
         Actions.home({});
       })

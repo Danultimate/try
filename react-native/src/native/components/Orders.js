@@ -36,7 +36,7 @@ moment.locale("es");
 import { Mixpanel } from "../../actions/mixpanel";
 
 const OrderListing = ({ error, loading, member }) => {
-  Mixpanel.track("Orders");
+  Mixpanel.screen("Orders");
   // Loading
   if (loading) return <Loading />;
 

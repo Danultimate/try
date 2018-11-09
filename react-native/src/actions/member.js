@@ -149,6 +149,7 @@ function getUserData(dispatch) {
               type: "USER_DETAILS_UPDATE",
               data: userData,
               dataSeller: seller.data.sellers[0],
+              dataReferrals: seller.data.referrals,
               dataValidOrders: seller.data.orders,
               dataOrders: orders.data.orders,
               dataClients: clients.data.clients

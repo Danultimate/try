@@ -56,6 +56,7 @@ class SignUp extends React.Component {
       firstName: "",
       lastName: "",
       email: "",
+      cellphone: "",
       password: "",
       password2: "",
       referred_by: "",
@@ -77,11 +78,19 @@ class SignUp extends React.Component {
     const { onFormSubmit, onFormSuccess } = this.props;
     onFormSubmit(this.state)
       .then(() => {
-        onFormSuccess(this.state)
-        .then(()=> {
-          Mixpanel.track("Signup Success");
-          Actions.onboarding({})
-        })
+        onFormSuccess(this.state).then(data => {
+          Mixpanel.identify(data.data.uid, {
+            name: this.state.firstName + " " + this.state.lastName,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            email: this.state.email,
+            phone: this.state.cellphone,
+            created: new Date(),
+            referred_by_code: this.state.referred_by
+          });
+          Mixpanel.track("New user");
+          Actions.onboarding({});
+        });
       })
       .catch(e => {
         Mixpanel.track("Signup Error");
@@ -152,6 +161,7 @@ class SignUp extends React.Component {
                       <Label style={styles.formLabel}>Teléfono celular</Label>
                       <Input
                         onChangeText={v => this.handleChange("cellphone", v)}
+                        keyboardType="phone-pad"
                         value={this.state.cellphone}
                       />
                     </Item>

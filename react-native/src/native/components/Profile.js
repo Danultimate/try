@@ -64,19 +64,14 @@ const Profile = ({ member, logout }) => {
               </View>
             </View>
           )}
-        <Spacer size={16} />
-        <Text style={styles.meta}>{"¿Cómo vas este mes?".toUpperCase()}</Text>
+
+        {/*
+            <Spacer size={16} />
+            <Text style={styles.meta}>{"¿Cómo vas este mes?".toUpperCase()}</Text>
         <Card style={styles.card}>
           {member &&
             member.email && (
               <View>
-                {/* <CardItem button onPress={Actions.updateProfile}>
-                <Icon type="SimpleLineIcons" name="pencil" />
-                <Text>Actualizar mi perfil</Text>
-                <Right style={styles.rightNumber}>
-                  <Icon name="arrow-forward" />
-                </Right>
-              </CardItem> */}
                 <CardItem bordered icon>
                   <Icon
                     style={styles.userSales}
@@ -110,7 +105,18 @@ const Profile = ({ member, logout }) => {
                     Ganancias del mes
                   </Text>
                   <Right style={styles.rightNumber}>
-                    <Text style={styles.rightText}>$77.400</Text>
+                    <Text style={styles.rightText}>
+                      ${member.validOrders
+                        ? Math.round(
+                            member.validOrders.reduce(
+                              (a, b) => +a + b.total - b.tax - b.shipping,
+                              0
+                            ) * member.commission
+                          ).toLocaleString("es-CO", {
+                            maximumFractionDigits: 0
+                          })
+                        : 0}
+                    </Text>
                   </Right>
                 </CardItem>
                 <CardItem icon>
@@ -161,6 +167,7 @@ const Profile = ({ member, logout }) => {
               </View>
             )}
         </Card>
+        */}
         <Spacer size={16} />
         <Text style={styles.meta}>{"Todos tus números".toUpperCase()}</Text>
         <Card style={styles.card}>
@@ -174,6 +181,7 @@ const Profile = ({ member, logout }) => {
                   <Icon name="arrow-forward" />
                 </Right>
               </CardItem> */}
+
                 <CardItem bordered icon>
                   <Icon
                     style={styles.userSales}
@@ -186,7 +194,7 @@ const Profile = ({ member, logout }) => {
                   >
                     Ventas totales
                   </Text>
-                  <Right style={styles.rightNumber}>
+                  <Right style={[styles.rightNumber, { flex: 2 }]}>
                     <Text style={[styles.rightText, styles.userSales]}>
                       ${member.validOrders
                         ? Math.round(
@@ -207,7 +215,18 @@ const Profile = ({ member, logout }) => {
                     Ganancias totales
                   </Text>
                   <Right style={styles.rightNumber}>
-                    <Text style={styles.rightText}>$275.400</Text>
+                    <Text style={styles.rightText}>
+                      ${member.validOrders
+                        ? Math.round(
+                            member.validOrders.reduce(
+                              (a, b) => +a + b.total - b.tax - b.shipping,
+                              0
+                            ) * member.commission
+                          ).toLocaleString("es-CO", {
+                            maximumFractionDigits: 0
+                          })
+                        : 0}
+                    </Text>
                   </Right>
                 </CardItem>
                 <CardItem icon>
@@ -216,7 +235,15 @@ const Profile = ({ member, logout }) => {
                     Ganancias por referidos
                   </Text>
                   <Right style={styles.rightNumber}>
-                    <Text style={styles.rightText}>$120.500</Text>
+                    <Text style={styles.rightText}>
+                      ${member.referrals
+                        ? Math.round(
+                            member.referrals.length * 20000
+                          ).toLocaleString("es-CO", {
+                            maximumFractionDigits: 0
+                          })
+                        : 0}
+                    </Text>
                   </Right>
                 </CardItem>
                 <CardItem icon>
@@ -225,7 +252,18 @@ const Profile = ({ member, logout }) => {
                     Orden promedio
                   </Text>
                   <Right style={styles.rightNumber}>
-                    <Text style={styles.rightText}>$125.500</Text>
+                    <Text style={styles.rightText}>
+                      ${member.validOrders
+                        ? Math.round(
+                            member.validOrders.reduce(
+                              (a, b) => +a + b.total - b.tax - b.shipping,
+                              0
+                            ) / member.validOrders.length
+                          ).toLocaleString("es-CO", {
+                            maximumFractionDigits: 0
+                          })
+                        : 0}
+                    </Text>
                   </Right>
                 </CardItem>
                 <CardItem icon>
@@ -234,7 +272,9 @@ const Profile = ({ member, logout }) => {
                     Total de ordenes
                   </Text>
                   <Right style={styles.rightNumber}>
-                    <Text style={styles.rightText}>54</Text>
+                    <Text style={styles.rightText}>
+                      {member.validOrders.length}
+                    </Text>
                   </Right>
                 </CardItem>
               </View>
@@ -290,7 +330,7 @@ const styles = StyleSheet.create({
   },
   userMessage: {
     color: "#B09DE0",
-    fontSize: 14,
+    fontSize: 12,
     textAlign: "center"
   },
   userNumberLabel: {

@@ -135,7 +135,10 @@ const Contents = props => (
           small
           iconLeft
           onPress={() => {
-            Mixpanel.track("Share Content: " + props.item.title);
+            Mixpanel.track("Share Content", {
+              content_id: props.item.id,
+              content_name: props.item.title
+            });
             Share.share({ message: props.item.wp_message || props.item.title });
           }}
         >

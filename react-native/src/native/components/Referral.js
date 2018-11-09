@@ -65,7 +65,9 @@ const Referral = props => (
           small
           iconLeft
           onPress={() => {
-            Mixpanel.track("Share Referral Code");
+            Mixpanel.track("Share Referral Code", {
+              referral_code: props.code
+            });
             Share.share(
               {
                 message:
