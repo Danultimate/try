@@ -38,18 +38,18 @@ export function signUp(formData) {
       if (!checked) return reject({ message: ErrorMessages.missingTandC });
 
       // Check already descubre account
-      return await publicAPI
+
+      const already_user = await publicAPI
         .post("/already_user", JSON.stringify({ cellphone: cellphone }), {
           headers: { common: {} }
         })
-        .then(response => {
-          console.log("el is_user", response.data.is_user);
-          if (response.data.is_user)
-            return reject({ message: ErrorMessages.existingCellphone });
-        })
+        .then(response => ({ok: true, data: response.data.is_user}))
         .catch(error =>
-          console.log("Error @check already descubre account " + error)
+          // console.log("Error @check already descubre account " + error)
+          Promise.resolve({ok: false, data: error})
         );
+      
+        if (already_user.data) return reject({ message: ErrorMessages.existingCellphone });
 
       await statusMessage(dispatch, "loading", true);
 
