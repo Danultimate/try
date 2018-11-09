@@ -26,11 +26,12 @@ let actions = {
   screen: (screenName, props) => {
     // if (env_check) analytics.alias(id);
     // analytics.alias(id);
-    if (!props) {
-      SSegment.screenWithProperties(screenName, props);
-    } else {
-      Segment.screen(screenName);
-    }
+    Segment.screen(screenName);
+    // if (!props) {
+    //   Segment.screenWithProperties(screenName, props);
+    // } else {
+    //
+    // }
   },
   track: (name, props) => {
     // if (env_check) analytics.track(name, props);
