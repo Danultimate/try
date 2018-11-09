@@ -1,3 +1,25 @@
+{{!-- {{#if (eq model.id '1')}} --}}
+    <div class="modal fade" style="display: block;" id="myModal" 
+    tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        <div class="modal-body">
+            <a href="market://details?id=elenas.la.embajadoras">
+                <img src="{{rootURL}}/assets/images/download_new_app.png" class="img-fluid">
+            </a>
+        </div>
+        </div>
+    </div>
+    </div>
+{{!-- {{/if}} --}}
+<script>
+    $('#myModal').modal({
+        //backdrop: 'static',
+        keyboard: false,
+        show: true
+        })
+</script>
+
 {{#if isError}}
   <div class="alert alert-warning alert-dismissible fade show" role="alert">
     {{isError}}
@@ -6,6 +28,7 @@
     </button>
   </div>
 {{/if}}
+
 
 {{!-- {{#if show_nav}}
 <nav class="navbar navbar-light bg-white fixed-top">
