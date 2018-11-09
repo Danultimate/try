@@ -86,7 +86,7 @@ class Dashboard extends React.Component {
           .catch(error => {
             console.log("Error @getting content1");
             console.log(error);
-            console.log(error.response);
+            // console.log(error.response);
           });
       })
       .catch(error => {

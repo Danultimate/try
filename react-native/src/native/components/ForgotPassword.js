@@ -63,7 +63,7 @@ class ForgotPassword extends React.Component {
     onFormSubmit(this.state)
       .then(() => {
         Actions.pop();
-        Actions.login();
+        Actions.welcome();
       })
       .catch(e => console.log(`Error: ${e}`));
   };

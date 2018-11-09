@@ -23,13 +23,13 @@ const More = ({ member, logout }) => {
         <Card style={styles.card}>
           {member && member.email ? (
             <View>
-              {/* <CardItem button onPress={Actions.updateProfile}>
+              <CardItem button onPress={Actions.updateProfile}>
                 <Icon type="SimpleLineIcons" name="pencil" />
                 <Text>Actualizar mi perfil</Text>
                 <Right style={styles.rightArrow}>
                   <Icon name="arrow-forward" />
                 </Right>
-              </CardItem> */}
+              </CardItem>
               <CardItem button onPress={logout} icon>
                 <Icon type="SimpleLineIcons" name="logout" />
                 <Text>Cerrar sesión</Text>

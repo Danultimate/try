@@ -43,13 +43,14 @@ export function signUp(formData) {
         .post("/already_user", JSON.stringify({ cellphone: cellphone }), {
           headers: { common: {} }
         })
-        .then(response => ({ok: true, data: response.data.is_user}))
+        .then(response => ({ ok: true, data: response.data.is_user }))
         .catch(error =>
           // console.log("Error @check already descubre account " + error)
-          Promise.resolve({ok: false, data: error})
+          Promise.resolve({ ok: false, data: error })
         );
-      
-        if (already_user.data) return reject({ message: ErrorMessages.existingCellphone });
+
+      if (already_user.data)
+        return reject({ message: ErrorMessages.existingCellphone });
 
       await statusMessage(dispatch, "loading", true);
 
@@ -171,12 +172,15 @@ async function getToken() {
  */
 export function setupAxios(dispatch, cellphone, password) {
   AsyncStorage.removeItem("token");
-  publicAPI.defaults.headers.common = {};
   return publicAPI
-    .post("/login", {
-      username: cellphone,
-      password: password
-    })
+    .post(
+      "/login",
+      {
+        username: cellphone,
+        password: password
+      },
+      { headers: { common: {} } }
+    )
     .then(response => {
       console.log("el token");
       console.log(response.data.access_token);
@@ -199,12 +203,23 @@ export function setupAxios(dispatch, cellphone, password) {
         getUserData(dispatch);
       });
     })
-    .catch(async err => {
+    .catch(err => {
       console.log("Error @auth-backend");
       console.log(err);
-      await statusMessage(dispatch, "loading", false);
-      throw ErrorMessages.wrongPassword;
-      //return reject({ message: ErrorMessages.wrongPassword });
+      // await statusMessage(dispatch, "loading", false);
+
+      // Case reset password @backend
+      return publicAPI
+        .post(
+          `https://seller-server-dev.herokuapp.com/api/update_password`,
+          { cellphone: cellphone, password: password },
+          { headers: { common: {} } }
+        )
+        .then(() => {
+          return setupAxios(dispatch, cellphone, password);
+        });
+      // throw ErrorMessages.wrongPassword;
+      // return reject({ message: ErrorMessages.wrongPassword });
     });
 }
 
@@ -445,13 +460,15 @@ export function resetPassword(formData) {
       // Go to Firebase
       return Firebase.auth()
         .sendPasswordResetEmail(email)
-        .then(() =>
-          statusMessage(
+        .then(() => {
+          API.defaults.headers.common = {};
+          AsyncStorage.removeItem("token");
+          return statusMessage(
             dispatch,
             "success",
             "Te hemos enviado un correo electrónico con un enlace para reestablecer tu contraseña"
-          ).then(resolve(dispatch({ type: "USER_RESET" })))
-        )
+          ).then(resolve(dispatch({ type: "USER_RESET" })));
+        })
         .catch(reject);
     }).catch(async err => {
       await statusMessage(dispatch, "loading", false);
@@ -470,7 +487,8 @@ export function updateProfile(formData) {
     firstName,
     lastName,
     changeEmail,
-    changePassword
+    changePassword,
+    cellphone
   } = formData;
 
   return dispatch =>
@@ -518,12 +536,13 @@ export function updateProfile(formData) {
           // Update Redux
           await getUserData(dispatch);
           await statusMessage(dispatch, "loading", false);
-          return resolve("Profile Updated");
+          return resolve("Perfil actualizado");
         })
         .catch(reject);
     }).catch(async err => {
       await statusMessage(dispatch, "loading", false);
-      throw err.message;
+      // throw err.message;
+      throw ErrorMessages.loginAgain
     });
 }
 

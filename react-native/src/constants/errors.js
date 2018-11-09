@@ -23,6 +23,8 @@ export default {
   passwordsDontMatch: "Las contraseñas no coinciden",
   missingTandC: "Hace falta aceptar los terminos y condiciones",
 
+  loginAgain: "Necesitas volver a iniciar tu sesión para actualizar tu contraseña",
+
   // Recipes
   recipe404: "Receta no encontrada",
   missingMealId: "Definición no encontrada",

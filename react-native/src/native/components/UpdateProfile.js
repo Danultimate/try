@@ -118,6 +118,7 @@ class UpdateProfile extends React.Component {
             <CardItem styles={styles.cardBody}>
               <Body style={styles.authCard}>
                 <Form style={styles.authForm}>
+                  {/* 
                   <Item floatingLabel style={styles.formElement}>
                     <Label style={styles.formLabel}>Nombre(s)</Label>
                     <Input
@@ -157,7 +158,7 @@ class UpdateProfile extends React.Component {
                         onChangeText={v => this.handleChange("email", v)}
                       />
                     </Item>
-                  )}
+                  )} */}
 
                   <ListItem style={{ marginLeft: 0 }}>
                     <CheckBox
