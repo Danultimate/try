@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Asset, Font } from "expo";
 import {
   StatusBar,
   StyleSheet,
@@ -27,6 +26,8 @@ import { Actions } from "react-native-router-flux";
 import Loading from "./Loading";
 import Error from "./Error";
 import Spacer from "./Spacer";
+import Referral from "./Referral";
+import SupportWidget from "./SupportWidget";
 
 import OrderNotifications from "./OrderNotifications";
 import Feed from "./Feed";
@@ -107,8 +108,8 @@ class Dashboard extends React.Component {
 
     const keyExtractor = item => item.id.toString();
     const feedKeyExtractor = item => {
-      console.log(item.content.id.toString())
-      return item.content.id.toString()
+      console.log(item.content.id.toString());
+      return item.content.id.toString();
     };
 
     if (this.state.loading) {
@@ -143,11 +144,14 @@ class Dashboard extends React.Component {
                 <Text style={styles.userSales}>
                   <Text style={styles.userCurrency}>$</Text>
                   {this.props.member.validOrders
-                    ? Math.round(this.props.member.validOrders
-                        .reduce((a, b) => +a + b.total - b.tax - b.shipping, 0))
-                        .toLocaleString("es-CO", {
-                          maximumFractionDigits: 0
-                        })
+                    ? Math.round(
+                        this.props.member.validOrders.reduce(
+                          (a, b) => +a + b.total - b.tax - b.shipping,
+                          0
+                        )
+                      ).toLocaleString("es-CO", {
+                        maximumFractionDigits: 0
+                      })
                     : 0}
                 </Text>
                 <Spacer size={10} />
@@ -181,106 +185,14 @@ class Dashboard extends React.Component {
             <Text style={styles.loadMoreText}>Cargar más</Text>
           </Button> */}
 
-          <Card style={styles.card}>
-            <CardItem
-              header
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                paddingBottom: 0
-              }}
-            >
-              <Image source={require("../assets/images/referral.png")} />
-            </CardItem>
-            <CardItem style={styles.cardBody}>
-              <Body>
-                <Text
-                  style={[styles.header, styles.primaryMsg, styles.textCenter]}
-                >
-                  ¡Gana $20.000 por cada amiga referida!
-                </Text>
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "100%"
-                  }}
-                >
-                  <Text style={[styles.meta, styles.textCenter]}>
-                    Tu código de referidos:
-                  </Text>
-                  <Text style={[styles.referralCode, styles.textCenter]}>
-                    {this.props.member.code}
-                  </Text>
-                </View>
-                <Spacer size={8} />
-                <Text style={styles.description}>
-                  Comparte tu código y gana $20.000 por cada amiga que realiza
-                  su primera orden.
-                </Text>
-                <Spacer size={16} />
-              </Body>
-            </CardItem>
-            <CardItem style={styles.cardFooter} footer bordered>
-              <Body>
-                <Button
-                  style={styles.cardButton}
-                  block
-                  transparent
-                  info
-                  small
-                  iconLeft
-                  onPress={() => {
-                    Mixpanel.track("Share Referral Code");
-                    Share.share(
-                      {
-                        message:
-                          "Te recomiendo que te registras en Elenas, la nueva manera de vender productos de belleza. Es fácil, no tienes ningún riesgo y por cada venta de ganas una comisión del 30% (solo aplica para las Pioneras, las primeras 1.000 embajadoras y ya vamos en 700). Baja la app ahora por http://bit.ly/elenas-app y regístrate usando mi código de vendedora: " +
-                          this.props.member.code
-                      },
-                      {}
-                    );
-                  }}
-                >
-                  <Icon type="SimpleLineIcons" name="share-alt" />
-                  <Text style={styles.cardButtonText}>Compartir</Text>
-                </Button>
-              </Body>
-            </CardItem>
-          </Card>
+          {this.props.member &&
+            this.props.member.code && (
+              <Referral code={this.props.member.code} />
+            )}
 
           <Spacer size={30} />
 
-          <View style={styles.supportWidget}>
-            <Image source={require("../assets/images/support.png")} />
-            <Text
-              style={[
-                styles.header,
-                styles.primaryMsg,
-                styles.textCenter,
-                styles.supportHeader
-              ]}
-            >
-              ¿Tienes alguna duda?
-            </Text>
-
-            <View style={{ flexDirection: "row" }}>
-              <TouchableOpacity onPress={Actions.contact}>
-                <Text style={[{ color: Colors.brandInfo }, styles.supportText]}>
-                  Contáctanos{" "}
-                </Text>
-              </TouchableOpacity>
-              <Text style={[styles.textCenter, styles.supportText]}>
-                o visita nuestro{" "}
-              </Text>
-            </View>
-            <TouchableOpacity onPress={Actions.support}>
-              <Text style={[{ color: Colors.brandInfo }, styles.supportText]}>
-                Centro de Soporte
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <SupportWidget />
 
           <Spacer size={30} />
         </Content>
@@ -312,7 +224,7 @@ const styles = StyleSheet.create({
   userBar: {
     flexDirection: "row",
     backgroundColor: Colors.brandPrimary,
-    height: 104,
+    minHeight: 104,
     padding: 12,
     marginTop: -10,
     marginLeft: -10,
@@ -327,11 +239,11 @@ const styles = StyleSheet.create({
   },
   userMessage: {
     color: "#B09DE0",
-    fontSize: 14
+    fontSize: 12
   },
   userNumberLabel: {
     color: "#B09DE0",
-    fontSize: 10,
+    fontSize: 9,
     marginTop: 16
   },
   userSales: {
@@ -384,7 +296,7 @@ const styles = StyleSheet.create({
   },
   meta: {
     fontSize: 10,
-    color: "#C3C5C7"
+    color: Colors.tabBarTextColor
   },
   description: {
     fontSize: 18

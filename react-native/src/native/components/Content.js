@@ -26,12 +26,14 @@ import TimeAgo from "react-native-timeago";
 import { decode as atob } from "base-64";
 import shopifyAPI from "../../constants/shopify_axios";
 
+import { Mixpanel } from "../../actions/mixpanel";
+
 const keyExtractor = item => item.id.toString();
 
 const onPress = item => {
   console.log(item.id);
   // Actions.preview({ match: { params: { id: String(item.id) } } });
-  Actions.preview({content: item});
+  Actions.preview({ content: item });
 };
 
 const propTypes = {
@@ -82,7 +84,8 @@ const Contents = props => (
         <Spacer size={8} />
         {!!props.item.body_html && (
           <Text numberOfLines={3} style={styles.description}>
-            {props.item.description || props.item.body_html.replace(/<(?:.|\n)*?>/gm, '')}
+            {props.item.description ||
+              props.item.body_html.replace(/<(?:.|\n)*?>/gm, "")}
           </Text>
         )}
         <Spacer size={16} />
@@ -131,7 +134,10 @@ const Contents = props => (
           info
           small
           iconLeft
-          onPress={() => Share.share({ message: props.item.wp_message || props.item.title })}
+          onPress={() => {
+            Mixpanel.track("Share Content: " + props.item.title);
+            Share.share({ message: props.item.wp_message || props.item.title });
+          }}
         >
           <Icon type="SimpleLineIcons" name="share-alt" />
           <Text style={styles.cardButtonText}>Compartir</Text>

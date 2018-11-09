@@ -1,101 +1,98 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, StyleSheet, FlatList, TouchableOpacity } from "react-native";
-import { Icon, Card, CardItem, Body, Text } from "native-base";
+import { StyleSheet, TouchableOpacity, Image, Share } from "react-native";
+import {
+  View,
+  Container,
+  Content,
+  Icon,
+  Card,
+  CardItem,
+  Body,
+  Text,
+  Button
+} from "native-base";
 import Colors from "../../../native-base-theme/variables/commonColor";
-import { Actions } from "react-native-router-flux";
+import Spacer from "./Spacer";
 
-import TimeAgo from "react-native-timeago";
-import moment from "moment"; //load moment module to set local language
-import "moment/locale/es"; //for import moment local language file during the application build
-moment.locale("es");
-
-const keyExtractor = item => item.id.toString();
-
-const propTypes = {
-  focused: PropTypes.bool,
-  title: PropTypes.string,
-  notificationsTitle: PropTypes.string,
-  notificationTitle: PropTypes.object,
-  notificationDescription: PropTypes.object,
-  notifications: PropTypes.arrayOf(PropTypes.shape())
-};
-
-const defaultProps = {
-  focused: false,
-  notificationsTitle: "Notificaciones",
-  orders: [],
-  notificationTitle: {
-    ordered: "Nueva Orden",
-    completed: "Pedido Entregado",
-    cancelled: "Pedido Cancelado"
-  },
-  notificationDescription: {
-    ordered: "ha completado una orden por $",
-    completed: "ha recibido su orden por $",
-    cancelled: "ha cancelado su orden por $"
-  }
-};
-
-const Notifications = props => (
-  <View style={styles.notifications}>
-    <Text style={styles.meta}>
-      {props.orders.length
-        ? props.notificationsTitle.toUpperCase()
-        : "No hay notificaciones".toUpperCase()}
-    </Text>
-    <FlatList
-      horizontal={true}
-      showsHorizontalScrollIndicator={false}
-      data={props.orders}
-      renderItem={({ item }) => (
-        <TouchableOpacity>
-          <Card style={styles.notification}>
-            <CardItem cardBody>
-              <Body style={styles.notificationBody}>
-                <View style={styles.notificationHeader}>
-                  <View style={styles.leftContainer}>
-                    <Text
-                      style={[
-                        styles.header,
-                        styles.notificationTitle,
-                        styles.primaryMsg
-                      ]}
-                      numberOfLines={1}
-                    >
-                      <Icon
-                        type="SimpleLineIcons"
-                        name="info"
-                        style={styles.notificationTitle}
-                      />{" "}
-                      {props.notificationTitle[item.status]}
-                    </Text>
-                  </View>
-                  <View style={styles.rightContainer}>
-                    <Text style={[styles.meta, styles.notificationDate]}>
-                      <TimeAgo time={item.date} />
-                    </Text>
-                  </View>
-                </View>
-                <Text style={styles.notificationText}>
-                  {item.client_name}{" "}
-                  {props.notificationDescription[item.status]}{" "}
-                  {Math.round(item.total - item.tax - item.shipping)}
-                </Text>
-              </Body>
-            </CardItem>
-          </Card>
-        </TouchableOpacity>
-      )}
-      keyExtractor={keyExtractor}
-    />
-  </View>
+const Referral = props => (
+  <Card style={styles.card}>
+    <CardItem
+      header
+      style={{
+        justifyContent: "center",
+        alignItems: "center",
+        paddingBottom: 0
+      }}
+    >
+      <Image source={require("../assets/images/referral.png")} />
+    </CardItem>
+    <CardItem style={styles.cardBody}>
+      <Body>
+        <Text style={[styles.header, styles.primaryMsg, styles.textCenter]}>
+          ¡Gana $20.000 por cada amiga referida!
+        </Text>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%"
+          }}
+        >
+          <Text style={[styles.meta, styles.textCenter]}>
+            Tu código de referidos:
+          </Text>
+          <Text style={[styles.referralCode, styles.textCenter]}>
+            {props.code}
+          </Text>
+        </View>
+        <Spacer size={8} />
+        <Text style={styles.description}>
+          Comparte tu código y gana $20.000 por cada amiga que realiza su
+          primera orden.
+        </Text>
+        <Spacer size={16} />
+      </Body>
+    </CardItem>
+    <CardItem style={styles.cardFooter} footer bordered>
+      <Body>
+        <Button
+          style={styles.cardButton}
+          block
+          transparent
+          info
+          small
+          iconLeft
+          onPress={() => {
+            Mixpanel.track("Share Referral Code");
+            Share.share(
+              {
+                message:
+                  "Te recomiendo que te registras en Elenas, la nueva manera de vender productos de belleza. Es fácil, no tienes ningún riesgo y por cada venta de ganas una comisión del 30% (solo aplica para las Pioneras, las primeras 1.000 embajadoras y ya vamos en 700). Baja la app ahora por http://bit.ly/elenas-app y regístrate usando mi código de vendedora: " +
+                  props.code
+              },
+              {}
+            );
+          }}
+        >
+          <Icon type="SimpleLineIcons" name="share-alt" />
+          <Text style={styles.cardButtonText}>Compartir</Text>
+        </Button>
+      </Body>
+    </CardItem>
+  </Card>
 );
 
-Notifications.propTypes = propTypes;
-Notifications.defaultProps = defaultProps;
+Referral.propTypes = {
+  code: PropTypes.string
+};
 
-export default Notifications;
+Referral.defaultProps = {
+  code: ""
+};
+
+export default Referral;
 
 const styles = StyleSheet.create({
   container: {
@@ -149,7 +146,7 @@ const styles = StyleSheet.create({
     marginBottom: 12
   },
   userCode: {
-    fontSize: 10,
+    fontSize: 9,
     textAlign: "center",
     color: "#B09DE0"
   },
@@ -172,12 +169,11 @@ const styles = StyleSheet.create({
     fontFamily: "playfair",
     fontSize: 32,
     marginBottom: 8,
-    lineHeight: 28,
-    fontWeight: "700"
+    lineHeight: 28
   },
   meta: {
     fontSize: 10,
-    color: Colors.tabBarTextColor
+    color: "#C3C5C7"
   },
   description: {
     fontSize: 18

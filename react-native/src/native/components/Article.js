@@ -28,28 +28,30 @@ import shopifyAPI from "../../constants/shopify_axios";
 
 // import WebView from "./OpenInBrowser";
 
-import { WebView, Linking } from 'react-native';
+import { WebView, Linking } from "react-native";
 
 const keyExtractor = item => item.id.toString();
 
-export function openLink(collection) {	
-  const uri = 'https://google.com.co';
+export function openLink(collection) {
+  const uri = "https://google.com.co";
   <WebView
-  ref={(ref) => { this.webview = ref; }}
-  source={{ uri }}
-  onNavigationStateChange={(event) => {
-    if (event.url !== uri) {
-      this.webview.stopLoading();
-      Linking.openURL(event.url);
-    }
-  }}
-/>
+    ref={ref => {
+      this.webview = ref;
+    }}
+    source={{ uri }}
+    onNavigationStateChange={event => {
+      if (event.url !== uri) {
+        this.webview.stopLoading();
+        Linking.openURL(event.url);
+      }
+    }}
+  />;
 }
 
 const onPress = item => {
   console.log(item.id);
   // Actions.preview({ match: { params: { id: String(item.id) } } });
-  Actions.previewBlog({content: item});
+  Actions.previewBlog({ content: item });
 };
 
 const propTypes = {
@@ -67,48 +69,49 @@ const Contents = props => {
   // console.log(props.contents[0])
   return (
     <Card style={styles.card}>
-    {!!props.item.image &&
+      {!!props.item.image &&
         !!props.item.image.src && (
-        <CardItem cardBody>
+          <CardItem cardBody>
             <TouchableOpacity
-            onPress={() => onPress(props.item)}
-            style={{ flex: 1 }}
+              onPress={() => onPress(props.item)}
+              style={{ flex: 1 }}
             >
-            <Image
+              <Image
                 source={{ uri: props.item.image.src }}
                 style={{
-                height: 192,
-                width: null,
-                flex: 1
+                  height: 192,
+                  width: null,
+                  flex: 1
                 }}
-            />
+              />
             </TouchableOpacity>
-        </CardItem>
+          </CardItem>
         )}
-    <CardItem cardBody>
-        <Body style={[styles.cardBody, styles.cardSuccess]}>
-        <Spacer size={8} />
-        <TouchableOpacity onPress={() => onPress(props.item)}>
+      <CardItem cardBody>
+        <Body style={[styles.cardBody, styles.cardDanger]}>
+          <Spacer size={8} />
+          <TouchableOpacity onPress={() => onPress(props.item)}>
             <Text style={styles.header}>{props.item.title}</Text>
-        </TouchableOpacity>
-        <Text style={styles.meta}>
-            <Text style={[styles.meta, styles.category, styles.successMsg]}>
-            Para ti{" "}
+          </TouchableOpacity>
+          <Text style={styles.meta}>
+            <Text style={[styles.meta, styles.category, styles.dangerMsg]}>
+              Para ti{" "}
             </Text>
             <Text style={[styles.meta, styles.date]}>
-            • <TimeAgo time={props.item.created_at} />
+              • <TimeAgo time={props.item.created_at} />
             </Text>
-        </Text>
-        <Spacer size={8} />
-        {!!props.item.body_html && (
+          </Text>
+          <Spacer size={8} />
+          {!!props.item.body_html && (
             <Text numberOfLines={3} style={styles.description}>
-            {props.item.description || props.item.body_html.replace(/<(?:.|\n)*?>/gm, '')}
+              {props.item.description ||
+                props.item.body_html.replace(/<(?:.|\n)*?>/gm, "")}
             </Text>
-        )}
-        <Spacer size={16} />
+          )}
+          <Spacer size={16} />
         </Body>
-    </CardItem>
-    <CardItem style={styles.cardFooter} footer bordered>
+      </CardItem>
+      <CardItem style={styles.cardFooter} footer bordered>
         {/*
         TO DO add favorite button when functionality OK
         <Left>
@@ -144,22 +147,23 @@ const Contents = props => {
         */}
 
         <Body>
-        <Button
+          <Button
             style={styles.cardButton}
             block
             transparent
             info
             small
             iconLeft
-            onPress={()=>onPress(props.item)}
-        >
-            <Icon type="SimpleLineIcons" name="share-alt" />
+            onPress={() => onPress(props.item)}
+          >
+            <Icon type="SimpleLineIcons" name="plus" />
             <Text style={styles.cardButtonText}>Ver Mas</Text>
-        </Button>
+          </Button>
         </Body>
-    </CardItem>
+      </CardItem>
     </Card>
-)};
+  );
+};
 
 Contents.propTypes = propTypes;
 Contents.defaultProps = defaultProps;
@@ -168,7 +172,7 @@ export default Contents;
 
 const styles = StyleSheet.create({
   card: {
-    shadowColor: "blue",
+    shadowColor: "#E2E1E6",
     shadowOffset: {
       width: 0,
       height: 1
@@ -198,8 +202,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 12
   },
-  cardSuccess: {
-    borderTopColor: Colors.brandSuccess,
+  cardDanger: {
+    borderTopColor: Colors.brandDanger,
     borderTopWidth: 2
   },
   cardButtonText: {
@@ -208,7 +212,7 @@ const styles = StyleSheet.create({
   },
   cardFooter: {
     borderBottomWidth: 0,
-    borderTopColor: "blue",
+    borderTopColor: "#EBEDF0",
     paddingHorizontal: 0
   },
   textCenter: {
@@ -219,6 +223,9 @@ const styles = StyleSheet.create({
   },
   warningMsg: {
     color: Colors.brandWarning
+  },
+  dangerMsg: {
+    color: Colors.brandDanger
   },
   primaryMsg: {
     color: Colors.brandPrimary

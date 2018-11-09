@@ -88,9 +88,16 @@ class App extends React.Component {
         require("./assets/images/login.png"),
         require("./assets/images/signup.png"),
         require("./assets/images/notification.png"),
+        require("./assets/images/support.png"),
+        require("./assets/images/welcome-1.png"),
+        require("./assets/images/welcome-2.png"),
+        require("./assets/images/welcome-3.png"),
         require("./assets/images/onboarding-1.png"),
         require("./assets/images/onboarding-2.png"),
-        require("./assets/images/onboarding-3.png")
+        require("./assets/images/onboarding-3.png"),
+        require("./assets/images/onboarding-4.png"),
+        require("./assets/images/onboarding-5.png"),
+        require("./assets/images/onboarding-6.png")
       ]),
       Font.loadAsync({
         playfair: require("./assets/fonts/PlayfairDisplay-Bold.ttf")
