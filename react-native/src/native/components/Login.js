@@ -241,7 +241,7 @@ class Login extends React.Component {
                             />
                           </Item>
                           <Spacer size={16} />
-                          <TouchableOpacity onPress={Actions.forgotPassword}>
+                          {/* <TouchableOpacity onPress={Actions.forgotPassword}>
                             <Text
                               style={[
                                 styles.supportTextLink,
@@ -251,7 +251,7 @@ class Login extends React.Component {
                               ¡Olvide mi contraseña!
                             </Text>
                           </TouchableOpacity>
-                          <Spacer size={16} />
+                          <Spacer size={16} /> */}
 
                           <View
                             style={{
@@ -318,7 +318,7 @@ class Login extends React.Component {
                             />
                           </Item>
                           <Spacer size={16} />
-                          <TouchableOpacity onPress={Actions.forgotPassword}>
+                          {/* <TouchableOpacity onPress={Actions.forgotPassword}>
                             <Text
                               style={[
                                 styles.supportTextLink,
@@ -328,7 +328,7 @@ class Login extends React.Component {
                               ¡Olvide mi contraseña!
                             </Text>
                           </TouchableOpacity>
-                          <Spacer size={16} />
+                          <Spacer size={16} /> */}
 
                           <Button block success onPress={this.handleSubmit}>
                             <Text>Inicia sesión</Text>
