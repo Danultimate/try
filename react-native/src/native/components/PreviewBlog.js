@@ -34,7 +34,7 @@ const Preview = ({ error, content }) => {
 
   console.log("hey esto es Preview Component: id, feed:");
   // console.log(contentId);
-  console.log(content)
+  console.log(content);
 
   // Get this Recipe from all recipes
   // let content = null;
@@ -53,34 +53,35 @@ const Preview = ({ error, content }) => {
     <Container>
       <Content padder>
         <Card style={styles.card}>
-        {!!content.image &&
-          !!content.image.src && (
+          {!!content.image &&
+            !!content.image.src && (
+              <CardItem cardBody>
+                <Image
+                  source={{ uri: content.image.src }}
+                  style={{
+                    height: 192,
+                    width: null,
+                    flex: 1
+                  }}
+                />
+              </CardItem>
+            )}
           <CardItem cardBody>
-            <Image
-              source={{ uri: content.image.src }}
-              style={{
-                height: 192,
-                width: null,
-                flex: 1
-              }}
-            />
-          </CardItem>
-          )}
-          <CardItem cardBody>
-            <Body style={[styles.cardBody, styles.cardSuccess]}>
+            <Body style={[styles.cardBody, styles.cardDanger]}>
               <Spacer size={8} />
               <Text style={styles.header}>{content.title}</Text>
               <Text style={styles.meta}>
-                <Text style={[styles.meta, styles.category, styles.successMsg]}>
-                  Para compartir{" "}
+                <Text style={[styles.meta, styles.category, styles.dangerMsg]}>
+                  Para ti{" "}
                 </Text>
                 <Text style={[styles.meta, styles.date]}>
-                  • <TimeAgo time={content.updatedAt} />
+                  • <TimeAgo time={content.created_at} />
                 </Text>
               </Text>
               <Spacer size={8} />
               <Text style={styles.description}>
-              {content.description || content.body_html.replace(/<(?:.|\n)*?>/gm, '')}
+                {content.description ||
+                  content.body_html.replace(/<(?:.|\n)*?>/gm, "")}
               </Text>
               <Spacer size={16} />
             </Body>
@@ -92,7 +93,7 @@ const Preview = ({ error, content }) => {
 };
 
 Preview.propTypes = {
-  error: PropTypes.string,
+  error: PropTypes.string
   // contentId: PropTypes.string.isRequired
   //feed: PropTypes.arrayOf(PropTypes.shape()).isRequired
 };
@@ -195,8 +196,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 12
   },
-  cardSuccess: {
-    borderTopColor: Colors.brandSuccess,
+  cardDanger: {
+    borderTopColor: Colors.brandDanger,
     borderTopWidth: 2
   },
   cardButtonText: {
@@ -216,6 +217,9 @@ const styles = StyleSheet.create({
   },
   primaryMsg: {
     color: Colors.brandPrimary
+  },
+  dangerMsg: {
+    color: Colors.brandDanger
   },
   textCenter: {
     textAlign: "center"

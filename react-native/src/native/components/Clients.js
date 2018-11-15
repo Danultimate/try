@@ -119,12 +119,17 @@ const ClientListing = ({ error, loading, member }) => {
                       <Text numberOfLines={1} style={styles.name}>
                         {item.user.first_name} {item.user.last_name}
                       </Text>
-                      <Text note style={styles.meta}>
-                        <TimeAgo time={item.addedAt} />
+                      <Text note style={styles.meta} numberOfLines={1}>
+                        <TimeAgo time={item.created_at} />
                       </Text>
                       <Spacer size={4} />
                       <Text style={styles.clientTotal}>
-                        ${Math.round(item.total_ordered)}
+                        ${Math.round(item.total_ordered).toLocaleString(
+                          "es-CO",
+                          {
+                            maximumFractionDigits: 0
+                          }
+                        )}
                       </Text>
                       <Text note style={styles.meta}>
                         Ordenes Totales
@@ -133,18 +138,22 @@ const ClientListing = ({ error, loading, member }) => {
                   </Left>
                   <Right style={styles.clientRight}>
                     <Text style={styles.textRight}>
-                      <Text note style={styles.meta}>
-                        Orden promedio{" "}
-                      </Text>{" "}
-                      ${Math.round(item.avg_order)}
+                      ${Math.round(item.avg_order).toLocaleString("es-CO", {
+                        maximumFractionDigits: 0
+                      })}
+                    </Text>
+                    <Text note style={[styles.meta, styles.textRight]}>
+                      Orden promedio{" "}
                     </Text>
 
                     <Spacer size={8} />
                     <Text style={styles.textRight}>
-                      <Text note style={styles.meta}>
-                        Última orden{" "}
-                      </Text>{" "}
-                      ${Math.round(item.last_order)}
+                      ${Math.round(item.last_order).toLocaleString("es-CO", {
+                        maximumFractionDigits: 0
+                      })}
+                    </Text>
+                    <Text note style={[styles.meta, styles.textRight]}>
+                      Última orden{" "}
                     </Text>
                   </Right>
                 </CardItem>

@@ -91,15 +91,15 @@ const OrderListing = ({ error, loading, member }) => {
                         {/* TODO: create clients model */}
                         {item.client_name}
                       </Text>
+
                       <Text style={styles.orderTotal}>
-                        ${Math.round(item.total - item.tax - item.shipping)}
+                        ${Math.round(
+                          item.total - item.tax - item.shipping
+                        ).toLocaleString("es-CO", {
+                          maximumFractionDigits: 0
+                        })}
                       </Text>
                     </View>
-                    <Body style={styles.orderDate}>
-                      <Text note style={styles.meta}>
-                        <TimeAgo time={item.date} />
-                      </Text>
-                    </Body>
                   </Left>
                   <Right style={styles.orderRight}>
                     {item.status === "ordered" && (
@@ -122,6 +122,13 @@ const OrderListing = ({ error, loading, member }) => {
                         <Text style={styles.badge}>Cancelado</Text>
                       </Badge>
                     )}
+                    <Text
+                      note
+                      numberOfLines={1}
+                      style={[styles.meta, styles.orderDate]}
+                    >
+                      Actualizado <TimeAgo time={item.date} />
+                    </Text>
                   </Right>
                 </CardItem>
               </Card>
@@ -199,8 +206,10 @@ const styles = StyleSheet.create({
     fontSize: 10
   },
   orderDate: {
-    alignSelf: "flex-start",
-    marginTop: 4
+    alignSelf: "flex-end",
+    marginTop: 4,
+    minWidth: 125,
+    textAlign: "right"
   },
   meta: {
     fontSize: 10,

@@ -78,7 +78,7 @@ const Preview = ({ error, content }) => {
                   Para compartir{" "}
                 </Text>
                 <Text style={[styles.meta, styles.date]}>
-                  • <TimeAgo time={content.updatedAt} />
+                  • <TimeAgo time={content.published_at} />
                 </Text>
               </Text>
               <Spacer size={8} />

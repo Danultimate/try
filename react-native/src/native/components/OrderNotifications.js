@@ -31,9 +31,9 @@ const defaultProps = {
     cancelled: "Pedido Cancelado"
   },
   notificationDescription: {
-    ordered: "ha completado una orden por $",
-    completed: "ha recibido su orden por $",
-    cancelled: "ha cancelado su orden por $"
+    ordered: "ha completado una orden por ",
+    completed: "ha recibido su orden por ",
+    cancelled: "ha cancelado su orden por "
   }
 };
 
@@ -79,8 +79,11 @@ const Notifications = props => (
                 </View>
                 <Text style={styles.notificationText}>
                   {item.client_name}{" "}
-                  {props.notificationDescription[item.status]}{" "}
-                  {Math.round(item.total - item.tax - item.shipping)}
+                  {props.notificationDescription[item.status]} ${Math.round(
+                    item.total - item.tax - item.shipping
+                  ).toLocaleString("es-CO", {
+                    maximumFractionDigits: 0
+                  })}
                 </Text>
               </Body>
             </CardItem>
