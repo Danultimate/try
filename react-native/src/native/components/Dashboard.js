@@ -178,8 +178,8 @@ class Dashboard extends React.Component {
             keyExtractor={feedKeyExtractor}
           />
 
-          <Spacer size={8} />
-          <Products products={this.state.products} />
+          {/* <Spacer size={8} />
+          <Products products={this.state.products} /> */}
 
           {/* <Button style={styles.loadMore} block light>
             <Text style={styles.loadMoreText}>Cargar más</Text>

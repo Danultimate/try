@@ -45,7 +45,7 @@ const ClientListing = ({ error, loading, member }) => {
 
   const keyExtractor = item => item.id.toString();
 
-  console.log(member.clients);
+  // console.log(member.clients);
   // const onPress = item =>
   //   Actions.recipe({ match: { params: { id: String(item.id) } } });
 
@@ -120,7 +120,7 @@ const ClientListing = ({ error, loading, member }) => {
                         {item.user.first_name} {item.user.last_name}
                       </Text>
                       <Text note style={styles.meta} numberOfLines={1}>
-                        <TimeAgo time={item.created_at} />
+                        <TimeAgo time={item.date} />
                       </Text>
                       <Spacer size={4} />
                       <Text style={styles.clientTotal}>
