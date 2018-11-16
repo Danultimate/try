@@ -32,6 +32,7 @@ import AppLogoAuth from "./AppLogoAuth";
 import Spacer from "./Spacer";
 
 const Welcome = () => {
+  Mixpanel.track("Opened app");
   AsyncStorage.getItem("token").then(token => {
     if (token) {
       Mixpanel.track("Usario con token");

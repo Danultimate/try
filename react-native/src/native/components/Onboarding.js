@@ -1,18 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  StyleSheet,
-  Image,
-  Dimensions,
-  TouchableOpacity,
-} from "react-native";
-import {
-  Container,
-  Icon,
-  Text,
-  Button,
-  View
-} from "native-base";
+import { StyleSheet, Image, Dimensions, TouchableOpacity } from "react-native";
+import { Container, Icon, Text, Button, View } from "native-base";
 import OnboardingComponent from "react-native-onboarding-swiper";
 import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
@@ -55,25 +44,16 @@ const Done = ({ isLight, ...props }) => (
 );
 
 const Skip = ({ isLight, skipLabel, ...props }) => (
-  <Button
-    title={"Skip"}
-    buttonStyle={{
-      backgroundColor: backgroundColor(isLight)
-    }}
-    containerViewStyle={{
-      marginVertical: 10,
-      width: 70
-    }}
-    textStyle={{ color: color(isLight) }}
-    {...props}
-  >
-    {skipLabel}
+  <Button small full transparent {...props}>
+    <Text style={{ color: color(isLight), fontWeight: "400" }}>
+      {skipLabel}
+    </Text>
   </Button>
 );
 
-const Next = ({ isLight, ...props }) => (
-  <Button small full iconRight transparent {...props}>
-    <Text style={{ color: color(isLight) }}>Continuar</Text>
+const Next = ({ isLight, nextLabel, ...props }) => (
+  <Button small full transparent {...props}>
+    <Text style={{ color: color(isLight) }}>{nextLabel}</Text>
   </Button>
 );
 
@@ -85,8 +65,10 @@ const Onboarding = () => {
         DotComponent={Dot}
         DoneButtonComponent={Done}
         NextButtonComponent={Next}
+        SkipButtonComponent={Skip}
         nextLabel={"Continuar"}
-        showSkip={false}
+        skipLabel={"Ver productos"}
+        onSkip={Actions.store}
         onDone={Actions.home}
         bottomBarHighlight={false}
         containerViewStyles={{ alignItems: "flex-start" }}
@@ -127,7 +109,7 @@ const Onboarding = () => {
               </Text>
             ),
             subtitle:
-              "Tus clientes compran en nuestra página web. Cada vez que alguien compra usando tu código de embajadora te ganas una comisión del 30%. Encuentra tú código abajo de tu foto de perfil en la aplicación."
+              "Tus clientes compran en nuestra página web. Cada vez que alguien compra usando tu código de embajadora tu ganas una comisión del 30%. Encuentra tú código abajo de tu foto de perfil en la aplicación."
           },
           {
             backgroundColor: "#fff",
