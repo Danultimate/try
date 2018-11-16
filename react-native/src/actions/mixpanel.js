@@ -18,10 +18,10 @@ let actions = {
       Segment.identifyWithTraits(id, props);
     }
   },
-  alias: id => {
+  alias: (id, props) => {
     // if (env_check) analytics.alias(id);
     // analytics.alias(id);
-    Segment.alias(id);
+    Segment.alias(id, props);
   },
   screen: (screenName, props) => {
     // if (env_check) analytics.alias(id);

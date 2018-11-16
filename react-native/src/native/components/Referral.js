@@ -15,6 +15,8 @@ import {
 import Colors from "../../../native-base-theme/variables/commonColor";
 import Spacer from "./Spacer";
 
+import { Mixpanel } from "../../actions/mixpanel";
+
 const Referral = props => (
   <Card style={styles.card}>
     <CardItem
