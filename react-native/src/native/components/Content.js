@@ -15,7 +15,8 @@ import {
   Right,
   Body,
   Text,
-  Button
+  Button,
+  View
 } from "native-base";
 import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
@@ -148,6 +149,7 @@ const Contents = props => (
       </Body>
     </CardItem>
   </Card>
+  
 );
 
 Contents.propTypes = propTypes;

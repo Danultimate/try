@@ -19,6 +19,7 @@ import Colors from "../../../native-base-theme/variables/commonColor";
 import ErrorMessages from "../../constants/errors";
 import Error from "./Error";
 import Spacer from "./Spacer";
+import Products from "./Products";
 
 import TimeAgo from "react-native-timeago";
 import moment from "moment"; //load moment module to set local language
@@ -35,9 +36,9 @@ const Preview = ({ error, content }) => {
   // Error
   if (error) return <Error content={error} />;
 
-  console.log("hey esto es Preview Component: id, feed:");
+  // console.log("hey esto es Preview Component: id, feed:");
   // console.log(contentId);
-  console.log(content);
+  // console.log(content);
 
   // Get this Recipe from all recipes
   // let content = null;
@@ -56,19 +57,18 @@ const Preview = ({ error, content }) => {
     <Container>
       <Content padder>
         <Card style={styles.card}>
-          {!!content.image &&
-            !!content.image.src && (
-              <CardItem cardBody>
-                <Image
-                  source={{ uri: content.image.src }}
-                  style={{
-                    height: 192,
-                    width: null,
-                    flex: 1
-                  }}
-                />
-              </CardItem>
-            )}
+          {!!content.image && !!content.image.src && (
+            <CardItem cardBody>
+              <Image
+                source={{ uri: content.image.src }}
+                style={{
+                  height: 192,
+                  width: null,
+                  flex: 1
+                }}
+              />
+            </CardItem>
+          )}
           <CardItem cardBody>
             <Body style={[styles.cardBody, styles.cardSuccess]}>
               <Spacer size={8} />
@@ -90,7 +90,7 @@ const Preview = ({ error, content }) => {
             </Body>
           </CardItem>
           <CardItem style={styles.cardFooter} footer bordered>
-            {/* <Left>
+            <Body>
               <Button
                 style={styles.cardButton}
                 block
@@ -98,31 +98,23 @@ const Preview = ({ error, content }) => {
                 info
                 small
                 iconLeft
-                onPress={() => onPress(content)}
+                onPress={() => {
+                  Mixpanel.track("Share Content", {
+                    content_id: content.id,
+                    content_name: content.title
+                  });
+                  Share.share({
+                    message: content.wp_message || content.title
+                  });
+                }}
               >
-                <Icon type="SimpleLineIcons" name="heart" />
-                <Text style={styles.cardButtonText}>Me encanta</Text>
+                <Icon type="SimpleLineIcons" name="share-alt" />
+                <Text style={styles.cardButtonText}>Compartir</Text>
               </Button>
-            </Left> */}
-            {/* <Right> */}
-            <Button
-              style={styles.cardButton}
-              block
-              transparent
-              info
-              small
-              iconLeft
-              onPress={() => {
-                Mixpanel.track("Share Content: " + content.title);
-                Share.share({ message: content.wp_message || content.title });
-              }}
-            >
-              <Icon type="SimpleLineIcons" name="share-alt" />
-              <Text style={styles.cardButtonText}>Compartir</Text>
-            </Button>
-            {/* </Right> */}
+            </Body>
           </CardItem>
         </Card>
+        <Products products={content.products} />
       </Content>
     </Container>
   );

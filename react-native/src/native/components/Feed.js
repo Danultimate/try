@@ -5,7 +5,8 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
-  Share
+  Share,
+  View
 } from "react-native";
 import {
   Icon,
@@ -21,6 +22,7 @@ import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
 
 import Spacer from "./Spacer";
+import Products from "./Products";
 
 import Collection from "./Content";
 import Article from "./Article";
@@ -33,7 +35,6 @@ import shopifyAPI from "../../constants/shopify_axios";
 
 const keyExtractor = item => item.id.toString();
 
-
 const propTypes = {
   focused: PropTypes.bool,
   title: PropTypes.string,
@@ -45,25 +46,24 @@ const defaultProps = {
   contents: []
 };
 
-const Contents = props => 
-  {
-    if (props.item.type == "collection") {
-      console.log('hey una coleccion')
-      return <Collection item={props.item.content}/>
-    }
-    else if(props.item.type == "article") {
-      return <Article item={props.item.content} />
-    }
-    else if(props.item.type == "abandoned_cart") {
-      return <AbandonedCart item={props.item.content}/>
-    }
-    else{
-      // return <DashboardCard item={props.item.content}/>
-      return <Text>hola</Text>
-    }
+const Contents = props => {
+  if (props.item.type == "collection") {
+    return (
+      <View>
+        <Collection item={props.item.content} />
+        <Spacer size={8} />
+        <Products products={props.item.content.products} />
+      </View>
+    );
+  } else if (props.item.type == "article") {
+    return <Article item={props.item.content} />;
+  } else if (props.item.type == "abandoned_cart") {
+    return <AbandonedCart item={props.item.content} />;
+  } else {
+    // return <DashboardCard item={props.item.content}/>
+    return <Text>hola</Text>;
   }
-;
-
+};
 Contents.propTypes = propTypes;
 Contents.defaultProps = defaultProps;
 
