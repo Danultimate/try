@@ -31,7 +31,7 @@ import shopifyAPI from "../../constants/shopify_axios";
 
 import { Mixpanel } from "../../actions/mixpanel";
 
-const Preview = ({ error, content }) => {
+const Preview = ({ error, content, seller_code }) => {
   Mixpanel.screen("Preview Content");
   // Error
   if (error) return <Error content={error} />;
@@ -104,9 +104,10 @@ const Preview = ({ error, content }) => {
                     content_id: content.id,
                     content_name: content.title
                   });
-                  Share.share({
-                    message: content.wp_message || content.title
-                  });
+
+                  message = content.wp_message || content.title
+                  message = message + `\n\nRecuerda que con mi código de vendedora recibes envío gratis: *${seller_code}*`
+                  Share.share({ message:  message});
                 }}
               >
                 <Icon type="SimpleLineIcons" name="share-alt" />
@@ -116,7 +117,7 @@ const Preview = ({ error, content }) => {
           </CardItem>
         </Card>
         <Spacer size={8} />
-        <Products products={content.products} />
+        <Products products={content.products} seller_code={seller_code} />
       </Content>
     </Container>
   );

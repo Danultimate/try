@@ -31,10 +31,10 @@ import { Mixpanel } from "../../actions/mixpanel";
 
 const keyExtractor = item => item.id.toString();
 
-const onPress = item => {
+const onPress = (item, seller_code) => {
   console.log(item.id);
   // Actions.preview({ match: { params: { id: String(item.id) } } });
-  Actions.preview({ content: item });
+  Actions.preview({ content: item, seller_code: seller_code});
 };
 
 const propTypes = {
@@ -54,7 +54,7 @@ const Contents = props => (
       !!props.item.image.src && (
         <CardItem cardBody>
           <TouchableOpacity
-            onPress={() => onPress(props.item)}
+            onPress={() => onPress(props.item, props.seller_code)}
             style={{ flex: 1 }}
           >
             <Image
@@ -71,7 +71,7 @@ const Contents = props => (
     <CardItem cardBody>
       <Body style={[styles.cardBody, styles.cardSuccess]}>
         <Spacer size={8} />
-        <TouchableOpacity onPress={() => onPress(props.item)}>
+        <TouchableOpacity onPress={() => onPress(props.item, props.seller_code)}>
           <Text style={styles.header}>{props.item.title}</Text>
         </TouchableOpacity>
         <Text style={styles.meta}>
@@ -140,7 +140,9 @@ const Contents = props => (
               content_id: props.item.id,
               content_name: props.item.title
             });
-            Share.share({ message: props.item.wp_message || props.item.title });
+            message = props.item.wp_message || props.item.title
+            message = message + `\n\nRecuerda que con mi código de vendedora recibes envío gratis: *${props.seller_code}*`
+            Share.share({ message:  message});
           }}
         >
           <Icon type="SimpleLineIcons" name="share-alt" />

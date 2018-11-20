@@ -11,7 +11,7 @@ import { StatusBar, Platform, AsyncStorage } from "react-native";
 import { AppLoading, Asset, Font, Permissions, Notifications } from "expo";
 import PropTypes from "prop-types";
 import { Provider } from "react-redux";
-import { Router, Stack } from "react-native-router-flux";
+import { Router, Stack, Actions } from "react-native-router-flux";
 import { PersistGate } from "redux-persist/es/integration/react";
 
 import { Root, StyleProvider } from "native-base";
@@ -28,19 +28,6 @@ import registerForPushNotificationsAsync from "../constants/notifications";
 // Hide StatusBar on Android as it overlaps tabs
 if (Platform.OS === "android") {
   StatusBar.setHidden(false);
-  // if (typeof Symbol === 'undefined') {
-  //   if (Array.prototype['@@iterator'] === undefined) {
-  //     Array.prototype['@@iterator'] = function() {
-  //       let i = 0;
-  //       return {
-  //         next: () => ({
-  //           done: i >= this.length,
-  //           value: this[i++],
-  //         }),
-  //       };
-  //     };
-  //   }
-  // }
 }
 
 class App extends React.Component {
@@ -66,6 +53,7 @@ class App extends React.Component {
 
   _handleNotification = notification => {
     this.setState({ notification: notification });
+    Actions.welcome({});
   };
 
   render() {
@@ -88,12 +76,6 @@ class App extends React.Component {
             <StyleProvider style={getTheme(theme)}>
               <Router>
                 <Stack key="root">{Routes}</Stack>
-
-                {/* {this.state.hasToken ? (
-                  <Stack key="private">{PrivateRoutes}</Stack>
-                ):(
-                  <Stack key="public">{PublicRoutes}</Stack>
-                )} */}
               </Router>
             </StyleProvider>
           </PersistGate>

@@ -135,7 +135,7 @@ const Products = props => {
                     Mixpanel.track("Share Product: " + item.title);
                     let url = `https://elenas.la/products/${item.handle}`;
                     Share.share({
-                      message: `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}`,
+                      message: `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}. Recuerda que con mi código de vendedora recibes envío gratis: *${props.seller_code}*`,
                       title: item.title
                       // url: "https://elenas.la/products/" + item.handle
                     });
