@@ -18,10 +18,10 @@ let actions = {
       Segment.identifyWithTraits(id, props);
     }
   },
-  alias: (id, props) => {
+  alias: id => {
     // if (env_check) analytics.alias(id);
     // analytics.alias(id);
-    Segment.alias(id, props);
+    Segment.alias(id);
   },
   screen: (screenName, props) => {
     // if (env_check) analytics.alias(id);
@@ -41,6 +41,12 @@ let actions = {
     } else {
       Segment.trackWithProperties(name, props);
     }
+  },
+  reset: () => {
+    // if (env_check) analytics.track(name, props);
+    // analytics.track(name, props);
+    console.log("entra a reset");
+    Segment.reset();
   }
 };
 

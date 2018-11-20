@@ -17,6 +17,7 @@ import { Mixpanel } from "../../actions/mixpanel";
 
 const More = ({ member, logout }) => {
   Mixpanel.screen("More");
+
   return (
     <Container>
       <Content padder>

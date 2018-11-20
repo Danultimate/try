@@ -90,7 +90,6 @@ const Index = (
         component={TermsComponent}
       />
       <Scene key="onboarding" hideNavBar component={OnboardingComponent} />
-      <Scene key="store" back title="Ver productos" component={PreviewStore} />
     </Scene>
     <Scene hideNavBar activeTintColor="#93a8d5" inactiveTintColor="#3b5998">
       <Tabs key="tabbar" swipeEnabled type="replace" {...DefaultProps.tabProps}>
@@ -273,6 +272,16 @@ const Index = (
       {...DefaultProps.navbarProps}
       component={DashboardContainer}
       Layout={PreviewProductComponent}
+    />
+    <Scene
+      key="store"
+      back
+      clone
+      renderRightButton={() => {
+        return <View />;
+      }}
+      title="Ver productos"
+      component={PreviewStore}
     />
   </Scene>
 );

@@ -79,8 +79,10 @@ class SignUp extends React.Component {
     onFormSubmit(this.state)
       .then(() => {
         onFormSuccess(this.state).then(data => {
-          console.log(data);
-          Mixpanel.alias(data.data.uid, {
+          // console.log("Success");
+          // console.log(data);
+          // Mixpanel.alias(data.data.uid);
+          Mixpanel.identify(data.data.uid, {
             name: this.state.firstName + " " + this.state.lastName,
             firstName: this.state.firstName,
             lastName: this.state.lastName,
