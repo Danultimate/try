@@ -53,6 +53,7 @@ const Contents = props => {
         <Collection item={props.item.content} />
         <Spacer size={8} />
         <Products products={props.item.content.products} />
+        <Spacer size={8} />
       </View>
     );
   } else if (props.item.type == "article") {

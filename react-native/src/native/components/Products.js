@@ -39,24 +39,35 @@ const propTypes = {
 
 const defaultProps = {
   focused: false,
-  productsTitle: "Productos de la campaña",
+  productsTitle: "Productos de la colección",
   products: []
 };
 
 const Products = props => {
-  const onPress = item => {
-    console.log(item.id);
-    Actions.previewProduct({
-      match: { params: { id: String(item.id) } }
-    });
-  };
+  // const onPress = item => {
+  // console.log(item);
+  // Actions.previewProduct({
+  //   match: { params: { id: String(item.id) } }
+  // });
+  // };
   return (
     <View>
-      <Text style={styles.meta}>{props.productsTitle.toUpperCase()}</Text>
+      <View style={styles.productsBar}>
+        <Text style={styles.meta}>{props.productsTitle.toUpperCase()}</Text>
+        <TouchableOpacity
+          style={{ justifyContent: "flex-end", flex: 1 }}
+          onPress={Actions.store}
+        >
+          <Text style={[styles.meta, styles.infoMsg, { textAlign: "right" }]}>
+            Ver en elenas.la
+          </Text>
+        </TouchableOpacity>
+      </View>
       <FlatList
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         data={props.products}
+        initialNumToRender={3}
         renderItem={({ item }) => (
           <Card transparent style={styles.transparentCard}>
             <CardItem cardBody>
@@ -76,17 +87,36 @@ const Products = props => {
               <Body>
                 <Spacer size={8} />
                 <Text
-                  numberOfLines={2}
+                  numberOfLines={1}
                   style={[styles.header, styles.productTitle]}
                 >
                   {item.title}
                 </Text>
+                <Text style={[styles.meta, { marginLeft: 0 }]}>
+                  {item.vendor.toUpperCase()}
+                </Text>
               </Body>
             </CardItem>
             <CardItem cardBody style={styles.transparentCard}>
-              <Left>
-                <Text style={[styles.meta, { marginLeft: 0 }]}>
-                  {item.vendor.toUpperCase()}
+              <Left style={{ flexDirection: "column" }}>
+                <Text style={styles.productPriceCompare} note>
+                  ${item.variants[0].compare_at_price
+                    ? Number(item.variants[0].compare_at_price).toLocaleString(
+                        "es-CO",
+                        {
+                          maximumFractionDigits: 0,
+                          minimumFractionDigits: 0
+                        }
+                      )
+                    : 0}
+                </Text>
+                <Text style={styles.productPrice}>
+                  ${item.variants[0].price
+                    ? Number(item.variants[0].price).toLocaleString("es-CO", {
+                        maximumFractionDigits: 0,
+                        minimumFractionDigits: 0
+                      })
+                    : 0}
                 </Text>
               </Left>
               <Right>
@@ -173,9 +203,15 @@ const styles = StyleSheet.create({
     borderTopColor: Colors.brandSuccess,
     borderTopWidth: 2
   },
+  cardButton: {
+    alignSelf: "flex-end"
+  },
   cardButtonText: {
     paddingLeft: 8,
     paddingRight: 8
+  },
+  cardButtonIcon: {
+    alignSelf: "flex-end"
   },
   cardFooter: {
     borderBottomWidth: 0,
@@ -190,6 +226,9 @@ const styles = StyleSheet.create({
   },
   primaryMsg: {
     color: Colors.brandPrimary
+  },
+  infoMsg: {
+    color: Colors.brandInfo
   },
   textCenter: {
     textAlign: "center"
@@ -271,7 +310,23 @@ const styles = StyleSheet.create({
   productTitle: {
     fontSize: 16,
     lineHeight: 16,
-    height: 32
+    height: 18
+  },
+  productPrice: {
+    marginLeft: 0,
+    alignSelf: "flex-start",
+    fontWeight: "700",
+    fontSize: 13
+  },
+  productPriceCompare: {
+    marginLeft: 0,
+    alignSelf: "flex-start",
+    textDecorationLine: "line-through",
+    color: Colors.tabBarTextColor,
+    fontSize: 10
+  },
+  productsBar: {
+    flexDirection: "row"
   },
   loadMore: {
     backgroundColor: "#F1EDFA",

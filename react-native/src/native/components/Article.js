@@ -156,7 +156,11 @@ const Contents = props => {
             iconLeft
             onPress={() => onPress(props.item)}
           >
-            <Icon type="SimpleLineIcons" name="plus" />
+            <Icon
+              style={styles.cardButtonIcon}
+              type="SimpleLineIcons"
+              name="plus"
+            />
             <Text style={styles.cardButtonText}>Ver Mas</Text>
           </Button>
         </Body>
@@ -209,6 +213,9 @@ const styles = StyleSheet.create({
   cardButtonText: {
     paddingLeft: 8,
     paddingRight: 8
+  },
+  cardButtonIcon: {
+    lineHeight: 20
   },
   cardFooter: {
     borderBottomWidth: 0,

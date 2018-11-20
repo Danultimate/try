@@ -48,6 +48,7 @@ import SupportComponent from "../components/Support";
 import AboutComponent from "../components/About";
 import MoreComponent from "../components/More";
 import SideMenu from "../components/SideMenu";
+import PreviewStore from "../components/PreviewStore";
 
 const Index = (
   <Scene hideNavBar>
@@ -78,7 +79,7 @@ const Index = (
         component={ForgotPasswordContainer}
         Layout={ForgotPasswordComponent}
       />
-      
+
       <Scene
         renderRightButton={() => {
           return <View />;
@@ -88,6 +89,7 @@ const Index = (
         {...DefaultProps.navbarProps}
         component={TermsComponent}
       />
+      <Scene key="onboarding" hideNavBar component={OnboardingComponent} />
     </Scene>
     <Scene hideNavBar activeTintColor="#93a8d5" inactiveTintColor="#3b5998">
       <Tabs key="tabbar" swipeEnabled type="replace" {...DefaultProps.tabProps}>
@@ -189,7 +191,7 @@ const Index = (
         </Stack>
       </Tabs>
     </Scene>
-    <Scene key="onboarding" hideNavBar component={OnboardingComponent} />
+
     <Scene
       back
       clone
@@ -270,6 +272,16 @@ const Index = (
       {...DefaultProps.navbarProps}
       component={DashboardContainer}
       Layout={PreviewProductComponent}
+    />
+    <Scene
+      key="store"
+      back
+      clone
+      renderRightButton={() => {
+        return <View />;
+      }}
+      title="Ver productos"
+      component={PreviewStore}
     />
   </Scene>
 );

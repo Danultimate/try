@@ -83,7 +83,7 @@ export default {
   iosStatusbar: "light-content",
   statusBarColor: "#32408F",
   darkenHeader: "#F0F0F0",
-  iconFamily: "Ionicons",
+  iconFamily: "SimpleLineIcons",
   iconFontSize: 24,
   iconHeaderSize: 29,
   inputFontSize: 17,

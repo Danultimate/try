@@ -57,18 +57,19 @@ const Preview = ({ error, content }) => {
     <Container>
       <Content padder>
         <Card style={styles.card}>
-          {!!content.image && !!content.image.src && (
-            <CardItem cardBody>
-              <Image
-                source={{ uri: content.image.src }}
-                style={{
-                  height: 192,
-                  width: null,
-                  flex: 1
-                }}
-              />
-            </CardItem>
-          )}
+          {!!content.image &&
+            !!content.image.src && (
+              <CardItem cardBody>
+                <Image
+                  source={{ uri: content.image.src }}
+                  style={{
+                    height: 192,
+                    width: null,
+                    flex: 1
+                  }}
+                />
+              </CardItem>
+            )}
           <CardItem cardBody>
             <Body style={[styles.cardBody, styles.cardSuccess]}>
               <Spacer size={8} />
@@ -114,6 +115,7 @@ const Preview = ({ error, content }) => {
             </Body>
           </CardItem>
         </Card>
+        <Spacer size={8} />
         <Products products={content.products} />
       </Content>
     </Container>

@@ -149,7 +149,6 @@ const Contents = props => (
       </Body>
     </CardItem>
   </Card>
-  
 );
 
 Contents.propTypes = propTypes;
