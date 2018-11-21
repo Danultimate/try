@@ -38,7 +38,7 @@ import { Mixpanel } from "../../actions/mixpanel";
 
 const keyExtractor = item => item.id.toString();
 
-const ClientDetail = ({ error, loading, member, ordersTitle }) => {
+const ClientDetail = ({ error, loading, client, ordersTitle }) => {
   Mixpanel.screen("Client");
   // Loading
   if (loading) return <Loading />;
@@ -46,14 +46,13 @@ const ClientDetail = ({ error, loading, member, ordersTitle }) => {
   // Error
   if (error) return <Error content={error} />;
 
-  console.log(member.clients);
   // const onPress = item =>
   //   Actions.recipe({ match: { params: { id: String(item.id) } } });
-
+  console.log(client)
   return (
     <Container>
       <Content padder>
-        {member.clients || member.clients.length > 0 ? (
+        {client || client.length > 0 ? (
           <View>
             <View style={styles.userBar}>
               <View style={styles.userImg}>
@@ -85,11 +84,11 @@ const ClientDetail = ({ error, loading, member, ordersTitle }) => {
               </View>
               <View style={styles.userInfo}>
                 <Text style={styles.userGreeting} numberOfLines={1}>
-                  {member.clients[0].user.first_name}{" "}
-                  {member.clients[0].user.last_name}
+                  {client.client_name}{" "}
+                  {client.user.last_name}
                 </Text>
                 <Text style={styles.userMessage}>
-                  Tu cliente hace <TimeAgo time={member.clients[0].date} />
+                  Tu cliente hace <TimeAgo time={client.date} />
                 </Text>
 
                 <Spacer size={8} />
@@ -97,7 +96,7 @@ const ClientDetail = ({ error, loading, member, ordersTitle }) => {
                   <View>
                     <Text style={styles.userCode}>
                       ${Math.round(
-                        member.clients[0].total_ordered
+                        client.total_ordered
                       ).toLocaleString("es-CO", {
                         maximumFractionDigits: 0
                       })}
@@ -109,7 +108,7 @@ const ClientDetail = ({ error, loading, member, ordersTitle }) => {
                   <Spacer size={20} />
                   <View>
                     <Text style={styles.userClients}>
-                      {member.clients ? member.clients.length : 0}
+                      {client ? client.length : 0}
                     </Text>
                     <Text style={styles.userNumberLabel}>Ordenes</Text>
                   </View>
@@ -122,7 +121,7 @@ const ClientDetail = ({ error, loading, member, ordersTitle }) => {
             </View>
             <FlatList
               numColumns={1}
-              data={member.orders}
+              data={client.orders}
               renderItem={({ item }) => (
                 <Card transparent style={styles.card}>
                   <CardItem style={styles.cardBody}>
@@ -216,14 +215,14 @@ const ClientDetail = ({ error, loading, member, ordersTitle }) => {
 ClientDetail.propTypes = {
   error: PropTypes.string,
   loading: PropTypes.bool.isRequired,
-  member: PropTypes.shape({}),
+  client: PropTypes.shape({}),
   ordersTitle: PropTypes.string
 };
 
 ClientDetail.defaultProps = {
   error: null,
   loading: false,
-  member: {},
+  client: {},
   ordersTitle: "Historial de Ordenes"
 };
 

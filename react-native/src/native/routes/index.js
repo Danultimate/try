@@ -119,14 +119,13 @@ const Index = (
           {...DefaultProps.navbarProps}
         >
           <Scene
-            key="client"
-            component={DashboardContainer}
-            Layout={ClientComponent}
-          />
-          <Scene
             key="clients"
             component={DashboardContainer}
             Layout={ClientsComponent}
+          />
+          <Scene
+            key="client"
+            component={ClientComponent}
           />
         </Stack>
 

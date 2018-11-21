@@ -35,6 +35,12 @@ moment.locale("es");
 
 import { Mixpanel } from "../../actions/mixpanel";
 
+const onPress = (item) => {
+  console.log(item.id);
+  // Actions.preview({ match: { params: { id: String(item.id) } } });
+  Actions.client({ client: item});
+};
+
 const ClientListing = ({ error, loading, member }) => {
   Mixpanel.screen("Clients");
   // Loading
@@ -87,6 +93,10 @@ const ClientListing = ({ error, loading, member }) => {
             renderItem={({ item }) => (
               <Card transparent style={styles.card}>
                 <CardItem style={styles.cardBody}>
+                <TouchableOpacity 
+                onPress={() => onPress(item)} 
+                style={{ flex: 1 }}
+                >
                   <Left style={styles.clientLeft}>
                     <View style={styles.clientImg}>
                       <Thumbnail
@@ -115,7 +125,7 @@ const ClientListing = ({ error, loading, member }) => {
                         <Text style={styles.callButtonText}>Llamar</Text>
                       </Button>
                     </View>
-                    <Body>
+                    <Body >        
                       <Text numberOfLines={1} style={styles.name}>
                         {item.user.first_name} {item.user.last_name}
                       </Text>
@@ -136,6 +146,7 @@ const ClientListing = ({ error, loading, member }) => {
                       </Text>
                     </Body>
                   </Left>
+                  
                   <Right style={styles.clientRight}>
                     <Text style={styles.textRight}>
                       ${Math.round(item.avg_order).toLocaleString("es-CO", {
@@ -156,6 +167,7 @@ const ClientListing = ({ error, loading, member }) => {
                       Última orden{" "}
                     </Text>
                   </Right>
+                </TouchableOpacity>
                 </CardItem>
               </Card>
             )}
