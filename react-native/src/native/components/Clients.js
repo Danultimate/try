@@ -93,10 +93,6 @@ const ClientListing = ({ error, loading, member }) => {
             renderItem={({ item }) => (
               <Card transparent style={styles.card}>
                 <CardItem style={styles.cardBody}>
-                <TouchableOpacity 
-                onPress={() => onPress(item)} 
-                style={{ flex: 1 }}
-                >
                   <Left style={styles.clientLeft}>
                     <View style={styles.clientImg}>
                       <Thumbnail
@@ -167,7 +163,6 @@ const ClientListing = ({ error, loading, member }) => {
                       Última orden{" "}
                     </Text>
                   </Right>
-                </TouchableOpacity>
                 </CardItem>
               </Card>
             )}
