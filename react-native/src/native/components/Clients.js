@@ -35,10 +35,10 @@ moment.locale("es");
 
 import { Mixpanel } from "../../actions/mixpanel";
 
-const onPress = (item) => {
+const onPress = item => {
   console.log(item.id);
   // Actions.preview({ match: { params: { id: String(item.id) } } });
-  Actions.client({ client: item});
+  Actions.client({ client: item });
 };
 
 const ClientListing = ({ error, loading, member }) => {
@@ -92,7 +92,11 @@ const ClientListing = ({ error, loading, member }) => {
             data={member.clients}
             renderItem={({ item }) => (
               <Card transparent style={styles.card}>
-                <CardItem style={styles.cardBody}>
+                <CardItem
+                  button
+                  onPress={Actions.client}
+                  style={styles.cardBody}
+                >
                   <Left style={styles.clientLeft}>
                     <View style={styles.clientImg}>
                       <Thumbnail
@@ -121,7 +125,7 @@ const ClientListing = ({ error, loading, member }) => {
                         <Text style={styles.callButtonText}>Llamar</Text>
                       </Button>
                     </View>
-                    <Body >        
+                    <Body>
                       <Text numberOfLines={1} style={styles.name}>
                         {item.user.first_name} {item.user.last_name}
                       </Text>
@@ -142,7 +146,7 @@ const ClientListing = ({ error, loading, member }) => {
                       </Text>
                     </Body>
                   </Left>
-                  
+
                   <Right style={styles.clientRight}>
                     <Text style={styles.textRight}>
                       ${Math.round(item.avg_order).toLocaleString("es-CO", {
