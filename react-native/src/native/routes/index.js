@@ -41,6 +41,7 @@ import WelcomeComponent from "../components/Welcome";
 import OnboardingComponent from "../components/Onboarding";
 
 import ClientsComponent from "../components/Clients";
+import ClientComponent from "../components/Client";
 import OrdersComponent from "../components/Orders";
 import ContactComponent from "../components/Contact";
 import TermsComponent from "../components/Terms";
@@ -117,6 +118,11 @@ const Index = (
           icon={TabIcon}
           {...DefaultProps.navbarProps}
         >
+          <Scene
+            key="client"
+            component={DashboardContainer}
+            Layout={ClientComponent}
+          />
           <Scene
             key="clients"
             component={DashboardContainer}
