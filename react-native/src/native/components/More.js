@@ -27,28 +27,28 @@ const More = ({ member, logout }) => {
               <Icon type="SimpleLineIcons" name="symbol-female" />
               <Text>Acerca de Elenas</Text>
               <Right style={styles.rightArrow}>
-                <Icon name="arrow-forward" />
+                <Icon name="arrow-right" />
               </Right>
             </CardItem>
             <CardItem button onPress={Actions.contact}>
               <Icon type="SimpleLineIcons" name="envelope-letter" />
               <Text>Contacto</Text>
               <Right style={styles.rightArrow}>
-                <Icon name="arrow-forward" />
+                <Icon name="arrow-right" />
               </Right>
             </CardItem>
             <CardItem button onPress={Actions.terms}>
               <Icon type="SimpleLineIcons" name="docs" />
               <Text>Terminos y condiciones</Text>
               <Right style={styles.rightArrow}>
-                <Icon name="arrow-forward" />
+                <Icon name="arrow-right" />
               </Right>
             </CardItem>
             <CardItem button onPress={Actions.support}>
               <Icon type="SimpleLineIcons" name="umbrella" />
               <Text>Soporte</Text>
               <Right style={styles.rightArrow}>
-                <Icon name="arrow-forward" />
+                <Icon name="arrow-right" />
               </Right>
             </CardItem>
           </View>
@@ -58,14 +58,14 @@ const More = ({ member, logout }) => {
                 <Icon type="SimpleLineIcons" name="pencil" />
                 <Text>Actualizar mi perfil</Text>
                 <Right style={styles.rightArrow}>
-                  <Icon name="arrow-forward" />
+                  <Icon name="arrow-right" />
                 </Right>
               </CardItem>
               <CardItem button onPress={logout} icon>
                 <Icon type="SimpleLineIcons" name="logout" />
                 <Text>Cerrar sesión</Text>
                 <Right style={styles.rightArrow}>
-                  <Icon name="arrow-forward" />
+                  <Icon name="arrow-right" />
                 </Right>
               </CardItem>
             </View>
@@ -75,21 +75,21 @@ const More = ({ member, logout }) => {
                 <Icon type="SimpleLineIcons" name="login" />
                 <Text>Iniciar sesión</Text>
                 <Right style={styles.rightArrow}>
-                  <Icon name="arrow-forward" />
+                  <Icon name="arrow-right" />
                 </Right>
               </CardItem>
               <CardItem button onPress={Actions.signUp} icon>
                 <Icon type="SimpleLineIcons" name="user-follow" />
                 <Text>Crear cuenta</Text>
                 <Right style={styles.rightArrow}>
-                  <Icon name="arrow-forward" />
+                  <Icon name="arrow-right" />
                 </Right>
               </CardItem>
               {/* <CardItem button onPress={Actions.forgotPassword} icon>
                 <Icon type="SimpleLineIcons" name="key" />
                 <Text>Olvidaste tu contraseña</Text>
                 <Right style={styles.rightArrow}>
-                  <Icon name="arrow-forward" />
+                  <Icon name="arrow-right" />
                 </Right>
               </CardItem> */}
             </View>
