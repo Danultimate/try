@@ -178,7 +178,7 @@ const Profile = ({ member, logout }) => {
                 <Icon type="SimpleLineIcons" name="pencil" />
                 <Text>Actualizar mi perfil</Text>
                 <Right style={styles.rightNumber}>
-                  <Icon name="arrow-forward" />
+                  <Icon name="arrow-right" />
                 </Right>
               </CardItem> */}
 
@@ -253,7 +253,7 @@ const Profile = ({ member, logout }) => {
                   </Text>
                   <Right style={styles.rightNumber}>
                     <Text style={styles.rightText}>
-                      ${member.validOrders.length >0
+                      ${member.validOrders.length > 0
                         ? Math.round(
                             member.validOrders.reduce(
                               (a, b) => +a + b.total - b.tax - b.shipping,
