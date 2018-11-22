@@ -94,7 +94,7 @@ const ClientListing = ({ error, loading, member }) => {
               <Card transparent style={styles.card}>
                 <CardItem
                   button
-                  onPress={Actions.client}
+                  onPress={() => onPress(item)}
                   style={styles.cardBody}
                 >
                   <Left style={styles.clientLeft}>
