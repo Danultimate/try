@@ -1,6 +1,7 @@
 import axios from "axios";
+import Config from './config';
 
 export default axios.create({
     //baseURL: 'https://localhost:5000/api',
-    baseURL: 'https://seller-server-dev.herokuapp.com/api',
+    baseURL: Config.baseURL,
 });
