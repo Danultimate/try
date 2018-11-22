@@ -5,7 +5,6 @@ import {
   FlatList,
   TouchableOpacity,
   RefreshControl,
-  StatusBar,
   Image
 } from "react-native";
 import {
@@ -49,10 +48,9 @@ const ClientDetail = ({ error, loading, client, ordersTitle }) => {
 
   // const onPress = item =>
   //   Actions.recipe({ match: { params: { id: String(item.id) } } });
-  console.log(client);
+  console.log(client)
   return (
-    <Container style={styles.container}>
-      <StatusBar barStyle="dark-content" />
+    <Container>
       <Content padder>
         {client || client.length > 0 ? (
           <View>
@@ -66,11 +64,12 @@ const ClientDetail = ({ error, loading, client, ordersTitle }) => {
                   style={styles.callButton}
                   block
                   transparent
+                  light
                   small
                   iconLeft
                   onPress={() =>
                     call({
-                      number: "" + item.user.cellphone,
+                      number: "" + client.user.cellphone,
                       prompt: false
                     })
                   }
@@ -85,31 +84,31 @@ const ClientDetail = ({ error, loading, client, ordersTitle }) => {
               </View>
               <View style={styles.userInfo}>
                 <Text style={styles.userGreeting} numberOfLines={1}>
-                  {client.client_name} {client.user.last_name}
+                  {client.user.first_name}{" "}
+                  {client.user.last_name}
                 </Text>
                 <Text style={styles.userMessage}>
-                  Tu cliente <TimeAgo time={client.date} />
+                  Tu cliente hace <TimeAgo time={client.date} />
                 </Text>
 
                 <Spacer size={8} />
                 <View style={styles.userNumbers}>
                   <View>
-                    <Text style={styles.userTotal}>
-                      ${Math.round(client.total_ordered).toLocaleString(
-                        "es-CO",
-                        {
-                          maximumFractionDigits: 0
-                        }
-                      )}
+                    <Text style={styles.userCode}>
+                      ${Math.round(
+                        client.total_ordered
+                      ).toLocaleString("es-CO", {
+                        maximumFractionDigits: 0
+                      })}
                     </Text>
-                    <Text style={styles.userNumberLabel}>Compras Totales</Text>
+                    <Text style={styles.userNumberLabel}>Ordenes Totales</Text>
                   </View>
                   <Spacer size={20} />
 
                   <Spacer size={20} />
                   <View>
                     <Text style={styles.userClients}>
-                      {client ? client.length : 0}
+                      {client.orders ? client.orders.length : 0}
                     </Text>
                     <Text style={styles.userNumberLabel}>Ordenes</Text>
                   </View>
@@ -130,7 +129,7 @@ const ClientDetail = ({ error, loading, client, ordersTitle }) => {
                       <View>
                         <Text numberOfLines={1} style={styles.name}>
                           {/* TODO: create clients model */}
-                          {item.client_name}
+                          AP{item.order_number}
                         </Text>
 
                         <Text style={styles.orderTotal}>
@@ -236,9 +235,8 @@ const styles = StyleSheet.create({
   userBar: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fff",
-    borderBottomColor: "#EEEDF2",
-    borderBottomWidth: 1,
+    backgroundColor: Colors.brandPrimary,
+    // height: 104,
     padding: 12,
     marginTop: -10,
     marginLeft: -10,
@@ -247,7 +245,7 @@ const styles = StyleSheet.create({
   },
   userGreeting: {
     fontFamily: "playfair",
-    color: Colors.brandPrimary,
+    color: "white",
     fontSize: 24,
     lineHeight: 24
   },
@@ -276,17 +274,17 @@ const styles = StyleSheet.create({
   },
   userCurrency: {
     fontSize: 16,
-    color: Colors.brandPrimary
+    color: "white"
   },
-  userTotal: {
-    fontSize: 18,
+  userCode: {
+    fontSize: 15,
     textAlign: "center",
-    color: Colors.brandPrimary,
+    color: "white",
     marginTop: 8
   },
   userClients: {
     fontSize: 15,
-    color: Colors.brandPrimary,
+    color: "white",
     marginTop: 8,
     textAlign: "center"
   },
