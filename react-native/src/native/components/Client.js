@@ -69,7 +69,7 @@ const ClientDetail = ({ error, loading, client, ordersTitle }) => {
                   iconLeft
                   onPress={() =>
                     call({
-                      number: "" + item.user.cellphone,
+                      number: "" + client.user.cellphone,
                       prompt: false
                     })
                   }
@@ -108,7 +108,7 @@ const ClientDetail = ({ error, loading, client, ordersTitle }) => {
                   <Spacer size={20} />
                   <View>
                     <Text style={styles.userClients}>
-                      {client ? client.length : 0}
+                      {client.orders ? client.orders.length : 0}
                     </Text>
                     <Text style={styles.userNumberLabel}>Ordenes</Text>
                   </View>
@@ -129,7 +129,7 @@ const ClientDetail = ({ error, loading, client, ordersTitle }) => {
                       <View>
                         <Text numberOfLines={1} style={styles.name}>
                           {/* TODO: create clients model */}
-                          {item.client_name}
+                          AP{item.order_number}
                         </Text>
 
                         <Text style={styles.orderTotal}>
