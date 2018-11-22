@@ -84,7 +84,7 @@ const ClientDetail = ({ error, loading, client, ordersTitle }) => {
               </View>
               <View style={styles.userInfo}>
                 <Text style={styles.userGreeting} numberOfLines={1}>
-                  {client.client_name}{" "}
+                  {client.user.first_name}{" "}
                   {client.user.last_name}
                 </Text>
                 <Text style={styles.userMessage}>
