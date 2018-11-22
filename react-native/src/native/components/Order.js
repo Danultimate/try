@@ -39,7 +39,7 @@ import { Mixpanel } from "../../actions/mixpanel";
 
 const keyExtractor = item => item.id.toString();
 
-const ClientDetail = ({ error, loading, client, ordersTitle }) => {
+const OrderDetail = ({ error, loading, member, ordersTitle }) => {
   Mixpanel.screen("Client");
   // Loading
   if (loading) return <Loading />;
@@ -49,12 +49,13 @@ const ClientDetail = ({ error, loading, client, ordersTitle }) => {
 
   // const onPress = item =>
   //   Actions.recipe({ match: { params: { id: String(item.id) } } });
-  console.log(client);
+  console.log("el member");
+  console.log(member);
   return (
     <Container style={styles.container}>
       <StatusBar barStyle="dark-content" />
       <Content padder>
-        {client || client.length > 0 ? (
+        {member.clients[0] || member.clients[0].length > 0 ? (
           <View>
             <View style={styles.userBar}>
               <View style={styles.userImg}>
@@ -85,22 +86,21 @@ const ClientDetail = ({ error, loading, client, ordersTitle }) => {
               </View>
               <View style={styles.userInfo}>
                 <Text style={styles.userGreeting} numberOfLines={1}>
-                  {client.client_name} {client.user.last_name}
+                  {member.clients[0].firstName} {member.clients[0].lastName}
                 </Text>
                 <Text style={styles.userMessage}>
-                  Tu cliente <TimeAgo time={client.date} />
+                  Tu cliente <TimeAgo time={member.clients[0].date} />
                 </Text>
 
                 <Spacer size={8} />
                 <View style={styles.userNumbers}>
                   <View>
                     <Text style={styles.userTotal}>
-                      ${Math.round(client.total_ordered).toLocaleString(
-                        "es-CO",
-                        {
-                          maximumFractionDigits: 0
-                        }
-                      )}
+                      ${Math.round(
+                        member.clients[0].total_ordered
+                      ).toLocaleString("es-CO", {
+                        maximumFractionDigits: 0
+                      })}
                     </Text>
                     <Text style={styles.userNumberLabel}>Compras Totales</Text>
                   </View>
@@ -109,7 +109,7 @@ const ClientDetail = ({ error, loading, client, ordersTitle }) => {
                   <Spacer size={20} />
                   <View>
                     <Text style={styles.userClients}>
-                      {client ? client.length : 0}
+                      {member.clients[0] ? member.clients[0].length : 0}
                     </Text>
                     <Text style={styles.userNumberLabel}>Ordenes</Text>
                   </View>
@@ -122,7 +122,7 @@ const ClientDetail = ({ error, loading, client, ordersTitle }) => {
             </View>
             <FlatList
               numColumns={1}
-              data={client.orders}
+              data={member.clients[0].orders}
               renderItem={({ item }) => (
                 <Card transparent style={styles.card}>
                   <CardItem style={styles.cardBody}>
@@ -213,21 +213,21 @@ const ClientDetail = ({ error, loading, client, ordersTitle }) => {
   );
 };
 
-ClientDetail.propTypes = {
+OrderDetail.propTypes = {
   error: PropTypes.string,
   loading: PropTypes.bool.isRequired,
   client: PropTypes.shape({}),
   ordersTitle: PropTypes.string
 };
 
-ClientDetail.defaultProps = {
+OrderDetail.defaultProps = {
   error: null,
   loading: false,
   client: {},
-  ordersTitle: "Historial de Ordenes"
+  ordersTitle: "Detalle de la Orden"
 };
 
-export default ClientDetail;
+export default OrderDetail;
 
 const styles = StyleSheet.create({
   container: {

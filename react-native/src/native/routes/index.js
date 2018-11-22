@@ -1,6 +1,7 @@
 import React from "react";
 import { Drawer, Scene, Tabs, Stack, Modal } from "react-native-router-flux";
 import { View } from "react-native";
+import Colors from "../../../native-base-theme/variables/commonColor";
 
 import TabIcon from "../components/TabIcon";
 import AppLogoComponent from "../components/AppLogo";
@@ -42,7 +43,10 @@ import OnboardingComponent from "../components/Onboarding";
 
 import ClientsComponent from "../components/Clients";
 import ClientComponent from "../components/Client";
+
 import OrdersComponent from "../components/Orders";
+import OrderComponent from "../components/Order";
+
 import ContactComponent from "../components/Contact";
 import TermsComponent from "../components/Terms";
 import SupportComponent from "../components/Support";
@@ -108,6 +112,7 @@ const Index = (
             key="home"
             component={DashboardContainer}
             Layout={DashboardComponent}
+            {...DefaultProps.navbarProps}
           />
         </Stack>
 
@@ -122,10 +127,28 @@ const Index = (
             key="clients"
             component={DashboardContainer}
             Layout={ClientsComponent}
+            {...DefaultProps.navbarProps}
           />
           <Scene
             key="client"
+            title="Cliente"
             component={ClientComponent}
+            {...DefaultProps.navbarProps}
+            navigationBarStyle={{
+              backgroundColor: "#fff",
+              borderBottomColor: "#fff",
+              elevation: 0
+            }}
+            backButtonTintColor={Colors.brandPrimary}
+            backButtonTextStyle={{ color: Colors.brandPrimary }}
+            leftButtonTextStyle={{ color: Colors.brandPrimary }}
+            titleStyle={{
+              color: Colors.brandPrimary,
+              alignSelf: "center",
+              fontFamily: "playfair",
+              textAlign: "center",
+              fontSize: Colors.fontSizeBase * 1.375
+            }}
           />
         </Stack>
 
@@ -137,9 +160,31 @@ const Index = (
           {...DefaultProps.navbarProps}
         >
           <Scene
+            key="order"
+            component={DashboardContainer}
+            Layout={OrderComponent}
+            {...DefaultProps.navbarProps}
+            navigationBarStyle={{
+              backgroundColor: "#fff",
+              borderBottomColor: "#fff",
+              elevation: 0
+            }}
+            backButtonTintColor={Colors.brandPrimary}
+            backButtonTextStyle={{ color: Colors.brandPrimary }}
+            leftButtonTextStyle={{ color: Colors.brandPrimary }}
+            titleStyle={{
+              color: Colors.brandPrimary,
+              alignSelf: "center",
+              fontFamily: "playfair",
+              textAlign: "center",
+              fontSize: Colors.fontSizeBase * 1.375
+            }}
+          />
+          <Scene
             key="orders"
             component={DashboardContainer}
             Layout={OrdersComponent}
+            {...DefaultProps.navbarProps}
           />
         </Stack>
 
@@ -154,6 +199,7 @@ const Index = (
             key="profileHome"
             component={MemberContainer}
             Layout={ProfileComponent}
+            {...DefaultProps.navbarProps}
           />
           <Scene
             back
