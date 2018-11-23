@@ -174,7 +174,9 @@ class Dashboard extends React.Component {
           <FlatList
             numColumns={1}
             data={this.state.feed}
-            renderItem={({ item }) => <Feed item={item} seller_code={this.props.member.code}/>}
+            renderItem={({ item }) => (
+              <Feed item={item} seller_code={this.props.member.code} />
+            )}
             keyExtractor={feedKeyExtractor}
           />
 

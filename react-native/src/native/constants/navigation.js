@@ -25,7 +25,10 @@ export default {
     inactiveTintColor: "#A492D1",
     activeTintColor: Colors.brandInfo,
     inactiveBackgroundColor: Colors.footerDefaultBg,
-    tabBarStyle: { backgroundColor: Colors.tabBgColor }
+    tabBarStyle: {
+      backgroundColor: Colors.tabBgColor,
+      borderTopColor: "#EEEDF2"
+    }
   },
 
   icons: {

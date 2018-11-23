@@ -1,11 +1,11 @@
 // symbol polyfills
-global.Symbol = require('core-js/es6/symbol');
-require('core-js/fn/symbol/iterator');
+global.Symbol = require("core-js/es6/symbol");
+require("core-js/fn/symbol/iterator");
 
 // collection fn polyfills
-require('core-js/fn/map');
-require('core-js/fn/set');
-require('core-js/fn/array/find');
+require("core-js/fn/map");
+require("core-js/fn/set");
+require("core-js/fn/array/find");
 import React from "react";
 import { StatusBar, Platform, AsyncStorage } from "react-native";
 import { AppLoading, Asset, Font, Permissions, Notifications } from "expo";
@@ -24,6 +24,10 @@ import PrivateRoutes from "./routes/private";
 import Loading from "./components/Loading";
 
 import registerForPushNotificationsAsync from "../constants/notifications";
+
+// Get rid of “Remote debugger is in a background tab” warning
+import { YellowBox } from "react-native";
+YellowBox.ignoreWarnings(["Remote debugger"]);
 
 // Hide StatusBar on Android as it overlaps tabs
 if (Platform.OS === "android") {

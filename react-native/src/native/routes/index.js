@@ -161,6 +161,7 @@ const Index = (
         >
           <Scene
             key="order"
+            title="Orden"
             component={DashboardContainer}
             Layout={OrderComponent}
             {...DefaultProps.navbarProps}
