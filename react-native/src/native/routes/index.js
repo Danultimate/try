@@ -160,6 +160,12 @@ const Index = (
           {...DefaultProps.navbarProps}
         >
           <Scene
+            key="orders"
+            component={DashboardContainer}
+            Layout={OrdersComponent}
+            {...DefaultProps.navbarProps}
+          />
+          <Scene
             key="order"
             title="Orden"
             component={DashboardContainer}
@@ -180,12 +186,6 @@ const Index = (
               textAlign: "center",
               fontSize: Colors.fontSizeBase * 1.375
             }}
-          />
-          <Scene
-            key="orders"
-            component={DashboardContainer}
-            Layout={OrdersComponent}
-            {...DefaultProps.navbarProps}
           />
         </Stack>
 

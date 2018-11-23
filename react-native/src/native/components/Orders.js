@@ -35,6 +35,12 @@ moment.locale("es");
 
 import { Mixpanel } from "../../actions/mixpanel";
 
+const onPress = item => {
+  console.log(item.id);
+  // Actions.preview({ match: { params: { id: String(item.id) } } });
+  Actions.order({ order: item });
+};
+
 const OrderListing = ({ error, loading, member }) => {
   Mixpanel.screen("Orders");
   // Loading
@@ -84,7 +90,11 @@ const OrderListing = ({ error, loading, member }) => {
             data={member.orders}
             renderItem={({ item }) => (
               <Card transparent style={styles.card}>
-                <CardItem style={styles.cardBody}>
+                <CardItem
+                  style={styles.cardBody}
+                  button
+                  onPress={() => onPress(item)}
+                >
                   <Left style={styles.orderLeft}>
                     <View>
                       <Text numberOfLines={1} style={styles.name}>
@@ -235,7 +245,8 @@ const styles = StyleSheet.create({
     elevation: 2
   },
   cardBody: {
-    paddingHorizontal: 16,
+    paddingLeft: 12,
+    paddingRight: 12,
     paddingTop: 12,
     alignItems: "flex-start",
     justifyContent: "flex-start"
