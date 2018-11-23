@@ -260,7 +260,8 @@ const styles = StyleSheet.create({
     elevation: 2
   },
   cardBody: {
-    paddingHorizontal: 16,
+    paddingLeft: 12,
+    paddingRight: 12,
     paddingTop: 12
   },
   cardSuccess: {
