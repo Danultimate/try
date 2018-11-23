@@ -10,6 +10,7 @@
       "image": "./src/images/splash.png",
       "resizeMode": "cover"
     },
+    "facebookAppId": "187940432084793",
     "androidStatusBar": {
       "barStyle": "dark-content"
     },
