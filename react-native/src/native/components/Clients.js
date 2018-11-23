@@ -4,6 +4,7 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  StatusBar,
   RefreshControl,
   Image
 } from "react-native";
@@ -57,6 +58,7 @@ const ClientListing = ({ error, loading, member }) => {
 
   return (
     <Container>
+      <StatusBar barStyle="light-content" />
       <Content padder>
         {!member.clients || member.clients.length < 1 ? (
           <View style={styles.supportWidget}>
@@ -243,7 +245,7 @@ const styles = StyleSheet.create({
   },
   meta: {
     fontSize: 10,
-    color: "#C3C5C7"
+    color: Colors.tabBarTextColor
   },
   card: {
     marginTop: 0,

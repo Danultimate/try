@@ -5,6 +5,7 @@ import {
   FlatList,
   TouchableOpacity,
   RefreshControl,
+  StatusBar,
   Image
 } from "react-native";
 import {
@@ -48,9 +49,10 @@ const ClientDetail = ({ error, loading, client, ordersTitle }) => {
 
   // const onPress = item =>
   //   Actions.recipe({ match: { params: { id: String(item.id) } } });
-  console.log(client)
+  console.log(client);
   return (
-    <Container>
+    <Container style={styles.container}>
+      <StatusBar barStyle="dark-content" />
       <Content padder>
         {client || client.length > 0 ? (
           <View>
@@ -64,7 +66,7 @@ const ClientDetail = ({ error, loading, client, ordersTitle }) => {
                   style={styles.callButton}
                   block
                   transparent
-                  light
+                  info
                   small
                   iconLeft
                   onPress={() =>
@@ -84,8 +86,7 @@ const ClientDetail = ({ error, loading, client, ordersTitle }) => {
               </View>
               <View style={styles.userInfo}>
                 <Text style={styles.userGreeting} numberOfLines={1}>
-                  {client.user.first_name}{" "}
-                  {client.user.last_name}
+                  {client.user.first_name} {client.user.last_name}
                 </Text>
                 <Text style={styles.userMessage}>
                   Tu cliente hace <TimeAgo time={client.date} />
@@ -94,20 +95,21 @@ const ClientDetail = ({ error, loading, client, ordersTitle }) => {
                 <Spacer size={8} />
                 <View style={styles.userNumbers}>
                   <View>
-                    <Text style={styles.userCode}>
-                      ${Math.round(
-                        client.total_ordered
-                      ).toLocaleString("es-CO", {
-                        maximumFractionDigits: 0
-                      })}
+                    <Text style={styles.clientTotal}>
+                      ${Math.round(client.total_ordered).toLocaleString(
+                        "es-CO",
+                        {
+                          maximumFractionDigits: 0
+                        }
+                      )}
                     </Text>
-                    <Text style={styles.userNumberLabel}>Ordenes Totales</Text>
+                    <Text style={styles.userNumberLabel}>Ordenes totales</Text>
                   </View>
                   <Spacer size={20} />
 
                   <Spacer size={20} />
                   <View>
-                    <Text style={styles.userClients}>
+                    <Text style={styles.clientOrders}>
                       {client.orders ? client.orders.length : 0}
                     </Text>
                     <Text style={styles.userNumberLabel}>Ordenes</Text>
@@ -127,7 +129,7 @@ const ClientDetail = ({ error, loading, client, ordersTitle }) => {
                   <CardItem style={styles.cardBody}>
                     <Left style={styles.orderLeft}>
                       <View>
-                        <Text numberOfLines={1} style={styles.name}>
+                        <Text numberOfLines={1} style={styles.orderNumber}>
                           {/* TODO: create clients model */}
                           AP{item.order_number}
                         </Text>
@@ -235,8 +237,9 @@ const styles = StyleSheet.create({
   userBar: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: Colors.brandPrimary,
-    // height: 104,
+    backgroundColor: "#fff",
+    borderBottomColor: "#EEEDF2",
+    borderBottomWidth: 1,
     padding: 12,
     marginTop: -10,
     marginLeft: -10,
@@ -245,16 +248,16 @@ const styles = StyleSheet.create({
   },
   userGreeting: {
     fontFamily: "playfair",
-    color: "white",
+    color: Colors.brandPrimary,
     fontSize: 24,
     lineHeight: 24
   },
   userMessage: {
-    color: "#B09DE0",
+    color: Colors.tabBarTextColor,
     fontSize: 12
   },
   userNumberLabel: {
-    color: "#B09DE0",
+    color: Colors.tabBarTextColor,
     fontSize: 10
   },
   userNumbers: {
@@ -274,22 +277,17 @@ const styles = StyleSheet.create({
   },
   userCurrency: {
     fontSize: 16,
-    color: "white"
+    color: Colors.brandPrimary
   },
   userCode: {
     fontSize: 15,
     textAlign: "center",
-    color: "white",
+    color: Colors.brandPrimary,
     marginTop: 8
   },
-  userClients: {
-    fontSize: 15,
-    color: "white",
-    marginTop: 8,
-    textAlign: "center"
-  },
+
   userImg: {
-    flex: 0.5,
+    flex: 0.3,
     justifyContent: "center",
     alignItems: "center"
   },
@@ -297,8 +295,7 @@ const styles = StyleSheet.create({
     marginBottom: 12
   },
   userInfo: {
-    flex: 1,
-    width: "100%"
+    flex: 0.7
   },
   clientImg: {
     justifyContent: "center",
@@ -308,8 +305,16 @@ const styles = StyleSheet.create({
     width: "50%"
   },
   clientTotal: {
-    fontSize: 20,
-    fontWeight: "bold"
+    fontSize: 24,
+    fontWeight: "bold",
+    color: Colors.brandPrimary,
+    marginTop: 8
+  },
+  clientOrders: {
+    fontSize: 24,
+    color: Colors.brandPrimary,
+    marginTop: 8,
+    textAlign: "center"
   },
   clientRight: {
     flex: 0.35
@@ -322,13 +327,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 8,
     lineHeight: 28
-  },
-  name: {
-    fontFamily: "playfair",
-    fontSize: 16,
-    marginBottom: 4,
-    lineHeight: 18,
-    fontWeight: "700"
   },
   callButton: {
     paddingLeft: 0,
@@ -343,10 +341,6 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     fontSize: 10
   },
-  meta: {
-    fontSize: 10,
-    color: "#C3C5C7"
-  },
   orderDate: {
     alignSelf: "flex-end",
     marginTop: 4,
@@ -355,12 +349,18 @@ const styles = StyleSheet.create({
   },
   orderTotal: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: "700",
     marginLeft: 0
+  },
+  orderNumber: {
+    fontSize: 14,
+    marginBottom: 4,
+    lineHeight: 18,
+    color: Colors.tabBarTextColor
   },
   meta: {
     fontSize: 10,
-    color: "#C3C5C7",
+    color: Colors.tabBarTextColor,
     marginLeft: 0,
     textAlignVertical: "top"
   },
