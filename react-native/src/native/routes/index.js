@@ -168,8 +168,7 @@ const Index = (
           <Scene
             key="order"
             title="Orden"
-            component={DashboardContainer}
-            Layout={OrderComponent}
+            component={OrderComponent}
             {...DefaultProps.navbarProps}
             navigationBarStyle={{
               backgroundColor: "#fff",

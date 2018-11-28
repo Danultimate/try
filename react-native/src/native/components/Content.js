@@ -26,13 +26,12 @@ import Spacer from "./Spacer";
 import TimeAgo from "react-native-timeago";
 import { decode as atob } from "base-64";
 import shopifyAPI from "../../constants/shopify_axios";
-
+import { Expo, FileSystem } from "expo";
 import { Mixpanel } from "../../actions/mixpanel";
 
 const keyExtractor = item => item.id.toString();
 
 const onPress = (item, seller_code) => {
-  console.log(item.id);
   // Actions.preview({ match: { params: { id: String(item.id) } } });
   Actions.preview({ content: item, seller_code: seller_code});
 };
@@ -142,7 +141,27 @@ const Contents = props => (
             });
             message = props.item.wp_message || props.item.title
             message = message + `\n\nRecuerda que con mi código de vendedora recibes envío gratis: *${props.seller_code}*`
-            Share.share({ message:  message});
+            Share.share({
+              // url: '',
+              message: ''
+              //title: 'title share',         
+          });
+            // FileSystem.downloadAsync(
+            //   props.item.image.src,
+            //   FileSystem.documentDirectory + `img.png`)
+            //   .then(({ uri }) => {
+            //       console.log('guarda la imagen')
+            //       console.log(uri)
+            //       Share.share({
+            //           url: uri
+            //           //message: 'lalala',
+            //           //title: 'title share',         
+            //       });
+            //   })
+              // .catch(error => {
+              //     console.error(error);
+              // });
+            // Share.share({ message:  message});
           }}
         >
           <Icon type="SimpleLineIcons" name="share-alt" />

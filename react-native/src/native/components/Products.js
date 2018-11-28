@@ -63,96 +63,100 @@ const Products = props => {
           </Text>
         </TouchableOpacity>
       </View>
-      <FlatList
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        data={props.products}
-        initialNumToRender={3}
-        renderItem={({ item }) => (
-          <Card transparent style={styles.transparentCard}>
-            <CardItem cardBody>
-              {!!item.images &&
-                !!item.images[0].src && (
-                  <Image
-                    source={{ uri: item.images[0].src }}
-                    style={{
-                      height: 168,
-                      width: null,
-                      flex: 1
-                    }}
-                  />
-                )}
-            </CardItem>
-            <CardItem cardBody style={styles.transparentCard}>
-              <Body>
-                <Spacer size={8} />
-                <Text
-                  numberOfLines={1}
-                  style={[styles.header, styles.productTitle]}
-                >
-                  {item.title}
-                </Text>
-                <Text style={[styles.meta, { marginLeft: 0 }]}>
-                  {item.vendor.toUpperCase()}
-                </Text>
-              </Body>
-            </CardItem>
-            <CardItem cardBody style={styles.transparentCard}>
-              <Left style={{ flexDirection: "column" }}>
-                <Text style={styles.productPriceCompare} note>
-                  ${item.variants[0].compare_at_price
-                    ? Number(item.variants[0].compare_at_price).toLocaleString(
-                        "es-CO",
-                        {
+      {props.products && props.products.length > 0 &&
+       (<FlatList
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          data={props.products}
+          renderItem={({ item }) => {
+            console.log(item.images[0].src)
+            return (
+            <Card transparent style={styles.transparentCard}>
+              <CardItem cardBody>
+                {item && item.images &&
+                  item.images[0] && (
+                    <Image
+                      source={{ uri: item.images[0].src }}
+                      style={{
+                        height: 168,
+                        width: null,
+                        flex: 1
+                      }}
+                    />
+                  )}
+              </CardItem>
+              <CardItem cardBody style={styles.transparentCard}>
+                <Body>
+                  <Spacer size={8} />
+                  <Text
+                    numberOfLines={1}
+                    style={[styles.header, styles.productTitle]}
+                  >
+                    {item.title}
+                  </Text>
+                  <Text style={[styles.meta, { marginLeft: 0 }]}>
+                    {item.vendor.toUpperCase()}
+                  </Text>
+                </Body>
+              </CardItem>
+              <CardItem cardBody style={styles.transparentCard}>
+                <Left style={{ flexDirection: "column" }}>
+                  <Text style={styles.productPriceCompare} note>
+                    ${item.variants[0].compare_at_price
+                      ? Number(item.variants[0].compare_at_price).toLocaleString(
+                          "es-CO",
+                          {
+                            maximumFractionDigits: 0,
+                            minimumFractionDigits: 0
+                          }
+                        )
+                      : 0}
+                  </Text>
+                  <Text style={styles.productPrice}>
+                    ${item.variants[0].price
+                      ? Number(item.variants[0].price).toLocaleString("es-CO", {
                           maximumFractionDigits: 0,
                           minimumFractionDigits: 0
-                        }
-                      )
-                    : 0}
-                </Text>
-                <Text style={styles.productPrice}>
-                  ${item.variants[0].price
-                    ? Number(item.variants[0].price).toLocaleString("es-CO", {
-                        maximumFractionDigits: 0,
-                        minimumFractionDigits: 0
-                      })
-                    : 0}
-                </Text>
-              </Left>
-              <Right>
-                <Button
-                  style={styles.cardButton}
-                  block
-                  transparent
-                  info
-                  small
-                  iconLeft
-                  onPress={() => {
-                    Mixpanel.track("Share Product", {
-                      product_id: item.id,
-                      product_name: item.title
-                    });
-                    Mixpanel.track("Share Product: " + item.title);
-                    let url = `https://elenas.la/products/${item.handle}`;
-                    Share.share({
-                      message: `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}. Recuerda que con mi código de vendedora recibes envío gratis: *${props.seller_code}*`,
-                      title: item.title
-                      // url: "https://elenas.la/products/" + item.handle
-                    });
-                  }}
-                >
-                  <Icon
-                    style={styles.cardButtonIcon}
-                    type="SimpleLineIcons"
-                    name="share-alt"
-                  />
-                </Button>
-              </Right>
-            </CardItem>
-          </Card>
-        )}
-        keyExtractor={keyExtractor}
-      />
+                        })
+                      : 0}
+                  </Text>
+                </Left>
+                <Right>
+                  <Button
+                    style={styles.cardButton}
+                    block
+                    transparent
+                    info
+                    small
+                    iconLeft
+                    onPress={() => {
+                      Mixpanel.track("Share Product", {
+                        product_id: item.id,
+                        product_name: item.title
+                      });
+                      Mixpanel.track("Share Product: " + item.title);
+                      let url = `https://elenas.la/products/${item.handle}`;
+                      Share.share({
+                        message: `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}. Recuerda que con mi código de vendedora recibes envío gratis: *${props.seller_code}*`,
+                        title: item.title
+                        // url: "https://elenas.la/products/" + item.handle
+                      });
+                    }}
+                  >
+                    <Icon
+                      style={styles.cardButtonIcon}
+                      type="SimpleLineIcons"
+                      name="share-alt"
+                    />
+                  </Button>
+                </Right>
+              </CardItem>
+            </Card>
+          )}
+        }
+          keyExtractor={keyExtractor}
+        />)
+      }
     </View>
   );
 };

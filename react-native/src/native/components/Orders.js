@@ -36,7 +36,6 @@ moment.locale("es");
 import { Mixpanel } from "../../actions/mixpanel";
 
 const onPress = item => {
-  console.log(item.id);
   // Actions.preview({ match: { params: { id: String(item.id) } } });
   Actions.order({ order: item });
 };
@@ -53,7 +52,7 @@ const OrderListing = ({ error, loading, member }) => {
 
   // const onPress = item =>
   //   Actions.recipe({ match: { params: { id: String(item.id) } } });
-
+  
   return (
     <Container>
       <Content padder>
@@ -93,7 +92,7 @@ const OrderListing = ({ error, loading, member }) => {
                 <CardItem
                   style={styles.cardBody}
                   button
-                  onPress={() => onPress(item)}
+                  
                 >
                   <Left style={styles.orderLeft}>
                     <View>

@@ -39,7 +39,7 @@ import { Mixpanel } from "../../actions/mixpanel";
 
 const keyExtractor = item => item.id.toString();
 
-const OrderDetail = ({ error, loading, member, ordersTitle }) => {
+const OrderDetail = ({ error, loading, order, ordersTitle }) => {
   Mixpanel.screen("Client");
   // Loading
   if (loading) return <Loading />;
@@ -49,70 +49,65 @@ const OrderDetail = ({ error, loading, member, ordersTitle }) => {
 
   // const onPress = item =>
   //   Actions.recipe({ match: { params: { id: String(item.id) } } });
-  console.log("el member");
-  console.log(member);
+  // console.log("el order");
+  // console.log(order);
   return (
     <Container style={styles.container}>
       <StatusBar barStyle="dark-content" />
       <Content padder>
-        {member.clients[0] || member.clients[0].length > 0 ? (
+        {order ? (
           <View>
-            <View style={styles.userBar}>
-              <View style={styles.userImg}>
-                <Image
-                  style={styles.userAvatar}
-                  source={require("../assets/images/avatar.png")}
-                />
-                <Button
-                  style={styles.callButton}
-                  block
-                  transparent
-                  small
-                  iconLeft
-                  onPress={() =>
-                    call({
-                      number: "" + item.user.cellphone,
-                      prompt: false
-                    })
-                  }
-                >
-                  <Icon
-                    style={styles.callButtonIcon}
-                    type="SimpleLineIcons"
-                    name="phone"
-                  />
-                  <Text style={styles.callButtonText}>Llamar</Text>
-                </Button>
+            <View style={styles.orderBar}>
+              <View style={styles.orderInfo}>
+                <View style={styles.orderLeft}>
+                  <Text style={styles.orderUser} numberOfLines={1}>
+                    {order.client_name}
+                  </Text>
+                  <Text style={styles.orderDate}>
+                    Realizó una orden <TimeAgo time={order.date} />
+                  </Text>
+                </View>
+                <View style={styles.orderRight}>
+                  {order.status === "ordered" && (
+                    <Badge primary>
+                      <Text style={styles.badge}>Ordenado</Text>
+                    </Badge>
+                  )}
+                  {order.status === "distribution" && (
+                    <Badge info>
+                      <Text style={styles.badge}>En Distribución</Text>
+                    </Badge>
+                  )}
+                  {order.status === "completed" && (
+                    <Badge success>
+                      <Text style={styles.badge}>Completado</Text>
+                    </Badge>
+                  )}
+                  {order.status === "cancelled" && (
+                    <Badge danger>
+                      <Text style={styles.badge}>Cancelado</Text>
+                    </Badge>
+                  )}
+                </View>
               </View>
-              <View style={styles.userInfo}>
-                <Text style={styles.userGreeting} numberOfLines={1}>
-                  {member.clients[0].firstName} {member.clients[0].lastName}
-                </Text>
-                <Text style={styles.userMessage}>
-                  Tu cliente <TimeAgo time={member.clients[0].date} />
-                </Text>
-
-                <Spacer size={8} />
-                <View style={styles.userNumbers}>
-                  <View>
-                    <Text style={styles.userTotal}>
-                      ${Math.round(
-                        member.clients[0].total_ordered
-                      ).toLocaleString("es-CO", {
+              <Spacer size={8} />
+              <View style={styles.orderNumbers}>
+                <View>
+                  <Text style={styles.orderTotal}>
+                    ${Math.round(order.total).toLocaleString(
+                      "es-CO",
+                      {
                         maximumFractionDigits: 0
-                      })}
-                    </Text>
-                    <Text style={styles.userNumberLabel}>Compras Totales</Text>
-                  </View>
-                  <Spacer size={20} />
-
-                  <Spacer size={20} />
-                  <View>
-                    <Text style={styles.userClients}>
-                      {member.clients[0] ? member.clients[0].length : 0}
-                    </Text>
-                    <Text style={styles.userNumberLabel}>Ordenes</Text>
-                  </View>
+                      }
+                    )}
+                  </Text>
+                  <Text style={styles.orderNumberLabel}>Valor total</Text>
+                </View>
+                <View>
+                  <Text style={styles.orderNumber}>
+                    {order.order_number}
+                  </Text>
+                  <Text style={styles.orderNumberLabel}>No. de orden</Text>
                 </View>
               </View>
             </View>
@@ -122,53 +117,38 @@ const OrderDetail = ({ error, loading, member, ordersTitle }) => {
             </View>
             <FlatList
               numColumns={1}
-              data={member.clients[0].orders}
+              data={order.products}
               renderItem={({ item }) => (
                 <Card transparent style={styles.card}>
                   <CardItem style={styles.cardBody}>
                     <Left style={styles.orderLeft}>
-                      <View>
-                        <Text numberOfLines={1} style={styles.name}>
-                          {/* TODO: create clients model */}
-                          {item.client_name}
+                      <Image
+                        style={{ width: 55, height: 72 }}
+                        source={{
+                          uri:
+                          item.images[0].src || "https://placehold.it/1000x1500?text=Product+Image"
+                        }}
+                      />
+                      <Body style={styles.orderLeftBody}>
+                        <Text
+                          numberOfLines={1}
+                          style={[styles.header, styles.productTitle]}
+                        >
+                          {item.title}
                         </Text>
-
-                        <Text style={styles.orderTotal}>
-                          ${Math.round(
-                            item.total - item.tax - item.shipping
-                          ).toLocaleString("es-CO", {
-                            maximumFractionDigits: 0
-                          })}
+                        <Text style={[styles.meta, { marginLeft: 0 }]}>
+                          {item.vendor.toUpperCase()}
                         </Text>
-                      </View>
+                      </Body>
                     </Left>
                     <Right style={styles.orderRight}>
-                      {item.status === "ordered" && (
-                        <Badge primary>
-                          <Text style={styles.badge}>Ordenado</Text>
-                        </Badge>
-                      )}
-                      {item.status === "distribution" && (
-                        <Badge info>
-                          <Text style={styles.badge}>En Distribución</Text>
-                        </Badge>
-                      )}
-                      {item.status === "completed" && (
-                        <Badge success>
-                          <Text style={styles.badge}>Completado</Text>
-                        </Badge>
-                      )}
-                      {item.status === "cancelled" && (
-                        <Badge danger>
-                          <Text style={styles.badge}>Cancelado</Text>
-                        </Badge>
-                      )}
-                      <Text
-                        note
-                        numberOfLines={1}
-                        style={[styles.meta, styles.orderDate]}
-                      >
-                        Actualizado <TimeAgo time={item.date} />
+                      <Text style={styles.itemPrice}>
+                      ${item.variants[0].price
+                        ? Number(item.variants[0].price).toLocaleString("es-CO", {
+                            maximumFractionDigits: 0,
+                            minimumFractionDigits: 0
+                          })
+                        : 0}
                       </Text>
                     </Right>
                   </CardItem>
@@ -176,6 +156,10 @@ const OrderDetail = ({ error, loading, member, ordersTitle }) => {
               )}
               keyExtractor={keyExtractor}
             />
+            <View style={styles.orderTotalBar}>
+              <Text style={styles.orderTotalBarLabel}>{"Total"}</Text>
+              <Text style={styles.orderTotalBarNumber}>{"$124.000"}</Text>
+            </View>
           </View>
         ) : (
           <View style={styles.supportWidget}>
@@ -233,9 +217,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#F7F7FF"
   },
-  userBar: {
-    flexDirection: "row",
-    alignItems: "center",
+  orderBar: {
     backgroundColor: "#fff",
     borderBottomColor: "#EEEDF2",
     borderBottomWidth: 1,
@@ -245,62 +227,73 @@ const styles = StyleSheet.create({
     marginRight: -10,
     marginBottom: 10
   },
-  userGreeting: {
+  orderLeftBody: {
+    alignSelf: "flex-start"
+  },
+  orderRight: {
+    alignSelf: "flex-start"
+  },
+  orderUser: {
     fontFamily: "playfair",
     color: Colors.brandPrimary,
     fontSize: 24,
     lineHeight: 24
   },
-  userMessage: {
-    color: "#B09DE0",
-    fontSize: 12
-  },
-  userNumberLabel: {
-    color: "#B09DE0",
+  orderNumberLabel: {
+    color: Colors.tabBarTextColor,
     fontSize: 10
   },
-  userNumbers: {
+  orderNumbers: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "stretch"
   },
-  userNumber: {
-    justifyContent: "flex-end",
-    marginBottom: 8
-  },
-  userSales: {
-    fontSize: 20,
-    color: Colors.brandPrimary,
-    marginVertical: 16
-  },
-  userCurrency: {
+  orderCurrency: {
     fontSize: 16,
     color: Colors.brandPrimary
   },
-  userTotal: {
-    fontSize: 18,
-    textAlign: "center",
+  orderTotal: {
     color: Colors.brandPrimary,
-    marginTop: 8
+    marginTop: 8,
+    fontSize: 24,
+    fontWeight: "bold",
+    marginLeft: 0
   },
-  userClients: {
-    fontSize: 15,
+  orderDate: {
+    marginTop: 4,
+    minWidth: 125,
+    color: Colors.tabBarTextColor,
+    fontSize: 12
+  },
+  orderNumber: {
+    fontSize: 24,
     color: Colors.brandPrimary,
     marginTop: 8,
     textAlign: "center"
   },
-  userImg: {
-    flex: 0.5,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  userAvatar: {
-    marginBottom: 12
-  },
-  userInfo: {
+  orderInfo: {
     flex: 1,
-    width: "100%"
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "stretch"
+  },
+  orderTotalBar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "stretch",
+    backgroundColor: Colors.brandLight,
+    padding: 12
+  },
+  orderTotalBarLabel: {
+    fontFamily: "playfair",
+    color: Colors.brandPrimary
+  },
+  orderTotalBarNumber: {
+    alignSelf: "flex-end",
+    textAlign: "right",
+    fontWeight: "700",
+    color: Colors.brandPrimary
   },
   clientImg: {
     justifyContent: "center",
@@ -318,6 +311,9 @@ const styles = StyleSheet.create({
   },
   clientLeft: {
     flex: 0.65
+  },
+  itemPrice: {
+    fontWeight: "700"
   },
   header: {
     fontFamily: "playfair",
@@ -345,24 +341,20 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     fontSize: 10
   },
-  meta: {
-    fontSize: 10,
-    color: "#C3C5C7"
+  productTitle: {
+    fontSize: 16,
+    lineHeight: 16,
+    height: 18
   },
-  orderDate: {
-    alignSelf: "flex-end",
-    marginTop: 4,
-    minWidth: 125,
-    textAlign: "right"
-  },
-  orderTotal: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginLeft: 0
+  productPrice: {
+    marginLeft: 0,
+    alignSelf: "flex-start",
+    fontWeight: "700",
+    fontSize: 13
   },
   meta: {
     fontSize: 10,
-    color: "#C3C5C7",
+    color: Colors.tabBarTextColor,
     marginLeft: 0,
     textAlignVertical: "top"
   },
@@ -386,7 +378,8 @@ const styles = StyleSheet.create({
   cardBody: {
     paddingLeft: 12,
     paddingRight: 12,
-    paddingTop: 12
+    paddingTop: 12,
+    alignItems: "flex-start"
   },
   cardSuccess: {
     borderTopColor: Colors.brandSuccess,

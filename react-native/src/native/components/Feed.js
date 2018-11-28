@@ -51,9 +51,13 @@ const Contents = props => {
     return (
       <View>
         <Collection item={props.item.content} seller_code={props.seller_code}/>
-        <Spacer size={8} />
-        <Products products={props.item.content.products} seller_code={props.seller_code}/>
-        <Spacer size={8} />
+        {props.item.content.products && props.item.content.products.length > 0 &&
+        (<View>
+          <Spacer size={8} />
+          <Products products={props.item.content.products.slice(0, 5)} seller_code={props.seller_code}/>
+          <Spacer size={8} />
+        </View>)
+        }
       </View>
     );
   } else if (props.item.type == "article") {

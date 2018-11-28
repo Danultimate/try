@@ -37,7 +37,6 @@ moment.locale("es");
 import { Mixpanel } from "../../actions/mixpanel";
 
 const onPress = item => {
-  console.log(item.id);
   // Actions.preview({ match: { params: { id: String(item.id) } } });
   Actions.client({ client: item });
 };
@@ -96,7 +95,7 @@ const ClientListing = ({ error, loading, member }) => {
               <Card transparent style={styles.card}>
                 <CardItem
                   button
-                  onPress={() => onPress(item)}
+                  
                   style={styles.cardBody}
                 >
                   <Left style={styles.clientLeft}>
