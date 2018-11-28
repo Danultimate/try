@@ -50,10 +50,10 @@ const Contents = props => {
   if (props.item.type == "collection") {
     return (
       <View>
-        <Collection item={props.item.content} seller_code={props.seller_code}/>
+        <Collection item={props.item.content} sellerCode={props.sellerCode} />
         <Spacer size={8} />
-        <Products products={props.item.content.products} seller_code={props.seller_code}/>
-        <Spacer size={8} />
+        {/* <Products products={props.item.content.products} seller_code={props.seller_code}/>
+    <Spacer size={8} /> */}
       </View>
     );
   } else if (props.item.type == "article") {

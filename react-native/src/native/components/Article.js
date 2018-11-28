@@ -15,7 +15,8 @@ import {
   Right,
   Body,
   Text,
-  Button
+  Button,
+  View
 } from "native-base";
 import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
@@ -90,18 +91,33 @@ const Contents = props => {
       <CardItem cardBody>
         <Body style={[styles.cardBody, styles.cardDanger]}>
           <Spacer size={8} />
+          <View style={styles.metaBar}>
+            <Text
+              style={[
+                styles.meta,
+                styles.category,
+                styles.dangerMsg,
+                styles.leftContainer
+              ]}
+            >
+              ¡Para ti!{" "}
+            </Text>
+            <Text
+              style={[
+                styles.meta,
+                styles.date,
+                styles.textRight,
+                styles.rightContainer
+              ]}
+            >
+              <Icon style={[styles.meta, styles.date]} name="event" />{" "}
+              <TimeAgo time={props.item.created_at} />
+            </Text>
+          </View>
+          <Spacer size={8} />
           <TouchableOpacity onPress={() => onPress(props.item)}>
             <Text style={styles.header}>{props.item.title}</Text>
           </TouchableOpacity>
-          <Text style={styles.meta}>
-            <Text style={[styles.meta, styles.category, styles.dangerMsg]}>
-              Para ti{" "}
-            </Text>
-            <Text style={[styles.meta, styles.date]}>
-              • <TimeAgo time={props.item.created_at} />
-            </Text>
-          </Text>
-          <Spacer size={8} />
           {!!props.item.body_html && (
             <Text numberOfLines={3} style={styles.description}>
               {props.item.description ||
@@ -111,7 +127,7 @@ const Contents = props => {
           <Spacer size={16} />
         </Body>
       </CardItem>
-      <CardItem style={styles.cardFooter} footer bordered>
+      <CardItem style={styles.cardFooter} footer>
         {/*
         TO DO add favorite button when functionality OK
         <Left>
@@ -191,16 +207,32 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     lineHeight: 28
   },
+  metaBar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 4
+  },
+  leftContainer: {
+    flex: 0.5,
+    flexDirection: "row",
+    justifyContent: "flex-start"
+  },
+  rightContainer: {
+    flex: 0.5,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center"
+  },
   meta: {
     fontSize: 10,
-    color: "#C3C5C7"
+    color: Colors.tabBarTextColor
   },
   description: {
     fontSize: 18
   },
   category: {
-    fontWeight: "bold",
-    marginBottom: 8
+    fontWeight: "bold"
   },
   cardBody: {
     paddingHorizontal: 16,
@@ -224,6 +256,9 @@ const styles = StyleSheet.create({
   },
   textCenter: {
     textAlign: "center"
+  },
+  textRight: {
+    textAlign: "right"
   },
   successMsg: {
     color: Colors.brandSuccess
