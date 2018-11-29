@@ -32,15 +32,15 @@ import { Mixpanel } from "../../actions/mixpanel";
 const keyExtractor = item => item.id.toString();
 
 const propTypes = {
-  focused: PropTypes.bool,
   productsTitle: PropTypes.string,
-  products: PropTypes.arrayOf(PropTypes.shape())
+  products: PropTypes.arrayOf(PropTypes.shape()),
+  horizontal: PropTypes.bool
 };
 
 const defaultProps = {
-  focused: false,
   productsTitle: "Productos de la colección",
-  products: []
+  products: [],
+  horizontal: false
 };
 
 const Products = props => {
@@ -52,39 +52,43 @@ const Products = props => {
   // };
   return (
     <View>
-      <View style={styles.productsBar}>
-        <Text style={styles.meta}>{props.productsTitle.toUpperCase()}</Text>
-        <TouchableOpacity
-          style={{ justifyContent: "flex-end", flex: 1 }}
-          onPress={Actions.store}
-        >
-          <Text style={[styles.meta, styles.infoMsg, { textAlign: "right" }]}>
-            Ver en elenas.la
-          </Text>
-        </TouchableOpacity>
-      </View>
       <FlatList
-        horizontal={true}
+        horizontal={props.horizontal}
         showsHorizontalScrollIndicator={false}
         data={props.products}
         initialNumToRender={3}
         renderItem={({ item }) => (
-          <Card transparent style={styles.transparentCard}>
+          <Card style={styles.card}>
             <CardItem cardBody>
               {!!item.images &&
                 !!item.images[0].src && (
                   <Image
                     source={{ uri: item.images[0].src }}
                     style={{
-                      height: 168,
+                      height: 200,
                       width: null,
-                      flex: 1
+                      flex: 1,
+                      resizeMode: "contain"
                     }}
                   />
                 )}
             </CardItem>
-            <CardItem cardBody style={styles.transparentCard}>
-              <Body>
+            <CardItem
+              cardBody
+              style={[
+                styles.productCard,
+                props.horizontal && styles.horizontalCard
+              ]}
+            >
+              <Body style={[styles.cardBody, styles.cardSuccess]}>
+                <View style={styles.promoWrap}>
+                  <Text style={styles.cardPromo}>
+                    {item.discount > 0
+                      ? "Hasta " + item.discount + "%"
+                      : "Producto poderoso"}
+                  </Text>
+                  <View style={styles.promoShape} />
+                </View>
                 <Spacer size={8} />
                 <Text
                   numberOfLines={1}
@@ -97,19 +101,21 @@ const Products = props => {
                 </Text>
               </Body>
             </CardItem>
-            <CardItem cardBody style={styles.transparentCard}>
-              <Left style={{ flexDirection: "column" }}>
-                <Text style={styles.productPriceCompare} note>
-                  ${item.variants[0].compare_at_price
-                    ? Number(item.variants[0].compare_at_price).toLocaleString(
-                        "es-CO",
-                        {
-                          maximumFractionDigits: 0,
-                          minimumFractionDigits: 0
-                        }
-                      )
-                    : 0}
-                </Text>
+            <CardItem footer style={styles.cardFooter}>
+              <Left
+                style={[styles.cardFooterLeft, { flexDirection: "column" }]}
+              >
+                {item.variants[0].compare_at_price && (
+                  <Text style={styles.productPriceCompare} note>
+                    ${Number(item.variants[0].compare_at_price).toLocaleString(
+                      "es-CO",
+                      {
+                        maximumFractionDigits: 0,
+                        minimumFractionDigits: 0
+                      }
+                    )}
+                  </Text>
+                )}
                 <Text style={styles.productPrice}>
                   ${item.variants[0].price
                     ? Number(item.variants[0].price).toLocaleString("es-CO", {
@@ -119,12 +125,12 @@ const Products = props => {
                     : 0}
                 </Text>
               </Left>
-              <Right>
+              <Right style={styles.cardFooterRight}>
                 <Button
                   style={styles.cardButton}
                   block
-                  transparent
-                  info
+                  bordered
+                  success
                   small
                   iconLeft
                   onPress={() => {
@@ -135,7 +141,9 @@ const Products = props => {
                     Mixpanel.track("Share Product: " + item.title);
                     let url = `https://elenas.la/products/${item.handle}`;
                     Share.share({
-                      message: `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}. Recuerda que con mi código de vendedora recibes envío gratis: *${props.seller_code}*`,
+                      message: `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}. Recuerda que con mi código de vendedora recibes envío gratis: *${
+                        props.seller_code
+                      }*`,
                       title: item.title
                       // url: "https://elenas.la/products/" + item.handle
                     });
@@ -146,6 +154,7 @@ const Products = props => {
                     type="SimpleLineIcons"
                     name="share-alt"
                   />
+                  <Text style={styles.cardButtonText}>Compartir ahora</Text>
                 </Button>
               </Right>
             </CardItem>
@@ -199,12 +208,43 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 12
   },
+  promoWrap: {
+    position: "absolute",
+    top: -24,
+    left: 8
+  },
+  cardPromo: {
+    fontSize: 12,
+    color: "white",
+    backgroundColor: Colors.brandSuccess,
+    fontWeight: "700",
+    paddingVertical: 4,
+    paddingHorizontal: 8
+  },
+  promoShape: {
+    width: 0,
+    height: 0,
+    backgroundColor: "transparent",
+    borderStyle: "solid",
+    borderRightWidth: 24,
+    borderBottomWidth: 23,
+    borderRightColor: "transparent",
+    borderBottomColor: Colors.brandSuccess,
+    position: "absolute",
+    right: -24
+  },
   cardSuccess: {
     borderTopColor: Colors.brandSuccess,
     borderTopWidth: 2
   },
   cardButton: {
-    alignSelf: "flex-end"
+    height: 40,
+    shadowColor: "transparent",
+    shadowOpacity: 0,
+    borderLeftWidth: Colors.borderWidth,
+    borderTopWidth: Colors.borderWidth,
+    borderRightWidth: Colors.borderWidth,
+    borderBottomWidth: Colors.borderWidth
   },
   cardButtonText: {
     paddingLeft: 8,
@@ -214,9 +254,16 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end"
   },
   cardFooter: {
-    borderBottomWidth: 0,
-    borderTopColor: "#EBEDF0",
-    paddingHorizontal: 0
+    flexDirection: "row",
+    paddingTop: 0,
+    paddingLeft: 16,
+    paddingRight: 16
+  },
+  cardFooterLeft: {
+    flex: 0.4
+  },
+  cardFooterRight: {
+    flex: 0.6
   },
   successMsg: {
     color: Colors.brandSuccess
@@ -247,31 +294,7 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
   horizontalScroll: {},
-  transparentCard: {
-    backgroundColor: "rgba(255, 255, 255, 0)",
-    width: 128
-  },
-  notifications: {
-    backgroundColor: "#EDEBF5",
-    padding: 12,
-    paddingRight: 0,
-    marginTop: -10,
-    marginLeft: -10,
-    marginRight: -10,
-    marginBottom: 10
-  },
-  notification: {
-    width: 224,
-    height: 88,
-    borderRadius: 0,
-    shadowColor: "#E2E1E6"
-  },
-  notificationHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 4
-  },
+
   leftContainer: {
     flex: 0.6,
     flexDirection: "row",
@@ -283,32 +306,12 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center"
   },
-  notificationDate: {
-    alignSelf: "flex-end"
+  horizontalCard: {
+    width: 128
   },
-  notificationTitle: {
-    fontSize: 14,
-    lineHeight: 18,
-    marginBottom: 0
-  },
-  notificationTitleIcon: {
-    fontSize: 6,
-    lineHeight: 24
-  },
-  notificationText: {
-    fontSize: 12,
-    lineHeight: 18
-  },
-  notificationBody: {
-    paddingHorizontal: 8,
-    paddingVertical: 8
-  },
-  referralCode: {
-    fontWeight: "bold",
-    fontSize: 20
-  },
+  productCard: {},
   productTitle: {
-    fontSize: 16,
+    fontSize: 18,
     lineHeight: 16,
     height: 18
   },
@@ -316,14 +319,14 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     alignSelf: "flex-start",
     fontWeight: "700",
-    fontSize: 13
+    fontSize: 15
   },
   productPriceCompare: {
     marginLeft: 0,
     alignSelf: "flex-start",
     textDecorationLine: "line-through",
     color: Colors.tabBarTextColor,
-    fontSize: 10
+    fontSize: 12
   },
   productsBar: {
     flexDirection: "row"

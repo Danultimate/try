@@ -4,13 +4,11 @@ import { Icon, Button } from "native-base";
 import { Actions } from "react-native-router-flux";
 
 const propTypes = {
-  focused: PropTypes.bool,
-  title: PropTypes.string
+  dark: PropTypes.bool
 };
 
 const defaultProps = {
-  focused: false,
-  title: ""
+  dark: false
 };
 
 const SearchIcon = props => (
@@ -21,8 +19,7 @@ const SearchIcon = props => (
       style={{
         width: 24,
         textAlign: "center",
-        marginBottom: -4,
-        color: "white"
+        color: props.dark ? "#5B2AD0" : "white"
       }}
     />
   </Button>

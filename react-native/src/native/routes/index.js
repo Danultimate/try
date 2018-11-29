@@ -109,9 +109,7 @@ const Index = (
           <Scene
             key="home"
             component={DashboardContainer}
-            renderTitle={() => {
-              return <AppLogoComponent />;
-            }}
+            renderTitle={AppLogoComponent}
             Layout={DashboardComponent}
             renderRightButton={SearchIcon}
             {...DefaultProps.navbarProps}
@@ -292,6 +290,34 @@ const Index = (
         }}
       />
     </Scene>
+    <Scene>
+      <Scene
+        back
+        key="preview"
+        title=""
+        renderRightButton={() => {
+          return <SearchIcon dark />;
+        }}
+        {...DefaultProps.navbarProps}
+        component={PreviewComponent}
+        navigationBarStyle={{
+          backgroundColor: "#fff",
+          borderBottomColor: "#fff",
+          elevation: 0
+        }}
+        backButtonTintColor={Colors.brandPrimary}
+        backButtonTextStyle={{ color: Colors.brandPrimary }}
+        leftButtonTextStyle={{ color: Colors.brandPrimary }}
+        rightButtonStyle={{ color: Colors.brandPrimary }}
+        titleStyle={{
+          color: Colors.brandPrimary,
+          alignSelf: "center",
+          fontFamily: "playfair",
+          textAlign: "center",
+          fontSize: Colors.fontSizeBase * 1.375
+        }}
+      />
+    </Scene>
     <Scene
       back
       clone
@@ -326,17 +352,7 @@ const Index = (
       {...DefaultProps.navbarProps}
       component={TermsComponent}
     />
-    <Scene
-      back
-      clone
-      renderRightButton={() => {
-        return <View />;
-      }}
-      key="preview"
-      title="Vista Previa"
-      {...DefaultProps.navbarProps}
-      component={PreviewComponent}
-    />
+
     <Scene
       back
       clone

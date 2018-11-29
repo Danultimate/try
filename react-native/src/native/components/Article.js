@@ -80,7 +80,7 @@ const Contents = props => {
               <Image
                 source={{ uri: props.item.image.src }}
                 style={{
-                  height: 192,
+                  height: 134,
                   width: null,
                   flex: 1
                 }}
