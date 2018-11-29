@@ -309,13 +309,25 @@ const Index = (
         backButtonTextStyle={{ color: Colors.brandPrimary }}
         leftButtonTextStyle={{ color: Colors.brandPrimary }}
         rightButtonStyle={{ color: Colors.brandPrimary }}
-        titleStyle={{
-          color: Colors.brandPrimary,
-          alignSelf: "center",
-          fontFamily: "playfair",
-          textAlign: "center",
-          fontSize: Colors.fontSizeBase * 1.375
+      />
+      <Scene
+        back
+        renderRightButton={() => {
+          return <View />;
         }}
+        key="previewProduct"
+        title=""
+        {...DefaultProps.navbarProps}
+        component={PreviewProductComponent}
+        navigationBarStyle={{
+          backgroundColor: "#fff",
+          borderBottomColor: "#fff",
+          elevation: 0
+        }}
+        backButtonTintColor={Colors.brandPrimary}
+        backButtonTextStyle={{ color: Colors.brandPrimary }}
+        leftButtonTextStyle={{ color: Colors.brandPrimary }}
+        rightButtonStyle={{ color: Colors.brandPrimary }}
       />
     </Scene>
     <Scene
@@ -352,7 +364,6 @@ const Index = (
       {...DefaultProps.navbarProps}
       component={TermsComponent}
     />
-
     <Scene
       back
       clone
@@ -364,18 +375,7 @@ const Index = (
       {...DefaultProps.navbarProps}
       component={PreviewBlogComponent}
     />
-    <Scene
-      back
-      clone
-      renderRightButton={() => {
-        return <View />;
-      }}
-      key="previewProduct"
-      title="Vista Previa"
-      {...DefaultProps.navbarProps}
-      component={DashboardContainer}
-      Layout={PreviewProductComponent}
-    />
+
     <Scene
       key="store"
       back
@@ -384,6 +384,7 @@ const Index = (
         return <View />;
       }}
       title="Ver productos"
+      {...DefaultProps.navbarProps}
       component={PreviewStore}
     />
   </Scene>

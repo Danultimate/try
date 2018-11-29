@@ -29,6 +29,11 @@ moment.locale("es");
 
 import { Mixpanel } from "../../actions/mixpanel";
 
+const onPress = (item, sellerCode) => {
+  console.log(item.id);
+  Actions.previewProduct({ product: item, sellerCode: sellerCode });
+};
+
 const keyExtractor = item => item.id.toString();
 
 const propTypes = {
@@ -62,15 +67,20 @@ const Products = props => {
             <CardItem cardBody>
               {!!item.images &&
                 !!item.images[0].src && (
-                  <Image
-                    source={{ uri: item.images[0].src }}
-                    style={{
-                      height: 200,
-                      width: null,
-                      flex: 1,
-                      resizeMode: "contain"
-                    }}
-                  />
+                  <TouchableOpacity
+                    onPress={() => onPress(item, props.sellerCode)}
+                    style={{ flex: 1 }}
+                  >
+                    <Image
+                      source={{ uri: item.images[0].src }}
+                      style={{
+                        height: 200,
+                        width: null,
+                        flex: 1,
+                        resizeMode: "contain"
+                      }}
+                    />
+                  </TouchableOpacity>
                 )}
             </CardItem>
             <CardItem
