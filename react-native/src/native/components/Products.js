@@ -84,7 +84,7 @@ const Products = props => {
                 <View style={styles.promoWrap}>
                   <Text style={styles.cardPromo}>
                     {item.discount > 0
-                      ? "Hasta " + item.discount + "%"
+                      ? "Descuento " + item.discount + "%"
                       : "Producto poderoso"}
                   </Text>
                   <View style={styles.promoShape} />

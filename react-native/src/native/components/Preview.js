@@ -142,7 +142,7 @@ const Preview = ({ error, content, sellerCode }) => {
           backgroundColor: "white"
         }}
       >
-        <FooterTab>
+        <FooterTab style={{ bottom: 16 }}>
           <Button
             full
             success
