@@ -10,6 +10,8 @@ import {
 import {
   Container,
   Content,
+  Footer,
+  FooterTab,
   View,
   Icon,
   Card,
@@ -113,7 +115,7 @@ const Preview = ({ error, content, sellerCode }) => {
                   Share.share({ message: message });
                 }}
               >
-                <Icon type="SimpleLineIcons" name="share-alt" />
+                <Icon name="share-alt" />
                 <Text style={styles.cardButtonText}>Compartir</Text>
               </Button>
             </Right>
@@ -134,6 +136,39 @@ const Preview = ({ error, content, sellerCode }) => {
         <Spacer size={8} />
         <Products products={content.products} sellerCode={sellerCode} />
       </Content>
+      <Footer
+        style={{
+          paddingHorizontal: 16,
+          backgroundColor: "white"
+        }}
+      >
+        <FooterTab>
+          <Button
+            full
+            success
+            style={{
+              flexDirection: "row",
+              borderRadius: 5
+            }}
+            onPress={() => {
+              Mixpanel.track("Share Content", {
+                content_id: content.id,
+                content_name: content.title
+              });
+              message = content.wp_message || content.title;
+              message =
+                message +
+                `\n\nRecuerda que con mi código de vendedora recibes envío gratis: *${sellerCode}*`;
+              Share.share({ message: message });
+            }}
+          >
+            <Icon name="share-alt" style={{ color: "white", marginRight: 0 }} />
+            <Text style={{ color: "white", fontSize: 16 }}>
+              Compartir toda la colección
+            </Text>
+          </Button>
+        </FooterTab>
+      </Footer>
     </Container>
   );
 };
