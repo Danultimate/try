@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
+  Platform,
   StatusBar,
   Image,
   StyleSheet,
@@ -97,7 +98,7 @@ const Filters = ({ error, content, seller_code }) => {
 
   return (
     <Container style={styles.container}>
-      <StatusBar barStyle="dark-content" />
+      {Platform.OS === "iOS" && <StatusBar barStyle="dark-content" />}
       <Content>
         <FlatList
           numColumns={1}
