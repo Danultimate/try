@@ -92,7 +92,7 @@ const OrderListing = ({ error, loading, member }) => {
                 <CardItem
                   style={styles.cardBody}
                   button
-                  
+                  onPress={() => onPress(item)}
                 >
                   <Left style={styles.orderLeft}>
                     <View>
