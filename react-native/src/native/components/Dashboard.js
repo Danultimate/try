@@ -162,7 +162,8 @@ class Dashboard extends React.Component {
             <OrderNotifications orders={[]} />
           )*/}
 
-          <FilterBar />
+          {/* TODO: uncomment */}
+          {/* <FilterBar /> */}
 
           <FlatList
             numColumns={1}

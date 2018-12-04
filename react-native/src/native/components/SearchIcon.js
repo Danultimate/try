@@ -13,7 +13,8 @@ const defaultProps = {
 
 const SearchIcon = props => (
   <Button transparent light onPress={Actions.search}>
-    <Icon
+    {/* TODO: uncomment */}
+    {/* <Icon
       type="SimpleLineIcons"
       name="magnifier"
       style={{
@@ -21,7 +22,7 @@ const SearchIcon = props => (
         textAlign: "center",
         color: props.dark ? "#5B2AD0" : "white"
       }}
-    />
+    /> */}
   </Button>
 );
 
