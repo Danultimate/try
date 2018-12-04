@@ -4,14 +4,13 @@ import { View } from "react-native";
 import Colors from "../../../native-base-theme/variables/commonColor";
 
 import TabIcon from "../components/TabIcon";
+import SearchIcon from "../components/SearchIcon";
+import SearchButton from "../components/SearchButton";
+import SearchInput from "../components/SearchInput";
 import AppLogoComponent from "../components/AppLogo";
 
 import DefaultProps from "../constants/navigation";
 import AppConfig from "../../constants/config";
-
-import RecipesContainer from "../../containers/Recipes";
-import RecipesComponent from "../components/Recipes";
-import RecipeViewComponent from "../components/Recipe";
 
 import SignUpContainer from "../../containers/SignUp";
 import SignUpComponent from "../components/SignUp";
@@ -37,6 +36,8 @@ import DashboardComponent from "../components/Dashboard";
 import PreviewComponent from "../components/Preview";
 import PreviewBlogComponent from "../components/PreviewBlog";
 import PreviewProductComponent from "../components/PreviewProduct";
+import SearchComponent from "../components/Search";
+import FiltersComponent from "../components/Filters";
 
 import WelcomeComponent from "../components/Welcome";
 import OnboardingComponent from "../components/Onboarding";
@@ -101,9 +102,6 @@ const Index = (
         <Stack
           key="home"
           title="Inicio"
-          renderTitle={() => {
-            return <AppLogoComponent />;
-          }}
           iconName={"home"}
           icon={TabIcon}
           {...DefaultProps.navbarProps}
@@ -111,7 +109,9 @@ const Index = (
           <Scene
             key="home"
             component={DashboardContainer}
+            renderTitle={AppLogoComponent}
             Layout={DashboardComponent}
+            renderRightButton={SearchIcon}
             {...DefaultProps.navbarProps}
           />
         </Stack>
@@ -242,7 +242,93 @@ const Index = (
         </Stack>
       </Tabs>
     </Scene>
-
+    <Scene>
+      <Scene
+        back
+        key="search"
+        title="Búsqueda"
+        renderTitle={SearchInput}
+        renderRightButton={SearchButton}
+        component={SearchComponent}
+        {...DefaultProps.navbarProps}
+        navigationBarStyle={{
+          backgroundColor: "#fff",
+          borderBottomColor: "#EEEDF2",
+          elevation: 0
+        }}
+        backButtonTintColor={Colors.brandPrimary}
+        backButtonTextStyle={{ color: Colors.brandPrimary }}
+        leftButtonTextStyle={{ color: Colors.brandPrimary }}
+        titleStyle={{
+          left: 40,
+          right: 40
+        }}
+      />
+    </Scene>
+    <Scene>
+      <Scene
+        back
+        key="filters"
+        title="Seleccionar"
+        component={FiltersComponent}
+        {...DefaultProps.navbarProps}
+        navigationBarStyle={{
+          backgroundColor: "#fff",
+          borderBottomColor: "#EEEDF2",
+          elevation: 0
+        }}
+        backButtonTintColor={Colors.brandPrimary}
+        backButtonTextStyle={{ color: Colors.brandPrimary }}
+        leftButtonTextStyle={{ color: Colors.brandPrimary }}
+        titleStyle={{
+          color: Colors.brandPrimary,
+          alignSelf: "center",
+          fontFamily: "playfair",
+          textAlign: "center",
+          fontSize: Colors.fontSizeBase * 1.375
+        }}
+      />
+    </Scene>
+    <Scene>
+      <Scene
+        back
+        key="preview"
+        title=""
+        renderRightButton={() => {
+          return <SearchIcon dark />;
+        }}
+        {...DefaultProps.navbarProps}
+        component={PreviewComponent}
+        navigationBarStyle={{
+          backgroundColor: "#fff",
+          borderBottomColor: "#fff",
+          elevation: 0
+        }}
+        backButtonTintColor={Colors.brandPrimary}
+        backButtonTextStyle={{ color: Colors.brandPrimary }}
+        leftButtonTextStyle={{ color: Colors.brandPrimary }}
+        rightButtonStyle={{ color: Colors.brandPrimary }}
+      />
+      <Scene
+        back
+        renderRightButton={() => {
+          return <View />;
+        }}
+        key="previewProduct"
+        title=""
+        {...DefaultProps.navbarProps}
+        component={PreviewProductComponent}
+        navigationBarStyle={{
+          backgroundColor: "#fff",
+          borderBottomColor: "#fff",
+          elevation: 0
+        }}
+        backButtonTintColor={Colors.brandPrimary}
+        backButtonTextStyle={{ color: Colors.brandPrimary }}
+        leftButtonTextStyle={{ color: Colors.brandPrimary }}
+        rightButtonStyle={{ color: Colors.brandPrimary }}
+      />
+    </Scene>
     <Scene
       back
       clone
@@ -280,50 +366,15 @@ const Index = (
     <Scene
       back
       clone
-      key="recipe"
-      title="Receta"
-      {...DefaultProps.navbarProps}
-      component={RecipesContainer}
-      Layout={RecipeViewComponent}
-    />
-    <Scene
-      back
-      clone
-      renderRightButton={() => {
-        return <View />;
-      }}
-      key="preview"
-      title="Vista Previa"
-      {...DefaultProps.navbarProps}
-      // component={DashboardContainer}
-      // Layout={PreviewComponent}
-      component={PreviewComponent}
-    />
-    <Scene
-      back
-      clone
       renderRightButton={() => {
         return <View />;
       }}
       key="previewBlog"
       title="Vista Previa"
       {...DefaultProps.navbarProps}
-      // component={DashboardContainer}
-      // Layout={PreviewComponent}
       component={PreviewBlogComponent}
     />
-    <Scene
-      back
-      clone
-      renderRightButton={() => {
-        return <View />;
-      }}
-      key="previewProduct"
-      title="Vista Previa"
-      {...DefaultProps.navbarProps}
-      component={DashboardContainer}
-      Layout={PreviewProductComponent}
-    />
+
     <Scene
       key="store"
       back
@@ -332,6 +383,7 @@ const Index = (
         return <View />;
       }}
       title="Ver productos"
+      {...DefaultProps.navbarProps}
       component={PreviewStore}
     />
   </Scene>

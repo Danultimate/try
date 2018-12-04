@@ -1,9 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Image, StyleSheet, TouchableOpacity, Share } from "react-native";
+import {
+  StatusBar,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Share
+} from "react-native";
 import {
   Container,
-  product,
+  View,
+  Content,
+  Footer,
+  FooterTab,
   Icon,
   Card,
   CardItem,
@@ -25,26 +34,26 @@ import moment from "moment"; //load moment module to set local language
 import "moment/locale/es"; //for import moment local language file during the application build
 moment.locale("es");
 
-const PreviewProduct = ({ error, products, productId }) => {
+import { Mixpanel } from "../../actions/mixpanel";
+
+const PreviewProduct = ({ error, product, sellerCode }) => {
+  console.log("el product");
+  console.log(product);
   // Error
   if (error) return <Error product={error} />;
 
-  console.log("hey esto es PreviewProduct Component: id, products:");
-  console.log(productId);
-  console.log(products.length);
-
   // Get this Recipe from all recipes
-  let product = null;
-
-  if (productId && products) {
-    product = products.find(
-      //item => parseInt(item.id, 10) === parseInt(productId, 10)
-      item => item.id === productId
-    );
-  }
+  // let product = null;
+  //
+  // if (productId && products) {
+  //   product = products.find(
+  //     item => parseInt(item.id, 10) === parseInt(productId, 10)
+  //     item => item.id === productId
+  //   );
+  // }
 
   // Recipe not found
-  if (!product) return <Error product={ErrorMessages.product404} />;
+  // if (!product) return <Error product={ErrorMessages.product404} />;
 
   // Build Ingredients listing
   // const ingredients = recipe.ingredients.map(item => (
@@ -56,79 +65,116 @@ const PreviewProduct = ({ error, products, productId }) => {
   // ));
 
   return (
-    <Container>
-      <product padder>
-        <Card style={styles.card}>
-          <CardItem cardBody>
-            <TouchableOpacity onPress={() => onPress(item)} style={{ flex: 1 }}>
+    <Container style={styles.container}>
+      <StatusBar barStyle="dark-content" />
+      <Content padder>
+        <View style={styles.productBar}>
+          <Text style={[styles.meta, styles.category, styles.successMsg]}>
+            ¡Gana dinero compartiendo!{" "}
+          </Text>
+          <Text style={styles.header}>{product.title}</Text>
+          <Text style={styles.meta}>{product.vendor.toUpperCase()}</Text>
+          <Spacer size={8} />
+          {product.variants[0].compare_at_price && (
+            <Text style={styles.productPriceCompare} note>
+              ${Number(product.variants[0].compare_at_price).toLocaleString(
+                "es-CO",
+                {
+                  maximumFractionDigits: 0,
+                  minimumFractionDigits: 0
+                }
+              )}
+            </Text>
+          )}
+          <Text style={styles.productPrice}>
+            ${product.variants[0].price
+              ? Number(product.variants[0].price).toLocaleString("es-CO", {
+                  maximumFractionDigits: 0,
+                  minimumFractionDigits: 0
+                })
+              : 0}
+          </Text>
+          {!!product.image &&
+            !!product.image.src && (
               <Image
-                source={{ uri: product.image[0].src }}
+                source={{ uri: product.image.src }}
                 style={{
-                  height: 192,
+                  height: 208,
                   width: null,
-                  flex: 1
+                  flex: 1,
+                  resizeMode: "contain",
+                  marginBottom: 16
                 }}
               />
-            </TouchableOpacity>
-          </CardItem>
-          <CardItem cardBody>
-            <Body style={[styles.cardBody, styles.cardSuccess]}>
-              <Spacer size={8} />
-              <Text style={styles.header}>{product.title}</Text>
-              <Text style={styles.meta}>
-                <Text style={[styles.meta, styles.category, styles.successMsg]}>
-                  Para compartir{" "}
+            )}
+
+          <Spacer size={16} />
+          <View style={styles.cardFooter}>
+            <Left style={styles.cardFooterLeft}>
+              <View style={styles.promoWrap}>
+                <Text style={styles.cardPromo}>
+                  {product.discount > 0
+                    ? "Descuento " + product.discount + "%"
+                    : "Producto poderoso"}
                 </Text>
-                <Text style={[styles.meta, styles.date]}>
-                  • <TimeAgo time={product.updatedAt} />
-                </Text>
-              </Text>
-              <Spacer size={8} />
-              <Text style={styles.description}>{product.description}</Text>
-              <Spacer size={16} />
-            </Body>
-          </CardItem>
-          <CardItem style={styles.cardFooter} footer bordered>
-            <Left>
-              <Button
-                style={styles.cardButton}
-                block
-                transparent
-                info
-                small
-                iconLeft
-                onPress={() => onPress(item)}
-              >
-                <Icon type="SimpleLineIcons" name="heart" />
-                <Text style={styles.cardButtonText}>Me encanta</Text>
-              </Button>
+                <View style={styles.promoShape} />
+              </View>
             </Left>
-            <Right>
-              <Button
-                style={styles.cardButton}
-                block
-                transparent
-                info
-                small
-                iconLeft
-                onPress={() => {
-                  Share.share({ message: product.title }, {});
-                }}
-              >
-                <Icon type="SimpleLineIcons" name="share-alt" />
-                <Text style={styles.cardButtonText}>Compartir</Text>
-              </Button>
+            <Right style={styles.cardFooterRight}>
+              <Text style={[styles.meta, styles.successMsg]}>
+                <Icon style={[styles.meta, styles.successMsg]} name="present" />{" "}
+                Entrega gratuita:
+              </Text>
+              <Text style={[styles.meta]}>5 a 10 días hábiles</Text>
             </Right>
-          </CardItem>
-        </Card>
-      </product>
+          </View>
+        </View>
+        <Text style={styles.description}>
+          {product.description ||
+            product.body_html.replace(/<(?:.|\n)*?>/gm, "")}
+        </Text>
+        <Spacer size={40} />
+      </Content>
+      <Footer
+        style={{
+          paddingHorizontal: 16,
+          backgroundColor: "white"
+        }}
+      >
+        <FooterTab style={{ bottom: 16 }}>
+          <Button
+            full
+            success
+            style={{
+              flexDirection: "row",
+              borderRadius: 5
+            }}
+            onPress={() => {
+              Mixpanel.track("Share Content", {
+                content_id: product.id,
+                content_name: product.title
+              });
+              message = product.wp_message || product.title;
+              message =
+                message +
+                `\n\nRecuerda que con mi código de vendedora recibes envío gratis: *${sellerCode}*`;
+              Share.share({ message: message });
+            }}
+          >
+            <Icon name="share-alt" style={{ color: "white", marginRight: 0 }} />
+            <Text style={{ color: "white", fontSize: 16 }}>
+              Compartir producto
+            </Text>
+          </Button>
+        </FooterTab>
+      </Footer>
     </Container>
   );
 };
 
 PreviewProduct.propTypes = {
-  error: PropTypes.string,
-  productId: PropTypes.string.isRequired
+  error: PropTypes.string
+  // productId: PropTypes.string.isRequired
   //products: PropTypes.arrayOf(PropTypes.shape()).isRequired
 };
 
@@ -142,62 +188,24 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#F7F7FF"
   },
-  userBar: {
-    flexDirection: "row",
-    backgroundColor: Colors.brandPrimary,
-    height: 104,
-    padding: 12,
+  productBar: {
+    backgroundColor: "white",
+    shadowColor: "#E2E1E6",
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 0,
+    elevation: 2,
+    paddingHorizontal: 24,
+    paddingBottom: 6,
     marginTop: -10,
     marginLeft: -10,
     marginRight: -10,
-    marginBottom: 10
-  },
-  userGreeting: {
-    fontFamily: "playfair",
-    color: "white",
-    fontSize: 24,
-    lineHeight: 24
-  },
-  userMessage: {
-    color: "#B09DE0",
-    fontSize: 14
-  },
-  userNumberLabel: {
-    color: "#B09DE0",
-    fontSize: 10,
-    marginTop: 16
-  },
-  userSales: {
-    fontSize: 26,
-    color: "white"
-  },
-  userCurrency: {
-    fontSize: 16,
-    color: "white"
-  },
-  userClients: {
-    fontSize: 18,
-    color: "white",
-    marginTop: 8
-  },
-  userImg: {
-    flex: 0.2,
-    marginRight: 10,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  userAvatar: {
-    marginBottom: 12
-  },
-  userCode: {
-    fontSize: 10,
-    textAlign: "center",
-    color: "#B09DE0"
-  },
-  userInfo: { flex: 0.8 },
-  userNumbers: {
-    flexDirection: "row",
-    height: 32
+    marginBottom: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: Colors.brandSuccess
   },
   card: {
     shadowColor: "#E2E1E6",
@@ -217,10 +225,12 @@ const styles = StyleSheet.create({
   },
   meta: {
     fontSize: 10,
-    color: "#C3C5C7"
+    color: Colors.tabBarTextColor
   },
   description: {
-    fontSize: 18
+    fontSize: 18,
+    paddingHorizontal: 16,
+    paddingTop: 24
   },
   category: {
     fontWeight: "bold",
@@ -241,7 +251,33 @@ const styles = StyleSheet.create({
   cardFooter: {
     borderBottomWidth: 0,
     borderTopColor: "#EBEDF0",
-    paddingHorizontal: 0
+    paddingHorizontal: 0,
+    flexDirection: "row"
+  },
+  promoWrap: {
+    position: "absolute",
+    bottom: -18,
+    left: 0
+  },
+  cardPromo: {
+    fontSize: 12,
+    color: "white",
+    backgroundColor: Colors.brandSuccess,
+    fontWeight: "700",
+    paddingVertical: 4,
+    paddingHorizontal: 8
+  },
+  promoShape: {
+    width: 0,
+    height: 0,
+    backgroundColor: "transparent",
+    borderStyle: "solid",
+    borderRightWidth: 24,
+    borderBottomWidth: 23,
+    borderRightColor: "transparent",
+    borderBottomColor: Colors.brandSuccess,
+    position: "absolute",
+    right: -24
   },
   successMsg: {
     color: Colors.brandSuccess
@@ -327,17 +363,20 @@ const styles = StyleSheet.create({
   },
   productTitle: {
     fontSize: 16,
-    lineHeight: 16
+    lineHeight: 16,
+    marginBottom: 8
   },
-  loadMore: {
-    backgroundColor: "#F1EDFA",
-    marginTop: 8,
-    marginBottom: 8,
-    marginHorizontal: 2,
-    shadowColor: "transparent"
+  productPrice: {
+    marginLeft: 0,
+    alignSelf: "flex-start",
+    fontWeight: "700",
+    fontSize: 15
   },
-  loadMoreText: {
-    fontSize: 14,
-    color: Colors.brandInfo
+  productPriceCompare: {
+    marginLeft: 0,
+    alignSelf: "flex-start",
+    textDecorationLine: "line-through",
+    color: Colors.tabBarTextColor,
+    fontSize: 12
   }
 });

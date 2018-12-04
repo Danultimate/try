@@ -26,6 +26,7 @@ import { Actions } from "react-native-router-flux";
 import Loading from "./Loading";
 import Error from "./Error";
 import Spacer from "./Spacer";
+import FilterBar from "./FilterBar";
 import Referral from "./Referral";
 import SupportWidget from "./SupportWidget";
 
@@ -125,7 +126,6 @@ class Dashboard extends React.Component {
                 style={styles.userAvatar}
                 source={require("../assets/images/avatar.png")}
               />
-              <Text style={styles.userCode}>{this.props.member.code}</Text>
             </View>
             <View style={styles.userInfo}>
               <Text style={styles.userGreeting}>
@@ -134,48 +134,41 @@ class Dashboard extends React.Component {
                   : "¡Hola, mujer poderosa!"}
               </Text>
               <Text style={styles.userMessage}>
-                {this.state.bottomMessage
-                  ? this.state.bottomMessage
-                  : "Hoy puede ser un gran día :)"}
+                Tu código:{" "}
+                <Text style={styles.userCode}>{this.props.member.code}</Text>
               </Text>
-              <Spacer size={10} />
-              <View style={styles.userNumbers}>
-                <Text style={styles.userNumberLabel}>Ventas </Text>
-                <Text style={styles.userSales}>
-                  <Text style={styles.userCurrency}>$</Text>
-                  {this.props.member.validOrders
-                    ? Math.round(
-                        this.props.member.validOrders.reduce(
-                          (a, b) => +a + b.total - b.tax - b.shipping,
-                          0
-                        )
-                      ).toLocaleString("es-CO", {
-                        maximumFractionDigits: 0
-                      })
-                    : 0}
-                </Text>
-                <Spacer size={10} />
-                <Text style={styles.userClients}>
-                  {this.props.member.clients
-                    ? this.props.member.clients.length
-                    : 0}
-                </Text>
-                <Text style={styles.userNumberLabel}> clientes</Text>
-              </View>
+            </View>
+            <View style={styles.userNumbers}>
+              <Text style={styles.userSales}>
+                <Text style={styles.userCurrency}>$</Text>
+                {this.props.member.validOrders
+                  ? Math.round(
+                      this.props.member.validOrders.reduce(
+                        (a, b) => +a + b.total - b.tax - b.shipping,
+                        0
+                      )
+                    ).toLocaleString("es-CO", {
+                      maximumFractionDigits: 0
+                    })
+                  : 0}
+              </Text>
+              <Text style={styles.userNumberLabel}>Ventas </Text>
             </View>
           </View>
 
-          {this.props.member.orders ? (
+          {/*this.props.member.orders ? (
             <OrderNotifications orders={this.props.member.orders.slice(0, 4)} />
           ) : (
             <OrderNotifications orders={[]} />
-          )}
+          )*/}
+
+          <FilterBar />
 
           <FlatList
             numColumns={1}
             data={this.state.feed}
             renderItem={({ item }) => (
-              <Feed item={item} seller_code={this.props.member.code} />
+              <Feed item={item} sellerCode={this.props.member.code} />
             )}
             keyExtractor={feedKeyExtractor}
           />
@@ -226,7 +219,6 @@ const styles = StyleSheet.create({
   userBar: {
     flexDirection: "row",
     backgroundColor: Colors.brandPrimary,
-    minHeight: 104,
     padding: 12,
     marginTop: -10,
     marginLeft: -10,
@@ -236,21 +228,22 @@ const styles = StyleSheet.create({
   userGreeting: {
     fontFamily: "playfair",
     color: "white",
-    fontSize: 24,
-    lineHeight: 24
+    fontSize: 22,
+    lineHeight: 22
   },
   userMessage: {
     color: "#B09DE0",
-    fontSize: 12
+    fontSize: 11
   },
   userNumberLabel: {
     color: "#B09DE0",
-    fontSize: 9,
-    marginTop: 16
+    fontSize: 11,
+    textAlign: "right"
   },
   userSales: {
-    fontSize: 26,
-    color: "white"
+    fontSize: 22,
+    color: "white",
+    textAlign: "right"
   },
   userCurrency: {
     fontSize: 16,
@@ -271,14 +264,16 @@ const styles = StyleSheet.create({
     marginBottom: 12
   },
   userCode: {
-    fontSize: 9,
-    textAlign: "center",
-    color: "#B09DE0"
+    fontSize: 11,
+    color: "#B09DE0",
+    fontWeight: "700"
   },
-  userInfo: { flex: 0.8 },
+  userInfo: {
+    flex: 0.5,
+    marginRight: 10
+  },
   userNumbers: {
-    flexDirection: "row",
-    height: 32
+    flex: 0.3
   },
   card: {
     shadowColor: "#E2E1E6",

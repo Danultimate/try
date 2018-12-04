@@ -1,9 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Image, StyleSheet, TouchableOpacity, Share } from "react-native";
+import {
+  Image,
+  StatusBar,
+  StyleSheet,
+  TouchableOpacity,
+  Share
+} from "react-native";
 import {
   Container,
   Content,
+  Footer,
+  FooterTab,
+  View,
   Icon,
   Card,
   CardItem,
@@ -31,7 +40,7 @@ import shopifyAPI from "../../constants/shopify_axios";
 
 import { Mixpanel } from "../../actions/mixpanel";
 
-const Preview = ({ error, content, seller_code }) => {
+const Preview = ({ error, content, sellerCode }) => {
   Mixpanel.screen("Preview Content");
   // Error
   if (error) return <Error content={error} />;
@@ -54,71 +63,112 @@ const Preview = ({ error, content, seller_code }) => {
   if (!content) return <Error content={ErrorMessages.content404} />;
 
   return (
-    <Container>
+    <Container style={styles.container}>
+      <StatusBar barStyle="dark-content" />
       <Content padder>
-        <Card style={styles.card}>
+        <View style={styles.collectionBar}>
+          <Text style={[styles.meta, styles.category, styles.successMsg]}>
+            ¡Gana dinero compartiendo!{" "}
+          </Text>
+          <Text style={styles.header}>{content.title}</Text>
           {!!content.image &&
             !!content.image.src && (
-              <CardItem cardBody>
-                <Image
-                  source={{ uri: content.image.src }}
-                  style={{
-                    height: 192,
-                    width: null,
-                    flex: 1
-                  }}
-                />
-              </CardItem>
+              <Image
+                source={{ uri: content.image.src }}
+                style={{
+                  height: 192,
+                  width: null,
+                  flex: 1,
+                  marginBottom: 16
+                }}
+              />
             )}
-          <CardItem cardBody>
-            <Body style={[styles.cardBody, styles.cardSuccess]}>
-              <Spacer size={8} />
-              <Text style={styles.header}>{content.title}</Text>
-              <Text style={styles.meta}>
-                <Text style={[styles.meta, styles.category, styles.successMsg]}>
-                  Para compartir{" "}
-                </Text>
-                <Text style={[styles.meta, styles.date]}>
-                  • <TimeAgo time={content.published_at} />
-                </Text>
+          <Text style={styles.description}>
+            {content.description ||
+              content.body_html.replace(/<(?:.|\n)*?>/gm, "")}
+          </Text>
+          <Spacer size={16} />
+          <View style={styles.cardFooter}>
+            <Left style={styles.cardFooterLeft}>
+              <Text style={[styles.meta, styles.successMsg]}>
+                <Icon style={[styles.meta, styles.successMsg]} name="present" />{" "}
+                Entrega gratuita:
               </Text>
-              <Spacer size={8} />
-              <Text style={styles.description}>
-                {content.description ||
-                  content.body_html.replace(/<(?:.|\n)*?>/gm, "")}
-              </Text>
-              <Spacer size={16} />
-            </Body>
-          </CardItem>
-          <CardItem style={styles.cardFooter} footer bordered>
-            <Body>
+              <Text style={[styles.meta]}>5 a 10 días hábiles</Text>
+            </Left>
+            <Right style={styles.cardFooterRight}>
               <Button
                 style={styles.cardButton}
                 block
-                transparent
-                info
                 small
+                success
                 iconLeft
                 onPress={() => {
                   Mixpanel.track("Share Content", {
                     content_id: content.id,
                     content_name: content.title
                   });
-
-                  message = content.wp_message || content.title
-                  message = message + `\n\nRecuerda que con mi código de vendedora recibes envío gratis: *${seller_code}*`
-                  Share.share({ message:  message});
+                  message = content.wp_message || content.title;
+                  message =
+                    message +
+                    `\n\nRecuerda que con mi código de vendedora recibes envío gratis: *${sellerCode}*`;
+                  Share.share({ message: message });
                 }}
               >
-                <Icon type="SimpleLineIcons" name="share-alt" />
+                <Icon name="share-alt" />
                 <Text style={styles.cardButtonText}>Compartir</Text>
               </Button>
-            </Body>
-          </CardItem>
-        </Card>
+            </Right>
+          </View>
+        </View>
+
         <Spacer size={8} />
-        <Products products={content.products} seller_code={seller_code} />
+        <View style={styles.productsBar}>
+          <Text style={[styles.meta, styles.leftContainer]}>
+            {content.products.length} productos
+          </Text>
+          <Text style={[styles.meta, styles.rightContainer]}>
+            desde ${Math.round(content.min_price).toLocaleString("es-CO", {
+              maximumFractionDigits: 0
+            })}
+          </Text>
+        </View>
+        <Spacer size={8} />
+        <Products products={content.products} sellerCode={sellerCode} />
       </Content>
+      <Footer
+        style={{
+          paddingHorizontal: 16,
+          backgroundColor: "white"
+        }}
+      >
+        <FooterTab style={{ bottom: 16 }}>
+          <Button
+            full
+            success
+            style={{
+              flexDirection: "row",
+              borderRadius: 5
+            }}
+            onPress={() => {
+              Mixpanel.track("Share Content", {
+                content_id: content.id,
+                content_name: content.title
+              });
+              message = content.wp_message || content.title;
+              message =
+                message +
+                `\n\nRecuerda que con mi código de vendedora recibes envío gratis: *${sellerCode}*`;
+              Share.share({ message: message });
+            }}
+          >
+            <Icon name="share-alt" style={{ color: "white", marginRight: 0 }} />
+            <Text style={{ color: "white", fontSize: 16 }}>
+              Compartir toda la colección
+            </Text>
+          </Button>
+        </FooterTab>
+      </Footer>
     </Container>
   );
 };
@@ -137,64 +187,24 @@ export default Preview;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#F7F7FF"
+    backgroundColor: Colors.brandLight
   },
-  userBar: {
-    flexDirection: "row",
-    backgroundColor: Colors.brandPrimary,
-    height: 104,
-    padding: 12,
+  collectionBar: {
+    backgroundColor: "#fff",
+    shadowColor: "#E2E1E6",
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 0,
+    elevation: 2,
+    paddingHorizontal: 24,
+    paddingBottom: 24,
     marginTop: -10,
     marginLeft: -10,
     marginRight: -10,
     marginBottom: 10
-  },
-  userGreeting: {
-    fontFamily: "playfair",
-    color: "white",
-    fontSize: 24,
-    lineHeight: 24
-  },
-  userMessage: {
-    color: "#B09DE0",
-    fontSize: 14
-  },
-  userNumberLabel: {
-    color: "#B09DE0",
-    fontSize: 10,
-    marginTop: 16
-  },
-  userSales: {
-    fontSize: 26,
-    color: "white"
-  },
-  userCurrency: {
-    fontSize: 16,
-    color: "white"
-  },
-  userClients: {
-    fontSize: 18,
-    color: "white",
-    marginTop: 8
-  },
-  userImg: {
-    flex: 0.2,
-    marginRight: 10,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  userAvatar: {
-    marginBottom: 12
-  },
-  userCode: {
-    fontSize: 10,
-    textAlign: "center",
-    color: "#B09DE0"
-  },
-  userInfo: { flex: 0.8 },
-  userNumbers: {
-    flexDirection: "row",
-    height: 32
   },
   card: {
     shadowColor: "#E2E1E6",
@@ -214,7 +224,7 @@ const styles = StyleSheet.create({
   },
   meta: {
     fontSize: 10,
-    color: "#C3C5C7"
+    color: Colors.tabBarTextColor
   },
   description: {
     fontSize: 18
@@ -231,14 +241,31 @@ const styles = StyleSheet.create({
     borderTopColor: Colors.brandSuccess,
     borderTopWidth: 2
   },
+  cardButton: {
+    height: 40,
+    shadowColor: "transparent",
+    shadowOpacity: 0
+  },
   cardButtonText: {
     paddingLeft: 8,
     paddingRight: 8
   },
   cardFooter: {
-    borderBottomWidth: 0,
-    borderTopColor: "#EBEDF0",
-    paddingHorizontal: 0
+    flexDirection: "row"
+  },
+  productsBar: {
+    flexDirection: "row"
+  },
+  cardFooterLeft: {
+    flex: 0.5
+  },
+  cardFooterRight: {
+    flex: 0.5
+  },
+  cardFooterText: {
+    fontSize: 12,
+    marginLeft: 0,
+    color: Colors.tabBarTextColor
   },
   successMsg: {
     color: Colors.brandSuccess
@@ -252,45 +279,6 @@ const styles = StyleSheet.create({
   textCenter: {
     textAlign: "center"
   },
-  supportWidget: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    paddingHorizontal: 40
-  },
-  supportHeader: {
-    fontSize: 24
-  },
-  supportText: {
-    fontSize: 14
-  },
-  horizontalScroll: {},
-  transparentCard: {
-    backgroundColor: "rgba(255, 255, 255, 0)",
-    width: 128
-  },
-  notifications: {
-    backgroundColor: "#EDEBF5",
-    padding: 12,
-    paddingRight: 0,
-    marginTop: -10,
-    marginLeft: -10,
-    marginRight: -10,
-    marginBottom: 10
-  },
-  notification: {
-    width: 224,
-    height: 88,
-    borderRadius: 0,
-    shadowColor: "#E2E1E6"
-  },
-  notificationHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 4
-  },
   leftContainer: {
     flex: 0.6,
     flexDirection: "row",
@@ -300,7 +288,8 @@ const styles = StyleSheet.create({
     flex: 0.4,
     flexDirection: "row",
     justifyContent: "flex-end",
-    alignItems: "center"
+    alignItems: "center",
+    textAlign: "right"
   },
   notificationDate: {
     alignSelf: "flex-end"

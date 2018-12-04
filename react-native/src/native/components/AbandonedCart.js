@@ -43,55 +43,50 @@ const defaultProps = {
 const Contents = props => (
   <Card style={styles.card}>
     <CardItem
-        header
-        style={{
+      header
+      style={{
         justifyContent: "center",
         alignItems: "center",
         paddingBottom: 0
-        }}
+      }}
     >
-        <Image source={require("../assets/images/msg-warning.png")} />
+      <Image source={require("../assets/images/msg-warning.png")} />
     </CardItem>
     <CardItem style={styles.cardBody}>
-        <Body>
-        <Text
-            style={[styles.header, styles.warningMsg, styles.textCenter]}
-        >
-            Tu cliente abandonó el carrito de compra
+      <Body>
+        <Text style={[styles.header, styles.warningMsg, styles.textCenter]}>
+          Tu cliente abandonó el carrito de compra
         </Text>
         <Text style={[styles.meta, styles.date]}>Hace 26 minutos</Text>
         <Spacer size={8} />
         <Text style={styles.description}>
-            Tu cliente {props.item.shipping_address.first_name} {props.item.shipping_address.last_name} agregó tres productos pero no terminó
-            su proceso de compra en el sitio web de Elenas…
-            <Text style={{ color: Colors.brandInfo }}>Ver más</Text>
+          Tu cliente {props.item.shipping_address.first_name}{" "}
+          {props.item.shipping_address.last_name} agregó tres productos pero no
+          terminó su proceso de compra en el sitio web de Elenas…
+          <Text style={{ color: Colors.brandInfo }}>Ver más</Text>
         </Text>
         <Spacer size={16} />
-        </Body>
+      </Body>
     </CardItem>
-    <CardItem style={styles.cardFooter} footer bordered>
-        <Body>
-        <Button
-            style={styles.cardButton}
-            block
-            transparent
-            info
-            small
-            iconLeft
-        >
-            <Icon type="SimpleLineIcons" name="phone" />
-            <Text style={styles.cardButtonText}
+    <CardItem style={styles.cardFooter} footer>
+      <Body>
+        <Button style={styles.cardButton} block transparent info small iconLeft>
+          <Icon type="SimpleLineIcons" name="phone" />
+          <Text
+            style={styles.cardButtonText}
             onPress={() =>
               call({
                 number: "" + props.item.shipping_address.phone,
                 prompt: false
               })
             }
-            >Llamar</Text>
+          >
+            Llamar
+          </Text>
         </Button>
-        </Body>
+      </Body>
     </CardItem>
-    </Card>
+  </Card>
 );
 
 Contents.propTypes = propTypes;
