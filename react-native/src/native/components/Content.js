@@ -33,8 +33,6 @@ import { Mixpanel } from "../../actions/mixpanel";
 const keyExtractor = item => item.id.toString();
 
 const onPress = (item, sellerCode) => {
-  console.log(item.id);
-  // Actions.preview({ match: { params: { id: String(item.id) } } });
   Actions.preview({ content: item, sellerCode: sellerCode });
 };
 
@@ -50,7 +48,6 @@ const defaultProps = {
 };
 
 const Contents = props => {
-  console.log(props.item);
   return (
     <Card style={styles.card}>
       {!!props.item.image &&
@@ -191,17 +188,17 @@ const Contents = props => {
             )}
           </CardItem>
         )}
+      <View style={styles.promoWrap}>
+        <Text style={styles.cardPromo}>
+          {props.item.max_discount > 0
+            ? "Hasta " + props.item.max_discount + "%"
+            : "Producto poderoso"}
+        </Text>
+        <View style={styles.promoShape} />
+      </View>
+
       <CardItem cardBody>
         <Body style={[styles.cardBody, styles.cardSuccess]}>
-          <View style={styles.promoWrap}>
-            <Text style={styles.cardPromo}>
-              {props.item.max_discount > 0
-                ? "Hasta " + props.item.max_discount + "%"
-                : "Producto poderoso"}
-            </Text>
-            <View style={styles.promoShape} />
-          </View>
-
           <Spacer size={8} />
           <View style={styles.metaBar}>
             <Text
@@ -335,8 +332,10 @@ const styles = StyleSheet.create({
   },
   promoWrap: {
     position: "absolute",
-    top: -24,
-    left: 8
+    top: 110,
+    left: 8,
+    zIndex: 2,
+    paddingRight: 24
   },
   cardPromo: {
     fontSize: 12,
@@ -344,7 +343,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.brandSuccess,
     fontWeight: "700",
     paddingVertical: 4,
-    paddingHorizontal: 8
+    paddingHorizontal: 8,
+    height: 24
   },
   promoShape: {
     width: 0,
@@ -352,11 +352,11 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     borderStyle: "solid",
     borderRightWidth: 24,
-    borderBottomWidth: 23,
+    borderBottomWidth: 24,
     borderRightColor: "transparent",
     borderBottomColor: Colors.brandSuccess,
-    position: "absolute",
-    right: -24
+    top: -24,
+    left: "100%"
   },
   cardSuccess: {
     borderTopColor: Colors.brandSuccess,

@@ -83,6 +83,15 @@ const Products = props => {
                   </TouchableOpacity>
                 )}
             </CardItem>
+            <View style={styles.promoWrap}>
+              <Text style={styles.cardPromo}>
+                {item.discount > 0
+                  ? "Descuento " + item.discount + "%"
+                  : "Producto poderoso"}
+              </Text>
+              <View style={styles.promoShape} />
+            </View>
+
             <CardItem
               cardBody
               style={[
@@ -91,19 +100,8 @@ const Products = props => {
               ]}
             >
               <Body style={[styles.cardBody, styles.cardSuccess]}>
-                <View style={styles.promoWrap}>
-                  <Text style={styles.cardPromo}>
-                    {item.discount > 0
-                      ? "Descuento " + item.discount + "%"
-                      : "Producto poderoso"}
-                  </Text>
-                  <View style={styles.promoShape} />
-                </View>
                 <Spacer size={8} />
-                <Text
-                  numberOfLines={1}
-                  style={[styles.header, styles.productTitle]}
-                >
+                <Text numberOfLines={1} style={styles.header}>
                   {item.title}
                 </Text>
                 <Text style={[styles.meta, { marginLeft: 0 }]}>
@@ -193,14 +191,13 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 0,
-    elevation: 2
+    elevation: 1
   },
   header: {
     fontFamily: "playfair",
-    fontSize: 32,
     marginBottom: 8,
-    lineHeight: 28,
-    fontWeight: "700"
+    fontSize: 18,
+    lineHeight: 16
   },
   meta: {
     fontSize: 10,
@@ -220,8 +217,10 @@ const styles = StyleSheet.create({
   },
   promoWrap: {
     position: "absolute",
-    top: -24,
-    left: 8
+    top: 176,
+    left: 8,
+    zIndex: 2,
+    paddingRight: 24
   },
   cardPromo: {
     fontSize: 12,
@@ -229,7 +228,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.brandSuccess,
     fontWeight: "700",
     paddingVertical: 4,
-    paddingHorizontal: 8
+    paddingHorizontal: 8,
+    height: 24
   },
   promoShape: {
     width: 0,
@@ -237,11 +237,11 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     borderStyle: "solid",
     borderRightWidth: 24,
-    borderBottomWidth: 23,
+    borderBottomWidth: 24,
     borderRightColor: "transparent",
     borderBottomColor: Colors.brandSuccess,
-    position: "absolute",
-    right: -24
+    top: -24,
+    left: "100%"
   },
   cardSuccess: {
     borderTopColor: Colors.brandSuccess,
@@ -320,11 +320,6 @@ const styles = StyleSheet.create({
     width: 128
   },
   productCard: {},
-  productTitle: {
-    fontSize: 18,
-    lineHeight: 16,
-    height: 18
-  },
   productPrice: {
     marginLeft: 0,
     alignSelf: "flex-start",

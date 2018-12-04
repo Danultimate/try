@@ -1,12 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Image, StyleSheet, TouchableOpacity, Share } from "react-native";
+import {
+  Platform,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Share
+} from "react-native";
 import {
   Container,
   Content,
+  View,
   Icon,
-  Card,
-  CardItem,
   Left,
   Right,
   Body,
@@ -50,43 +55,37 @@ const Preview = ({ error, content }) => {
   if (!content) return <Error content={ErrorMessages.content404} />;
 
   return (
-    <Container>
+    <Container style={styles.container}>
+      {Platform.OS === "iOS" && <StatusBar barStyle="dark-content" />}
       <Content padder>
-        <Card style={styles.card}>
+        <View style={styles.articleBar}>
+          <Text style={styles.meta}>
+            <Text style={[styles.meta, styles.category, styles.dangerMsg]}>
+              Para ti{" "}
+            </Text>
+            <Text style={[styles.meta, styles.date]}>
+              • <TimeAgo time={content.created_at} />
+            </Text>
+          </Text>
+          <Spacer size={8} />
+          <Text style={styles.header}>{content.title}</Text>
           {!!content.image &&
             !!content.image.src && (
-              <CardItem cardBody>
-                <Image
-                  source={{ uri: content.image.src }}
-                  style={{
-                    height: 192,
-                    width: null,
-                    flex: 1
-                  }}
-                />
-              </CardItem>
+              <Image
+                source={{ uri: content.image.src }}
+                style={{
+                  height: 192,
+                  width: null,
+                  flex: 1,
+                  marginBottom: 16
+                }}
+              />
             )}
-          <CardItem cardBody>
-            <Body style={[styles.cardBody, styles.cardDanger]}>
-              <Spacer size={8} />
-              <Text style={styles.header}>{content.title}</Text>
-              <Text style={styles.meta}>
-                <Text style={[styles.meta, styles.category, styles.dangerMsg]}>
-                  Para ti{" "}
-                </Text>
-                <Text style={[styles.meta, styles.date]}>
-                  • <TimeAgo time={content.created_at} />
-                </Text>
-              </Text>
-              <Spacer size={8} />
-              <Text style={styles.description}>
-                {content.description ||
-                  content.body_html.replace(/<(?:.|\n)*?>/gm, "")}
-              </Text>
-              <Spacer size={16} />
-            </Body>
-          </CardItem>
-        </Card>
+          <Text style={styles.description}>
+            {content.description ||
+              content.body_html.replace(/<(?:.|\n)*?>/gm, "")}
+          </Text>
+        </View>
       </Content>
     </Container>
   );
@@ -106,7 +105,16 @@ export default Preview;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#F7F7FF"
+    backgroundColor: Colors.brandLight
+  },
+  articleBar: {
+    backgroundColor: "white",
+    paddingHorizontal: 24,
+    paddingBottom: 24,
+    marginTop: -10,
+    marginLeft: -10,
+    marginRight: -10,
+    marginBottom: 10
   },
   userBar: {
     flexDirection: "row",

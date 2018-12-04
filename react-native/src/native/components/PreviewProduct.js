@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
+  Platform,
   StatusBar,
   Image,
   StyleSheet,
@@ -37,8 +38,6 @@ moment.locale("es");
 import { Mixpanel } from "../../actions/mixpanel";
 
 const PreviewProduct = ({ error, product, sellerCode }) => {
-  console.log("el product");
-  console.log(product);
   // Error
   if (error) return <Error product={error} />;
 
@@ -66,7 +65,7 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
 
   return (
     <Container style={styles.container}>
-      <StatusBar barStyle="dark-content" />
+      {Platform.OS === "iOS" && <StatusBar barStyle="dark-content" />}
       <Content padder>
         <View style={styles.productBar}>
           <Text style={[styles.meta, styles.category, styles.successMsg]}>
@@ -138,10 +137,12 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
       <Footer
         style={{
           paddingHorizontal: 16,
-          backgroundColor: "white"
+          paddingVertical: 16,
+          height: 96,
+          elevation: 1
         }}
       >
-        <FooterTab style={{ bottom: 16 }}>
+        <FooterTab>
           <Button
             full
             success
@@ -190,16 +191,7 @@ const styles = StyleSheet.create({
   },
   productBar: {
     backgroundColor: "white",
-    shadowColor: "#E2E1E6",
-    shadowOffset: {
-      width: 0,
-      height: 1
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 0,
-    elevation: 2,
     paddingHorizontal: 24,
-    paddingBottom: 6,
     marginTop: -10,
     marginLeft: -10,
     marginRight: -10,
@@ -254,10 +246,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
     flexDirection: "row"
   },
+  cardFooterRight: {
+    paddingBottom: 4
+  },
   promoWrap: {
+    paddingRight: 24,
     position: "absolute",
-    bottom: -18,
-    left: 0
+    bottom: -40
   },
   cardPromo: {
     fontSize: 12,
@@ -265,7 +260,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.brandSuccess,
     fontWeight: "700",
     paddingVertical: 4,
-    paddingHorizontal: 8
+    paddingHorizontal: 8,
+    height: 24
   },
   promoShape: {
     width: 0,
@@ -273,11 +269,11 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     borderStyle: "solid",
     borderRightWidth: 24,
-    borderBottomWidth: 23,
+    borderBottomWidth: 24,
     borderRightColor: "transparent",
     borderBottomColor: Colors.brandSuccess,
-    position: "absolute",
-    right: -24
+    top: -24,
+    left: "100%"
   },
   successMsg: {
     color: Colors.brandSuccess
@@ -291,45 +287,6 @@ const styles = StyleSheet.create({
   textCenter: {
     textAlign: "center"
   },
-  supportWidget: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    paddingHorizontal: 40
-  },
-  supportHeader: {
-    fontSize: 24
-  },
-  supportText: {
-    fontSize: 14
-  },
-  horizontalScroll: {},
-  transparentCard: {
-    backgroundColor: "rgba(255, 255, 255, 0)",
-    width: 128
-  },
-  notifications: {
-    backgroundColor: "#EDEBF5",
-    padding: 12,
-    paddingRight: 0,
-    marginTop: -10,
-    marginLeft: -10,
-    marginRight: -10,
-    marginBottom: 10
-  },
-  notification: {
-    width: 224,
-    height: 88,
-    borderRadius: 0,
-    shadowColor: "#E2E1E6"
-  },
-  notificationHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 4
-  },
   leftContainer: {
     flex: 0.6,
     flexDirection: "row",
@@ -341,26 +298,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center"
   },
-  notificationDate: {
-    alignSelf: "flex-end"
-  },
-  notificationTitle: {
-    fontSize: 14,
-    lineHeight: 16,
-    marginBottom: 0
-  },
-  notificationText: {
-    fontSize: 12,
-    lineHeight: 18
-  },
-  notificationBody: {
-    paddingHorizontal: 8,
-    paddingVertical: 8
-  },
-  referralCode: {
-    fontWeight: "bold",
-    fontSize: 20
-  },
+
   productTitle: {
     fontSize: 16,
     lineHeight: 16,

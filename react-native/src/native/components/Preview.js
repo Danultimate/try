@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {
   Image,
   StatusBar,
+  Platform,
   StyleSheet,
   TouchableOpacity,
   Share
@@ -14,8 +15,6 @@ import {
   FooterTab,
   View,
   Icon,
-  Card,
-  CardItem,
   Left,
   Right,
   Body,
@@ -64,7 +63,7 @@ const Preview = ({ error, content, sellerCode }) => {
 
   return (
     <Container style={styles.container}>
-      <StatusBar barStyle="dark-content" />
+      {Platform.OS === "iOS" && <StatusBar barStyle="dark-content" />}
       <Content padder>
         <View style={styles.collectionBar}>
           <Text style={[styles.meta, styles.category, styles.successMsg]}>
@@ -139,10 +138,12 @@ const Preview = ({ error, content, sellerCode }) => {
       <Footer
         style={{
           paddingHorizontal: 16,
-          backgroundColor: "white"
+          paddingVertical: 16,
+          height: 96,
+          elevation: 1
         }}
       >
-        <FooterTab style={{ bottom: 16 }}>
+        <FooterTab>
           <Button
             full
             success
@@ -191,14 +192,6 @@ const styles = StyleSheet.create({
   },
   collectionBar: {
     backgroundColor: "#fff",
-    shadowColor: "#E2E1E6",
-    shadowOffset: {
-      width: 0,
-      height: 1
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 0,
-    elevation: 2,
     paddingHorizontal: 24,
     paddingBottom: 24,
     marginTop: -10,

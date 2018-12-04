@@ -91,7 +91,7 @@ const Onboarding = () => {
               </Text>
             ),
             subtitle:
-              "Lanzamos un Semanazo nuevo todos los martes con beneficios exclusivos para tus clientes: Nuevos productos, descuentos y contenido poderoso, que puedes compartir fácilmente."
+              "Comparte productos y colecciones con tus amigas, conocidos y familiares directamente desde la app. Nuestras colecciones son catálogos, de 7 a 10 productos, con las mejores ofertas y nuevos lanzamientos de Elenas."
           },
           {
             backgroundColor: "#fff",
@@ -163,25 +163,7 @@ const Onboarding = () => {
               </Text>
             ),
             subtitle:
-              "Comparte tu primer Semanazo para generar tus primeras ventas y comenzar como embajadora de Elenas."
-          },
-          {
-            backgroundColor: Colors.brandSuccess,
-            image: (
-              <Image
-                style={styles.onboardingImg}
-                source={require("../assets/images/onboarding-6.png")}
-              />
-            ),
-            title: (
-              <Text
-                style={[styles.header, styles.textCenter, { color: "white" }]}
-              >
-                ¡Vamos a crecer unidas!
-              </Text>
-            ),
-            subtitle:
-              "Ya eres una más, actívate ahora como embajadora de Elenas cerrando tu primera venta."
+              "Comparte los productos o colecciones para generar tus primeras ventas y comenzar como embajadora de Elenas."
           }
         ]}
       />

@@ -110,6 +110,15 @@ const Index = (
             key="home"
             component={DashboardContainer}
             renderTitle={AppLogoComponent}
+            renderLeftButton={() => {
+              return (
+                <View
+                  style={{
+                    width: 56
+                  }}
+                />
+              );
+            }}
             Layout={DashboardComponent}
             renderRightButton={SearchIcon}
             {...DefaultProps.navbarProps}
@@ -293,12 +302,12 @@ const Index = (
       <Scene
         back
         key="preview"
+        {...DefaultProps.navbarProps}
+        component={PreviewComponent}
         title=""
         renderRightButton={() => {
           return <SearchIcon dark />;
         }}
-        {...DefaultProps.navbarProps}
-        component={PreviewComponent}
         navigationBarStyle={{
           backgroundColor: "#fff",
           borderBottomColor: "#fff",
@@ -318,6 +327,31 @@ const Index = (
         title=""
         {...DefaultProps.navbarProps}
         component={PreviewProductComponent}
+        navigationBarStyle={{
+          backgroundColor: "#fff",
+          borderBottomColor: "#fff",
+          elevation: 0
+        }}
+        backButtonTintColor={Colors.brandPrimary}
+        backButtonTextStyle={{ color: Colors.brandPrimary }}
+        leftButtonTextStyle={{ color: Colors.brandPrimary }}
+        rightButtonStyle={{ color: Colors.brandPrimary }}
+      />
+    </Scene>
+    <Scene>
+      <Scene
+        back
+        clone
+        renderRightButton={() => {
+          return <View />;
+        }}
+        key="previewBlog"
+        {...DefaultProps.navbarProps}
+        component={PreviewBlogComponent}
+        title=""
+        renderRightButton={() => {
+          return <SearchIcon dark />;
+        }}
         navigationBarStyle={{
           backgroundColor: "#fff",
           borderBottomColor: "#fff",
@@ -362,17 +396,6 @@ const Index = (
       title="Terminos y condiciones"
       {...DefaultProps.navbarProps}
       component={TermsComponent}
-    />
-    <Scene
-      back
-      clone
-      renderRightButton={() => {
-        return <View />;
-      }}
-      key="previewBlog"
-      title="Vista Previa"
-      {...DefaultProps.navbarProps}
-      component={PreviewBlogComponent}
     />
 
     <Scene
