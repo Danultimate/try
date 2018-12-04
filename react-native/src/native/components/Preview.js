@@ -5,8 +5,7 @@ import {
   StatusBar,
   Platform,
   StyleSheet,
-  TouchableOpacity,
-  Share
+  TouchableOpacity
 } from "react-native";
 import {
   Container,
@@ -38,6 +37,14 @@ import { decode as atob } from "base-64";
 import shopifyAPI from "../../constants/shopify_axios";
 
 import { Mixpanel } from "../../actions/mixpanel";
+
+import Share from './CustomShareModule';
+
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
 
 const Preview = ({ error, content, sellerCode }) => {
   Mixpanel.screen("Preview Content");
@@ -107,14 +114,33 @@ const Preview = ({ error, content, sellerCode }) => {
                     content_id: content.id,
                     content_name: content.title
                   });
-                  message = content.wp_message || content.title;
-                  message =
-                    message +
-                    `\n\nRecuerda que con mi código de vendedora recibes envío gratis: *${sellerCode}*`;
-                  Share.share({ message: message });
+
+                  console.log(content)
+
+                  message = `Recuerda que con mi código de vendedora recibes envío gratis: *${sellerCode}*`;
+
+                  const start = async () => {
+                    let images = [];
+                    let priceTags = [];
+                    let fileNames = [];
+                    await asyncForEach(content.products, async (product) => {
+                      images.push(product.image.src);
+                      fileNames.push(`${product.image.src.split("=")[1]}.png`)
+                      priceTags.push(`$${Number(product.variants[0].price).toLocaleString(
+                        "es-CO",
+                        {
+                          maximumFractionDigits: 0,
+                          minimumFractionDigits: 0
+                        }
+                      )}`);
+                    });
+                    
+                    Share.share(message, fileNames, priceTags, images);
+                  }
+                  start();
                 }}
               >
-                <Icon name="share-alt" />
+                <Icon name="whatsapp" type="FontAwesome" />
                 <Text style={styles.cardButtonText}>Compartir</Text>
               </Button>
             </Right>
@@ -156,14 +182,31 @@ const Preview = ({ error, content, sellerCode }) => {
                 content_id: content.id,
                 content_name: content.title
               });
-              message = content.wp_message || content.title;
-              message =
-                message +
-                `\n\nRecuerda que con mi código de vendedora recibes envío gratis: *${sellerCode}*`;
-              Share.share({ message: message });
+
+              message = `Recuerda que con mi código de vendedora recibes envío gratis: *${sellerCode}*`;
+
+              const start = async () => {
+                let images = [];
+                let priceTags = [];
+                let fileNames = [];
+                await asyncForEach(content.products, async (product) => {
+                  images.push(product.image.src);
+                  fileNames.push(`${product.image.src.split("=")[1]}.png`)
+                  priceTags.push(`$${Number(product.variants[0].price).toLocaleString(
+                    "es-CO",
+                    {
+                      maximumFractionDigits: 0,
+                      minimumFractionDigits: 0
+                    }
+                  )}`);
+                });
+                
+                Share.share(message, fileNames, priceTags, images);
+              }
+              start();
             }}
           >
-            <Icon name="share-alt" style={{ color: "white", marginRight: 0 }} />
+            <Icon name="whatsapp" type="FontAwesome" style={{ color: "white", marginRight: 0 }} />
             <Text style={{ color: "white", fontSize: 16 }}>
               Compartir toda la colección
             </Text>

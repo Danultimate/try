@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
-  Share
 } from "react-native";
 import {
   Icon,
@@ -23,12 +22,19 @@ import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
 
 import Spacer from "./Spacer";
+import Share from './CustomShareModule';
 
 import TimeAgo from "react-native-timeago";
 import { decode as atob } from "base-64";
 import shopifyAPI from "../../constants/shopify_axios";
 import { Expo, FileSystem } from "expo";
 import { Mixpanel } from "../../actions/mixpanel";
+
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
 
 const keyExtractor = item => item.id.toString();
 
@@ -253,16 +259,31 @@ const Contents = props => {
                 content_id: props.item.id,
                 content_name: props.item.title
               });
-              message = props.item.wp_message || props.item.title;
-              message =
-                message +
-                `\n\nRecuerda que con mi código de vendedora recibes envío gratis: *${
-                  props.sellerCode
-                }*`;
-              Share.share({ message: message });
+
+              message = `Recuerda que con mi código de vendedora recibes envío gratis: *${props.sellerCode}*`;
+
+              const start = async () => {
+                let images = [];
+                let priceTags = [];
+                let fileNames = [];
+                await asyncForEach(props.item.products, async (product) => {
+                  images.push(product.image.src);
+                  fileNames.push(`${product.image.src.split("=")[1]}.png`)
+                  priceTags.push(`$${Number(product.variants[0].price).toLocaleString(
+                    "es-CO",
+                    {
+                      maximumFractionDigits: 0,
+                      minimumFractionDigits: 0
+                    }
+                  )}`);
+                });
+                
+                Share.share(message, fileNames, priceTags, images);
+              }
+              start();
             }}
           >
-            <Icon type="SimpleLineIcons" name="share-alt" />
+            <Icon name="whatsapp" type="FontAwesome" />
             <Text style={styles.cardButtonText}>Compartir ahora</Text>
           </Button>
         </Right>
