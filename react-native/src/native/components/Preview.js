@@ -117,7 +117,7 @@ const Preview = ({ error, content, sellerCode }) => {
 
                   console.log(content)
 
-                  message = `Recuerda que con mi código de vendedora recibes envío gratis: *${sellerCode}*`;
+                  message = `Envío gratis con mi código: *${sellerCode}*`;
 
                   const start = async () => {
                     let images = [];
@@ -183,7 +183,7 @@ const Preview = ({ error, content, sellerCode }) => {
                 content_name: content.title
               });
 
-              message = `Recuerda que con mi código de vendedora recibes envío gratis: *${sellerCode}*`;
+              message = `Envío gratis con mi código: *${sellerCode}*`;
 
               const start = async () => {
                 let images = [];

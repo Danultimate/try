@@ -4,7 +4,7 @@ console.log(process.env.NODE_ENV)
 let baseURL, appName;
 
 if (devMode) {
-  //baseURL = 'https://seller-backend-test.herokuapp.com/api';
+  // baseURL = 'https://seller-backend-test.herokuapp.com/api';
   baseURL = 'https://seller-server-dev.herokuapp.com/api'
   appName = "ElenasDEV";
 } else {

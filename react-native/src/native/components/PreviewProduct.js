@@ -159,7 +159,7 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
               message = product.wp_message || product.title;
               message =
                 message +
-                `\n\nRecuerda que con mi código de vendedora recibes envío gratis: *${sellerCode}*`;
+                `\n\nEnvío gratis con mi código: *${sellerCode}*`;
 
               let price = `$${Number(product.variants[0].price).toLocaleString("es-CO", {
                   maximumFractionDigits: 0,

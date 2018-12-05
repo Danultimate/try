@@ -151,7 +151,7 @@ const Products = props => {
 
                     let url = `https://elenas.la/products/${item.handle}`;
 
-                    message = `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}. Recuerda que con mi código de vendedora recibes envío gratis: *${
+                    message = `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}. Envío gratis con mi código: *${
                       props.sellerCode
                     }*`;
                     let price = `$${Number(item.variants[0].price).toLocaleString("es-CO", {
