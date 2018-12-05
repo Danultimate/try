@@ -126,26 +126,21 @@ const Index = (
         </Stack>
 
         <Stack
-          key="clients"
-          title="Clientes"
-          iconName={"people"}
+          key="products"
+          title="Productos"
+          iconName={"book-open"}
           icon={TabIcon}
           {...DefaultProps.navbarProps}
         >
           <Scene
-            key="clients"
-            component={DashboardContainer}
-            Layout={ClientsComponent}
+            key="products"
+            title="Productos"
             {...DefaultProps.navbarProps}
-          />
-          <Scene
-            key="client"
-            title="Cliente"
-            component={ClientComponent}
-            {...DefaultProps.navbarProps}
+            component={AboutComponent}
             navigationBarStyle={{
               backgroundColor: "#fff",
-              borderBottomColor: "#fff",
+              borderBottomColor: "#EEEDF2",
+              borderBottomWidth: 1,
               elevation: 0
             }}
             backButtonTintColor={Colors.brandPrimary}
@@ -170,9 +165,26 @@ const Index = (
         >
           <Scene
             key="orders"
+            title="Ordenes"
             component={DashboardContainer}
             Layout={OrdersComponent}
             {...DefaultProps.navbarProps}
+            navigationBarStyle={{
+              backgroundColor: "#fff",
+              borderBottomColor: "#EEEDF2",
+              borderBottomWidth: 1,
+              elevation: 0
+            }}
+            backButtonTintColor={Colors.brandPrimary}
+            backButtonTextStyle={{ color: Colors.brandPrimary }}
+            leftButtonTextStyle={{ color: Colors.brandPrimary }}
+            titleStyle={{
+              color: Colors.brandPrimary,
+              alignSelf: "center",
+              fontFamily: "playfair",
+              textAlign: "center",
+              fontSize: Colors.fontSizeBase * 1.375
+            }}
           />
           <Scene
             key="order"
@@ -196,8 +208,50 @@ const Index = (
               fontSize: Colors.fontSizeBase * 1.375
             }}
           />
+          <Scene
+            key="clients"
+            title="Clientes"
+            component={DashboardContainer}
+            Layout={ClientsComponent}
+            {...DefaultProps.navbarProps}
+            navigationBarStyle={{
+              backgroundColor: "#fff",
+              borderBottomColor: "#fff",
+              elevation: 0
+            }}
+            backButtonTintColor={Colors.brandPrimary}
+            backButtonTextStyle={{ color: Colors.brandPrimary }}
+            leftButtonTextStyle={{ color: Colors.brandPrimary }}
+            titleStyle={{
+              color: Colors.brandPrimary,
+              alignSelf: "center",
+              fontFamily: "playfair",
+              textAlign: "center",
+              fontSize: Colors.fontSizeBase * 1.375
+            }}
+          />
+          <Scene
+            key="client"
+            title="Cliente"
+            component={ClientComponent}
+            {...DefaultProps.navbarProps}
+            navigationBarStyle={{
+              backgroundColor: "#fff",
+              borderBottomColor: "#fff",
+              elevation: 0
+            }}
+            backButtonTintColor={Colors.brandPrimary}
+            backButtonTextStyle={{ color: Colors.brandPrimary }}
+            leftButtonTextStyle={{ color: Colors.brandPrimary }}
+            titleStyle={{
+              color: Colors.brandPrimary,
+              alignSelf: "center",
+              fontFamily: "playfair",
+              textAlign: "center",
+              fontSize: Colors.fontSizeBase * 1.375
+            }}
+          />
         </Stack>
-
         <Stack
           key="profile"
           title="Perfil"
@@ -210,22 +264,6 @@ const Index = (
             component={MemberContainer}
             Layout={ProfileComponent}
             {...DefaultProps.navbarProps}
-          />
-          <Scene
-            back
-            key="locale"
-            title="Cambiar Idioma"
-            {...DefaultProps.navbarProps}
-            component={LocaleContainer}
-            Layout={LocaleComponent}
-          />
-          <Scene
-            back
-            key="updateProfile"
-            title="Actualizar Perfil"
-            {...DefaultProps.navbarProps}
-            component={UpdateProfileContainer}
-            Layout={UpdateProfileComponent}
           />
         </Stack>
         <Stack
@@ -242,12 +280,19 @@ const Index = (
             {...DefaultProps.navbarProps}
             Layout={MoreComponent}
           />
-
           <Scene
             key="about"
             title="Acerca de Elenas"
             {...DefaultProps.navbarProps}
             component={AboutComponent}
+          />
+          <Scene
+            back
+            key="updateProfile"
+            title="Actualizar Perfil"
+            {...DefaultProps.navbarProps}
+            component={UpdateProfileContainer}
+            Layout={UpdateProfileComponent}
           />
         </Stack>
       </Tabs>

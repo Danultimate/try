@@ -5,7 +5,7 @@ import Colors from "../../../native-base-theme/variables/commonColor";
 import Spacer from "./Spacer";
 
 const About = () => (
-  <Container>
+  <Container style={styles.container}>
     <Content padder>
       <View style={styles.supportWidget}>
         <Spacer size={16} />

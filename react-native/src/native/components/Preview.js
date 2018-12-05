@@ -40,6 +40,9 @@ import shopifyAPI from "../../constants/shopify_axios";
 import { Mixpanel } from "../../actions/mixpanel";
 
 const Preview = ({ error, content, sellerCode }) => {
+  if (Platform.OS === "ios") {
+    StatusBar.setBarStyle("dark-content", true);
+  }
   Mixpanel.screen("Preview Content");
   // Error
   if (error) return <Error content={error} />;
@@ -61,9 +64,10 @@ const Preview = ({ error, content, sellerCode }) => {
   // Recipe not found
   if (!content) return <Error content={ErrorMessages.content404} />;
 
+  console.log(Platform.OS);
+
   return (
     <Container style={styles.container}>
-      {Platform.OS === "iOS" && <StatusBar barStyle="dark-content" />}
       <Content padder>
         <View style={styles.collectionBar}>
           <Text style={[styles.meta, styles.category, styles.successMsg]}>

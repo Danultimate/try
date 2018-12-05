@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
+  Platform,
   StatusBar,
   StyleSheet,
   TouchableOpacity,
@@ -60,8 +61,15 @@ class Dashboard extends React.Component {
       error: null
     };
   }
-
+  componentDidUpdate() {
+    if (Platform.OS === "ios") {
+      StatusBar.setBarStyle("light-content", true);
+    }
+  }
   componentWillMount() {
+    if (Platform.OS === "ios") {
+      StatusBar.setBarStyle("light-content", true);
+    }
     AsyncStorage.getItem("token")
       .then(token => {
         console.log("el tooooken");
@@ -109,7 +117,6 @@ class Dashboard extends React.Component {
 
     const keyExtractor = item => item.id.toString();
     const feedKeyExtractor = item => {
-      console.log(item.content.id.toString());
       return item.content.id.toString();
     };
 
@@ -118,7 +125,6 @@ class Dashboard extends React.Component {
     }
     return (
       <Container style={styles.container}>
-        <StatusBar barStyle="light-content" />
         <Content padder>
           <View style={styles.userBar}>
             <View style={styles.userImg}>
@@ -228,20 +234,20 @@ const styles = StyleSheet.create({
   userGreeting: {
     fontFamily: "playfair",
     color: "white",
-    fontSize: 22,
-    lineHeight: 22
+    fontSize: 20,
+    lineHeight: 20
   },
   userMessage: {
     color: "#B09DE0",
-    fontSize: 11
+    fontSize: 10
   },
   userNumberLabel: {
     color: "#B09DE0",
-    fontSize: 11,
+    fontSize: 10,
     textAlign: "right"
   },
   userSales: {
-    fontSize: 22,
+    fontSize: 20,
     color: "white",
     textAlign: "right"
   },
@@ -261,7 +267,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   userAvatar: {
-    marginBottom: 12
+    marginBottom: 10
   },
   userCode: {
     fontSize: 11,
@@ -269,11 +275,11 @@ const styles = StyleSheet.create({
     fontWeight: "700"
   },
   userInfo: {
-    flex: 0.5,
-    marginRight: 10
+    flex: 0.45,
+    marginRight: 8
   },
   userNumbers: {
-    flex: 0.3
+    flex: 0.35
   },
   card: {
     shadowColor: "#E2E1E6",

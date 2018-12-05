@@ -34,6 +34,9 @@ import { decode as atob } from "base-64";
 import shopifyAPI from "../../constants/shopify_axios";
 
 const Preview = ({ error, content }) => {
+  if (Platform.OS === "ios") {
+    StatusBar.setBarStyle("dark-content", true);
+  }
   // Error
   if (error) return <Error content={error} />;
 
@@ -56,7 +59,6 @@ const Preview = ({ error, content }) => {
 
   return (
     <Container style={styles.container}>
-      {Platform.OS === "iOS" && <StatusBar barStyle="dark-content" />}
       <Content padder>
         <View style={styles.articleBar}>
           <Text style={styles.meta}>

@@ -253,7 +253,7 @@ const Profile = ({ member, logout }) => {
                   </Text>
                   <Right style={styles.rightNumber}>
                     <Text style={styles.rightText}>
-                      ${member.validOrders.length > 0
+                      ${member.validOrders && member.validOrders.length > 0
                         ? Math.round(
                             member.validOrders.reduce(
                               (a, b) => +a + b.total - b.tax - b.shipping,
@@ -273,7 +273,7 @@ const Profile = ({ member, logout }) => {
                   </Text>
                   <Right style={styles.rightNumber}>
                     <Text style={styles.rightText}>
-                      {member.validOrders.length}
+                      {member.validOrders ? member.validOrders.length : 0}
                     </Text>
                   </Right>
                 </CardItem>

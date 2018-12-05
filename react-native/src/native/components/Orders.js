@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
+  Platform,
+  StatusBar,
   StyleSheet,
   FlatList,
   TouchableOpacity,
@@ -42,6 +44,9 @@ const onPress = item => {
 };
 
 const OrderListing = ({ error, loading, member }) => {
+  if (Platform.OS === "ios") {
+    StatusBar.setBarStyle("dark-content");
+  }
   Mixpanel.screen("Orders");
   // Loading
   if (loading) return <Loading />;
@@ -55,7 +60,7 @@ const OrderListing = ({ error, loading, member }) => {
   //   Actions.recipe({ match: { params: { id: String(item.id) } } });
 
   return (
-    <Container>
+    <Container style={styles.container}>
       <Content padder>
         {!member.orders || member.orders.length < 1 ? (
           <View style={styles.supportWidget}>

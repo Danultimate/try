@@ -38,6 +38,11 @@ moment.locale("es");
 import { Mixpanel } from "../../actions/mixpanel";
 
 const PreviewProduct = ({ error, product, sellerCode }) => {
+  if (Platform.OS === "ios") {
+    StatusBar.setBarStyle("dark-content", true);
+  }
+
+  Mixpanel.screen("Preview Product");
   // Error
   if (error) return <Error product={error} />;
 

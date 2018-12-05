@@ -19,7 +19,7 @@ const More = ({ member, logout }) => {
   Mixpanel.screen("More");
 
   return (
-    <Container>
+    <Container style={styles.container}>
       <Content padder>
         <Card style={styles.card}>
           <View>

@@ -9,7 +9,7 @@ import { Mixpanel } from "../../actions/mixpanel";
 const Support = () => {
   Mixpanel.screen("Support");
   return (
-    <Container>
+    <Container style={styles.container}>
       <Content padder>
         <View style={styles.supportWidget}>
           <Spacer size={16} />
