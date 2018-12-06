@@ -156,11 +156,10 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
                 content_id: product.id,
                 content_name: product.title
               });
-              message = product.wp_message || product.title;
-              message =
-                message +
-                `\n\nEnvío gratis con mi código: *${sellerCode}*`;
-
+              
+              let url = `https://elenas.la/products/${product.handle}`;
+              message = `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}. Envío gratis con mi código: *${sellerCode}*`;
+              
               let price = `$${Number(product.variants[0].price).toLocaleString("es-CO", {
                   maximumFractionDigits: 0,
                   minimumFractionDigits: 0

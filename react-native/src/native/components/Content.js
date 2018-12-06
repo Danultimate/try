@@ -34,7 +34,15 @@ async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
     await callback(array[index], index, array);
   }
-}
+};
+
+var delay = ( function() {
+  var timer = 0;
+  return function(callback, ms) {
+      clearTimeout (timer);
+      timer = setTimeout(callback, ms);
+  };
+})();
 
 const keyExtractor = item => item.id.toString();
 
@@ -246,7 +254,14 @@ const Contents = props => {
                   );
                 });
 
-                Share.share(message, fileNames, priceTags, images);
+                await Share.share(message, fileNames, priceTags, images);
+                console.log('termino de compartir')
+                // delay(function(){
+                //     // do stuff
+                //     Share.share(message, fileNames, priceTags, images);
+                //     console.log('mmmm esto cuando?')
+                // }, 5000 ); // end delay
+                
               };
               start();
             }}

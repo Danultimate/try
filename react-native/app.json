@@ -16,14 +16,14 @@
     },
     "android": {
       "package": "elenas.la.embajadoras",
-      "versionCode": 5,
+      "versionCode": 6,
       "icon": "./src/images/app-icon.png",
       "permissions": [],
       "googleServicesFile": "./google-services.json",
       "publishBundlePath": "android/app/src/main/assets/shell-app.bundle",
       "publishManifestPath": "android/app/src/main/assets/shell-app-manifest.json"
     },
-    "version": "2.0.0",
+    "version": "2.0.1",
     "isDetached": true,
     "detach": {
       "androidExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/android-v2.7.2-sdk29.0.0-54e8f46d-36a6-460f-b0f9-e1043f28b215.tar.gz"

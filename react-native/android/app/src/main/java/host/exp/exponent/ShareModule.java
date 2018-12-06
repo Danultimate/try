@@ -35,15 +35,16 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Set;
 
 public class ShareModule extends ReactContextBaseJavaModule {
 
   protected Context mContext;
   private Handler mHandler = new Handler(Looper.getMainLooper());
-  ProgressDialog mProgressDialog;
 
   public ShareModule(ReactApplicationContext reactContext) {
     super(reactContext);
@@ -71,7 +72,6 @@ public class ShareModule extends ReactContextBaseJavaModule {
     mHandler.post(new Runnable() {
       @Override
       public void run() {
-        Log.d("JAVABRIDGE", "Entro en las dos");
         final Uri pictureUri = Uri.parse("" + url);
 
         Target target = new Target() {
@@ -112,76 +112,110 @@ public class ShareModule extends ReactContextBaseJavaModule {
     Log.d("JAVABRIDGE", "descriptions "+descriptions);
     Log.d("JAVABRIDGE", "urls "+urls);
     mContext = this.getReactApplicationContext();
+
     mHandler.post(new Runnable() {
       @Override
       public void run() {
-        final ArrayList<Uri> files = new ArrayList<Uri>(urls.size());
-        for (int i=0; i<urls.size(); i++) {
-          final String fileName = fileNames.getString(i);
-          final Uri pictureUri = Uri.parse("" + urls.getString(i));
-          final String priceTag = descriptions.getString(i);
-          Target target = new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-              if (!priceTag.equals(""))
-                bitmap = drawTextToBitmap(mContext, bitmap, priceTag);
-              Uri bitmapUri = getLocalBitmapUri(bitmap, mContext, fileName);
-              files.add(bitmapUri);
-              Log.d("JAVABRIDGE", "EL bitmapUri " + bitmapUri);
-            }
 
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-              Log.d("JAVABRIDGE", "SHARE IMAGEN TARGET Ex: " + errorDrawable);
-            }
+          ArrayList<Uri> fileArray = downloadImages(mContext, urls, fileNames, descriptions);
 
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-            }
-          };
-          // Check if file already exist
-//          File file =  new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES), fileName);
-//          if (file.exists()) {
-//            Log.d("JAVABRIDGE", "El file ya existe!");
-//            files.add(Uri.fromFile(file));
-//          }
-//          else {
-            Log.d("JAVABRIDGE", "El file no existe!");
-            Picasso.with(mContext).load(pictureUri).into(target);
-//          }
-        }
+          Log.d("JAVABRIDGE", "El files array 1: " + fileArray);
 
-        // Hacky fix for first share
-        if (files.size() == 0){
-          for (int i=0; i<urls.size(); i++) {
-            final String fileName = fileNames.getString(i);
-            File file = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES), fileName);
-            if (file.exists()) {
-              Log.d("JAVABRIDGE", "El file ya existe!");
-              files.add(Uri.fromFile(file));
-            }
+          // Hacky fix for first share
+          if (fileArray.size() != urls.size()){
+              Log.d("JAVABRIDGE", "Entra al hack fix");
+              for (int i=0; i<urls.size(); i++) {
+                  final String fileName = fileNames.getString(i);
+                  File file = new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES), fileName);
+                  if (file.exists()) {
+                      Log.d("JAVABRIDGE", "El file ya existe!");
+                      fileArray.add(Uri.fromFile(file));
+                  }
+              }
+
+              Log.d("JAVABRIDGE", "El files array 2: "+fileArray);
+
+              if (fileArray.size() != urls.size()){
+                  fileArray = downloadImages(mContext, urls, fileNames, descriptions);
+                  Log.d("JAVABRIDGE", "El files array 3: "+fileArray);
+              }
           }
-        }
+
+          Log.d("JAVABRIDGE", "El files array 4: "+fileArray);
 
         // Share intent
-        if (files.size() > 0) {
-          Intent intent = new Intent();
-          intent.setAction(Intent.ACTION_SEND);
-          intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-          intent.putExtra(Intent.EXTRA_SUBJECT, "Here are some files.");
-          intent.setType("image/*");
+        if (fileArray.size() == urls.size()) {
+            Log.d("JAVABRIDGE", "Entro al share intent!");
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            shareIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            shareIntent.setType("image/*");
+            shareIntent.setPackage("com.whatsapp");
 
-          Log.d("JAVABRIDGE", "EL files array " + files);
-          intent.setPackage("com.whatsapp");
-          intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, files);
-          intent.putExtra(Intent.EXTRA_TEXT, text);
+            shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, fileArray);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, text);
 
-          mContext.startActivity(Intent.createChooser(intent, "Compartir usando"));
+            mContext.startActivity(shareIntent);
         }
 
       }
     });
 
+  }
+
+
+  static private ArrayList<Uri> downloadImages(final Context mContext, ReadableArray urls, ReadableArray fileNames, ReadableArray descriptions){
+      final ArrayList<Uri> files = new ArrayList<Uri>(urls.size());
+      final Set<Target> protectedFromGarbageCollectorTargets = new HashSet<>();
+
+      Picasso picasso = new Picasso.Builder(mContext).listener(new Picasso.Listener() {
+          @Override
+          public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception) {
+          }
+      }).build();
+
+      for (int i=0; i<urls.size(); i++) {
+          final String fileName = fileNames.getString(i);
+          final Uri pictureUri = Uri.parse("" + urls.getString(i));
+          final String priceTag = descriptions.getString(i);
+
+          // Check if file already exist
+          File file =  new File(mContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES), fileName);
+          if (file.exists()) {
+              Log.d("JAVABRIDGE", "El file ya existe!");
+              files.add(Uri.fromFile(file));
+          }
+
+          else {
+              Log.d("JAVABRIDGE", "El file no existe!");
+              final Target bitmapTarget = new Target() {
+                  @Override
+                  public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                      if (!priceTag.equals("")) {
+                          bitmap = drawTextToBitmap(mContext, bitmap, priceTag);
+                      }
+                      Uri bitmapUri = getLocalBitmapUri(bitmap, mContext, fileName);
+                      files.add(bitmapUri);
+                      Log.d("JAVABRIDGE", "EL bitmapUri " + bitmapUri);
+
+                      //handle bitmap
+                      protectedFromGarbageCollectorTargets.remove(this);
+                  }
+
+                  @Override
+                  public void onBitmapFailed(Drawable errorDrawable) {
+                      Log.d("JAVABRIDGE", "SHARE IMAGEN TARGET Ex: " + errorDrawable);
+                  }
+
+                  @Override
+                  public void onPrepareLoad(Drawable placeHolderDrawable) {
+                  }
+              };
+              protectedFromGarbageCollectorTargets.add(bitmapTarget);
+              picasso.load(pictureUri).into(bitmapTarget);
+          }
+      }
+      return files;
   }
 
   static private Uri getLocalBitmapUri(Bitmap bmp, Context context, String fileName) {
@@ -203,8 +237,8 @@ public class ShareModule extends ReactContextBaseJavaModule {
   }
 
   static private Bitmap drawTextToBitmap(Context gContext, Bitmap bitmap, String gText) {
-    Resources resources = gContext.getResources();
-    float scale = resources.getDisplayMetrics().density;
+//    Resources resources = gContext.getResources();
+//    float scale = resources.getDisplayMetrics().density;
 
     android.graphics.Bitmap.Config bitmapConfig =
       bitmap.getConfig();
@@ -216,27 +250,30 @@ public class ShareModule extends ReactContextBaseJavaModule {
     // so we need to convert it to mutable one
     bitmap = bitmap.copy(bitmapConfig, true);
 
-
     Canvas canvas = new Canvas(bitmap);
     // new antialised Paint
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     // text color - #3D3D3D
     paint.setColor(Color.WHITE);
     // text size in pixels
-    paint.setTextSize((int) (18 * scale));
+    double relation = Math.sqrt(canvas.getWidth() * canvas.getHeight());
+    relation = relation / 250;
+    paint.setTextSize((float) (18 * relation));
 
     // draw text to the Canvas center
     Paint background = new Paint(Paint.ANTI_ALIAS_FLAG);
-    background.setColor(Color.argb(1,91,42,208));
-    background.setAlpha(95);
+    background.setColor(Color.argb(95,91,42,208));
     Rect bounds = new Rect();
     paint.getTextBounds(gText, 0, gText.length(), bounds);
 
-    int x = (int) (20 * scale);
-    int y = (int) (40 * scale);
+    int paddingX = 18;
+    int paddingY = 18;
+
+    int x = (int) (paddingX + 10);
+    int y = (int) (bounds.height() + paddingY + 10);
 
     bounds.offset(x, y);
-    bounds.inset(-24, -24);
+    bounds.inset(-paddingX, -paddingY);
 
     canvas.drawRect(bounds, background);
     canvas.drawText(gText, x, y, paint);
@@ -246,3 +283,5 @@ public class ShareModule extends ReactContextBaseJavaModule {
   }
 
 }
+
+

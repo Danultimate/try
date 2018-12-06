@@ -1,5 +1,8 @@
 package host.exp.exponent;
 
+import android.app.Activity;
+import android.content.Context;
+
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
