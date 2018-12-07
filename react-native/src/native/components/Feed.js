@@ -57,7 +57,14 @@ const Contents = props => {
       </View>
     );
   } else if (props.item.type == "article") {
-    return <Article item={props.item.content} />;
+    // FIXME: do not do this
+    if (props.item.content.shopify_id == 28425289779)
+    {
+      return null;
+    }else
+    {
+      return <Article item={props.item.content} />;
+    }
   } else if (props.item.type == "abandoned_cart") {
     return <AbandonedCart item={props.item.content} />;
   } else {

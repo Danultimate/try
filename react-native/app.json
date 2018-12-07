@@ -1,8 +1,8 @@
 {
   "expo": {
     "sdkVersion": "29.0.0",
-    "name": "Elenas",
-    "slug": "elenas",
+    "name": "ElenasDEVD",
+    "slug": "elenasdevd",
     "icon": "./src/images/app-icon.png",
     "privacy": "public",
     "orientation": "portrait",
@@ -19,7 +19,15 @@
       "versionCode": 5,
       "icon": "./src/images/app-icon.png",
       "permissions": [],
-      "googleServicesFile": "./google-services.json"
-    }
+      "googleServicesFile": "./google-services.json",
+      "publishBundlePath": "android/app/src/main/assets/shell-app.bundle",
+      "publishManifestPath": "android/app/src/main/assets/shell-app-manifest.json"
+    },
+    "version": "2.0.0",
+    "isDetached": true,
+    "detach": {
+      "androidExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/android-v2.7.2-sdk29.0.0-54e8f46d-36a6-460f-b0f9-e1043f28b215.tar.gz"
+    },
+    "scheme": "exp2bd435837bf448ecb7e5a404668c4294"
   }
 }

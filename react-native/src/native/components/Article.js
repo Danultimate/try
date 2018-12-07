@@ -50,7 +50,6 @@ export function openLink(collection) {
 }
 
 const onPress = item => {
-  console.log(item.id);
   // Actions.preview({ match: { params: { id: String(item.id) } } });
   Actions.previewBlog({ content: item });
 };

@@ -1,14 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  View,
-  Share,
+  StatusBar,
+  Platform,
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  Image
+  Image,
+  ImageBackground,
+  Dimensions
 } from "react-native";
 import {
+  View,
+  Container,
+  Content,
   Icon,
   Card,
   CardItem,
@@ -21,6 +26,9 @@ import {
 import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
 
+import shopify from "../../constants/shopify";
+
+import Loading from "./Loading";
 import Spacer from "./Spacer";
 
 import moment from "moment";
@@ -29,159 +37,159 @@ moment.locale("es");
 
 import { Mixpanel } from "../../actions/mixpanel";
 
+import Share from "./CustomShareModule";
+
+const { height, width } = Dimensions.get("window");
+const itemWidth = (width - Colors.contentPadding) / 2;
+
 const onPress = (item, sellerCode) => {
-  console.log(item.id);
-  Actions.previewProduct({ product: item, sellerCode: sellerCode });
+  Actions.productsGrid({ content: item, sellerCode: sellerCode });
 };
 
 const keyExtractor = item => item.id.toString();
 
-const propTypes = {
-  productsTitle: PropTypes.string,
-  products: PropTypes.arrayOf(PropTypes.shape()),
-  horizontal: PropTypes.bool
-};
+class Products extends React.Component {
+  constructor(props) {
+    super(props);
 
-const defaultProps = {
-  productsTitle: "Productos de la colección",
-  products: [],
-  horizontal: false
-};
+    this.state = {
+      loadingCollections: true,
+      collections: [],
+      product: []
+    };
+  }
 
-const Products = props => {
-  // const onPress = item => {
-  // console.log(item);
-  // Actions.previewProduct({
-  //   match: { params: { id: String(item.id) } }
-  // });
-  // };
-  return (
-    <View>
-      <FlatList
-        horizontal={props.horizontal}
-        showsHorizontalScrollIndicator={false}
-        data={props.products}
-        initialNumToRender={3}
-        renderItem={({ item }) => (
-          <Card style={styles.card}>
-            <CardItem cardBody>
-              {!!item.images &&
-                !!item.images[0].src && (
-                  <TouchableOpacity
-                    onPress={() => onPress(item, props.sellerCode)}
-                    style={{ flex: 1 }}
-                  >
-                    <Image
-                      source={{ uri: item.images[0].src }}
-                      style={{
-                        height: 200,
-                        width: null,
-                        flex: 1,
-                        resizeMode: "contain"
-                      }}
-                    />
-                  </TouchableOpacity>
-                )}
-            </CardItem>
-            <View style={styles.promoWrap}>
-              <Text style={styles.cardPromo}>
-                {item.discount > 0
-                  ? "Descuento " + item.discount + "%"
-                  : "Producto poderoso"}
-              </Text>
-              <View style={styles.promoShape} />
-            </View>
+  componentWillMount() {
+    // const shopQuery = {
+    //   shop {
+    //     name
+    //     collections(first: 5) {
+    //       edges {
+    //         node {
+    //           products(first: 5) {
+    //             edges {
+    //               node {
+    //                 title
+    //               }
+    //             }
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // };
+    const collectionQuery = {
+      last: 10,
+      query:
+        "title:'Maquillaje' OR 'Fragancia'  OR 'Cabello'  OR 'Piel'  OR 'Depilación'  OR 'Personal' OR 'Accesorios'"
+    };
 
-            <CardItem
-              cardBody
-              style={[
-                styles.productCard,
-                props.horizontal && styles.horizontalCard
-              ]}
-            >
-              <Body style={[styles.cardBody, styles.cardSuccess]}>
-                <Spacer size={8} />
-                <Text numberOfLines={1} style={styles.header}>
-                  {item.title}
-                </Text>
-                <Text style={[styles.meta, { marginLeft: 0 }]}>
-                  {item.vendor.toUpperCase()}
-                </Text>
-              </Body>
-            </CardItem>
-            <CardItem footer style={styles.cardFooter}>
-              <Left
-                style={[styles.cardFooterLeft, { flexDirection: "column" }]}
+    shopify.collection
+      .fetchQuery(collectionQuery)
+      .then(res => {
+        console.log(res);
+        this.setState({
+          collections: res,
+          loadingCollections: false
+        });
+      })
+      .catch(error => this.setState({ error, loadingCollections: false }));
+  }
+
+  render() {
+    Mixpanel.screen("Products");
+    if (Platform.OS === "ios") {
+      StatusBar.setBarStyle("dark-content", true);
+    }
+    // Loading
+    if (this.state.loadingCollections) return <Loading />;
+
+    return (
+      <Container style={styles.container}>
+        <Content padder>
+          <FlatList
+            numColumns={2}
+            data={this.state.collections}
+            contentContainerStyle={styles.list}
+            columnWrapperStyle={styles.element}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() => onPress(item, this.props.member.code)}
+                style={styles.link}
               >
-                {item.variants[0].compare_at_price && (
-                  <Text style={styles.productPriceCompare} note>
-                    ${Number(item.variants[0].compare_at_price).toLocaleString(
-                      "es-CO",
-                      {
-                        maximumFractionDigits: 0,
-                        minimumFractionDigits: 0
-                      }
-                    )}
-                  </Text>
-                )}
-                <Text style={styles.productPrice}>
-                  ${item.variants[0].price
-                    ? Number(item.variants[0].price).toLocaleString("es-CO", {
-                        maximumFractionDigits: 0,
-                        minimumFractionDigits: 0
-                      })
-                    : 0}
-                </Text>
-              </Left>
-              <Right style={styles.cardFooterRight}>
-                <Button
-                  style={styles.cardButton}
-                  block
-                  bordered
-                  success
-                  small
-                  iconLeft
-                  onPress={() => {
-                    Mixpanel.track("Share Product", {
-                      product_id: item.id,
-                      product_name: item.title
-                    });
-                    Mixpanel.track("Share Product: " + item.title);
-                    let url = `https://elenas.la/products/${item.handle}`;
-                    Share.share({
-                      message: `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}. Recuerda que con mi código de vendedora recibes envío gratis: *${
-                        props.seller_code
-                      }*`,
-                      title: item.title
-                      // url: "https://elenas.la/products/" + item.handle
-                    });
-                  }}
+                <ImageBackground
+                  source={
+                    item.image
+                      ? { uri: item.image.src }
+                      : require("../assets/images/default.png")
+                  }
+                  style={styles.imgBackground}
                 >
-                  <Icon
-                    style={styles.cardButtonIcon}
-                    type="SimpleLineIcons"
-                    name="share-alt"
-                  />
-                  <Text style={styles.cardButtonText}>Compartir ahora</Text>
-                </Button>
-              </Right>
-            </CardItem>
-          </Card>
-        )}
-        keyExtractor={keyExtractor}
-      />
-    </View>
-  );
+                  <View style={styles.imgOverlay}>
+                    <Text numberOfLines={1} style={styles.imgText}>
+                      {item.title}
+                    </Text>
+                  </View>
+                </ImageBackground>
+              </TouchableOpacity>
+            )}
+            keyExtractor={keyExtractor}
+          />
+        </Content>
+      </Container>
+    );
+  }
+}
+
+Products.propTypes = {
+  error: PropTypes.string
 };
 
-Products.propTypes = propTypes;
-Products.defaultProps = defaultProps;
+Products.defaultProps = {
+  error: null
+};
 
 export default Products;
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#F7F7FF"
+  },
+  list: {
+    justifyContent: "space-between"
+  },
+  element: {
+    justifyContent: "space-between",
+    marginHorizontal: -Colors.contentPadding / 2
+  },
+  link: {
+    width: itemWidth,
+    padding: Colors.contentPadding / 2
+  },
+  imgBackground: {
+    height: itemWidth
+  },
+  imgOverlay: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    backgroundColor: "rgba(32,18,62,.4)",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  imgText: {
+    fontSize: 20,
+    marginTop: 0,
+    color: "white",
+    fontFamily: "playfair",
+    lineHeight: itemWidth,
+    textAlign: "center",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "flex-start",
+    maxWidth: itemWidth - 2 * Colors.contentPadding
   },
   card: {
     shadowColor: "#E2E1E6",

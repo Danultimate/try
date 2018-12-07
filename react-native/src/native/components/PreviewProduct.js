@@ -5,8 +5,7 @@ import {
   StatusBar,
   Image,
   StyleSheet,
-  TouchableOpacity,
-  Share
+  TouchableOpacity
 } from "react-native";
 import {
   Container,
@@ -34,6 +33,8 @@ import TimeAgo from "react-native-timeago";
 import moment from "moment"; //load moment module to set local language
 import "moment/locale/es"; //for import moment local language file during the application build
 moment.locale("es");
+
+import Share from "./CustomShareModule";
 
 import { Mixpanel } from "../../actions/mixpanel";
 
@@ -98,19 +99,30 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
                 })
               : 0}
           </Text>
-          {!!product.image &&
-            !!product.image.src && (
-              <Image
-                source={{ uri: product.image.src }}
-                style={{
-                  height: 208,
-                  width: null,
-                  flex: 1,
-                  resizeMode: "contain",
-                  marginBottom: 16
-                }}
-              />
-            )}
+          <Spacer size={8} />
+          {!!product.image && !!product.image.src ? (
+            <Image
+              source={{ uri: product.image.src }}
+              style={{
+                height: 208,
+                width: null,
+                flex: 1,
+                resizeMode: "contain",
+                marginBottom: 16
+              }}
+            />
+          ) : !!product.images[0] && !!product.images[0].src ? (
+            <Image
+              source={{ uri: product.images[0].src }}
+              style={{
+                height: 208,
+                width: null,
+                flex: 1,
+                resizeMode: "contain",
+                marginBottom: 16
+              }}
+            />
+          ) : null}
 
           <Spacer size={16} />
           <View style={styles.cardFooter}>
@@ -144,7 +156,9 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
           paddingHorizontal: 16,
           paddingVertical: 16,
           height: 96,
-          elevation: 1
+          elevation: 1,
+          borderTopColor: "#EBEDF0",
+          borderTopWidth: 1
         }}
       >
         <FooterTab>
@@ -162,12 +176,29 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
               });
               message = product.wp_message || product.title;
               message =
-                message +
-                `\n\nRecuerda que con mi código de vendedora recibes envío gratis: *${sellerCode}*`;
-              Share.share({ message: message });
+                message + `\n\nEnvío gratis con mi código: *${sellerCode}*`;
+
+              let price = `$${Number(product.variants[0].price).toLocaleString(
+                "es-CO",
+                {
+                  maximumFractionDigits: 0,
+                  minimumFractionDigits: 0
+                }
+              )}`;
+
+              Share.share(
+                message,
+                [`${product.images[0].src.split("=")[1]}.png`],
+                [price],
+                [product.images[0].src]
+              );
             }}
           >
-            <Icon name="share-alt" style={{ color: "white", marginRight: 0 }} />
+            <Icon
+              name="whatsapp"
+              type="FontAwesome"
+              style={{ color: "white", marginRight: 0 }}
+            />
             <Text style={{ color: "white", fontSize: 16 }}>
               Compartir producto
             </Text>
@@ -250,6 +281,9 @@ const styles = StyleSheet.create({
     borderTopColor: "#EBEDF0",
     paddingHorizontal: 0,
     flexDirection: "row"
+  },
+  cardFooterLeft: {
+    flex: null
   },
   cardFooterRight: {
     paddingBottom: 4

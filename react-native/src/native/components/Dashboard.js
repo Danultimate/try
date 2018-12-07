@@ -40,7 +40,6 @@ import "moment/locale/es";
 moment.locale("es");
 var jsonQuery = require("json-query");
 
-import shopifyAPI from "../../constants/shopify_axios";
 import API from "../../constants/api";
 import publicAPI from "../../constants/api_public";
 import axios from "axios";
@@ -120,9 +119,6 @@ class Dashboard extends React.Component {
       return item.content.id.toString();
     };
 
-    if (this.state.loading) {
-      return <AppLoading />;
-    }
     return (
       <Container style={styles.container}>
         <Content padder>
@@ -168,7 +164,8 @@ class Dashboard extends React.Component {
             <OrderNotifications orders={[]} />
           )*/}
 
-          <FilterBar />
+          {/* TODO: uncomment */}
+          {/* <FilterBar /> */}
 
           <FlatList
             numColumns={1}

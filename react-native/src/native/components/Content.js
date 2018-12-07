@@ -5,8 +5,7 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
-  ImageBackground,
-  Share
+  ImageBackground
 } from "react-native";
 import {
   Icon,
@@ -23,12 +22,19 @@ import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
 
 import Spacer from "./Spacer";
+import Share from "./CustomShareModule";
 
 import TimeAgo from "react-native-timeago";
 import { decode as atob } from "base-64";
 import shopifyAPI from "../../constants/shopify_axios";
-
+import { Expo, FileSystem } from "expo";
 import { Mixpanel } from "../../actions/mixpanel";
+
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
 
 const keyExtractor = item => item.id.toString();
 
@@ -50,144 +56,111 @@ const defaultProps = {
 const Contents = props => {
   return (
     <Card style={styles.card}>
-      {!!props.item.image &&
-        !!props.item.image.src && (
-          <CardItem cardBody>
-            {props.item.image.src && props.item.products[0].images ? (
-              <TouchableOpacity
-                onPress={() => onPress(props.item, props.sellerCode)}
-                style={{ flex: 1, flexDirection: "row" }}
+      {props.item.image &&
+      props.item.image.src &&
+      props.item.products[0].images &&
+      props.item.products[0].images[0].src ? (
+        <CardItem cardBody>
+          <TouchableOpacity
+            onPress={() => onPress(props.item, props.sellerCode)}
+            style={{ flex: 1, flexDirection: "row" }}
+          >
+            <Image
+              source={{ uri: props.item.image.src }}
+              style={{
+                minHeight: 134,
+                width: null,
+                flex: 0.675
+              }}
+            />
+            <ImageBackground
+              source={{ uri: props.item.products[0].images[0].src }}
+              style={{
+                minHeight: 134,
+                width: null,
+                flex: 0.325
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 32,
+                  marginTop: 0,
+                  color: "white",
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  left: 0,
+                  backgroundColor: "#20123E",
+                  opacity: 0.5,
+                  lineHeight: 134,
+                  textAlign: "center"
+                }}
               >
-                <Image
-                  source={{ uri: props.item.image.src }}
-                  style={{
-                    minHeight: 134,
-                    width: null,
-                    flex: 0.675
-                  }}
-                />
-                <ImageBackground
-                  source={{ uri: props.item.products[0].images[0].src }}
-                  style={{
-                    minHeight: 134,
-                    width: null,
-                    flex: 0.325
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 32,
-                      marginTop: 0,
-                      color: "white",
-                      position: "absolute",
-                      top: 0,
-                      right: 0,
-                      bottom: 0,
-                      left: 0,
-                      backgroundColor: "#20123E",
-                      opacity: 0.5,
-                      lineHeight: 134,
-                      textAlign: "center"
-                    }}
-                  >
-                    +{props.item.products.length}
-                  </Text>
-                </ImageBackground>
-              </TouchableOpacity>
-            ) : props.item.products[1].images &&
-            props.item.products[1].images ? (
-              <TouchableOpacity
-                onPress={() => onPress(props.item, props.sellerCode)}
-                style={{ flex: 1, flexDirection: "row" }}
+                {props.item.products.length >= 3
+                  ? "+" + props.item.products.length - 2
+                  : props.item.products.length}
+              </Text>
+            </ImageBackground>
+          </TouchableOpacity>
+        </CardItem>
+      ) : props.item.products[0].images &&
+      props.item.products[0].images[0].src &&
+      props.item.products[1].images &&
+      props.item.products[1].images[0].src &&
+      props.item.products[2].images &&
+      props.item.products[2].images[0].src ? (
+        <CardItem cardBody>
+          <TouchableOpacity
+            onPress={() => onPress(props.item, props.sellerCode)}
+            style={{ flex: 1, flexDirection: "row" }}
+          >
+            <Image
+              source={{ uri: props.item.products[0].images[0].src }}
+              style={{
+                minHeight: 134,
+                width: null,
+                flex: 0.333
+              }}
+            />
+            <Image
+              source={{ uri: props.item.products[1].images[0].src }}
+              style={{
+                minHeight: 134,
+                width: null,
+                flex: 0.333
+              }}
+            />
+            <ImageBackground
+              source={{ uri: props.item.products[2].images[0].src }}
+              style={{
+                minHeight: 134,
+                width: null,
+                flex: 0.333
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 32,
+                  marginTop: 0,
+                  color: "white",
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  left: 0,
+                  backgroundColor: "#20123E",
+                  opacity: 0.5,
+                  lineHeight: 134,
+                  textAlign: "center"
+                }}
               >
-                <Image
-                  source={{ uri: props.item.products[0].images[0].src }}
-                  style={{
-                    minHeight: 134,
-                    width: null,
-                    flex: 0.333
-                  }}
-                />
-                <Image
-                  source={{ uri: props.item.products[1].images[0].src }}
-                  style={{
-                    minHeight: 134,
-                    width: null,
-                    flex: 0.333
-                  }}
-                />
-                <ImageBackground
-                  source={{ uri: props.item.products[2].images[0].src }}
-                  style={{
-                    minHeight: 134,
-                    width: null,
-                    flex: 0.333
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 32,
-                      marginTop: 0,
-                      color: "white",
-                      position: "absolute",
-                      top: 0,
-                      right: 0,
-                      bottom: 0,
-                      left: 0,
-                      backgroundColor: "#20123E",
-                      opacity: 0.5,
-                      lineHeight: 134,
-                      textAlign: "center"
-                    }}
-                  >
-                    +{props.item.products.length}
-                  </Text>
-                </ImageBackground>
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                onPress={() => onPress(props.item, props.sellerCode)}
-                style={{ flex: 1, flexDirection: "row" }}
-              >
-                <Image
-                  source={{ uri: props.item.products[0].images[0].src }}
-                  style={{
-                    minHeight: 134,
-                    width: null,
-                    flex: 0.675
-                  }}
-                />
-                <ImageBackground
-                  source={{ uri: props.item.products[0].images[0].src }}
-                  style={{
-                    minHeight: 134,
-                    width: null,
-                    flex: 0.325
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 32,
-                      marginTop: 0,
-                      color: "white",
-                      position: "absolute",
-                      top: 0,
-                      right: 0,
-                      bottom: 0,
-                      left: 0,
-                      backgroundColor: "#20123E",
-                      opacity: 0.5,
-                      lineHeight: 134,
-                      textAlign: "center"
-                    }}
-                  >
-                    +{props.item.products.length}
-                  </Text>
-                </ImageBackground>
-              </TouchableOpacity>
-            )}
-          </CardItem>
-        )}
+                +{props.item.products.length}
+              </Text>
+            </ImageBackground>
+          </TouchableOpacity>
+        </CardItem>
+      ) : null}
       <View style={styles.promoWrap}>
         <Text style={styles.cardPromo}>
           {props.item.max_discount > 0
@@ -234,9 +207,8 @@ const Contents = props => {
       <CardItem style={styles.cardFooter} footer>
         <Left style={styles.cardFooterLeft}>
           <Text style={styles.cardFooterText} note>
-            {props.item.products.length} productos desde ${Math.round(
-              props.item.min_price
-            ).toLocaleString("es-CO", {
+            {props.item.products.length} productos desde $
+            {Math.round(props.item.min_price).toLocaleString("es-CO", {
               maximumFractionDigits: 0
             })}
           </Text>
@@ -253,16 +225,33 @@ const Contents = props => {
                 content_id: props.item.id,
                 content_name: props.item.title
               });
-              message = props.item.wp_message || props.item.title;
-              message =
-                message +
-                `\n\nRecuerda que con mi código de vendedora recibes envío gratis: *${
-                  props.sellerCode
-                }*`;
-              Share.share({ message: message });
+
+              message = `Envío gratis con mi código: *${props.sellerCode}*`;
+
+              const start = async () => {
+                let images = [];
+                let priceTags = [];
+                let fileNames = [];
+                await asyncForEach(props.item.products, async product => {
+                  images.push(product.image.src);
+                  fileNames.push(`${product.image.src.split("=")[1]}.png`);
+                  priceTags.push(
+                    `$${Number(product.variants[0].price).toLocaleString(
+                      "es-CO",
+                      {
+                        maximumFractionDigits: 0,
+                        minimumFractionDigits: 0
+                      }
+                    )}`
+                  );
+                });
+
+                Share.share(message, fileNames, priceTags, images);
+              };
+              start();
             }}
           >
-            <Icon type="SimpleLineIcons" name="share-alt" />
+            <Icon name="whatsapp" type="FontAwesome" />
             <Text style={styles.cardButtonText}>Compartir ahora</Text>
           </Button>
         </Right>

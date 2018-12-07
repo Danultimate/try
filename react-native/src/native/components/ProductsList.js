@@ -49,12 +49,6 @@ const defaultProps = {
 };
 
 const ProductsList = props => {
-  // const onPress = item => {
-  // console.log(item);
-  // Actions.previewProduct({
-  //   match: { params: { id: String(item.id) } }
-  // });
-  // };
   return (
     <View>
       <FlatList
@@ -86,7 +80,7 @@ const ProductsList = props => {
             <View style={styles.promoWrap}>
               <Text style={styles.cardPromo}>
                 {item.discount > 0
-                  ? "Descuento " + item.discount + "%"
+                  ? "Descuento " + Math.round(item.discount) + "%"
                   : "Producto poderoso"}
               </Text>
               <View style={styles.promoShape} />
@@ -101,9 +95,13 @@ const ProductsList = props => {
             >
               <Body style={[styles.cardBody, styles.cardSuccess]}>
                 <Spacer size={8} />
-                <Text numberOfLines={1} style={styles.header}>
-                  {item.title}
-                </Text>
+                <TouchableOpacity
+                  onPress={() => onPress(item, props.sellerCode)}
+                >
+                  <Text numberOfLines={1} style={styles.header}>
+                    {item.title}
+                  </Text>
+                </TouchableOpacity>
                 <Text style={[styles.meta, { marginLeft: 0 }]}>
                   {item.vendor.toUpperCase()}
                 </Text>

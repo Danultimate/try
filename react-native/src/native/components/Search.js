@@ -39,33 +39,44 @@ import "moment/locale/es"; //for import moment local language file during the ap
 moment.locale("es");
 
 import { decode as atob } from "base-64";
-import shopifyAPI from "../../constants/shopify_axios";
-
+// import shopifyAPI from "../../constants/shopify_axios";
+import shopify from "../../constants/shopify";
 import { Mixpanel } from "../../actions/mixpanel";
 
-const Search = ({ error, content, seller_code }) => {
-  Mixpanel.screen("Search");
-  // Error
-  // if (error) return <Error content={error} />;
-  //
-  // Recipe not found
-  // if (!content)
-  //   return (
-  //     <View>
-  //       <StatusBar barStyle="dark-content" />
-  //       <Error content={ErrorMessages.content404} />
-  //     </View>
-  //   );
+class Search extends React.Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <Container style={styles.container}>
-      {Platform.OS === "iOS" && <StatusBar barStyle="dark-content" />}
-      <Content padder>
-        <FilterBar />
-      </Content>
-    </Container>
-  );
-};
+    this.state = {
+      loadingResults: true,
+      products: []
+    };
+  }
+
+  render() {
+    Mixpanel.screen("Search");
+    // Error
+    // if (error) return <Error content={error} />;
+    //
+    // Recipe not found
+    // if (!content)
+    //   return (
+    //     <View>
+    //       <StatusBar barStyle="dark-content" />
+    //       <Error content={ErrorMessages.content404} />
+    //     </View>
+    //   );
+
+    return (
+      <Container style={styles.container}>
+        {Platform.OS === "iOS" && <StatusBar barStyle="dark-content" />}
+        <Content padder>
+          <FilterBar />
+        </Content>
+      </Container>
+    );
+  }
+}
 
 Search.propTypes = {
   error: PropTypes.string

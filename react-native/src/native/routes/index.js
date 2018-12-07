@@ -42,11 +42,12 @@ import FiltersComponent from "../components/Filters";
 import WelcomeComponent from "../components/Welcome";
 import OnboardingComponent from "../components/Onboarding";
 
-import ClientsComponent from "../components/Clients";
-import ClientComponent from "../components/Client";
-
+import ProductsComponent from "../components/Products";
+import ProductsGridComponent from "../components/ProductsGrid";
 import OrdersComponent from "../components/Orders";
 import OrderComponent from "../components/Order";
+import ClientsComponent from "../components/Clients";
+import ClientComponent from "../components/Client";
 
 import ContactComponent from "../components/Contact";
 import TermsComponent from "../components/Terms";
@@ -135,8 +136,37 @@ const Index = (
           <Scene
             key="products"
             title="Productos"
+            renderRightButton={() => {
+              return <SearchIcon dark />;
+            }}
             {...DefaultProps.navbarProps}
-            component={AboutComponent}
+            component={DashboardContainer}
+            navigationBarStyle={{
+              backgroundColor: "#fff",
+              borderBottomColor: "#EEEDF2",
+              borderBottomWidth: 1,
+              elevation: 0
+            }}
+            Layout={ProductsComponent}
+            backButtonTintColor={Colors.brandPrimary}
+            backButtonTextStyle={{ color: Colors.brandPrimary }}
+            leftButtonTextStyle={{ color: Colors.brandPrimary }}
+            titleStyle={{
+              color: Colors.brandPrimary,
+              alignSelf: "center",
+              fontFamily: "playfair",
+              textAlign: "center",
+              fontSize: Colors.fontSizeBase * 1.375
+            }}
+          />
+          <Scene
+            key="productsGrid"
+            title="Productos"
+            renderRightButton={() => {
+              return <SearchIcon dark />;
+            }}
+            {...DefaultProps.navbarProps}
+            component={ProductsGridComponent}
             navigationBarStyle={{
               backgroundColor: "#fff",
               borderBottomColor: "#EEEDF2",
@@ -189,8 +219,7 @@ const Index = (
           <Scene
             key="order"
             title="Orden"
-            component={DashboardContainer}
-            Layout={OrderComponent}
+            component={OrderComponent}
             {...DefaultProps.navbarProps}
             navigationBarStyle={{
               backgroundColor: "#fff",
@@ -364,10 +393,12 @@ const Index = (
         leftButtonTextStyle={{ color: Colors.brandPrimary }}
         rightButtonStyle={{ color: Colors.brandPrimary }}
       />
+    </Scene>
+    <Scene>
       <Scene
         back
         renderRightButton={() => {
-          return <View />;
+          return <SearchIcon dark />;
         }}
         key="previewProduct"
         title=""

@@ -5,8 +5,7 @@ import {
   StatusBar,
   Platform,
   StyleSheet,
-  TouchableOpacity,
-  Share
+  TouchableOpacity
 } from "react-native";
 import {
   Container,
@@ -27,7 +26,7 @@ import Colors from "../../../native-base-theme/variables/commonColor";
 import ErrorMessages from "../../constants/errors";
 import Error from "./Error";
 import Spacer from "./Spacer";
-import Products from "./Products";
+import ProductsList from "./ProductsList";
 
 import TimeAgo from "react-native-timeago";
 import moment from "moment"; //load moment module to set local language
@@ -38,6 +37,14 @@ import { decode as atob } from "base-64";
 import shopifyAPI from "../../constants/shopify_axios";
 
 import { Mixpanel } from "../../actions/mixpanel";
+
+import Share from "./CustomShareModule";
+
+async function asyncForEach(array, callback) {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array);
+  }
+}
 
 const Preview = ({ error, content, sellerCode }) => {
   if (Platform.OS === "ios") {
@@ -63,8 +70,6 @@ const Preview = ({ error, content, sellerCode }) => {
 
   // Recipe not found
   if (!content) return <Error content={ErrorMessages.content404} />;
-
-  console.log(Platform.OS);
 
   return (
     <Container style={styles.container}>
@@ -111,14 +116,35 @@ const Preview = ({ error, content, sellerCode }) => {
                     content_id: content.id,
                     content_name: content.title
                   });
-                  message = content.wp_message || content.title;
-                  message =
-                    message +
-                    `\n\nRecuerda que con mi código de vendedora recibes envío gratis: *${sellerCode}*`;
-                  Share.share({ message: message });
+
+                  console.log(content);
+
+                  message = `Envío gratis con mi código: *${sellerCode}*`;
+
+                  const start = async () => {
+                    let images = [];
+                    let priceTags = [];
+                    let fileNames = [];
+                    await asyncForEach(content.products, async product => {
+                      images.push(product.image.src);
+                      fileNames.push(`${product.image.src.split("=")[1]}.png`);
+                      priceTags.push(
+                        `$${Number(product.variants[0].price).toLocaleString(
+                          "es-CO",
+                          {
+                            maximumFractionDigits: 0,
+                            minimumFractionDigits: 0
+                          }
+                        )}`
+                      );
+                    });
+
+                    Share.share(message, fileNames, priceTags, images);
+                  };
+                  start();
                 }}
               >
-                <Icon name="share-alt" />
+                <Icon name="whatsapp" type="FontAwesome" />
                 <Text style={styles.cardButtonText}>Compartir</Text>
               </Button>
             </Right>
@@ -137,14 +163,16 @@ const Preview = ({ error, content, sellerCode }) => {
           </Text>
         </View>
         <Spacer size={8} />
-        <Products products={content.products} sellerCode={sellerCode} />
+        <ProductsList products={content.products} sellerCode={sellerCode} />
       </Content>
       <Footer
         style={{
           paddingHorizontal: 16,
           paddingVertical: 16,
           height: 96,
-          elevation: 1
+          elevation: 1,
+          borderTopColor: "#EBEDF0",
+          borderTopWidth: 1
         }}
       >
         <FooterTab>
@@ -160,14 +188,37 @@ const Preview = ({ error, content, sellerCode }) => {
                 content_id: content.id,
                 content_name: content.title
               });
-              message = content.wp_message || content.title;
-              message =
-                message +
-                `\n\nRecuerda que con mi código de vendedora recibes envío gratis: *${sellerCode}*`;
-              Share.share({ message: message });
+
+              message = `Envío gratis con mi código: *${sellerCode}*`;
+
+              const start = async () => {
+                let images = [];
+                let priceTags = [];
+                let fileNames = [];
+                await asyncForEach(content.products, async product => {
+                  images.push(product.image.src);
+                  fileNames.push(`${product.image.src.split("=")[1]}.png`);
+                  priceTags.push(
+                    `$${Number(product.variants[0].price).toLocaleString(
+                      "es-CO",
+                      {
+                        maximumFractionDigits: 0,
+                        minimumFractionDigits: 0
+                      }
+                    )}`
+                  );
+                });
+
+                Share.share(message, fileNames, priceTags, images);
+              };
+              start();
             }}
           >
-            <Icon name="share-alt" style={{ color: "white", marginRight: 0 }} />
+            <Icon
+              name="whatsapp"
+              type="FontAwesome"
+              style={{ color: "white", marginRight: 0 }}
+            />
             <Text style={{ color: "white", fontSize: 16 }}>
               Compartir toda la colección
             </Text>

@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  Platform,
   StyleSheet,
   FlatList,
   TouchableOpacity,
@@ -38,7 +37,6 @@ moment.locale("es");
 import { Mixpanel } from "../../actions/mixpanel";
 
 const onPress = item => {
-  console.log(item.id);
   // Actions.preview({ match: { params: { id: String(item.id) } } });
   Actions.client({ client: item });
 };

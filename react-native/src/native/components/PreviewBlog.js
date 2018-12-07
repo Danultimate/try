@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import {
   Platform,
+  StatusBar,
   Image,
   StyleSheet,
   TouchableOpacity,

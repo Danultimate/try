@@ -31,7 +31,6 @@ import { Mixpanel } from "../../actions/mixpanel";
 const keyExtractor = item => item.id.toString();
 
 export function shareMessage(collection) {
-  console.log(collection.id);
   id_number = atob(collection.id).split("/")[4];
 
   shopifyAPI
@@ -53,7 +52,6 @@ export function shareMessage(collection) {
 }
 
 const onPress = item => {
-  console.log(item.id);
   Actions.preview({ match: { params: { id: String(item.id) } } });
 };
 

@@ -38,12 +38,10 @@ moment.locale("es");
 import { Mixpanel } from "../../actions/mixpanel";
 
 const onPress = item => {
-  console.log(item.id);
-  // Actions.preview({ match: { params: { id: String(item.id) } } });
   Actions.order({ order: item });
 };
 
-const OrderListing = ({ error, loading, member }) => {
+const OrdersList = ({ error, loading, member }) => {
   if (Platform.OS === "ios") {
     StatusBar.setBarStyle("dark-content");
   }
@@ -55,9 +53,6 @@ const OrderListing = ({ error, loading, member }) => {
   if (error) return <Error content={error} />;
 
   const keyExtractor = item => item.id.toString();
-
-  // const onPress = item =>
-  //   Actions.recipe({ match: { params: { id: String(item.id) } } });
 
   return (
     <Container style={styles.container}>
@@ -158,19 +153,19 @@ const OrderListing = ({ error, loading, member }) => {
   );
 };
 
-OrderListing.propTypes = {
+OrdersList.propTypes = {
   error: PropTypes.string,
   loading: PropTypes.bool.isRequired,
   member: PropTypes.shape({})
 };
 
-OrderListing.defaultProps = {
+OrdersList.defaultProps = {
   error: null,
   loading: false,
   member: {}
 };
 
-export default OrderListing;
+export default OrdersList;
 
 const styles = StyleSheet.create({
   container: {
