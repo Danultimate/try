@@ -51,7 +51,7 @@ class ProductsGrid extends React.Component {
     super(props);
 
     this.state = {
-      loadingProducts: true,
+      loadingCollection: true,
       products: []
     };
   }
@@ -77,17 +77,18 @@ class ProductsGrid extends React.Component {
     //   }
     // };
 
-    const productQuery = {
-      first: 30,
-      query: "collectionId:[" + this.props.content.id + "]"
-    };
-    shopify.product
-      .fetchQuery(productQuery)
+    // const productQuery = {
+    //   first: 30,
+    //   query: "collectionId:[" + this.props.content.id + "]"
+    // };
+
+    shopify.collection
+      .fetchWithProducts(this.props.content.id)
       .then(res => {
-        console.log(res);
+        console.log(res.products);
         this.setState({
-          products: res,
-          loadingProducts: false
+          collection: res,
+          loadingCollection: false
         });
       })
       .catch(error => this.setState({ error, loading: false }));
@@ -96,14 +97,14 @@ class ProductsGrid extends React.Component {
   render() {
     Mixpanel.screen("ProductsGrid");
     // Loading
-    if (this.state.loadingProducts) return <Loading />;
+    if (this.state.loadingCollection) return <Loading />;
 
     return (
       <Container style={styles.container}>
         <Content padder>
           <FlatList
             numColumns={3}
-            data={this.state.products}
+            data={this.state.collection.products}
             contentContainerStyle={styles.list}
             columnWrapperStyle={styles.element}
             renderItem={({ item }) => (

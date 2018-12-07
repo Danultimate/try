@@ -78,6 +78,17 @@ class Products extends React.Component {
     //     }
     //   }
     // };
+    shopify.shop
+      .fetchInfo()
+      .then(res => {
+        console.log(res);
+        // this.setState({
+        //   collection: res,
+        //   loadingCollection: false
+        // });
+      })
+      .catch(error => this.setState({ error, loading: false }));
+
     const collectionQuery = {
       last: 10,
       query:
