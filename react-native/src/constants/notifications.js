@@ -29,6 +29,19 @@ export default async function registerForPushNotificationsAsync() {
       console.log('el token de expo!')
       console.log(token)
     })
+  
+  // let tokenFCM = await Notifications.getDevicePushTokenAsync();
+  // AsyncStorage.setItem('notificationTokenFCM', tokenFCM)
+  //   .then(() => {
+  //     console.log('el token de FCM!')
+  //     console.log(tokenFCM)
+  //   })
+  
+  // const { data: tokenFCM, type: platform } = await Notifications.getDevicePushTokenAsync();
+  // console.log(data)
+  // alert(data);
+  // alert(type);
+
   //return API.put(`/users/${response.data.user.id}`, { user: {device_token: notificationToken }})
   return [];
 
