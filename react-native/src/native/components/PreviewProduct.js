@@ -114,7 +114,7 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
               <View style={styles.promoWrap}>
                 <Text style={styles.cardPromo}>
                   {product.discount > 0
-                    ? "Descuento " + product.discount + "%"
+                    ? "Descuento " + Math.round(product.discount, 0) + "%"
                     : "Producto poderoso"}
                 </Text>
                 <View style={styles.promoShape} />
@@ -152,9 +152,10 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
               borderRadius: 5
             }}
             onPress={() => {
-              Mixpanel.track("Share Content", {
-                content_id: product.id,
-                content_name: product.title
+              Mixpanel.track("Share Product", {
+                product_id: product.id,
+                product_name: product.title,
+                page: "preview_product"
               });
               
               let url = `https://elenas.la/products/${product.handle}`;

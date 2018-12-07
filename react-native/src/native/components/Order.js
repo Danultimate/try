@@ -94,18 +94,17 @@ const OrderDetail = ({ error, loading, order, ordersTitle }) => {
               <View style={styles.orderNumbers}>
                 <View>
                   <Text style={styles.orderTotal}>
-                    ${Math.round(order.total).toLocaleString(
-                      "es-CO",
-                      {
-                        maximumFractionDigits: 0
-                      }
-                    )}
+                    ${Math.round(
+                      order.total - order.tax - order.shipping
+                    ).toLocaleString("es-CO", {
+                      maximumFractionDigits: 0
+                    })}
                   </Text>
                   <Text style={styles.orderNumberLabel}>Valor total</Text>
                 </View>
                 <View>
                   <Text style={styles.orderNumber}>
-                    {order.order_number}
+                    AP{order.order_number}
                   </Text>
                   <Text style={styles.orderNumberLabel}>No. de orden</Text>
                 </View>
@@ -144,7 +143,7 @@ const OrderDetail = ({ error, loading, order, ordersTitle }) => {
                     <Right style={styles.orderRight}>
                       <Text style={styles.itemPrice}>
                       ${item.variants[0].price
-                        ? Number(item.variants[0].price).toLocaleString("es-CO", {
+                        ? Number(Math.round(item.variants[0].price/1.19, 0)).toLocaleString("es-CO", {
                             maximumFractionDigits: 0,
                             minimumFractionDigits: 0
                           })
@@ -158,7 +157,13 @@ const OrderDetail = ({ error, loading, order, ordersTitle }) => {
             />
             <View style={styles.orderTotalBar}>
               <Text style={styles.orderTotalBarLabel}>{"Total"}</Text>
-              <Text style={styles.orderTotalBarNumber}>{"$124.000"}</Text>
+              <Text style={styles.orderTotalBarNumber}>
+                ${Math.round(
+                  order.total - order.tax - order.shipping
+                ).toLocaleString("es-CO", {
+                  maximumFractionDigits: 0
+                })}
+              </Text>
             </View>
           </View>
         ) : (

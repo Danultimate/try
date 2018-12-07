@@ -87,7 +87,7 @@ const Products = props => {
             <View style={styles.promoWrap}>
               <Text style={styles.cardPromo}>
                 {item.discount > 0
-                  ? "Descuento " + item.discount + "%"
+                  ? "Descuento " + Math.round(item.discount, 0) + "%"
                   : "Producto poderoso"}
               </Text>
               <View style={styles.promoShape} />
@@ -145,7 +145,8 @@ const Products = props => {
                   onPress={() => {
                     Mixpanel.track("Share Product", {
                       product_id: item.id,
-                      product_name: item.title
+                      product_name: item.title,
+                      page: "preview_product"
                     });
                     Mixpanel.track("Share Product: " + item.title);
 
