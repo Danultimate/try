@@ -44,7 +44,7 @@ const onPress = (item, sellerCode) => {
   Actions.previewProduct({ product: item, sellerCode: sellerCode });
 };
 
-const keyExtractor = item => item.id.toString();
+const keyExtractor = item => item.node.id.toString();
 
 class ProductsGrid extends React.Component {
   constructor(props) {
@@ -57,7 +57,7 @@ class ProductsGrid extends React.Component {
   }
 
   componentWillMount() {
-    console.log(this.props.content.id);
+    console.log(this.props.content.node.id);
     // const shopQuery = {
     //   shop {
     //     name
@@ -82,47 +82,48 @@ class ProductsGrid extends React.Component {
     //   query: "collectionId:[" + this.props.content.id + "]"
     // };
 
-    shopify.collection
-      .fetchWithProducts(this.props.content.id)
-      .then(res => {
-        console.log(res.products);
-        this.setState({
-          collection: res,
-          loadingCollection: false
-        });
-      })
-      .catch(error => this.setState({ error, loading: false }));
+    // shopify.collection
+    //   .fetchWithProducts(this.props.content.id)
+    //   .then(res => {
+    //     console.log(res.products);
+    //     this.setState({
+    //       collection: res,
+    //       loadingCollection: false
+    //     });
+    //   })
+    //   .catch(error => this.setState({ error, loading: false }));
   }
 
   render() {
     Mixpanel.screen("ProductsGrid");
     // Loading
-    if (this.state.loadingCollection) return <Loading />;
+    // if (this.state.loadingCollection) return <Loading />;
 
     return (
       <Container style={styles.container}>
         <Content padder>
           <FlatList
             numColumns={3}
-            data={this.state.collection.products}
+            data={this.props.content.node.products.edges}
             contentContainerStyle={styles.list}
             columnWrapperStyle={styles.element}
             renderItem={({ item }) => (
               <TouchableOpacity
-                onPress={() => onPress(item, this.props.sellerCode)}
+                onPress={() => onPress(item.node, this.props.sellerCode)}
                 style={styles.link}
               >
                 <ImageBackground
                   source={
-                    item.images.length && item.images[0].src
-                      ? { uri: item.images[0].src }
+                    item.node.images.edges.length &&
+                    item.node.images.edges[0].node.src
+                      ? { uri: item.node.images.edges[0].node.src }
                       : require("../assets/images/default.png")
                   }
                   style={styles.imgBackground}
                 >
                   <View style={styles.imgOverlay}>
                     <Text numberOfLines={1} style={styles.imgText}>
-                      {item.title}
+                      {item.node.title}
                     </Text>
                   </View>
                 </ImageBackground>

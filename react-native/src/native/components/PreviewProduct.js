@@ -39,6 +39,7 @@ import Share from "./CustomShareModule";
 import { Mixpanel } from "../../actions/mixpanel";
 
 const PreviewProduct = ({ error, product, sellerCode }) => {
+  console.log(product);
   if (Platform.OS === "ios") {
     StatusBar.setBarStyle("dark-content", true);
   }
@@ -80,7 +81,7 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
           <Text style={styles.header}>{product.title}</Text>
           <Text style={styles.meta}>{product.vendor.toUpperCase()}</Text>
           <Spacer size={8} />
-          {product.variants[0].compare_at_price && (
+          {product.variants.length && product.variants[0].compare_at_price ? (
             <Text style={styles.productPriceCompare} note>
               ${Number(product.variants[0].compare_at_price).toLocaleString(
                 "es-CO",
@@ -90,14 +91,33 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
                 }
               )}
             </Text>
-          )}
+          ) : product.variants.edges.length &&
+          product.variants.edges[0].node.compareAtPrice ? (
+            <Text style={styles.productPriceCompare} note>
+              ${Number(
+                product.variants.edges[0].node.compareAtPrice
+              ).toLocaleString("es-CO", {
+                maximumFractionDigits: 0,
+                minimumFractionDigits: 0
+              })}
+            </Text>
+          ) : null}
           <Text style={styles.productPrice}>
-            ${product.variants[0].price
+            ${product.variants.length && product.variants[0].price
               ? Number(product.variants[0].price).toLocaleString("es-CO", {
                   maximumFractionDigits: 0,
                   minimumFractionDigits: 0
                 })
-              : 0}
+              : product.variants.edges.length &&
+                product.variants.edges[0].node.price
+                ? Number(product.variants.edges[0].node.price).toLocaleString(
+                    "es-CO",
+                    {
+                      maximumFractionDigits: 0,
+                      minimumFractionDigits: 0
+                    }
+                  )
+                : 0}
           </Text>
           <Spacer size={8} />
           {!!product.image && !!product.image.src ? (
@@ -114,6 +134,18 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
           ) : !!product.images[0] && !!product.images[0].src ? (
             <Image
               source={{ uri: product.images[0].src }}
+              style={{
+                height: 208,
+                width: null,
+                flex: 1,
+                resizeMode: "contain",
+                marginBottom: 16
+              }}
+            />
+          ) : !!product.images.edges[0] &&
+          !!product.images.edges[0].node.src ? (
+            <Image
+              source={{ uri: product.images.edges[0].node.src }}
               style={{
                 height: 208,
                 width: null,
@@ -146,8 +178,11 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
           </View>
         </View>
         <Text style={styles.description}>
-          {product.description ||
-            product.body_html.replace(/<(?:.|\n)*?>/gm, "")}
+          {product.description
+            ? product.description
+            : product.body_html
+              ? product.body_html.replace(/<(?:.|\n)*?>/gm, "")
+              : null}
         </Text>
         <Spacer size={40} />
       </Content>
