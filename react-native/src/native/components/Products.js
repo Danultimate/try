@@ -90,6 +90,8 @@ class Products extends React.Component {
               product => {
                 product.add("title");
                 product.add("vendor");
+                product.add("description");
+                product.add("descriptionHtml");
                 product.addConnection(
                   "images",
                   { args: { first: 1 } },
