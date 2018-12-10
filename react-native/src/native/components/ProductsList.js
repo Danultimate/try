@@ -59,23 +59,40 @@ const ProductsList = props => {
         renderItem={({ item }) => (
           <Card style={styles.card}>
             <CardItem cardBody>
-              {!!item.images &&
-                !!item.images[0].src && (
-                  <TouchableOpacity
-                    onPress={() => onPress(item, props.sellerCode)}
-                    style={{ flex: 1 }}
-                  >
-                    <Image
-                      source={{ uri: item.images[0].src }}
-                      style={{
-                        height: 200,
-                        width: null,
-                        flex: 1,
-                        resizeMode: "contain"
-                      }}
-                    />
-                  </TouchableOpacity>
-                )}
+
+
+              {!!item.image && !!item.image.src ? (
+                <TouchableOpacity
+                onPress={() => onPress(item, props.sellerCode)}
+                style={{ flex: 1 }}
+                >
+                  <Image
+                    source={{ uri: item.image.src }}
+                    style={{
+                      height: 200,
+                      width: null,
+                      flex: 1,
+                      resizeMode: "contain"
+                    }}
+                  />
+                </TouchableOpacity>
+              ) : !!item.images && !!item.images[0] && !!item.images[0].src ? (
+                <TouchableOpacity
+                onPress={() => onPress(item, props.sellerCode)}
+                style={{ flex: 1 }}
+                >
+                  <Image
+                    source={{ uri: item.images[0].src }}
+                    style={{
+                      height: 200,
+                      width: null,
+                      flex: 1,
+                      resizeMode: "contain"
+                    }}
+                  />
+                </TouchableOpacity>
+              ) : null}
+
             </CardItem>
             <View style={styles.promoWrap}>
               <Text style={styles.cardPromo}>

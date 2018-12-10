@@ -34,42 +34,50 @@ moment.locale("es");
 
 import { decode as atob } from "base-64";
 import shopifyAPI from "../../constants/shopify_axios";
+import { Actions } from "react-native-router-flux";
 
 import { Mixpanel } from "../../actions/mixpanel";
 
 const categories = [
   {
     name: "Todas",
+    handle: "",
     selected: true,
     id: 0
   },
   {
     name: "Belleza",
+    handle: "maquillaje",
     selected: false,
     id: 1
   },
   {
     name: "Cosméticos",
+    handle: "maquillaje",
     selected: false,
     id: 2
   },
   {
     name: "Accesorios",
+    handle: "cuidado-de-piel",
     selected: false,
     id: 3
   },
   {
     name: "Labiales",
+    handle: "labios",
     selected: false,
     id: 4
   },
   {
     name: "Cuidado de la piel",
+    handle: "cuidado-de-piel",
     selected: false,
     id: 5
   },
   {
     name: "Cabello",
+    handle: "cabello",
     selected: false,
     id: 6
   }
@@ -82,19 +90,8 @@ const Filters = ({ error, content, seller_code }) => {
 
   const onPress = item => {
     console.log(item.id);
+    Actions.search({ filter: item.handle });
   };
-
-  // Error
-  // if (error) return <Error content={error} />;
-
-  // Recipe not found
-  // if (!content)
-  //   return (
-  //     <View>
-  //       <StatusBar barStyle="dark-content" />
-  //       <Error content={ErrorMessages.content404} />
-  //     </View>
-  //   );
 
   return (
     <Container style={styles.container}>

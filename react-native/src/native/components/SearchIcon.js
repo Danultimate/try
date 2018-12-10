@@ -22,7 +22,7 @@ const SearchIcon = props => (
         color: props.dark ? "#5B2AD0" : "white"
       }}
     />
-  </Button>
+  </Button>  
 );
 
 SearchIcon.propTypes = propTypes;

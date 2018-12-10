@@ -6,7 +6,9 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  Share
+  Share,
+  FlatList,
+  ImageBackground
 } from "react-native";
 import {
   View,
@@ -23,6 +25,7 @@ import {
   Body,
   List,
   ListItem,
+  SearchBar,
   Text,
   Button
 } from "native-base";
@@ -30,8 +33,10 @@ import Colors from "../../../native-base-theme/variables/commonColor";
 import ErrorMessages from "../../constants/errors";
 import Error from "./Error";
 import Spacer from "./Spacer";
+import Loading from "./Loading";
 import FilterBar from "./FilterBar";
 import Products from "./Products";
+import ProductList from "./ProductsList";
 
 import TimeAgo from "react-native-timeago";
 import moment from "moment"; //load moment module to set local language
@@ -43,35 +48,85 @@ import { decode as atob } from "base-64";
 import shopify from "../../constants/shopify";
 import { Mixpanel } from "../../actions/mixpanel";
 
+const keyExtractor = item => item.id.toString();
+
 class Search extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      loadingResults: true,
-      products: []
+      loadingResults: false,
+      runQuery: false,
+      query: "",
+      keyword: "",
+      filter: "",
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ loadingResults: true });
+    console.log('update props @search ')
+    console.log(nextProps.keyword);
+    let runQuery = false;
+    let query = "";
+
+    let keyword = nextProps.keyword;
+    if (typeof keyword != "undefined" && keyword != "" && keyword != " ") {
+      this.setState({
+        keyword: nextProps.keyword,
+        query: nextProps.keyword,
+        runQuery: true
+      });
+      runQuery = true;
+      query = nextProps.keyword;
+
+    } else {
+      this.setState({ loadingResults: false });
+    }
+
+    if (typeof nextProps.filter != "undefined" && nextProps.filter != "") {
+      console.log('entra al filter')
+      this.setState({
+        filter: nextProps.filter,
+        query: `${this.state.keyword} tag:["${nextProps.filter}"]`,
+        runQuery: true
+      });
+      runQuery = true;
+      query = `${this.state.keyword} tag:["${nextProps.filter}"]`;
+    } 
+    // TODO: quitar estas dos lineas
+    // runQuery = true;
+    // query = "cyzone";
+    console.log(runQuery)
+    if (runQuery) {
+      console.log('el query')
+      console.log(query)
+      const collectionQuery = {
+        first: 10,
+        //query:"variants.price:<=30000"
+        query: query
+      };
+
+      shopify.product.fetchQuery(collectionQuery).then(res => {
+        console.log("resultado");
+        this.setState({ products: res, loadingResults: false });
+      });
+    }
   }
 
   render() {
     Mixpanel.screen("Search");
-    // Error
-    // if (error) return <Error content={error} />;
-    //
-    // Recipe not found
-    // if (!content)
-    //   return (
-    //     <View>
-    //       <StatusBar barStyle="dark-content" />
-    //       <Error content={ErrorMessages.content404} />
-    //     </View>
-    //   );
+
+    if (this.state.loadingResults) return <Loading />;
 
     return (
       <Container style={styles.container}>
         {Platform.OS === "iOS" && <StatusBar barStyle="dark-content" />}
         <Content padder>
           <FilterBar />
+          {/* Start of product grid view */}
+          <ProductList products={this.state.products} />
+          {/* End of product grid view */}
         </Content>
       </Container>
     );
@@ -80,8 +135,6 @@ class Search extends React.Component {
 
 Search.propTypes = {
   error: PropTypes.string
-  // contentId: PropTypes.string.isRequired
-  //feed: PropTypes.arrayOf(PropTypes.shape()).isRequired
 };
 
 Search.defaultProps = {

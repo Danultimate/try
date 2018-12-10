@@ -8,13 +8,23 @@ const propTypes = {
   title: PropTypes.string
 };
 
+
 const defaultProps = {
   focused: false,
   title: ""
 };
 
+
 const SearchButton = props => (
-  <Button transparent primary onPress={Actions.search}>
+  <Button
+    transparent
+    primary
+    onPress={() => {
+      console.log("@search button|keyboard var");
+      // console.log(props.renderTitle().props);
+      Actions.search({ keyword: props.keyword });
+    }}
+  >
     <Icon
       type="SimpleLineIcons"
       name="magnifier"

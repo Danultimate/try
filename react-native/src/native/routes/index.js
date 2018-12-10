@@ -332,7 +332,7 @@ const Index = (
         key="search"
         title="Búsqueda"
         renderTitle={SearchInput}
-        renderRightButton={SearchButton}
+        // renderRightButton={SearchButton}
         component={SearchComponent}
         {...DefaultProps.navbarProps}
         navigationBarStyle={{
