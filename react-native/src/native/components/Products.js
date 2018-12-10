@@ -75,10 +75,80 @@ class Products extends React.Component {
   componentWillMount() {
     const query = client.query(root => {
       root.add("shop", shop => {
-        shop.add("name");
+        // shop.add("name");
+        shop.add(
+          "collectionByHandle",
+          { args: { handle: "black-friday" }, alias: "blackFriday" },
+          collection => {
+            collection.add("title");
+            collection.add("image", image => {
+              image.add("src");
+            });
+            collection.addConnection(
+              "products",
+              { args: { first: 30 } },
+              product => {
+                product.add("title");
+                product.add("vendor");
+                product.add("description");
+                product.add("descriptionHtml");
+                product.addConnection(
+                  "images",
+                  { args: { first: 1 } },
+                  image => {
+                    image.add("src");
+                  }
+                );
+                product.addConnection(
+                  "variants",
+                  { args: { first: 1 } },
+                  variant => {
+                    variant.add("compareAtPrice");
+                    variant.add("price");
+                  }
+                );
+              }
+            );
+          }
+        );
+        shop.add(
+          "collectionByHandle",
+          { args: { handle: "fragancias" }, alias: "Fragancias" },
+          collection => {
+            collection.add("title");
+            collection.add("image", image => {
+              image.add("src");
+            });
+            collection.addConnection(
+              "products",
+              { args: { first: 30 } },
+              product => {
+                product.add("title");
+                product.add("vendor");
+                product.add("description");
+                product.add("descriptionHtml");
+                product.addConnection(
+                  "images",
+                  { args: { first: 1 } },
+                  image => {
+                    image.add("src");
+                  }
+                );
+                product.addConnection(
+                  "variants",
+                  { args: { first: 1 } },
+                  variant => {
+                    variant.add("compareAtPrice");
+                    variant.add("price");
+                  }
+                );
+              }
+            );
+          }
+        );
         shop.addConnection(
           "collections",
-          { args: { first: 20 } },
+          { args: { first: 20, reverse: true } },
           collection => {
             collection.add("title");
             collection.add("image", image => {
@@ -120,7 +190,7 @@ class Products extends React.Component {
     client.send(query).then(({ model, data }) => {
       objects = model;
       console.log(model); // The serialized model with rich features
-      console.log(data.shop.collections.edges); // The raw data returned from the API endpoint
+      console.log(data.shop);
       this.setState({
         collections: data.shop.collections.edges,
         loadingCollections: false
