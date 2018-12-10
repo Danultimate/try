@@ -169,15 +169,43 @@ const ProductsList = props => {
                     let url = `https://elenas.la/products/${item.handle}`;
 
                     message = `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}.`
-                    if (props.seller_code){
-                      message += `Envío gratis con mi código: *${props.sellerCode}*`;
+                    if (props.sellerCode){
+                      message += ` Envío gratis con mi código: *${props.sellerCode}*`;
                     }
-                    let price = `$${Number(item.variants[0].price).toLocaleString("es-CO", {
+
+                    {item.variants.length ? (
+                      price = `$${Number(item.variants[0].price).toLocaleString(
+                          "es-CO",
+                          {
+                            maximumFractionDigits: 0,
+                            minimumFractionDigits: 0
+                          }
+                        )}`
+                    ) : item.variants.edges.length ? (
+                      price = `$${Number(
+                        item.variants.edges[0].node.price
+                        ).toLocaleString("es-CO", {
                           maximumFractionDigits: 0,
                           minimumFractionDigits: 0
                         })}`
+                    ) : null}
+      
+                    //image_url 
+                    {!!item.image && !!item.image.src ? (
+                      image_url = item.image.src
+                    ) : !!item.images[0] && !!item.images[0].src ? (
+                      image_url = item.images[0].src
+                    ) : !!item.images.edges[0] &&
+                    !!item.images.edges[0].node.src ? (
+                      image_url = item.images.edges[0].node.src
+                    ) : null}
                       
-                    Share.share(message, [`${item.images[0].src.split("=")[1]}.png`], [price], [item.images[0].src]);
+                    Share.share(
+                      message,
+                      [`${image_url.split("=")[1]}.png`],
+                      [price],
+                      [image_url]
+                    );
                   }}
                 >
                   <Icon

@@ -18,10 +18,11 @@ import Spacer from "./Spacer";
 
 import { Mixpanel } from "../../actions/mixpanel";
 
+
 const FilterBar = props => (
   <View style={styles.metaBar}>
     <Text style={[styles.meta, styles.leftContainer]}>
-      Mostrando todas las categorias
+      {props.filterBarStatus}
     </Text>
 
     <Button

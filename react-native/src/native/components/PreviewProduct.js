@@ -91,7 +91,7 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
                 }
               )}
             </Text>
-          ) : product.variants.edges.length &&
+          ) : product.variants.edges && product.variants.edges.length &&
           product.variants.edges[0].node.compareAtPrice ? (
             <Text style={styles.productPriceCompare} note>
               ${Number(
@@ -108,7 +108,7 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
                   maximumFractionDigits: 0,
                   minimumFractionDigits: 0
                 })
-              : product.variants.edges.length &&
+              : product.variants.edges && product.variants.edges.length &&
                 product.variants.edges[0].node.price
                 ? Number(product.variants.edges[0].node.price).toLocaleString(
                     "es-CO",
@@ -215,16 +215,16 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
               message = `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}. Envío gratis con mi código: *${sellerCode}*`;
 
               {product.variants.length ? (
-                price = `$${Number(product.variants[0].compare_at_price).toLocaleString(
+                price = `$${Number(product.variants[0].price).toLocaleString(
                     "es-CO",
                     {
                       maximumFractionDigits: 0,
                       minimumFractionDigits: 0
                     }
                   )}`
-              ) : product.variants.edges.length ? (
+              ) : product.variants.edges && product.variants.edges.length ? (
                 price = `$${Number(
-                    product.variants.edges[0].node.compareAtPrice
+                    product.variants.edges[0].node.price
                   ).toLocaleString("es-CO", {
                     maximumFractionDigits: 0,
                     minimumFractionDigits: 0

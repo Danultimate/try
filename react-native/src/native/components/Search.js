@@ -47,6 +47,8 @@ import { decode as atob } from "base-64";
 // import shopifyAPI from "../../constants/shopify_axios";
 import shopify from "../../constants/shopify";
 import { Mixpanel } from "../../actions/mixpanel";
+import { Actions } from "react-native-router-flux";
+
 
 const keyExtractor = item => item.id.toString();
 
@@ -60,6 +62,7 @@ class Search extends React.Component {
       query: "",
       keyword: "",
       filter: "",
+      filterBarStatus: "Mostrando todas las categorias"
     };
   }
 
@@ -75,29 +78,28 @@ class Search extends React.Component {
       this.setState({
         keyword: nextProps.keyword,
         query: nextProps.keyword,
-        runQuery: true
+        runQuery: true,
+        filterBarStatus: "Mostrando todas las categorias",
       });
       runQuery = true;
       query = nextProps.keyword;
 
     } else {
-      this.setState({ loadingResults: false });
+      this.setState({ loadingResults: false, filterBarStatus: "Mostrando todas las categorias" });
     }
 
-    if (typeof nextProps.filter != "undefined" && nextProps.filter != "") {
+    if (typeof nextProps.filter != "undefined" && nextProps.filter.handle != "") {
       console.log('entra al filter')
       this.setState({
-        filter: nextProps.filter,
-        query: `${this.state.keyword} tag:["${nextProps.filter}"]`,
-        runQuery: true
+        filter: nextProps.filter.handle,
+        query: `${this.state.keyword} tag:["${nextProps.filter.handle}"]`,
+        runQuery: true,
+        filterBarStatus: `Mostrando ${nextProps.filter.name}`,
       });
       runQuery = true;
-      query = `${this.state.keyword} tag:["${nextProps.filter}"]`;
+      query = `${this.state.keyword} tag:["${nextProps.filter.handle}"]`;
     } 
-    // TODO: quitar estas dos lineas
-    // runQuery = true;
-    // query = "cyzone";
-    console.log(runQuery)
+    
     if (runQuery) {
       console.log('el query')
       console.log(query)
@@ -109,7 +111,7 @@ class Search extends React.Component {
 
       shopify.product.fetchQuery(collectionQuery).then(res => {
         console.log("resultado");
-        this.setState({ products: res, loadingResults: false });
+        this.setState({ products: res, loadingResults: false});
       });
     }
   }
@@ -123,7 +125,7 @@ class Search extends React.Component {
       <Container style={styles.container}>
         {Platform.OS === "iOS" && <StatusBar barStyle="dark-content" />}
         <Content padder>
-          <FilterBar />
+          <FilterBar filterBarStatus={this.state.filterBarStatus}/>
           
           <ProductList products={this.state.products} />
         </Content>

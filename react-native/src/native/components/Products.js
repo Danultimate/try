@@ -77,7 +77,7 @@ class Products extends React.Component {
         shop.add("name");
         shop.addConnection(
           "collections",
-          { args: { first: 20 } },
+          { args: { first: 7 } },
           collection => {
             collection.add("title");
             collection.add("image", image => {
