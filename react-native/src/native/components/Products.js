@@ -26,8 +26,6 @@ import {
 import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
 
-import shopify from "../../constants/shopify";
-
 import Loading from "./Loading";
 import Spacer from "./Spacer";
 
@@ -38,6 +36,22 @@ moment.locale("es");
 import { Mixpanel } from "../../actions/mixpanel";
 
 import Share from "./CustomShareModule";
+import Client from "graphql-js-client";
+
+// This is the generated type bundle from graphql-js-schema
+import types from "../../constants/types";
+
+const acessToken = "c00853c510a8221f272e03e862d884d7";
+const storeUrl = "https://descubre-belleza.myshopify.com/api/graphql";
+
+export const client = new Client(types, {
+  url: storeUrl,
+  fetcherOptions: {
+    headers: {
+      "X-Shopify-Storefront-Access-Token": acessToken
+    }
+  }
+});
 
 const { height, width } = Dimensions.get("window");
 const itemWidth = (width - Colors.contentPadding) / 2;
@@ -46,7 +60,7 @@ const onPress = (item, sellerCode) => {
   Actions.productsGrid({ content: item, sellerCode: sellerCode });
 };
 
-const keyExtractor = item => item.id.toString();
+const keyExtractor = item => item.node.id.toString();
 
 class Products extends React.Component {
   constructor(props) {
@@ -54,12 +68,64 @@ class Products extends React.Component {
 
     this.state = {
       loadingCollections: true,
-      collections: [],
-      product: []
+      collections: []
     };
   }
 
   componentWillMount() {
+    const query = client.query(root => {
+      root.add("shop", shop => {
+        shop.add("name");
+        shop.addConnection(
+          "collections",
+          { args: { first: 20 } },
+          collection => {
+            collection.add("title");
+            collection.add("image", image => {
+              image.add("src");
+            });
+            collection.addConnection(
+              "products",
+              { args: { first: 30 } },
+              product => {
+                product.add("title");
+                product.add("vendor");
+                product.add("description");
+                product.add("descriptionHtml");
+                product.addConnection(
+                  "images",
+                  { args: { first: 1 } },
+                  image => {
+                    image.add("src");
+                  }
+                );
+                product.addConnection(
+                  "variants",
+                  { args: { first: 1 } },
+                  variant => {
+                    variant.add("compareAtPrice");
+                    variant.add("price");
+                  }
+                );
+              }
+            );
+          }
+        );
+        // shop.addConnection("productTypes", { args: { first: 10 } });
+      });
+    });
+
+    let objects;
+
+    client.send(query).then(({ model, data }) => {
+      objects = model;
+      console.log(model); // The serialized model with rich features
+      console.log(data.shop.collections.edges); // The raw data returned from the API endpoint
+      this.setState({
+        collections: data.shop.collections.edges,
+        loadingCollections: false
+      });
+    });
     // const shopQuery = {
     //   shop {
     //     name
@@ -78,22 +144,33 @@ class Products extends React.Component {
     //     }
     //   }
     // };
-    const collectionQuery = {
-      last: 10,
-      query:
-        "title:'Maquillaje' OR 'Fragancia'  OR 'Cabello'  OR 'Piel'  OR 'Depilación'  OR 'Personal' OR 'Accesorios'"
-    };
-
-    shopify.collection
-      .fetchQuery(collectionQuery)
-      .then(res => {
-        console.log(res);
-        this.setState({
-          collections: res,
-          loadingCollections: false
-        });
-      })
-      .catch(error => this.setState({ error, loadingCollections: false }));
+    // shopify.shop
+    //   .fetchInfo()
+    //   .then(res => {
+    //     console.log(res);
+    //     // this.setState({
+    //     //   collection: res,
+    //     //   loadingCollection: false
+    //     // });
+    //   })
+    //   .catch(error => this.setState({ error, loading: false }));
+    //
+    // const collectionQuery = {
+    //   last: 10,
+    //   query:
+    //     "title:'Maquillaje' OR 'Fragancia'  OR 'Cabello'  OR 'Piel'  OR 'Depilación'  OR 'Personal' OR 'Accesorios'"
+    // };
+    //
+    // shopify.collection
+    //   .fetchQuery(collectionQuery)
+    //   .then(res => {
+    //     console.log(res);
+    //     this.setState({
+    //       collections: res,
+    //       loadingCollections: false
+    //     });
+    //   })
+    //   .catch(error => this.setState({ error, loadingCollections: false }));
   }
 
   render() {
@@ -119,15 +196,15 @@ class Products extends React.Component {
               >
                 <ImageBackground
                   source={
-                    item.image
-                      ? { uri: item.image.src }
+                    item.node.image
+                      ? { uri: item.node.image.src }
                       : require("../assets/images/default.png")
                   }
                   style={styles.imgBackground}
                 >
                   <View style={styles.imgOverlay}>
                     <Text numberOfLines={1} style={styles.imgText}>
-                      {item.title}
+                      {item.node.title}
                     </Text>
                   </View>
                 </ImageBackground>
