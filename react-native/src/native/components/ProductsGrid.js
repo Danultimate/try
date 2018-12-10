@@ -1,8 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  StatusBar,
-  Platform,
   StyleSheet,
   FlatList,
   TouchableOpacity,
@@ -26,6 +24,8 @@ import {
 import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
 
+import shopify from "../../constants/shopify";
+
 import Loading from "./Loading";
 import Spacer from "./Spacer";
 
@@ -35,96 +35,29 @@ moment.locale("es");
 
 import { Mixpanel } from "../../actions/mixpanel";
 
-import Client from "graphql-js-client";
-
-// This is the generated type bundle from graphql-js-schema
-import types from "../../constants/types";
-
-const acessToken = "c00853c510a8221f272e03e862d884d7";
-const storeUrl = "https://descubre-belleza.myshopify.com/api/graphql";
-
-export const client = new Client(types, {
-  url: storeUrl,
-  fetcherOptions: {
-    headers: {
-      "X-Shopify-Storefront-Access-Token": acessToken
-    }
-  }
-});
+import Share from "./CustomShareModule";
 
 const { height, width } = Dimensions.get("window");
-const itemWidth = (width - Colors.contentPadding) / 2;
+const itemWidth = (width - Colors.contentPadding) / 3;
 
 const onPress = (item, sellerCode) => {
-  Actions.productsGrid({ content: item, sellerCode: sellerCode });
+  Actions.previewProduct({ product: item, sellerCode: sellerCode });
 };
 
 const keyExtractor = item => item.node.id.toString();
 
-class Products extends React.Component {
+class ProductsGrid extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      loadingCollections: true,
-      collections: []
+      loadingCollection: true,
+      products: []
     };
   }
 
   componentWillMount() {
-    const query = client.query(root => {
-      root.add("shop", shop => {
-        shop.add("name");
-        shop.addConnection(
-          "collections",
-          { args: { first: 7 } },
-          collection => {
-            collection.add("title");
-            collection.add("image", image => {
-              image.add("src");
-            });
-            collection.addConnection(
-              "products",
-              { args: { first: 30 } },
-              product => {
-                product.add("title");
-                product.add("vendor");
-                product.add("description");
-                product.add("descriptionHtml");
-                product.addConnection(
-                  "images",
-                  { args: { first: 1 } },
-                  image => {
-                    image.add("src");
-                  }
-                );
-                product.addConnection(
-                  "variants",
-                  { args: { first: 1 } },
-                  variant => {
-                    variant.add("compareAtPrice");
-                    variant.add("price");
-                  }
-                );
-              }
-            );
-          }
-        );
-        // shop.addConnection("productTypes", { args: { first: 10 } });
-      });
-    });
-
-    let objects;
-
-    client.send(query).then(({ model, data }) => {
-      objects = model;
-      //console.log(model); // The serialized model with rich features
-      //console.log(data.shop.collections.edges); // The raw data returned from the API endpoint
-      this.setState({
-        collections: data.shop.collections.edges,
-        loadingCollections: false
-      });
-    });
+    console.log(this.props.content.node.id);
     // const shopQuery = {
     //   shop {
     //     name
@@ -143,60 +76,47 @@ class Products extends React.Component {
     //     }
     //   }
     // };
-    // shopify.shop
-    //   .fetchInfo()
-    //   .then(res => {
-    //     console.log(res);
-    //     // this.setState({
-    //     //   collection: res,
-    //     //   loadingCollection: false
-    //     // });
-    //   })
-    //   .catch(error => this.setState({ error, loading: false }));
-    //
-    // const collectionQuery = {
-    //   last: 10,
-    //   query:
-    //     "title:'Maquillaje' OR 'Fragancia'  OR 'Cabello'  OR 'Piel'  OR 'Depilación'  OR 'Personal' OR 'Accesorios'"
+
+    // const productQuery = {
+    //   first: 30,
+    //   query: "collectionId:[" + this.props.content.id + "]"
     // };
-    //
+
     // shopify.collection
-    //   .fetchQuery(collectionQuery)
+    //   .fetchWithProducts(this.props.content.id)
     //   .then(res => {
-    //     console.log(res);
+    //     console.log(res.products);
     //     this.setState({
-    //       collections: res,
-    //       loadingCollections: false
+    //       collection: res,
+    //       loadingCollection: false
     //     });
     //   })
-    //   .catch(error => this.setState({ error, loadingCollections: false }));
+    //   .catch(error => this.setState({ error, loading: false }));
   }
 
   render() {
-    Mixpanel.screen("Products");
-    if (Platform.OS === "ios") {
-      StatusBar.setBarStyle("dark-content", true);
-    }
+    Mixpanel.screen("ProductsGrid");
     // Loading
-    if (this.state.loadingCollections) return <Loading />;
+    // if (this.state.loadingCollection) return <Loading />;
 
     return (
       <Container style={styles.container}>
         <Content padder>
           <FlatList
-            numColumns={2}
-            data={this.state.collections}
+            numColumns={3}
+            data={this.props.content.node.products.edges}
             contentContainerStyle={styles.list}
             columnWrapperStyle={styles.element}
             renderItem={({ item }) => (
               <TouchableOpacity
-                onPress={() => onPress(item, this.props.member.code)}
+                onPress={() => onPress(item.node, this.props.sellerCode)}
                 style={styles.link}
               >
                 <ImageBackground
                   source={
-                    item.node.image
-                      ? { uri: item.node.image.src }
+                    item.node.images.edges.length &&
+                    item.node.images.edges[0].node.src
+                      ? { uri: item.node.images.edges[0].node.src }
                       : require("../assets/images/default.png")
                   }
                   style={styles.imgBackground}
@@ -217,15 +137,15 @@ class Products extends React.Component {
   }
 }
 
-Products.propTypes = {
+ProductsGrid.propTypes = {
   error: PropTypes.string
 };
 
-Products.defaultProps = {
+ProductsGrid.defaultProps = {
   error: null
 };
 
-export default Products;
+export default ProductsGrid;
 
 const styles = StyleSheet.create({
   container: {
@@ -256,7 +176,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   imgText: {
-    fontSize: 20,
+    fontSize: 14,
     marginTop: 0,
     color: "white",
     fontFamily: "playfair",

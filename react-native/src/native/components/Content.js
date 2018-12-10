@@ -105,17 +105,19 @@ const Contents = props => {
                   textAlign: "center"
                 }}
               >
-                +{props.item.products.length}
+                {props.item.products.length >= 3
+                  ? "+" + props.item.products.length - 2
+                  : props.item.products.length}
               </Text>
             </ImageBackground>
           </TouchableOpacity>
         </CardItem>
       ) : props.item.products[0].images &&
-        props.item.products[0].images[0].src &&
-        props.item.products[1].images &&
-        props.item.products[1].images[0].src &&
-        props.item.products[2].images &&
-        props.item.products[2].images[0].src ? (
+      props.item.products[0].images[0].src &&
+      props.item.products[1].images &&
+      props.item.products[1].images[0].src &&
+      props.item.products[2].images &&
+      props.item.products[2].images[0].src ? (
         <CardItem cardBody>
           <TouchableOpacity
             onPress={() => onPress(props.item, props.sellerCode)}
@@ -232,9 +234,7 @@ const Contents = props => {
                 content_name: props.item.title
               });
 
-              message = `Envío gratis con mi código: *${
-                props.sellerCode
-              }*`;
+              message = `Envío gratis con mi código: *${props.sellerCode}*`;
 
               const start = async () => {
                 let images = [];

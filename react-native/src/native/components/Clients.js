@@ -42,6 +42,9 @@ const onPress = item => {
 };
 
 const ClientListing = ({ error, loading, member }) => {
+  if (Platform.OS === "ios") {
+    StatusBar.setBarStyle("dark-content", true);
+  }
   Mixpanel.screen("Clients");
   // Loading
   if (loading) return <Loading />;
@@ -56,8 +59,7 @@ const ClientListing = ({ error, loading, member }) => {
   //   Actions.recipe({ match: { params: { id: String(item.id) } } });
 
   return (
-    <Container>
-      <StatusBar barStyle="light-content" />
+    <Container style={styles.container}>
       <Content padder>
         {!member.clients || member.clients.length < 1 ? (
           <View style={styles.supportWidget}>

@@ -6,7 +6,9 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  Share
+  Share,
+  FlatList,
+  ImageBackground
 } from "react-native";
 import {
   View,
@@ -23,6 +25,7 @@ import {
   Body,
   List,
   ListItem,
+  SearchBar,
   Text,
   Button
 } from "native-base";
@@ -30,8 +33,10 @@ import Colors from "../../../native-base-theme/variables/commonColor";
 import ErrorMessages from "../../constants/errors";
 import Error from "./Error";
 import Spacer from "./Spacer";
+import Loading from "./Loading";
 import FilterBar from "./FilterBar";
 import Products from "./Products";
+import ProductList from "./ProductsList";
 
 import TimeAgo from "react-native-timeago";
 import moment from "moment"; //load moment module to set local language
@@ -39,38 +44,98 @@ import "moment/locale/es"; //for import moment local language file during the ap
 moment.locale("es");
 
 import { decode as atob } from "base-64";
-import shopifyAPI from "../../constants/shopify_axios";
-
+// import shopifyAPI from "../../constants/shopify_axios";
+import shopify from "../../constants/shopify";
 import { Mixpanel } from "../../actions/mixpanel";
+import { Actions } from "react-native-router-flux";
 
-const Search = ({ error, content, seller_code }) => {
-  Mixpanel.screen("Search");
-  // Error
-  // if (error) return <Error content={error} />;
-  //
-  // Recipe not found
-  // if (!content)
-  //   return (
-  //     <View>
-  //       <StatusBar barStyle="dark-content" />
-  //       <Error content={ErrorMessages.content404} />
-  //     </View>
-  //   );
 
-  return (
-    <Container style={styles.container}>
-      {Platform.OS === "iOS" && <StatusBar barStyle="dark-content" />}
-      <Content padder>
-        <FilterBar />
-      </Content>
-    </Container>
-  );
-};
+const keyExtractor = item => item.id.toString();
+
+class Search extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      loadingResults: false,
+      runQuery: false,
+      query: "",
+      keyword: "",
+      filter: "",
+      filterBarStatus: "Mostrando todas las categorias"
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ loadingResults: true });
+    console.log('update props @search ')
+    console.log(nextProps.keyword);
+    let runQuery = false;
+    let query = "";
+
+    let keyword = nextProps.keyword;
+    if (typeof keyword != "undefined" && keyword != "" && keyword != " ") {
+      this.setState({
+        keyword: nextProps.keyword,
+        query: nextProps.keyword,
+        runQuery: true,
+        filterBarStatus: "Mostrando todas las categorias",
+      });
+      runQuery = true;
+      query = nextProps.keyword;
+
+    } else {
+      this.setState({ loadingResults: false, filterBarStatus: "Mostrando todas las categorias" });
+    }
+
+    if (typeof nextProps.filter != "undefined" && nextProps.filter.handle != "") {
+      console.log('entra al filter')
+      this.setState({
+        filter: nextProps.filter.handle,
+        query: `${this.state.keyword} tag:["${nextProps.filter.handle}"]`,
+        runQuery: true,
+        filterBarStatus: `Mostrando ${nextProps.filter.name}`,
+      });
+      runQuery = true;
+      query = `${this.state.keyword} tag:["${nextProps.filter.handle}"]`;
+    } 
+    
+    if (runQuery) {
+      console.log('el query')
+      console.log(query)
+      const collectionQuery = {
+        first: 10,
+        //query:"variants.price:<=30000"
+        query: query
+      };
+
+      shopify.product.fetchQuery(collectionQuery).then(res => {
+        console.log("resultado");
+        this.setState({ products: res, loadingResults: false});
+      });
+    }
+  }
+
+  render() {
+    Mixpanel.screen("Search");
+
+    if (this.state.loadingResults) return <Loading />;
+
+    return (
+      <Container style={styles.container}>
+        {Platform.OS === "iOS" && <StatusBar barStyle="dark-content" />}
+        <Content padder>
+          <FilterBar filterBarStatus={this.state.filterBarStatus}/>
+          
+          <ProductList products={this.state.products} />
+        </Content>
+      </Container>
+    );
+  }
+}
 
 Search.propTypes = {
   error: PropTypes.string
-  // contentId: PropTypes.string.isRequired
-  //feed: PropTypes.arrayOf(PropTypes.shape()).isRequired
 };
 
 Search.defaultProps = {

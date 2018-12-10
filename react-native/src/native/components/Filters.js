@@ -34,81 +34,95 @@ moment.locale("es");
 
 import { decode as atob } from "base-64";
 import shopifyAPI from "../../constants/shopify_axios";
+import { Actions } from "react-native-router-flux";
 
 import { Mixpanel } from "../../actions/mixpanel";
 
-const categories = [
+const keyExtractor = item => item.id.toString();
+
+const categoriesDefault = [
   {
     name: "Todas",
-    selected: true,
+    handle: "",
+    selected: false,
     id: 0
   },
   {
-    name: "Belleza",
+    name: "Belleza y Cosméticos",
+    handle: "maquillaje",
     selected: false,
     id: 1
   },
   {
-    name: "Cosméticos",
+    name: "Fragancias",
+    handle: "fragancia",
     selected: false,
     id: 2
   },
   {
-    name: "Accesorios",
+    name: "Cuidado de la piel",
+    handle: "cuidado-de-piel",
     selected: false,
     id: 3
   },
   {
-    name: "Labiales",
+    name: "Cabello",
+    handle: "cabello",
     selected: false,
     id: 4
   },
   {
-    name: "Cuidado de la piel",
+    name: "Cuidado personal",
+    handle: "cuidado-personal",
     selected: false,
     id: 5
   },
   {
-    name: "Cabello",
+    name: "Accesorios para mujeres",
+    handle: "accesorios-mujer",
     selected: false,
     id: 6
-  }
+  },
+  {
+    name: "Accesorios para hombres",
+    handle: "accesorios-hombre",
+    selected: false,
+    id: 7
+  } 
 ];
 
-const Filters = ({ error, content, seller_code }) => {
-  Mixpanel.screen("Filters");
+class Filters extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { 
+      categories: categoriesDefault,
+      selections: [false, false, false, false, false, false, false, false]
+    }
+  }
+// const Filters = props => {
 
-  const keyExtractor = item => item.id.toString();
 
-  const onPress = item => {
-    console.log(item.id);
-  };
-
-  // Error
-  // if (error) return <Error content={error} />;
-
-  // Recipe not found
-  // if (!content)
-  //   return (
-  //     <View>
-  //       <StatusBar barStyle="dark-content" />
-  //       <Error content={ErrorMessages.content404} />
-  //     </View>
-  //   );
-
-  return (
+  render() {
+    Mixpanel.screen("Filters");
+    return (
     <Container style={styles.container}>
       {Platform.OS === "iOS" && <StatusBar barStyle="dark-content" />}
       <Content>
         <FlatList
           numColumns={1}
-          data={categories}
+          data={this.state.categories}
           renderItem={({ item }) => (
             <ListItem
-              selected={item.selected}
+              selected={this.state.selections[item.id]}
               style={styles.listItem}
               button
-              onPress={() => onPress(item)}
+              onPress={() => {
+                this.setState({selections: [false, false, false, false, false, false, false, false]});
+                this.state.selections[item.id] = true;
+                // console.log(this.state.categories)
+                // this.state.categories = categoriesDefault;
+                Actions.search({ filter: item });
+              }}
             >
               <Body>
                 <Text>{item.name}</Text>
@@ -119,7 +133,8 @@ const Filters = ({ error, content, seller_code }) => {
         />
       </Content>
     </Container>
-  );
+    )
+  };
 };
 
 Filters.propTypes = {

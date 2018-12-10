@@ -42,11 +42,12 @@ import FiltersComponent from "../components/Filters";
 import WelcomeComponent from "../components/Welcome";
 import OnboardingComponent from "../components/Onboarding";
 
-import ClientsComponent from "../components/Clients";
-import ClientComponent from "../components/Client";
-
+import ProductsComponent from "../components/Products";
+import ProductsGridComponent from "../components/ProductsGrid";
 import OrdersComponent from "../components/Orders";
 import OrderComponent from "../components/Order";
+import ClientsComponent from "../components/Clients";
+import ClientComponent from "../components/Client";
 
 import ContactComponent from "../components/Contact";
 import TermsComponent from "../components/Terms";
@@ -126,26 +127,50 @@ const Index = (
         </Stack>
 
         <Stack
-          key="clients"
-          title="Clientes"
-          iconName={"people"}
+          key="products"
+          title="Productos"
+          iconName={"book-open"}
           icon={TabIcon}
           {...DefaultProps.navbarProps}
         >
           <Scene
-            key="clients"
+            key="products"
+            title="Productos"
+            renderRightButton={() => {
+              return <SearchIcon dark />;
+            }}
+            {...DefaultProps.navbarProps}
             component={DashboardContainer}
-            Layout={ClientsComponent}
-            {...DefaultProps.navbarProps}
-          />
-          <Scene
-            key="client"
-            title="Cliente"
-            component={ClientComponent}
-            {...DefaultProps.navbarProps}
             navigationBarStyle={{
               backgroundColor: "#fff",
-              borderBottomColor: "#fff",
+              borderBottomColor: "#EEEDF2",
+              borderBottomWidth: 1,
+              elevation: 0
+            }}
+            Layout={ProductsComponent}
+            backButtonTintColor={Colors.brandPrimary}
+            backButtonTextStyle={{ color: Colors.brandPrimary }}
+            leftButtonTextStyle={{ color: Colors.brandPrimary }}
+            titleStyle={{
+              color: Colors.brandPrimary,
+              alignSelf: "center",
+              fontFamily: "playfair",
+              textAlign: "center",
+              fontSize: Colors.fontSizeBase * 1.375
+            }}
+          />
+          <Scene
+            key="productsGrid"
+            title="Productos"
+            renderRightButton={() => {
+              return <SearchIcon dark />;
+            }}
+            {...DefaultProps.navbarProps}
+            component={ProductsGridComponent}
+            navigationBarStyle={{
+              backgroundColor: "#fff",
+              borderBottomColor: "#EEEDF2",
+              borderBottomWidth: 1,
               elevation: 0
             }}
             backButtonTintColor={Colors.brandPrimary}
@@ -170,9 +195,26 @@ const Index = (
         >
           <Scene
             key="orders"
+            title="Ordenes"
             component={DashboardContainer}
             Layout={OrdersComponent}
             {...DefaultProps.navbarProps}
+            navigationBarStyle={{
+              backgroundColor: "#fff",
+              borderBottomColor: "#EEEDF2",
+              borderBottomWidth: 1,
+              elevation: 0
+            }}
+            backButtonTintColor={Colors.brandPrimary}
+            backButtonTextStyle={{ color: Colors.brandPrimary }}
+            leftButtonTextStyle={{ color: Colors.brandPrimary }}
+            titleStyle={{
+              color: Colors.brandPrimary,
+              alignSelf: "center",
+              fontFamily: "playfair",
+              textAlign: "center",
+              fontSize: Colors.fontSizeBase * 1.375
+            }}
           />
           <Scene
             key="order"
@@ -195,8 +237,50 @@ const Index = (
               fontSize: Colors.fontSizeBase * 1.375
             }}
           />
+          <Scene
+            key="clients"
+            title="Clientes"
+            component={DashboardContainer}
+            Layout={ClientsComponent}
+            {...DefaultProps.navbarProps}
+            navigationBarStyle={{
+              backgroundColor: "#fff",
+              borderBottomColor: "#fff",
+              elevation: 0
+            }}
+            backButtonTintColor={Colors.brandPrimary}
+            backButtonTextStyle={{ color: Colors.brandPrimary }}
+            leftButtonTextStyle={{ color: Colors.brandPrimary }}
+            titleStyle={{
+              color: Colors.brandPrimary,
+              alignSelf: "center",
+              fontFamily: "playfair",
+              textAlign: "center",
+              fontSize: Colors.fontSizeBase * 1.375
+            }}
+          />
+          <Scene
+            key="client"
+            title="Cliente"
+            component={ClientComponent}
+            {...DefaultProps.navbarProps}
+            navigationBarStyle={{
+              backgroundColor: "#fff",
+              borderBottomColor: "#fff",
+              elevation: 0
+            }}
+            backButtonTintColor={Colors.brandPrimary}
+            backButtonTextStyle={{ color: Colors.brandPrimary }}
+            leftButtonTextStyle={{ color: Colors.brandPrimary }}
+            titleStyle={{
+              color: Colors.brandPrimary,
+              alignSelf: "center",
+              fontFamily: "playfair",
+              textAlign: "center",
+              fontSize: Colors.fontSizeBase * 1.375
+            }}
+          />
         </Stack>
-
         <Stack
           key="profile"
           title="Perfil"
@@ -209,22 +293,6 @@ const Index = (
             component={MemberContainer}
             Layout={ProfileComponent}
             {...DefaultProps.navbarProps}
-          />
-          <Scene
-            back
-            key="locale"
-            title="Cambiar Idioma"
-            {...DefaultProps.navbarProps}
-            component={LocaleContainer}
-            Layout={LocaleComponent}
-          />
-          <Scene
-            back
-            key="updateProfile"
-            title="Actualizar Perfil"
-            {...DefaultProps.navbarProps}
-            component={UpdateProfileContainer}
-            Layout={UpdateProfileComponent}
           />
         </Stack>
         <Stack
@@ -241,12 +309,19 @@ const Index = (
             {...DefaultProps.navbarProps}
             Layout={MoreComponent}
           />
-
           <Scene
             key="about"
             title="Acerca de Elenas"
             {...DefaultProps.navbarProps}
             component={AboutComponent}
+          />
+          <Scene
+            back
+            key="updateProfile"
+            title="Actualizar Perfil"
+            {...DefaultProps.navbarProps}
+            component={UpdateProfileContainer}
+            Layout={UpdateProfileComponent}
           />
         </Stack>
       </Tabs>
@@ -257,7 +332,7 @@ const Index = (
         key="search"
         title="Búsqueda"
         renderTitle={SearchInput}
-        renderRightButton={SearchButton}
+        // renderRightButton={SearchButton}
         component={SearchComponent}
         {...DefaultProps.navbarProps}
         navigationBarStyle={{
@@ -318,10 +393,12 @@ const Index = (
         leftButtonTextStyle={{ color: Colors.brandPrimary }}
         rightButtonStyle={{ color: Colors.brandPrimary }}
       />
+    </Scene>
+    <Scene>
       <Scene
         back
         renderRightButton={() => {
-          return <View />;
+          return <SearchIcon dark />;
         }}
         key="previewProduct"
         title=""

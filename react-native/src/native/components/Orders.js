@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
+  Platform,
+  StatusBar,
   StyleSheet,
   FlatList,
   TouchableOpacity,
@@ -36,11 +38,13 @@ moment.locale("es");
 import { Mixpanel } from "../../actions/mixpanel";
 
 const onPress = item => {
-  // Actions.preview({ match: { params: { id: String(item.id) } } });
   Actions.order({ order: item });
 };
 
-const OrderListing = ({ error, loading, member }) => {
+const OrdersList = ({ error, loading, member }) => {
+  if (Platform.OS === "ios") {
+    StatusBar.setBarStyle("dark-content");
+  }
   Mixpanel.screen("Orders");
   // Loading
   if (loading) return <Loading />;
@@ -50,11 +54,8 @@ const OrderListing = ({ error, loading, member }) => {
 
   const keyExtractor = item => item.id.toString();
 
-  // const onPress = item =>
-  //   Actions.recipe({ match: { params: { id: String(item.id) } } });
-  
   return (
-    <Container>
+    <Container style={styles.container}>
       <Content padder>
         {!member.orders || member.orders.length < 1 ? (
           <View style={styles.supportWidget}>
@@ -152,19 +153,19 @@ const OrderListing = ({ error, loading, member }) => {
   );
 };
 
-OrderListing.propTypes = {
+OrdersList.propTypes = {
   error: PropTypes.string,
   loading: PropTypes.bool.isRequired,
   member: PropTypes.shape({})
 };
 
-OrderListing.defaultProps = {
+OrdersList.defaultProps = {
   error: null,
   loading: false,
   member: {}
 };
 
-export default OrderListing;
+export default OrdersList;
 
 const styles = StyleSheet.create({
   container: {

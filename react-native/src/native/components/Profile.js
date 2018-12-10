@@ -24,46 +24,48 @@ import { Mixpanel } from "../../actions/mixpanel";
 
 const Profile = ({ member, logout }) => {
   Mixpanel.screen("Profile");
+  console.log(member);
   return (
     <Container style={styles.container}>
       <Content padder>
-        {member &&
-          member.email && (
-            <View style={styles.userBar}>
-              <View style={styles.userImg}>
-                <Image
-                  style={styles.userAvatar}
-                  source={require("../assets/images/avatar.png")}
-                />
-              </View>
-              <View style={styles.userInfo}>
-                <Text style={styles.userGreeting}>
-                  {member.firstName
-                    ? "¡Hola " + member.firstName + ", muy bien!"
-                    : "¡Hola, mujer poderosa!"}
-                </Text>
+        {member && (
+          <View style={styles.userBar}>
+            <View style={styles.userImg}>
+              <Image
+                style={styles.userAvatar}
+                source={require("../assets/images/avatar.png")}
+              />
+            </View>
+            <View style={styles.userInfo}>
+              <Text style={styles.userGreeting}>
+                {member.firstName
+                  ? "¡Hola " + member.firstName + ", muy bien!"
+                  : "¡Hola, mujer poderosa!"}
+              </Text>
+              {member.email && (
                 <Text style={styles.userMessage}>
-                  Tu correo es {member.email}
+                  Tu correo es member.email
                 </Text>
-                <Spacer size={8} />
-                <View style={styles.userNumbers}>
-                  <View>
-                    <Text style={styles.userCode}>{member.code}</Text>
-                    <Text style={styles.userNumberLabel}>Tu código</Text>
-                  </View>
-                  <Spacer size={20} />
+              )}
+              <Spacer size={8} />
+              <View style={styles.userNumbers}>
+                <View>
+                  <Text style={styles.userCode}>{member.code}</Text>
+                  <Text style={styles.userNumberLabel}>Tu código</Text>
+                </View>
+                <Spacer size={20} />
 
-                  <Spacer size={20} />
-                  <View>
-                    <Text style={styles.userClients}>
-                      {member.clients ? member.clients.length : 0}
-                    </Text>
-                    <Text style={styles.userNumberLabel}> Clientes</Text>
-                  </View>
+                <Spacer size={20} />
+                <View>
+                  <Text style={styles.userClients}>
+                    {member.clients ? member.clients.length : 0}
+                  </Text>
+                  <Text style={styles.userNumberLabel}> Clientes</Text>
                 </View>
               </View>
             </View>
-          )}
+          </View>
+        )}
 
         {/*
             <Spacer size={16} />
@@ -171,10 +173,9 @@ const Profile = ({ member, logout }) => {
         <Spacer size={16} />
         <Text style={styles.meta}>{"Todos tus números".toUpperCase()}</Text>
         <Card style={styles.card}>
-          {member &&
-            member.email && (
-              <View>
-                {/* <CardItem button onPress={Actions.updateProfile}>
+          {member && (
+            <View>
+              {/* <CardItem button onPress={Actions.updateProfile}>
                 <Icon type="SimpleLineIcons" name="pencil" />
                 <Text>Actualizar mi perfil</Text>
                 <Right style={styles.rightNumber}>
@@ -182,103 +183,103 @@ const Profile = ({ member, logout }) => {
                 </Right>
               </CardItem> */}
 
-                <CardItem bordered icon>
-                  <Icon
-                    style={styles.userSales}
-                    type="SimpleLineIcons"
-                    name="graph"
-                  />
-                  <Text
-                    style={[styles.userSales, styles.leftText]}
-                    numberOfLines={1}
-                  >
-                    Ventas totales
+              <CardItem bordered icon>
+                <Icon
+                  style={styles.userSales}
+                  type="SimpleLineIcons"
+                  name="graph"
+                />
+                <Text
+                  style={[styles.userSales, styles.leftText]}
+                  numberOfLines={1}
+                >
+                  Ventas totales
+                </Text>
+                <Right style={[styles.rightNumber, { flex: 2 }]}>
+                  <Text style={[styles.rightText, styles.userSales]}>
+                    ${member.validOrders
+                      ? Math.round(
+                          member.validOrders.reduce(
+                            (a, b) => +a + b.total - b.tax - b.shipping,
+                            0
+                          )
+                        ).toLocaleString("es-CO", {
+                          maximumFractionDigits: 0
+                        })
+                      : 0}
                   </Text>
-                  <Right style={[styles.rightNumber, { flex: 2 }]}>
-                    <Text style={[styles.rightText, styles.userSales]}>
-                      ${member.validOrders
-                        ? Math.round(
-                            member.validOrders.reduce(
-                              (a, b) => +a + b.total - b.tax - b.shipping,
-                              0
-                            )
-                          ).toLocaleString("es-CO", {
-                            maximumFractionDigits: 0
-                          })
-                        : 0}
-                    </Text>
-                  </Right>
-                </CardItem>
-                <CardItem icon>
-                  <Icon type="SimpleLineIcons" name="calculator" />
-                  <Text style={styles.leftText} numberOfLines={1}>
-                    Ganancias totales
+                </Right>
+              </CardItem>
+              <CardItem icon>
+                <Icon type="SimpleLineIcons" name="calculator" />
+                <Text style={styles.leftText} numberOfLines={1}>
+                  Ganancias totales
+                </Text>
+                <Right style={styles.rightNumber}>
+                  <Text style={styles.rightText}>
+                    ${member.validOrders
+                      ? Math.round(
+                          member.validOrders.reduce(
+                            (a, b) => +a + b.total - b.tax - b.shipping,
+                            0
+                          ) * member.commission
+                        ).toLocaleString("es-CO", {
+                          maximumFractionDigits: 0
+                        })
+                      : 0}
                   </Text>
-                  <Right style={styles.rightNumber}>
-                    <Text style={styles.rightText}>
-                      ${member.validOrders
-                        ? Math.round(
-                            member.validOrders.reduce(
-                              (a, b) => +a + b.total - b.tax - b.shipping,
-                              0
-                            ) * member.commission
-                          ).toLocaleString("es-CO", {
-                            maximumFractionDigits: 0
-                          })
-                        : 0}
-                    </Text>
-                  </Right>
-                </CardItem>
-                <CardItem icon>
-                  <Icon type="SimpleLineIcons" name="share-alt" />
-                  <Text style={styles.leftText} numberOfLines={1}>
-                    Ganancias por referidos
+                </Right>
+              </CardItem>
+              <CardItem icon>
+                <Icon type="SimpleLineIcons" name="share-alt" />
+                <Text style={styles.leftText} numberOfLines={1}>
+                  Ganancias por referidos
+                </Text>
+                <Right style={styles.rightNumber}>
+                  <Text style={styles.rightText}>
+                    ${member.referrals
+                      ? Math.round(
+                          member.referrals.length * 20000
+                        ).toLocaleString("es-CO", {
+                          maximumFractionDigits: 0
+                        })
+                      : 0}
                   </Text>
-                  <Right style={styles.rightNumber}>
-                    <Text style={styles.rightText}>
-                      ${member.referrals
-                        ? Math.round(
-                            member.referrals.length * 20000
-                          ).toLocaleString("es-CO", {
-                            maximumFractionDigits: 0
-                          })
-                        : 0}
-                    </Text>
-                  </Right>
-                </CardItem>
-                <CardItem icon>
-                  <Icon type="SimpleLineIcons" name="bag" />
-                  <Text style={styles.leftText} numberOfLines={1}>
-                    Orden promedio
+                </Right>
+              </CardItem>
+              <CardItem icon>
+                <Icon type="SimpleLineIcons" name="bag" />
+                <Text style={styles.leftText} numberOfLines={1}>
+                  Orden promedio
+                </Text>
+                <Right style={styles.rightNumber}>
+                  <Text style={styles.rightText}>
+                    ${member.validOrders && member.validOrders.length > 0
+                      ? Math.round(
+                          member.validOrders.reduce(
+                            (a, b) => +a + b.total - b.tax - b.shipping,
+                            0
+                          ) / member.validOrders.length
+                        ).toLocaleString("es-CO", {
+                          maximumFractionDigits: 0
+                        })
+                      : 0}
                   </Text>
-                  <Right style={styles.rightNumber}>
-                    <Text style={styles.rightText}>
-                      ${member.validOrders.length > 0
-                        ? Math.round(
-                            member.validOrders.reduce(
-                              (a, b) => +a + b.total - b.tax - b.shipping,
-                              0
-                            ) / member.validOrders.length
-                          ).toLocaleString("es-CO", {
-                            maximumFractionDigits: 0
-                          })
-                        : 0}
-                    </Text>
-                  </Right>
-                </CardItem>
-                <CardItem icon>
-                  <Icon type="SimpleLineIcons" name="basket-loaded" />
-                  <Text style={styles.leftText} numberOfLines={1}>
-                    Total de ordenes
+                </Right>
+              </CardItem>
+              <CardItem icon>
+                <Icon type="SimpleLineIcons" name="basket-loaded" />
+                <Text style={styles.leftText} numberOfLines={1}>
+                  Total de ordenes
+                </Text>
+                <Right style={styles.rightNumber}>
+                  <Text style={styles.rightText}>
+                    {member.validOrders ? member.validOrders.length : 0}
                   </Text>
-                  <Right style={styles.rightNumber}>
-                    <Text style={styles.rightText}>
-                      {member.validOrders.length}
-                    </Text>
-                  </Right>
-                </CardItem>
-              </View>
-            )}
+                </Right>
+              </CardItem>
+            </View>
+          )}
         </Card>
         <Spacer size={30} />
         {member && member.code && <Referral code={member.code} />}

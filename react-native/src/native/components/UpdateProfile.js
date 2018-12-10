@@ -91,7 +91,7 @@ class UpdateProfile extends React.Component {
     if (loading) return <Loading />;
 
     return (
-      <Container>
+      <Container style={styles.container}>
         <Content padder>
           <Card style={styles.card}>
             <CardItem header style={styles.authCard}>
@@ -118,7 +118,7 @@ class UpdateProfile extends React.Component {
             <CardItem styles={styles.cardBody}>
               <Body style={styles.authCard}>
                 <Form style={styles.authForm}>
-                  {/* 
+                  {/*
                   <Item floatingLabel style={styles.formElement}>
                     <Label style={styles.formLabel}>Nombre(s)</Label>
                     <Input

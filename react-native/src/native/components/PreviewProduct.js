@@ -39,6 +39,12 @@ import Share from "./CustomShareModule";
 import { Mixpanel } from "../../actions/mixpanel";
 
 const PreviewProduct = ({ error, product, sellerCode }) => {
+  console.log(product);
+  if (Platform.OS === "ios") {
+    StatusBar.setBarStyle("dark-content", true);
+  }
+
+  Mixpanel.screen("Preview Product");
   // Error
   if (error) return <Error product={error} />;
 
@@ -75,7 +81,7 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
           <Text style={styles.header}>{product.title}</Text>
           <Text style={styles.meta}>{product.vendor.toUpperCase()}</Text>
           <Spacer size={8} />
-          {product.variants[0].compare_at_price && (
+          {product.variants.length && product.variants[0].compare_at_price ? (
             <Text style={styles.productPriceCompare} note>
               ${Number(product.variants[0].compare_at_price).toLocaleString(
                 "es-CO",
@@ -85,28 +91,70 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
                 }
               )}
             </Text>
-          )}
+          ) : product.variants.edges && product.variants.edges.length &&
+          product.variants.edges[0].node.compareAtPrice ? (
+            <Text style={styles.productPriceCompare} note>
+              ${Number(
+                product.variants.edges[0].node.compareAtPrice
+              ).toLocaleString("es-CO", {
+                maximumFractionDigits: 0,
+                minimumFractionDigits: 0
+              })}
+            </Text>
+          ) : null}
           <Text style={styles.productPrice}>
-            ${product.variants[0].price
+            ${product.variants.length && product.variants[0].price
               ? Number(product.variants[0].price).toLocaleString("es-CO", {
                   maximumFractionDigits: 0,
                   minimumFractionDigits: 0
                 })
-              : 0}
+              : product.variants.edges && product.variants.edges.length &&
+                product.variants.edges[0].node.price
+                ? Number(product.variants.edges[0].node.price).toLocaleString(
+                    "es-CO",
+                    {
+                      maximumFractionDigits: 0,
+                      minimumFractionDigits: 0
+                    }
+                  )
+                : 0}
           </Text>
-          {!!product.image &&
-            !!product.image.src && (
-              <Image
-                source={{ uri: product.image.src }}
-                style={{
-                  height: 208,
-                  width: null,
-                  flex: 1,
-                  resizeMode: "contain",
-                  marginBottom: 16
-                }}
-              />
-            )}
+          <Spacer size={8} />
+          {!!product.image && !!product.image.src ? (
+            <Image
+              source={{ uri: product.image.src }}
+              style={{
+                height: 208,
+                width: null,
+                flex: 1,
+                resizeMode: "contain",
+                marginBottom: 16
+              }}
+            />
+          ) : !!product.images[0] && !!product.images[0].src ? (
+            <Image
+              source={{ uri: product.images[0].src }}
+              style={{
+                height: 208,
+                width: null,
+                flex: 1,
+                resizeMode: "contain",
+                marginBottom: 16
+              }}
+            />
+          ) : !!product.images.edges[0] &&
+          !!product.images.edges[0].node.src ? (
+            <Image
+              source={{ uri: product.images.edges[0].node.src }}
+              style={{
+                height: 208,
+                width: null,
+                flex: 1,
+                resizeMode: "contain",
+                marginBottom: 16
+              }}
+            />
+          ) : null}
 
           <Spacer size={16} />
           <View style={styles.cardFooter}>
@@ -130,8 +178,11 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
           </View>
         </View>
         <Text style={styles.description}>
-          {product.description ||
-            product.body_html.replace(/<(?:.|\n)*?>/gm, "")}
+          {product.description
+            ? product.description
+            : product.body_html
+              ? product.body_html.replace(/<(?:.|\n)*?>/gm, "")
+              : null}
         </Text>
         <Spacer size={40} />
       </Content>
@@ -140,7 +191,9 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
           paddingHorizontal: 16,
           paddingVertical: 16,
           height: 96,
-          elevation: 1
+          elevation: 1,
+          borderTopColor: "#EBEDF0",
+          borderTopWidth: 1
         }}
       >
         <FooterTab>
@@ -160,16 +213,47 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
               
               let url = `https://elenas.la/products/${product.handle}`;
               message = `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}. Envío gratis con mi código: *${sellerCode}*`;
-              
-              let price = `$${Number(product.variants[0].price).toLocaleString("es-CO", {
-                  maximumFractionDigits: 0,
-                  minimumFractionDigits: 0
-                })}`
 
-              Share.share(message, [`${product.images[0].src.split("=")[1]}.png`], [price], [product.images[0].src]);
+              {product.variants.length ? (
+                price = `$${Number(product.variants[0].price).toLocaleString(
+                    "es-CO",
+                    {
+                      maximumFractionDigits: 0,
+                      minimumFractionDigits: 0
+                    }
+                  )}`
+              ) : product.variants.edges && product.variants.edges.length ? (
+                price = `$${Number(
+                    product.variants.edges[0].node.price
+                  ).toLocaleString("es-CO", {
+                    maximumFractionDigits: 0,
+                    minimumFractionDigits: 0
+                  })}`
+              ) : null}
+
+              //image_url 
+              {!!product.image && !!product.image.src ? (
+                image_url = product.image.src
+              ) : !!product.images[0] && !!product.images[0].src ? (
+                image_url = product.images[0].src
+              ) : !!product.images.edges[0] &&
+              !!product.images.edges[0].node.src ? (
+                image_url = product.images.edges[0].node.src
+              ) : null}
+
+              Share.share(
+                message,
+                [`${image_url.split("=")[1]}.png`],
+                [price],
+                [image_url]
+              );
             }}
           >
-            <Icon name="whatsapp" type="FontAwesome" style={{ color: "white", marginRight: 0 }} />
+            <Icon
+              name="whatsapp"
+              type="FontAwesome"
+              style={{ color: "white", marginRight: 0 }}
+            />
             <Text style={{ color: "white", fontSize: 16 }}>
               Compartir producto
             </Text>
@@ -252,6 +336,9 @@ const styles = StyleSheet.create({
     borderTopColor: "#EBEDF0",
     paddingHorizontal: 0,
     flexDirection: "row"
+  },
+  cardFooterLeft: {
+    flex: null
   },
   cardFooterRight: {
     paddingBottom: 4
