@@ -212,7 +212,9 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
               });
               
               let url = `https://elenas.la/products/${product.handle}`;
-              message = `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}. Envío gratis con mi código: *${sellerCode}*`;
+              message = `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}.`
+              if (sellerCode)
+                {message += ` Envío gratis con mi código: *${sellerCode}*`;}
 
               {product.variants.length ? (
                 price = `$${Number(product.variants[0].price).toLocaleString(
