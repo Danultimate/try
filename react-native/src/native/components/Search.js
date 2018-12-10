@@ -124,9 +124,8 @@ class Search extends React.Component {
         {Platform.OS === "iOS" && <StatusBar barStyle="dark-content" />}
         <Content padder>
           <FilterBar />
-          {/* Start of product grid view */}
+          
           <ProductList products={this.state.products} />
-          {/* End of product grid view */}
         </Content>
       </Container>
     );

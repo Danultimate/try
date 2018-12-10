@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import {
   View,
-  Share,
   StyleSheet,
   FlatList,
   TouchableOpacity,
@@ -25,6 +24,9 @@ import Spacer from "./Spacer";
 
 import moment from "moment";
 import "moment/locale/es";
+
+import Share from "./CustomShareModule";
+
 moment.locale("es");
 
 import { Mixpanel } from "../../actions/mixpanel";
@@ -159,23 +161,29 @@ const ProductsList = props => {
                   onPress={() => {
                     Mixpanel.track("Share Product", {
                       product_id: item.id,
-                      product_name: item.title
+                      product_name: item.title,
+                      page: "preview_product"
                     });
                     Mixpanel.track("Share Product: " + item.title);
+
                     let url = `https://elenas.la/products/${item.handle}`;
-                    Share.share({
-                      message: `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}. Recuerda que con mi código de vendedora recibes envío gratis: *${
-                        props.seller_code
-                      }*`,
-                      title: item.title
-                      // url: "https://elenas.la/products/" + item.handle
-                    });
+
+                    message = `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}.`
+                    if (props.seller_code){
+                      message += `Envío gratis con mi código: *${props.sellerCode}*`;
+                    }
+                    let price = `$${Number(item.variants[0].price).toLocaleString("es-CO", {
+                          maximumFractionDigits: 0,
+                          minimumFractionDigits: 0
+                        })}`
+                      
+                    Share.share(message, [`${item.images[0].src.split("=")[1]}.png`], [price], [item.images[0].src]);
                   }}
                 >
                   <Icon
                     style={styles.cardButtonIcon}
-                    type="SimpleLineIcons"
-                    name="share-alt"
+                    type="FontAwesome"
+                    name="whatsapp"
                   />
                   <Text style={styles.cardButtonText}>Compartir ahora</Text>
                 </Button>

@@ -35,7 +35,6 @@ moment.locale("es");
 
 import { Mixpanel } from "../../actions/mixpanel";
 
-import Share from "./CustomShareModule";
 import Client from "graphql-js-client";
 
 // This is the generated type bundle from graphql-js-schema
@@ -119,8 +118,8 @@ class Products extends React.Component {
 
     client.send(query).then(({ model, data }) => {
       objects = model;
-      console.log(model); // The serialized model with rich features
-      console.log(data.shop.collections.edges); // The raw data returned from the API endpoint
+      //console.log(model); // The serialized model with rich features
+      //console.log(data.shop.collections.edges); // The raw data returned from the API endpoint
       this.setState({
         collections: data.shop.collections.edges,
         loadingCollections: false

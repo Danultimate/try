@@ -117,8 +117,6 @@ const Preview = ({ error, content, sellerCode }) => {
                     content_name: content.title
                   });
 
-                  console.log(content);
-
                   message = `Envío gratis con mi código: *${sellerCode}*`;
 
                   const start = async () => {

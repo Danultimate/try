@@ -205,27 +205,47 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
               borderRadius: 5
             }}
             onPress={() => {
-              Mixpanel.track("Share Content", {
-                content_id: product.id,
-                content_name: product.title
+              Mixpanel.track("Share Product", {
+                product_id: product.id,
+                product_name: product.title,
+                page: "preview_product"
               });
-              message = product.wp_message || product.title;
-              message =
-                message + `\n\nEnvío gratis con mi código: *${sellerCode}*`;
+              
+              let url = `https://elenas.la/products/${product.handle}`;
+              message = `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}. Envío gratis con mi código: *${sellerCode}*`;
 
-              let price = `$${Number(product.variants[0].price).toLocaleString(
-                "es-CO",
-                {
-                  maximumFractionDigits: 0,
-                  minimumFractionDigits: 0
-                }
-              )}`;
+              {product.variants.length ? (
+                price = `$${Number(product.variants[0].compare_at_price).toLocaleString(
+                    "es-CO",
+                    {
+                      maximumFractionDigits: 0,
+                      minimumFractionDigits: 0
+                    }
+                  )}`
+              ) : product.variants.edges.length ? (
+                price = `$${Number(
+                    product.variants.edges[0].node.compareAtPrice
+                  ).toLocaleString("es-CO", {
+                    maximumFractionDigits: 0,
+                    minimumFractionDigits: 0
+                  })}`
+              ) : null}
+
+              //image_url 
+              {!!product.image && !!product.image.src ? (
+                image_url = product.image.src
+              ) : !!product.images[0] && !!product.images[0].src ? (
+                image_url = product.images[0].src
+              ) : !!product.images.edges[0] &&
+              !!product.images.edges[0].node.src ? (
+                image_url = product.images.edges[0].node.src
+              ) : null}
 
               Share.share(
                 message,
-                [`${product.images[0].src.split("=")[1]}.png`],
+                [`${image_url.split("=")[1]}.png`],
                 [price],
-                [product.images[0].src]
+                [image_url]
               );
             }}
           >
