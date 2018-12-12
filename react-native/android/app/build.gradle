@@ -22,8 +22,8 @@ android {
   defaultConfig {
     applicationId 'elenas.la.embajadoras'
     targetSdkVersion 26
-    versionCode 6
-    versionName '2.0.1'
+    versionCode 7
+    versionName '2.0.2'
     ndk {
       abiFilters 'armeabi-v7a', 'x86'
     }
@@ -55,7 +55,7 @@ android {
     }
     prodMinSdk {
       dimension 'minSdk'
-      minSdkVersion 19
+      minSdkVersion 21
     }
   }
   buildTypes {
@@ -167,7 +167,6 @@ dependencies {
   testImplementation 'org.robolectric:robolectric:3.8'
   testImplementation 'com.android.support.test:runner:1.0.2-alpha1'
   testImplementation 'com.android.support.test:rules:1.0.2-alpha1'
-
   
   implementation('host.exp.exponent:expoview:29.0.0@aar') {
     transitive = true

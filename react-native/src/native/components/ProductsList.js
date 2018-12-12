@@ -31,9 +31,9 @@ moment.locale("es");
 
 import { Mixpanel } from "../../actions/mixpanel";
 
-const onPress = (item, sellerCode) => {
+const onPress = (item, sellerCode, eventName) => {
   console.log(item.id);
-  Actions.previewProduct({ product: item, sellerCode: sellerCode });
+  Actions.previewProduct({ product: item, sellerCode: sellerCode, eventName: eventName });
 };
 
 const keyExtractor = item => item.id.toString();
@@ -65,7 +65,7 @@ const ProductsList = props => {
 
               {!!item.image && !!item.image.src ? (
                 <TouchableOpacity
-                onPress={() => onPress(item, props.sellerCode)}
+                onPress={() => onPress(item, props.sellerCode, props.eventName)}
                 style={{ flex: 1 }}
                 >
                   <Image
@@ -80,7 +80,7 @@ const ProductsList = props => {
                 </TouchableOpacity>
               ) : !!item.images && !!item.images[0] && !!item.images[0].src ? (
                 <TouchableOpacity
-                onPress={() => onPress(item, props.sellerCode)}
+                onPress={() => onPress(item, props.sellerCode, props.eventName)}
                 style={{ flex: 1 }}
                 >
                   <Image
@@ -115,7 +115,7 @@ const ProductsList = props => {
               <Body style={[styles.cardBody, styles.cardSuccess]}>
                 <Spacer size={8} />
                 <TouchableOpacity
-                  onPress={() => onPress(item, props.sellerCode)}
+                  onPress={() => onPress(item, props.sellerCode, props.eventName)}
                 >
                   <Text numberOfLines={1} style={styles.header}>
                     {item.title}
@@ -159,19 +159,18 @@ const ProductsList = props => {
                   small
                   iconLeft
                   onPress={() => {
-                    Mixpanel.track("Share Product", {
+                    Mixpanel.track(props.eventName || "Share Product", {
                       product_id: item.id,
                       product_name: item.title,
-                      page: "preview_product"
+                      page: "product_list"
                     });
                     Mixpanel.track("Share Product: " + item.title);
 
                     let url = `https://elenas.la/products/${item.handle}`;
 
-                    message = `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}.`
-                    if (props.sellerCode){
-                      message += ` Envío gratis con mi código: *${props.sellerCode}*`;
-                    }
+                    message = `${url} \n🎁🎄 *20% de descuento* en compras mayores a 100 mil pesos con el código de descuento *NAVIDAD* 🎉🎄.`
+                    if (props.sellerCode)
+                      {message += `\nEnvío gratis con mi código de embajadora: *${props.sellerCode}*`;}
 
                     {item.variants.length ? (
                       price = `$${Number(item.variants[0].price).toLocaleString(
