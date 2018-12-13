@@ -38,7 +38,7 @@ import Share from "./CustomShareModule";
 
 import { Mixpanel } from "../../actions/mixpanel";
 
-const PreviewProduct = ({ error, product, sellerCode }) => {
+const PreviewProduct = ({ error, product, sellerCode, eventName }) => {
   console.log(product);
   if (Platform.OS === "ios") {
     StatusBar.setBarStyle("dark-content", true);
@@ -205,16 +205,17 @@ const PreviewProduct = ({ error, product, sellerCode }) => {
               borderRadius: 5
             }}
             onPress={() => {
-              Mixpanel.track("Share Product", {
+              Mixpanel.track(eventName || "Share Product", {
                 product_id: product.id,
                 product_name: product.title,
                 page: "preview_product"
               });
+              Mixpanel.track("Share Product: " + product.title);
               
               let url = `https://elenas.la/products/${product.handle}`;
-              message = `¡Te recomiendo este producto super poderoso! 😍 🎁 ${url}.`
+              message = `${url} \n🎁🎄 *20% de descuento* en compras mayores a 100 mil pesos con el código de descuento *NAVIDAD* 🎉🎄.`
               if (sellerCode)
-                {message += ` Envío gratis con mi código: *${sellerCode}*`;}
+                {message += `\nEnvío gratis con mi código de embajadora: *${sellerCode}*`;}
 
               {product.variants.length ? (
                 price = `$${Number(product.variants[0].price).toLocaleString(

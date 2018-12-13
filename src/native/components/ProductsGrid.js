@@ -40,8 +40,8 @@ import Share from "./CustomShareModule";
 const { height, width } = Dimensions.get("window");
 const itemWidth = (width - Colors.contentPadding) / 3;
 
-const onPress = (item, sellerCode) => {
-  Actions.previewProduct({ product: item, sellerCode: sellerCode });
+const onPress = (item, sellerCode, eventName) => {
+  Actions.previewProduct({ product: item, sellerCode: sellerCode, eventName: eventName });
 };
 
 const keyExtractor = item => item.node.id.toString();
@@ -109,7 +109,7 @@ class ProductsGrid extends React.Component {
             columnWrapperStyle={styles.element}
             renderItem={({ item }) => (
               <TouchableOpacity
-                onPress={() => onPress(item.node, this.props.sellerCode)}
+                onPress={() => onPress(item.node, this.props.sellerCode, "Share Product - Product View")}
                 style={styles.link}
               >
                 <ImageBackground
