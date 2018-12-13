@@ -30,6 +30,8 @@ import shopifyAPI from "../../constants/shopify_axios";
 import { Expo, FileSystem } from "expo";
 import { Mixpanel } from "../../actions/mixpanel";
 
+import LoadingButtonX from "./LoadingButton";
+
 async function asyncForEach(array, callback) {
   for (let index = 0; index < array.length; index++) {
     await callback(array[index], index, array);
@@ -234,7 +236,12 @@ const Contents = props => {
                 content_name: props.item.title
               });
 
-              message = `Envío gratis con mi código: *${props.sellerCode}*`;
+              if (props.item.shopify_handle){
+                url = `https://elenas.la/collections/${props.item.shopify_handle}`
+              } else {
+                url = ''
+              }
+              message = `${url} \n🎁🎄 *20% de descuento* en compras mayores a 100 mil pesos con el código de descuento *NAVIDAD* 🎉🎄.\nEnvío gratis con mi código de embajadora: *${props.sellerCode}*`;
 
               const start = async () => {
                 let images = [];
@@ -255,7 +262,7 @@ const Contents = props => {
                 });
 
                 await Share.share(message, fileNames, priceTags, images);
-                console.log('termino de compartir')
+                console.log('termino de compartir') 
                 // delay(function(){
                 //     // do stuff
                 //     Share.share(message, fileNames, priceTags, images);
