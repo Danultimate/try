@@ -25,6 +25,8 @@ export default function userReducer(state = initialState, action) {
           error: null,
           firstName: action.data.firstName,
           lastName: action.data.lastName,
+          cellphone: action.data.phoneNumber,
+          createdAt: action.dataSeller.created_at,
           signedUp: action.data.signedUp,
           role: action.data.role,
           code: action.dataSeller.code,

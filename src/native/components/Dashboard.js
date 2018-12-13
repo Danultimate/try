@@ -38,6 +38,7 @@ import Products from "./Products";
 import moment from "moment";
 import "moment/locale/es";
 moment.locale("es");
+import RNWootric from "react-native-wootric";
 var jsonQuery = require("json-query");
 
 import API from "../../constants/api";
@@ -45,7 +46,6 @@ import publicAPI from "../../constants/api_public";
 import axios from "axios";
 
 import { Mixpanel } from "../../actions/mixpanel";
-
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -98,6 +98,24 @@ class Dashboard extends React.Component {
             console.log(error);
             // console.log(error.response);
           });
+
+        // Wootric part
+        if (typeof RNWootric != "undefined"){
+          createdAt = new Date(this.props.member.createdAt.replace(" ", "T"));
+          seconds = createdAt.getTime() / 1000;
+          RNWootric.configureWithClientID(
+            "4861a7f425fd8cedc0dd064081beadd72f9e529ee48a14496725a49b68db0767",
+            "NPS-6deaea6a"
+          );
+          RNWootric.setEndUserEmail(this.props.member.email);
+          RNWootric.setEndUserCreatedAt(seconds);
+          RNWootric.setEndUserPhoneNumber(this.props.member.cellphone);
+          RNWootric.setEndUserProperties({
+            first_name: this.props.member.firstName,
+            last_name: this.props.member.lastName
+          });
+          RNWootric.showSurvey();
+        }
       })
       .catch(error => {
         console.log("Error @getting content2");
@@ -184,10 +202,9 @@ class Dashboard extends React.Component {
             <Text style={styles.loadMoreText}>Cargar más</Text>
           </Button> */}
 
-          {this.props.member &&
-            this.props.member.code && (
-              <Referral code={this.props.member.code} />
-            )}
+          {this.props.member && this.props.member.code && (
+            <Referral code={this.props.member.code} />
+          )}
 
           <Spacer size={30} />
 
