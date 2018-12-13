@@ -84,6 +84,7 @@
     "react-native-sentry": "^0.39.1",
     "react-native-swiper-flatlist": "^1.0.8",
     "react-native-timeago": "^0.4.0",
+    "react-native-wootric": "https://github.com/Wootric/react-native-wootric.git",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "reactstrap": "^6.4.0",
