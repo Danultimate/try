@@ -22,8 +22,8 @@ android {
   defaultConfig {
     applicationId 'elenas.la.embajadoras'
     targetSdkVersion 26
-    versionCode 7
-    versionName '2.0.2'
+    versionCode 8
+    versionName '2.0.3'
     ndk {
       abiFilters 'armeabi-v7a', 'x86'
     }
@@ -96,6 +96,7 @@ apply from: 'expo.gradle'
 
 
 dependencies {
+  implementation project(':react-native-wootric')
   implementation project(':react-native-sentry')
   implementation fileTree(dir: 'libs', include: ['*.jar'])
 
