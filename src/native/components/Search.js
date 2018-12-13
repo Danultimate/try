@@ -3,31 +3,11 @@ import PropTypes from "prop-types";
 import {
   Platform,
   StatusBar,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  Share,
-  FlatList,
-  ImageBackground
+  StyleSheet
 } from "react-native";
 import {
-  View,
   Container,
-  Header,
-  Item,
-  Input,
-  Content,
-  Icon,
-  Card,
-  CardItem,
-  Left,
-  Right,
-  Body,
-  List,
-  ListItem,
-  SearchBar,
-  Text,
-  Button
+  Content
 } from "native-base";
 import Colors from "../../../native-base-theme/variables/commonColor";
 import ErrorMessages from "../../constants/errors";
@@ -127,7 +107,7 @@ class Search extends React.Component {
         <Content padder>
           <FilterBar filterBarStatus={this.state.filterBarStatus}/>
           
-          <ProductList products={this.state.products} />
+          <ProductList products={this.state.products} eventName="Share Product - Search View"/>
         </Content>
       </Container>
     );

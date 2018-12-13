@@ -117,7 +117,12 @@ const Preview = ({ error, content, sellerCode }) => {
                     content_name: content.title
                   });
 
-                  message = `Envío gratis con mi código: *${sellerCode}*`;
+                  if (content.shopify_handle){
+                    url = `https://elenas.la/collections/${props.item.shopify_handle}`
+                  } else {
+                    url = ''
+                  }
+                  message = `${url} \n🎁🎄 *20% de descuento* en compras mayores a 100 mil pesos con el código de descuento *NAVIDAD* 🎉🎄.\nEnvío gratis con mi código de embajadora: *${sellerCode}*`;
 
                   const start = async () => {
                     let images = [];
@@ -186,8 +191,12 @@ const Preview = ({ error, content, sellerCode }) => {
                 content_id: content.id,
                 content_name: content.title
               });
-
-              message = `Envío gratis con mi código: *${sellerCode}*`;
+              if (content.shopify_handle){
+                url = `https://elenas.la/collections/${props.item.shopify_handle}`
+              } else {
+                url = ''
+              }
+              message = `${url} \n🎁🎄 *20% de descuento* en compras mayores a 100 mil pesos con el código de descuento *NAVIDAD* 🎉🎄.\nEnvío gratis con mi código de embajadora: *${sellerCode}*`;
 
               const start = async () => {
                 let images = [];
