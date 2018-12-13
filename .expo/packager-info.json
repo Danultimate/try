@@ -1,9 +1,9 @@
 {
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 23994,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
   "devToolsPort": 19002,
-  "expoServerNgrokUrl": "https://z3-4d6.anonymous.frontend-elenas.exp.direct",
-  "packagerNgrokUrl": "https://packager.z3-4d6.anonymous.frontend-elenas.exp.direct",
-  "ngrokPid": 24021
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }
