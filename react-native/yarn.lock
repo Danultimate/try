@@ -11473,6 +11473,10 @@ react-native-vector-icons@4.6.0:
     prop-types "^15.5.10"
     yargs "^8.0.2"
 
+"react-native-wootric@https://github.com/Wootric/react-native-wootric.git":
+  version "1.0.0"
+  resolved "https://github.com/Wootric/react-native-wootric.git#881343c05208e49963ec48cef207f36d9fc8b255"
+
 "react-native@https://github.com/expo/react-native/archive/sdk-29.0.0.tar.gz":
   version "0.55.4"
   resolved "https://github.com/expo/react-native/archive/sdk-29.0.0.tar.gz#5b7fce91de173cef6686a0c138f95fa25f8dab68"
