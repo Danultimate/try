@@ -281,7 +281,12 @@ class Login extends React.Component {
                           </View>
                           <Spacer size={16} />
 
-                          <Button block success onPress={this.handleSubmit}>
+                          <Button
+                            block
+                            success
+                            onPress={this.handleSubmit}
+                            style={styles.cardButton}
+                          >
                             <Text>Inicia sesión</Text>
                           </Button>
                           <Spacer size={16} />
@@ -418,6 +423,11 @@ const styles = StyleSheet.create({
     borderTopColor: Colors.brandSuccess,
     borderTopWidth: 2
   },
+  cardButton: {
+    height: 40,
+    shadowColor: "transparent",
+    shadowOpacity: 0
+  },
   cardButtonText: {
     paddingLeft: 8,
     paddingRight: 8
@@ -466,7 +476,7 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     marginTop: 0,
     marginBottom: -1,
-    backgroundColor: "#FBFAFF",
+    backgroundColor: Colors.brandLight,
     padding: 4,
     borderColor: "#EEEDF2",
     borderTopWidth: 1,

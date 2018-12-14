@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, Image } from "react-native";
+import { StyleSheet, Image, TouchableOpacity } from "react-native";
 import {
   Container,
   Content,
@@ -26,10 +26,12 @@ import Messages from "./Messages";
 import Loading from "./Loading";
 import Header from "./Header";
 import Spacer from "./Spacer";
+import SupportWidget from "./SupportWidget";
 
 import { Mixpanel } from "../../actions/mixpanel";
+import { Actions } from "react-native-router-flux";
 
-class UpdateProfile extends React.Component {
+class PaymentInfo extends React.Component {
   static propTypes = {
     error: PropTypes.string,
     success: PropTypes.string,
@@ -105,117 +107,47 @@ class UpdateProfile extends React.Component {
                 <Text
                   style={[styles.header, styles.primaryMsg, styles.textCenter]}
                 >
-                  Actualiza tu perfil
+                  Información de pago
                 </Text>
                 <Spacer size={8} />
                 <Text style={[styles.description, styles.textCenter]}>
-                  ¡Gracias por mantener tus datos al día!
+                  Mantén al día la información de donde quieres recibir tu
+                  comisión.
                 </Text>
                 {error && <Messages message={error} />}
                 {success && <Messages message={success} type="success" />}
               </Body>
             </CardItem>
-            <CardItem styles={styles.cardBody}>
-              <Body style={styles.authCard}>
-                <Form style={styles.authForm}>
-                  {/*
-                  <Item floatingLabel style={styles.formElement}>
-                    <Label style={styles.formLabel}>Nombre(s)</Label>
-                    <Input
-                      value={firstName}
-                      onChangeText={v => this.handleChange("firstName", v)}
-                    />
-                  </Item>
-
-                  <Item floatingLabel style={styles.formElement}>
-                    <Label style={styles.formLabel}>Apellido(s)</Label>
-                    <Input
-                      value={lastName}
-                      onChangeText={v => this.handleChange("lastName", v)}
-                    />
-                  </Item>
-
-                  <ListItem style={{ marginLeft: 0 }}>
-                    <CheckBox
-                      checked={changeEmail}
-                      color={Colors.brandPrimary}
-                      onPress={() =>
-                        this.handleChange("changeEmail", !changeEmail)
-                      }
-                    />
-                    <Body>
-                      <Text>Cambiar correo electrónico</Text>
-                    </Body>
-                  </ListItem>
-
-                  {changeEmail && (
-                    <Item floatingLabel style={styles.formElement}>
-                      <Label style={styles.formLabel}>Email</Label>
-                      <Input
-                        autoCapitalize="none"
-                        value={email}
-                        keyboardType="email-address"
-                        onChangeText={v => this.handleChange("email", v)}
-                      />
-                    </Item>
-                  )} */}
-
-                  <ListItem style={{ marginLeft: 0 }}>
-                    <CheckBox
-                      color={Colors.brandPrimary}
-                      checked={changePassword}
-                      onPress={() =>
-                        this.handleChange("changePassword", !changePassword)
-                      }
-                    />
-                    <Body>
-                      <Text>Cambiar contraseña</Text>
-                    </Body>
-                  </ListItem>
-
-                  {changePassword && (
-                    <View>
-                      <Item floatingLabel style={styles.formElement}>
-                        <Label style={styles.formLabel}>Contraseña</Label>
-                        <Input
-                          secureTextEntry
-                          onChangeText={v => this.handleChange("password", v)}
-                        />
-                      </Item>
-
-                      <Item floatingLabel style={styles.formElement}>
-                        <Label style={styles.formLabel}>
-                          Confirmar contraseña
-                        </Label>
-                        <Input
-                          secureTextEntry
-                          onChangeText={v => this.handleChange("password2", v)}
-                        />
-                      </Item>
-                    </View>
-                  )}
-
-                  <Spacer size={16} />
-
-                  <Button
-                    block
-                    success
-                    onPress={this.handleSubmit}
-                    style={styles.cardButton}
-                  >
-                    <Text>Actualizar Perfil</Text>
-                  </Button>
-                </Form>
-              </Body>
+            <CardItem button onPress={Actions.paymentInfoAdd}>
+              <Image source={require("../assets/images/nequi-logo-sm.png")} />
+              <Text style={styles.infoMsg}>Agregar cuenta de Nequi</Text>
+              <Right style={styles.rightArrow}>
+                <Icon name="arrow-right" />
+              </Right>
+            </CardItem>
+            <CardItem style={{ flexDirection: "column" }}>
+              <Text note style={[styles.textCenter]}>
+                ¿Aún no tienes tu cuenta Nequi?
+              </Text>
+              <TouchableOpacity>
+                <Text note style={[styles.infoMsg, styles.textCenter]}>
+                  Crea tu cuenta
+                </Text>
+              </TouchableOpacity>
             </CardItem>
           </Card>
+          <Spacer size={30} />
+
+          <SupportWidget />
+
+          <Spacer size={30} />
         </Content>
       </Container>
     );
   }
 }
 
-export default UpdateProfile;
+export default PaymentInfo;
 
 const styles = StyleSheet.create({
   container: {
@@ -285,6 +217,9 @@ const styles = StyleSheet.create({
   },
   primaryMsg: {
     color: Colors.brandPrimary
+  },
+  infoMsg: {
+    color: Colors.brandInfo
   },
   textCenter: {
     textAlign: "center"

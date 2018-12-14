@@ -44,7 +44,7 @@ const Profile = ({ member, logout }) => {
               </Text>
               {member.email && (
                 <Text style={styles.userMessage}>
-                  Tu correo es member.email
+                  Tu correo es {member.email}
                 </Text>
               )}
               <Spacer size={8} />
