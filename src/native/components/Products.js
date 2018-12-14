@@ -72,13 +72,13 @@ class Products extends React.Component {
   }
 
   componentWillMount() {
-    let titles = "'Maquillaje' OR 'Fragancias' OR 'Cuidado de piel' OR 'Cuidado del cabello' OR 'Cuidado personal' OR 'Accesorios para mujer' OR 'Accesorios para hombre'";
+    let titles = "'Maquillaje' OR 'Cuidado de piel' OR 'Cuidado del cabello' OR 'Cuidado personal' OR 'Accesorios para mujer' OR 'Accesorios para hombre' OR 'Fragancias' NOT 'Regala' NOT 'Año'";
     const query = client.query(root => {
       root.add("shop", shop => {
         shop.add("name");
         shop.addConnection(
           "collections",
-          { args: { first: 7, reverse: true, query:"title:'Maquillaje' OR 'Cuidado de piel' OR 'Cuidado del cabello' OR 'Cuidado personal' OR 'Accesorios para mujer' OR 'Accesorios para hombre' OR 'Fragancias'"} },
+          { args: { first: 7, reverse: true, query:`title:${titles}`} },
           collection => {
             collection.add("title");
             collection.add("image", image => {
@@ -120,7 +120,7 @@ class Products extends React.Component {
     client.send(query).then(({ model, data }) => {
       objects = model;
       //console.log(model); // The serialized model with rich features
-      console.log(data.shop.collections.edges); // The raw data returned from the API endpoint
+      //console.log(data.shop.collections.edges); // The raw data returned from the API endpoint
       this.setState({
         collections: data.shop.collections.edges,
         loadingCollections: false
