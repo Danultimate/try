@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     color: Colors.tabBarTextColor
   },
   label: {
-    fontSize: 12,
+    fontSize: 14,
     color: Colors.tabBarTextColor
   },
   description: {
