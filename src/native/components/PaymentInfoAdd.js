@@ -47,7 +47,8 @@ class PaymentInfo extends React.Component {
     super(props);
     this.state = {
       cellphone: props.member.cellphone || "",
-      identification: props.member.id || ""
+      identification: props.member.id || "",
+      editInfo: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -62,9 +63,18 @@ class PaymentInfo extends React.Component {
 
   handleSubmit = () => {
     const { onFormSubmit } = this.props;
+    this.setState({
+      editInfo: false
+    });
     onFormSubmit(this.state)
       .then(() => console.log("Added Payment Info"))
       .catch(e => console.log(`Error: ${e}`));
+  };
+
+  edit = () => {
+    this.setState({
+      editInfo: true
+    });
   };
 
   render() {
@@ -80,62 +90,91 @@ class PaymentInfo extends React.Component {
         <Content padder>
           <Card style={styles.card}>
             <CardItem header style={styles.authCard}>
-              <Image
-                style={styles.nequiLogo}
-                source={require("../assets/images/nequi-logo.png")}
-              />
-              <Spacer size={8} />
-              {error && <Messages message={error} />}
-              {success && <Messages message={success} type="success" />}
-            </CardItem>
-            <CardItem styles={styles.cardBody}>
-              <Body style={styles.authCard}>
-                <Form style={styles.authForm}>
-                  <View>
-                    <Text style={styles.label} note>
-                      Información de tu cuenta Nequi
-                    </Text>
-                    <Spacer size={8} />
-                    <Item floatingLabel style={styles.formElement}>
-                      <Label style={styles.formLabel}>
-                        Celular registrado en Nequi
-                      </Label>
-                      <Input
-                        onChangeText={v => this.handleChange("cellphone", v)}
-                        keyboardType="phone-pad"
-                      />
-                    </Item>
-
-                    <Item floatingLabel style={styles.formElement}>
-                      <Label style={styles.formLabel}>
-                        Cédula de ciudadanía
-                      </Label>
-                      <Input
-                        onChangeText={v =>
-                          this.handleChange("identification", v)
-                        }
-                        keyboardType="number-pad"
-                      />
-                    </Item>
-                  </View>
-
-                  <Spacer size={16} />
-
-                  <Button
-                    block
-                    success
-                    onPress={this.handleSubmit}
-                    style={styles.cardButton}
-                    disabled={
-                      this.state.cellphone.length !== 10 ||
-                      this.state.identification.length < 6
-                    }
-                  >
-                    <Text>Guardar</Text>
-                  </Button>
-                </Form>
+              <Body>
+                <Image
+                  style={styles.nequiLogo}
+                  source={require("../assets/images/nequi-logo.png")}
+                />
               </Body>
+              <Right style={{ position: "absolute", right: 4, top: 8 }}>
+                {!this.state.editInfo && (
+                  <Button
+                    small
+                    transparent
+                    info
+                    style={{
+                      flexDirection: "column"
+                    }}
+                    onPress={this.edit}
+                  >
+                    <Icon name="pencil" />
+                    <Text style={styles.cardButtonText}>Editar</Text>
+                  </Button>
+                )}
+              </Right>
             </CardItem>
+            <Spacer size={8} />
+            {error && <Messages message={error} />}
+            {success && <Messages message={success} type="success" />}
+            {!this.state.editInfo ? (
+              <View>
+                <Item stackedLabel style={styles.readOnlyElement}>
+                  <Label style={styles.formLabel}>
+                    Celular registrado en Nequi
+                  </Label>
+                  <Text style={styles.formInfo}>310 688 8990</Text>
+                </Item>
+                <Item stackedLabel style={styles.readOnlyElement}>
+                  <Label style={styles.formLabel}>Cédula de ciudadanía</Label>
+                  <Text style={styles.formInfo}>80'133.984</Text>
+                </Item>
+              </View>
+            ) : (
+              <CardItem styles={styles.cardBody}>
+                <Body style={styles.authCard}>
+                  <Form style={styles.authForm}>
+                    <View>
+                      <Item floatingLabel style={styles.formElement}>
+                        <Label style={styles.formLabel}>
+                          Celular registrado en Nequi
+                        </Label>
+                        <Input
+                          onChangeText={v => this.handleChange("cellphone", v)}
+                          keyboardType="phone-pad"
+                        />
+                      </Item>
+
+                      <Item floatingLabel style={styles.formElement}>
+                        <Label style={styles.formLabel}>
+                          Cédula de ciudadanía
+                        </Label>
+                        <Input
+                          onChangeText={v =>
+                            this.handleChange("identification", v)
+                          }
+                          keyboardType="number-pad"
+                        />
+                      </Item>
+                    </View>
+
+                    <Spacer size={16} />
+
+                    <Button
+                      block
+                      success
+                      onPress={this.handleSubmit}
+                      style={styles.cardButton}
+                      disabled={
+                        this.state.cellphone.length !== 10 ||
+                        this.state.identification.length < 6
+                      }
+                    >
+                      <Text>Guardar</Text>
+                    </Button>
+                  </Form>
+                </Body>
+              </CardItem>
+            )}
           </Card>
         </Content>
       </Container>
@@ -165,6 +204,11 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     lineHeight: 30
   },
+  headerRight: {
+    flex: 1,
+    alignItems: "flex-end",
+    justifyContent: "flex-end"
+  },
   meta: {
     fontSize: 10,
     color: Colors.tabBarTextColor
@@ -181,9 +225,8 @@ const styles = StyleSheet.create({
     paddingTop: 12
   },
   authCard: {
-    flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-end",
     paddingBottom: 0
   },
   nequiLogo: {
@@ -259,5 +302,15 @@ const styles = StyleSheet.create({
     paddingLeft: 4,
     paddingTop: 8,
     fontSize: 12
+  },
+  formInfo: {
+    alignSelf: "flex-start",
+    paddingLeft: 4,
+    paddingTop: 8
+  },
+  readOnlyElement: {
+    marginLeft: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: "#EAE7F7"
   }
 });

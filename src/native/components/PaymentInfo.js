@@ -111,8 +111,8 @@ class PaymentInfo extends React.Component {
                 </Text>
                 <Spacer size={8} />
                 <Text style={[styles.description, styles.textCenter]}>
-                  Mantén al día la información de donde quieres recibir tu
-                  comisión.
+                  Mantén actualizada la información de la cuenta donde recibirás
+                  tu comisión.
                 </Text>
                 {error && <Messages message={error} />}
                 {success && <Messages message={success} type="success" />}
