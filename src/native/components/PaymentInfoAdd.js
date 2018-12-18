@@ -118,8 +118,8 @@ class PaymentInfo extends React.Component {
               </Right>
             </CardItem>
             <Spacer size={8} />
-            {/* {error && <Messages message={error} />}
-            {success && <Messages message={success} type="success" />} */}
+            {error && <Messages message={error} />}
+            {success && <Messages message={success} type="success" />}
             {!this.state.editInfo ? (
               <View>
                 <Item stackedLabel style={styles.readOnlyElement}>

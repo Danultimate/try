@@ -21,8 +21,8 @@ class UpdateProfile extends Component {
     const { onFormSubmit } = this.props;
     return onFormSubmit(data)
       .then(mes => {
-        this.setState({ successMessage: mes, errorMessage: null })})
-      .catch((err) => { this.setState({ errorMessage: err, successMessage: null }); throw err; });
+        this.setState({ successMessage: "Tus datos se guardaron satisfactoriamente", errorMessage: null })})
+      .catch((err) => { this.setState({ errorMessage: "Intenta de nuevo", successMessage: null }); throw err; });
   }
 
   render = () => {

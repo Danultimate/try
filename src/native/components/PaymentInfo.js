@@ -57,6 +57,7 @@ class PaymentInfo extends React.Component {
 
   }
 
+
   render() {
     Mixpanel.screen("Update Profile");
     const { loading, error, success } = this.props;
@@ -93,7 +94,7 @@ class PaymentInfo extends React.Component {
             </CardItem>
             <CardItem button onPress={Actions.paymentInfoAdd}>
               <Image source={require("../assets/images/nequi-logo-sm.png")} />
-              <Text style={styles.infoMsg}>{callToAction}</Text>
+              <Text style={!this.props.member.bankAccount ? styles.infoMsg : null}>{this.props.member.bankAccount || "Agregar cuenta de Nequi"}</Text>
               <Right style={styles.rightArrow}>
                 <Icon name="arrow-right" />
               </Right>
