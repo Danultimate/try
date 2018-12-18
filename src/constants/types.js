@@ -651,6 +651,7 @@ const Shop = {
   kind: "OBJECT",
   fieldBaseTypes: {
     collections: "CollectionConnection",
+    collectionByHandle: "Collection",
     productTypes: "String",
     currencyCode: "CurrencyCode",
     description: "String",

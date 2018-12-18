@@ -8,10 +8,17 @@ require("core-js/fn/set");
 require("core-js/fn/array/find");
 import React from "react";
 import { StatusBar, Platform, AsyncStorage } from "react-native";
-import { AppLoading, Asset, Font, Permissions, Notifications } from "expo";
+import {
+  AppLoading,
+  Asset,
+  Font,
+  Permissions,
+  Notifications,
+  Icon
+} from "expo";
 import PropTypes from "prop-types";
 import { Provider } from "react-redux";
-import { Router, Stack, Actions } from "react-native-router-flux";
+import { Router, Actions } from "react-native-router-flux";
 import { PersistGate } from "redux-persist/es/integration/react";
 
 import { Root, StyleProvider } from "native-base";
@@ -58,11 +65,11 @@ class App extends React.Component {
   _handleNotification = notification => {
     this.setState({ notification: notification });
     // TODO: has token as backend AND firebase
-    if (this.state.hasToken){
-      Actions.home({});
-    }else {
-      Actions.welcome({});
-    }
+    // if (this.state.hasToken) {
+    //   Actions.home({});
+    // } else {
+    //   Actions.welcome({});
+    // }
   };
 
   render() {
@@ -83,9 +90,7 @@ class App extends React.Component {
         <Provider store={store}>
           <PersistGate loading={<Loading />} persistor={persistor}>
             <StyleProvider style={getTheme(theme)}>
-              <Router>
-                <Stack key="root">{Routes}</Stack>
-              </Router>
+              <Router>{Routes}</Router>
             </StyleProvider>
           </PersistGate>
         </Provider>
@@ -103,6 +108,7 @@ class App extends React.Component {
         require("./assets/images/signup.png"),
         require("./assets/images/notification.png"),
         require("./assets/images/support.png"),
+        require("./assets/images/first-order.png"),
         require("./assets/images/welcome-1.png"),
         require("./assets/images/welcome-2.png"),
         require("./assets/images/welcome-3.png"),
@@ -111,9 +117,12 @@ class App extends React.Component {
         require("./assets/images/onboarding-3.png"),
         require("./assets/images/onboarding-4.png"),
         require("./assets/images/onboarding-5.png"),
-        require("./assets/images/onboarding-6.png")
+        require("./assets/images/onboarding-6.png"),
+        require("./assets/images/nequi-logo.png"),
+        require("./assets/images/nequi-logo-sm.png")
       ]),
       Font.loadAsync({
+        ...Icon.SimpleLineIcons.font,
         playfair: require("./assets/fonts/PlayfairDisplay-Bold.ttf")
       })
     ]);
