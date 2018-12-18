@@ -20,7 +20,7 @@ export default {
   badgeColor: "#fff",
   badgePadding: 3,
   btnFontFamily: "System",
-  btnDisabledBg: "#b5b5b5",
+  btnDisabledBg: "#E6DCFF",
   buttonPadding: 6,
   btnPrimaryBg: "#5B2AD0",
   btnPrimaryColor: "#fff",

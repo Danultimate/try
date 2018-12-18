@@ -54,6 +54,13 @@ const More = ({ member, logout }) => {
           </View>
           {member && member.email ? (
             <View>
+              <CardItem button onPress={Actions.paymentInfo}>
+                <Icon type="SimpleLineIcons" name="wallet" />
+                <Text>Pagos</Text>
+                <Right style={styles.rightArrow}>
+                  <Icon name="arrow-right" />
+                </Right>
+              </CardItem>
               <CardItem button onPress={Actions.updateProfile}>
                 <Icon type="SimpleLineIcons" name="pencil" />
                 <Text>Actualizar mi perfil</Text>
