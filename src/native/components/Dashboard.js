@@ -83,13 +83,30 @@ class Dashboard extends React.Component {
             let response = res.data;
             console.log("Retrieve Feed");
             console.log(response.feed[0].type);
-            this.setState({
-              feed: response.feed,
-              products: response.products,
-              orders: response.orders,
-              topMessage: response.top_message.value,
-              bottomMessage: response.bottom_message.value,
-              loading: false
+
+            // First Order popup
+            API.get("/user_events").then(events => {
+              console.log("getUserEvents succeed")
+              events.data.events.forEach(event => {
+                if (event.event.title == "First Order" && event.show == true){
+                  if (this.props.member.bankAccount){
+                    console.log("already info")
+                    API.put(`/user_events/${event.id}`, {event: {show: false}})
+                  }
+                  else {
+                    Actions.firstOrder({event: event});
+                  }
+                }
+              });
+
+              this.setState({
+                feed: response.feed,
+                products: response.products,
+                orders: response.orders,
+                topMessage: response.top_message.value,
+                bottomMessage: response.bottom_message.value,
+                loading: false
+              });
             });
           })
           .catch(error => {

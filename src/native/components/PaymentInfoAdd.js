@@ -30,6 +30,8 @@ import Spacer from "./Spacer";
 import { Mixpanel } from "../../actions/mixpanel";
 import { Actions } from "react-native-router-flux";
 
+import API from "../../constants/api";
+
 class PaymentInfo extends React.Component {
   static propTypes = {
     member: PropTypes.shape({
@@ -46,9 +48,9 @@ class PaymentInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cellphone: props.member.cellphone || "",
-      identification: props.member.id || "",
-      editInfo: false
+      cellphone: props.member.bankAccount || "",
+      identification: props.member.bankIdentification || "",
+      editInfo: typeof props.member.bankIdentification == "undefined"
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -67,7 +69,9 @@ class PaymentInfo extends React.Component {
       editInfo: false
     });
     onFormSubmit(this.state)
-      .then(() => console.log("Added Payment Info"))
+      .then(() => {
+        console.log("Added Payment Info")
+      })
       .catch(e => console.log(`Error: ${e}`));
   };
 
@@ -103,7 +107,7 @@ class PaymentInfo extends React.Component {
                     transparent
                     info
                     style={{
-                      flexDirection: "column"
+                      flexDirection: "column", height: 40
                     }}
                     onPress={this.edit}
                   >
@@ -114,19 +118,19 @@ class PaymentInfo extends React.Component {
               </Right>
             </CardItem>
             <Spacer size={8} />
-            {error && <Messages message={error} />}
-            {success && <Messages message={success} type="success" />}
+            {/* {error && <Messages message={error} />}
+            {success && <Messages message={success} type="success" />} */}
             {!this.state.editInfo ? (
               <View>
                 <Item stackedLabel style={styles.readOnlyElement}>
                   <Label style={styles.formLabel}>
                     Celular registrado en Nequi
                   </Label>
-                  <Text style={styles.formInfo}>310 688 8990</Text>
+                  <Text style={styles.formInfo}>{this.state.cellphone}</Text>
                 </Item>
                 <Item stackedLabel style={styles.readOnlyElement}>
                   <Label style={styles.formLabel}>Cédula de ciudadanía</Label>
-                  <Text style={styles.formInfo}>80'133.984</Text>
+                  <Text style={styles.formInfo}>{this.state.identification}</Text>
                 </Item>
               </View>
             ) : (
@@ -152,7 +156,7 @@ class PaymentInfo extends React.Component {
                           onChangeText={v =>
                             this.handleChange("identification", v)
                           }
-                          keyboardType="number-pad"
+                          keyboardType="phone-pad"
                         />
                       </Item>
                     </View>

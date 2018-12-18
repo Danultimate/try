@@ -28,10 +28,21 @@ import Colors from "../../../native-base-theme/variables/commonColor";
 import { Mixpanel } from "../../actions/mixpanel";
 import { Actions } from "react-native-router-flux";
 import Spacer from "./Spacer";
+import API from "../../constants/api";
 
-const FirstOrderModal = () => {
+const FirstOrderModal = (props) => {
+
+  if (props.event.first_showed == false){
+    API.put(`/user_events/${props.event.id}`, {
+      event: {first_showed: true}
+    })
+      .then(res => {
+        Mixpanel.track("firstOrder");
+        console.log("update first order showed")
+      })
+  }
+  
   Mixpanel.screen("FirstOrderModal");
-
   return (
     <Container style={styles.container}>
       <Content padder>

@@ -27,6 +27,8 @@ import LocaleComponent from "../components/Locale";
 import UpdateProfileContainer from "../../containers/UpdateProfile";
 import UpdateProfileComponent from "../components/UpdateProfile";
 
+import BankInfoContainer from "../../containers/BankInfo";
+
 import MemberContainer from "../../containers/Member";
 import ProfileComponent from "../components/Profile";
 
@@ -340,7 +342,7 @@ const Index = (
                 key="paymentInfo"
                 title="Pagos"
                 {...DefaultProps.navbarProps}
-                component={UpdateProfileContainer}
+                component={BankInfoContainer}
                 Layout={PaymentInfoComponent}
               />
               <Scene
@@ -349,7 +351,7 @@ const Index = (
                 key="paymentInfoAdd"
                 title="Agregar cuenta"
                 {...DefaultProps.navbarProps}
-                component={UpdateProfileContainer}
+                component={BankInfoContainer}
                 Layout={PaymentInfoAddComponent}
               />
             </Stack>

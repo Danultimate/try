@@ -36,8 +36,9 @@ const Welcome = () => {
   AsyncStorage.getItem("token").then(token => {
     if (token) {
       Mixpanel.track("Usario con token");
-      //TODO change back to Actions.home() after mocking up FirstOrderModal
-      Actions.firstOrder();
+      //TODO: change back to Actions.home() after mocking up FirstOrderModal
+      // Actions.firstOrder();
+      Actions.home()
     }
   });
   Mixpanel.screen("Welcome");

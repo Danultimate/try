@@ -65,11 +65,11 @@ class App extends React.Component {
   _handleNotification = notification => {
     this.setState({ notification: notification });
     // TODO: has token as backend AND firebase
-    if (this.state.hasToken) {
-      Actions.home({});
-    } else {
-      Actions.welcome({});
-    }
+    // if (this.state.hasToken) {
+    //   Actions.home({});
+    // } else {
+    //   Actions.welcome({});
+    // }
   };
 
   render() {

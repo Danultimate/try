@@ -196,8 +196,8 @@ class Products extends React.Component {
 
     client.send(query).then(({ model, data }) => {
       objects = model;
-      console.log(model); // The serialized model with rich features
-      console.log(data.shop);
+      //console.log(model); // The serialized model with rich features
+      //console.log(data.shop);
       this.setState({
         collections: data.shop.collections.edges,
         loadingCollections: false

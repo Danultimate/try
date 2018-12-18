@@ -13,6 +13,7 @@ export default {
   missingFirstName: "Hace(n) falta tu(s) Nombre(s)",
   missingLastName: "Hace(n) falta tu(s) Apellido(s)",
   missingCellphone: "Hace falta tu número de teléfono",
+  missingIdentification: "Hace falta tu número de cédula",
   missingEmail: "Hace falta tu correo electrónico",
   existingEmail: "El correo electrónico esta siendo usado por otra cuenta",
   existingCellphone:

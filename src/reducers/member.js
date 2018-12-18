@@ -32,10 +32,22 @@ export default function userReducer(state = initialState, action) {
           orders: action.dataOrders,
           referrals: action.dataReferrals,
           validOrders: action.dataValidOrders,
-          clients: action.dataClients
+          clients: action.dataClients,
+          bankAccount: action.dataBank.account_number,
+          bankIdentification: action.dataBank.identification
         };
       }
       return initialState;
+    }
+    case "USER_BANK_UPDATE": {
+      if (action.dataBank) {
+        return {
+          ...state,
+          loading: false,
+          bankAccount: action.dataBank.account_number,
+          bankIdentification: action.dataBank.identification
+        };
+      }
     }
     case "USER_ERROR": {
       if (action.data) {

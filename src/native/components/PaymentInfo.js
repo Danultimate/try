@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Image, TouchableOpacity, Linking } from "react-native";
 import {
   Container,
   Content,
@@ -52,42 +52,15 @@ class PaymentInfo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: props.member.firstName || "",
-      lastName: props.member.lastName || "",
-      email: props.member.email || "",
-      password: "",
-      password2: "",
-      changeEmail: false,
-      changePassword: false
+      callToAction: props.member.bankAccount || "Agregar cuenta de Nequi"
     };
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
-
-  handleChange = (name, val) => {
-    this.setState({
-      [name]: val
-    });
-  };
-
-  handleSubmit = () => {
-    const { onFormSubmit } = this.props;
-    onFormSubmit(this.state)
-      .then(() => console.log("Profile Updated"))
-      .catch(e => console.log(`Error: ${e}`));
-  };
 
   render() {
     Mixpanel.screen("Update Profile");
     const { loading, error, success } = this.props;
-    const {
-      firstName,
-      lastName,
-      email,
-      changeEmail,
-      changePassword
-    } = this.state;
+    const {callToAction} = this.state;
 
     // Loading
     if (loading) return <Loading />;
@@ -120,12 +93,12 @@ class PaymentInfo extends React.Component {
             </CardItem>
             <CardItem button onPress={Actions.paymentInfoAdd}>
               <Image source={require("../assets/images/nequi-logo-sm.png")} />
-              <Text style={styles.infoMsg}>Agregar cuenta de Nequi</Text>
+              <Text style={styles.infoMsg}>{callToAction}</Text>
               <Right style={styles.rightArrow}>
                 <Icon name="arrow-right" />
               </Right>
             </CardItem>
-            <CardItem style={{ flexDirection: "column" }}>
+            <CardItem style={{ flexDirection: "column" }} button onPress={()=>Linking.openURL("market://details?id=com.nequi.MobileApp")}>
               <Text note style={[styles.textCenter]}>
                 ¿Aún no tienes tu cuenta Nequi?
               </Text>

@@ -24,7 +24,6 @@ import { Mixpanel } from "../../actions/mixpanel";
 
 const Profile = ({ member, logout }) => {
   Mixpanel.screen("Profile");
-  console.log(member);
   return (
     <Container style={styles.container}>
       <Content padder>
