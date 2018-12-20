@@ -543,7 +543,7 @@ export function updateProfile(formData) {
     }).catch(async err => {
       await statusMessage(dispatch, "loading", false);
       // throw err.message;
-      throw ErrorMessages.loginAgain
+      throw ErrorMessages.loginAgain;
     });
 }
 

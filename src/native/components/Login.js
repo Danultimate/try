@@ -106,6 +106,26 @@ class Login extends React.Component {
     });
   };
 
+  fbLogin = async () => {
+    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
+      "187940432084793",
+      {
+        permissions: [
+          "public_profile",
+          "email"
+          // "user_location",
+          // "user_birthday"
+        ]
+      }
+    );
+    if (type === "success") {
+      const response = await fetch(
+        `https://graph.facebook.com/me?access_token=${token}`
+      );
+      Alert.alert("Logged in!", `Hi ${(await response.json()).name}!`);
+    }
+  };
+
   handleSubmit = () => {
     const { onFormSubmit } = this.props;
     onFormSubmit(this.state)
@@ -154,13 +174,25 @@ class Login extends React.Component {
                   </Text>
                   <Spacer size={8} />
                   <Text style={[styles.description, styles.textCenter]}>
-                    Comparte las campañas, revisa tus ordenes y aumenta tus
+                    Comparte los productos, revisa tus ordenes y aumenta tus
                     ventas.
                   </Text>
                   {success ? (
                     <Messages type="success" message={success} />
                   ) : null}
                   {error ? <Messages message={error} /> : null}
+                </Body>
+              </CardItem>
+              <CardItem style={styles.cardBody}>
+                <Body style={styles.authCard}>
+                  <Button
+                    iconLeft
+                    onPress={this.fbLogin}
+                    style={{ backgroundColor: "#3B5998" }}
+                  >
+                    <Icon type="FontAwesome" name="facebook-official" />
+                    <Text>Ingresa con Facebook</Text>
+                  </Button>
                 </Body>
               </CardItem>
               <CardItem style={styles.cardBody}>
@@ -185,8 +217,8 @@ class Login extends React.Component {
                           this.state.isUser
                             ? { color: Colors.brandSuccess }
                             : !this.state.isUser && !this.state.isHidden
-                              ? { color: Colors.brandDanger }
-                              : { color: "transparent" }
+                            ? { color: Colors.brandDanger }
+                            : { color: "transparent" }
                         }
                       />
                     </Item>
@@ -198,25 +230,22 @@ class Login extends React.Component {
                         </Text>
                       </View>
                     )}
-                    {!this.state.isHidden &&
-                      !this.state.isUser && (
-                        <View
-                          style={{
-                            justifyContent: "center",
-                            alignItems: "center",
-                            marginTop: 8
-                          }}
-                        >
-                          <Text style={[styles.supportText, styles.textCenter]}>
-                            Parece que no tienes una cuenta aún.{" "}
-                          </Text>
-                          <TouchableOpacity onPress={Actions.signUp}>
-                            <Text style={styles.supportTextLink}>
-                              Regístrate
-                            </Text>
-                          </TouchableOpacity>
-                        </View>
-                      )}
+                    {!this.state.isHidden && !this.state.isUser && (
+                      <View
+                        style={{
+                          justifyContent: "center",
+                          alignItems: "center",
+                          marginTop: 8
+                        }}
+                      >
+                        <Text style={[styles.supportText, styles.textCenter]}>
+                          Parece que no tienes una cuenta aún.{" "}
+                        </Text>
+                        <TouchableOpacity onPress={Actions.signUp}>
+                          <Text style={styles.supportTextLink}>Regístrate</Text>
+                        </TouchableOpacity>
+                      </View>
+                    )}
                     {this.state.isUser &&
                       !this.state.isHidden &&
                       !this.state.userWithEmail && (
