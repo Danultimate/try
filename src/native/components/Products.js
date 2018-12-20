@@ -35,6 +35,7 @@ moment.locale("es");
 
 import { Mixpanel } from "../../actions/mixpanel";
 
+import Share from "./CustomShareModule";
 import Client from "graphql-js-client";
 
 // This is the generated type bundle from graphql-js-schema
@@ -75,7 +76,77 @@ class Products extends React.Component {
     let titles = "'Maquillaje' OR 'Cuidado de piel' OR 'Cuidado del cabello' OR 'Cuidado personal' OR 'Accesorios para mujer' OR 'Accesorios para hombre' OR 'Fragancias' NOT 'Regala' NOT 'Año'";
     const query = client.query(root => {
       root.add("shop", shop => {
-        shop.add("name");
+        // shop.add("name");
+        shop.add(
+          "collectionByHandle",
+          { args: { handle: "black-friday" }, alias: "blackFriday" },
+          collection => {
+            collection.add("title");
+            collection.add("image", image => {
+              image.add("src");
+            });
+            collection.addConnection(
+              "products",
+              { args: { first: 30 } },
+              product => {
+                product.add("title");
+                product.add("vendor");
+                product.add("description");
+                product.add("descriptionHtml");
+                product.addConnection(
+                  "images",
+                  { args: { first: 1 } },
+                  image => {
+                    image.add("src");
+                  }
+                );
+                product.addConnection(
+                  "variants",
+                  { args: { first: 1 } },
+                  variant => {
+                    variant.add("compareAtPrice");
+                    variant.add("price");
+                  }
+                );
+              }
+            );
+          }
+        );
+        shop.add(
+          "collectionByHandle",
+          { args: { handle: "fragancias" }, alias: "Fragancias" },
+          collection => {
+            collection.add("title");
+            collection.add("image", image => {
+              image.add("src");
+            });
+            collection.addConnection(
+              "products",
+              { args: { first: 30 } },
+              product => {
+                product.add("title");
+                product.add("vendor");
+                product.add("description");
+                product.add("descriptionHtml");
+                product.addConnection(
+                  "images",
+                  { args: { first: 1 } },
+                  image => {
+                    image.add("src");
+                  }
+                );
+                product.addConnection(
+                  "variants",
+                  { args: { first: 1 } },
+                  variant => {
+                    variant.add("compareAtPrice");
+                    variant.add("price");
+                  }
+                );
+              }
+            );
+          }
+        );
         shop.addConnection(
           "collections",
           { args: { first: 7, reverse: true, query:`title:${titles}`} },

@@ -153,7 +153,8 @@ function getUserData(dispatch) {
               dataReferrals: seller.data.referrals,
               dataValidOrders: seller.data.orders,
               dataOrders: orders.data.orders,
-              dataClients: clients.data.clients
+              dataClients: clients.data.clients,
+              dataBank: seller.data.bank
             });
           });
         });

@@ -36,7 +36,9 @@ const Welcome = () => {
   AsyncStorage.getItem("token").then(token => {
     if (token) {
       Mixpanel.track("Usario con token");
-      Actions.home({});
+      //TODO: change back to Actions.home() after mocking up FirstOrderModal
+      // Actions.firstOrder();
+      Actions.home()
     }
   });
   Mixpanel.screen("Welcome");
@@ -196,6 +198,11 @@ const styles = StyleSheet.create({
   cardSuccess: {
     borderTopColor: Colors.brandSuccess,
     borderTopWidth: 2
+  },
+  cardButton: {
+    height: 40,
+    shadowColor: "transparent",
+    shadowOpacity: 0
   },
   cardButtonText: {
     paddingLeft: 8,

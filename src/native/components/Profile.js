@@ -24,7 +24,6 @@ import { Mixpanel } from "../../actions/mixpanel";
 
 const Profile = ({ member, logout }) => {
   Mixpanel.screen("Profile");
-  console.log(member);
   return (
     <Container style={styles.container}>
       <Content padder>
@@ -44,7 +43,7 @@ const Profile = ({ member, logout }) => {
               </Text>
               {member.email && (
                 <Text style={styles.userMessage}>
-                  Tu correo es member.email
+                  Tu correo es {member.email}
                 </Text>
               )}
               <Spacer size={8} />

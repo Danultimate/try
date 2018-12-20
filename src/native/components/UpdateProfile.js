@@ -197,7 +197,12 @@ class UpdateProfile extends React.Component {
 
                   <Spacer size={16} />
 
-                  <Button block success onPress={this.handleSubmit}>
+                  <Button
+                    block
+                    success
+                    onPress={this.handleSubmit}
+                    style={styles.cardButton}
+                  >
                     <Text>Actualizar Perfil</Text>
                   </Button>
                 </Form>
@@ -257,6 +262,11 @@ const styles = StyleSheet.create({
   cardSuccess: {
     borderTopColor: Colors.brandSuccess,
     borderTopWidth: 2
+  },
+  cardButton: {
+    height: 40,
+    shadowColor: "transparent",
+    shadowOpacity: 0
   },
   cardButtonText: {
     paddingLeft: 8,
