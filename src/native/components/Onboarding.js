@@ -5,9 +5,46 @@ import { Container, Icon, Text, Button, View } from "native-base";
 import OnboardingComponent from "react-native-onboarding-swiper";
 import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
-import AppLogoAuth from "./AppLogoAuth";
 
 import { Mixpanel } from "../../actions/mixpanel";
+
+const onboardingPages = [
+  {
+    title: "¡Comenzar a vender con Elenas es muy fácil!",
+    pretitle: "Presenta tu nuevo emprendimiento",
+    text:
+      "Comparte tu mensaje de presentación cómo embajadora de Elenas con 5 amigos y familiares. ¡Tus conocidos son la mejor forma de comenzar a vender!",
+    borderedButton: true,
+    callToAction: "Compartir mensaje",
+    action: () => {}
+  },
+  {
+    title: "¡Comparte productos y promociones exclusivas!",
+    pretitle: "Despierta interés con las promociones",
+    text:
+      "Los productos más vendidos son una manera segura de despertar el interés de tus posibles clientes. Compártelos con quienes creas que les interese.",
+    borderedButton: true,
+    callToAction: "Compartir productos",
+    action: () => {}
+  },
+  {
+    title: "¡Conoce nuestra tienda Elenas y guía a tu cliente!",
+    pretitle: "Aprende a manejar tu tienda en línea",
+    text:
+      "Ingresa en Elenas.la y ayuda a tu cliente a encontrar y elegir el producto que necesita, o guíalo para que pueda completar su pedido sin problemas.",
+    borderedButton: true,
+    callToAction: "Ir a la tienda",
+    action: () => {}
+  },
+  {
+    title: "¡Ahora es tu turno de ganar dinero vendiendo!",
+    pretitle: "Ya sabes todo lo que necesitas para comenzar",
+    text:
+      "Pagamos comisiones cada 15 días. Cada comisión será efectiva en cuanto tus clientes completen el pago. Solo debes agregar tu cuenta Nequi.",
+    callToAction: "¡Comenzar a vender y ganar!",
+    action: () => {}
+  }
+];
 
 const Dot = ({ isLight, selected }) => {
   let backgroundColor;
@@ -57,6 +94,24 @@ const Next = ({ isLight, nextLabel, ...props }) => (
   </Button>
 );
 
+const Header = ({ pretitle, title }) => (
+  <View>
+    <Text style={[styles.pretitle, styles.primaryMsg, styles.textCenter]}>
+      {pretitle}
+    </Text>
+    <Text style={[styles.header, styles.textCenter]}>{title}</Text>
+  </View>
+);
+
+const Body = ({ text, callToAction, action, bordered }) => (
+  <View>
+    <Text style={[styles.textCenter]}>{text}</Text>
+    <Button bordered={bordered} onPress={action()}>
+      <Text style={[styles.textCenter]}>{callToAction}</Text>
+    </Button>
+  </View>
+);
+
 const Onboarding = () => {
   Mixpanel.screen("Onboarding");
   return (
@@ -64,11 +119,8 @@ const Onboarding = () => {
       <OnboardingComponent
         DotComponent={Dot}
         DoneButtonComponent={Done}
-        NextButtonComponent={Next}
-        SkipButtonComponent={Skip}
-        nextLabel={"Continuar"}
-        skipLabel={"Ver productos"}
-        onSkip={Actions.store}
+        showSkip={false}
+        showNext={false}
         onDone={Actions.home}
         bottomBarHighlight={false}
         containerViewStyles={{ alignItems: "flex-start" }}
@@ -84,14 +136,19 @@ const Onboarding = () => {
               />
             ),
             title: (
-              <Text
-                style={[styles.header, styles.primaryMsg, styles.textCenter]}
-              >
-                ¿Como vendo?
-              </Text>
+              <Header
+                title={onboardingPages[0].title}
+                pretitle={onboardingPages[0].pretitle}
+              />
             ),
-            subtitle:
-              "Comparte productos y colecciones con tus amigas, conocidos y familiares directamente desde la app. Nuestras colecciones son catálogos, de 7 a 10 productos, con las mejores ofertas y nuevos lanzamientos de Elenas."
+            subtitle: (
+              <Body
+                text={onboardingPages[0].text}
+                action={onboardingPages[0].action}
+                callToAction={onboardingPages[0].callToAction}
+                bordered={onboardingPages[0].borderedButton}
+              />
+            )
           },
           {
             backgroundColor: "#fff",
