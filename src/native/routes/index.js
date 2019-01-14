@@ -35,6 +35,8 @@ import ProfileComponent from "../components/Profile";
 import DashboardContainer from "../../containers/Dashboard";
 import DashboardComponent from "../components/Dashboard";
 
+import OrdersContainer from "../../containers/Orders";
+
 import PreviewComponent from "../components/Preview";
 import PreviewBlogComponent from "../components/PreviewBlog";
 import PreviewProductComponent from "../components/PreviewProduct";
@@ -209,7 +211,7 @@ const Index = (
               <Scene
                 key="orders"
                 title="Ordenes"
-                component={DashboardContainer}
+                component={OrdersContainer}
                 Layout={OrdersComponent}
                 {...DefaultProps.navbarProps}
                 navigationBarStyle={{

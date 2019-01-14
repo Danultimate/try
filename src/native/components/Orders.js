@@ -38,12 +38,16 @@ moment.locale("es");
 
 import { Mixpanel } from "../../actions/mixpanel";
 
+import configureStore from "../../store/index";
+import { getOrderData } from '../../actions/orders';
+const { persistor, store } = configureStore();
+
 const onPress = item => {
   Actions.order({ order: item });
 };
 
 
-const OrdersList = ({ error, loading, member }) => {
+const OrdersList = ({ error, loading, member, fetchData }) => {
   if (Platform.OS === "ios") {
     StatusBar.setBarStyle("dark-content");
   }
@@ -57,15 +61,21 @@ const OrdersList = ({ error, loading, member }) => {
   const keyExtractor = item => item.id.toString();
 
   return (
-    <ScrollView
+      <Container style={styles.container}>
+      <ScrollView
         refreshControl={
           <RefreshControl
             refreshing={loading}
-            onRefresh={Actions.orders}
+            onRefresh={()=> {
+              console.log('aja entra aqui')
+              fetchData()
+              // .then(()=> {
+              //   console.log('ok termina el fetch data')
+              //   })
+            }}
           />
         }
       >
-      <Container style={styles.container}>
       <Content padder>
         {!member.orders || member.orders.length < 1 ? (
           <View style={styles.supportWidget}>
@@ -97,7 +107,7 @@ const OrdersList = ({ error, loading, member }) => {
         ) : (
           <FlatList
             numColumns={1}
-            data={member.orders}
+            data={store.getState().member.orders}
             renderItem={({ item }) => (
               <Card transparent style={styles.card}>
                 <CardItem
@@ -159,8 +169,8 @@ const OrdersList = ({ error, loading, member }) => {
 
         <Spacer size={20} />
       </Content>
+      </ScrollView>
     </Container>
-    </ScrollView>
   );
 };
 

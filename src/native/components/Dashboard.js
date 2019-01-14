@@ -201,6 +201,7 @@ class Dashboard extends React.Component {
     };
 
     return (
+      <Container style={styles.container}>
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -209,7 +210,6 @@ class Dashboard extends React.Component {
           />
         }
       >
-      <Container style={styles.container}>
         <Content padder>
           <View style={styles.userBar}>
             <View style={styles.userImg}>
@@ -282,8 +282,9 @@ class Dashboard extends React.Component {
 
           <Spacer size={30} />
         </Content>
+        </ScrollView>
       </Container>
-      </ScrollView>
+      
     );
   }
 }

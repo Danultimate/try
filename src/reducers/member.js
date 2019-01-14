@@ -41,6 +41,16 @@ export default function userReducer(state = initialState, action) {
       }
       return initialState;
     }
+    case "USER_ORDERS_UPDATE": {
+      if (action.dataOrders) {
+        return {
+          ...state,
+          loading: false,
+          error: null,
+          orders: action.dataOrders,
+        };
+      }
+    }
     case "USER_BANK_UPDATE": {
       if (action.dataBank) {
         return {
