@@ -73,7 +73,7 @@ class Products extends React.Component {
   }
 
   componentWillMount() {
-    let titles = "'Maquillaje' OR 'Cuidado de piel' OR 'Cuidado del cabello' OR 'Cuidado personal' OR 'Accesorios para mujer' OR 'Accesorios para hombre' OR 'Fragancias' NOT 'Regala' NOT 'Año'";
+    let titles = "'Maquillaje' OR 'Cuidado de piel' OR 'Cuidado del cabello' OR 'Cuidado personal' OR 'Accesorios para mujer' OR 'Accesorios para hombre' OR 'Fragancias' NOT 'Regala' NOT 'Año' NOT 'mejores'";
     const query = client.query(root => {
       root.add("shop", shop => {
         // shop.add("name");
