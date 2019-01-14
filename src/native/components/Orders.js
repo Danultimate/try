@@ -7,7 +7,8 @@ import {
   FlatList,
   TouchableOpacity,
   RefreshControl,
-  Image
+  Image,
+  ScrollView
 } from "react-native";
 import {
   View,
@@ -41,6 +42,7 @@ const onPress = item => {
   Actions.order({ order: item });
 };
 
+
 const OrdersList = ({ error, loading, member }) => {
   if (Platform.OS === "ios") {
     StatusBar.setBarStyle("dark-content");
@@ -55,7 +57,15 @@ const OrdersList = ({ error, loading, member }) => {
   const keyExtractor = item => item.id.toString();
 
   return (
-    <Container style={styles.container}>
+    <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={Actions.orders}
+          />
+        }
+      >
+      <Container style={styles.container}>
       <Content padder>
         {!member.orders || member.orders.length < 1 ? (
           <View style={styles.supportWidget}>
@@ -150,6 +160,7 @@ const OrdersList = ({ error, loading, member }) => {
         <Spacer size={20} />
       </Content>
     </Container>
+    </ScrollView>
   );
 };
 

@@ -4,11 +4,11 @@ import {
   Platform,
   StatusBar,
   StyleSheet,
-  TouchableOpacity,
   FlatList,
   Image,
-  Share,
-  AsyncStorage
+  AsyncStorage,
+  RefreshControl,
+  ScrollView
 } from "react-native";
 import {
   View,
@@ -58,7 +58,8 @@ class Dashboard extends React.Component {
       orders: [],
       feed: [],
       headerMessage: [],
-      error: null
+      error: null,
+      refreshing: false
     };
   }
   componentDidUpdate() {
@@ -142,6 +143,50 @@ class Dashboard extends React.Component {
         });
       });
   }
+
+  _onRefresh = () => {
+    this.setState({refreshing: true});
+    API.get("/feed")
+    .then(res => {
+      //console.log('la respuesta')
+      //console.log(res)
+      let response = res.data;
+      console.log("Retrieve Feed");
+      console.log(response.feed[0].type);
+
+      // First Order popup
+      API.get("/user_events").then(events => {
+        console.log("getUserEvents succeed")
+        events.data.events.forEach(event => {
+          if (event.event.title == "First Order" && event.show == true){
+            if (this.props.member.bankAccount){
+              console.log("already info")
+              API.put(`/user_events/${event.id}`, {event: {show: false}})
+            }
+            else {
+              Actions.firstOrder({event: event});
+            }
+          }
+        });
+
+        this.setState({
+          feed: response.feed,
+          products: response.products,
+          orders: response.orders,
+          topMessage: response.top_message.value,
+          bottomMessage: response.bottom_message.value,
+          loading: false,
+          refreshing: false
+        });
+      });
+    })
+    .catch(error => {
+      console.log("Error @getting content1");
+      console.log(error);
+      // console.log(error.response);
+    });
+  }
+
   render() {
     Mixpanel.screen("Dashboard");
     // Loading
@@ -156,6 +201,14 @@ class Dashboard extends React.Component {
     };
 
     return (
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh}
+          />
+        }
+      >
       <Container style={styles.container}>
         <Content padder>
           <View style={styles.userBar}>
@@ -230,6 +283,7 @@ class Dashboard extends React.Component {
           <Spacer size={30} />
         </Content>
       </Container>
+      </ScrollView>
     );
   }
 }
