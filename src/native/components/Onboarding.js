@@ -14,6 +14,7 @@ import Colors from "../../../native-base-theme/variables/commonColor";
 import { Actions } from "react-native-router-flux";
 
 import { Mixpanel } from "../../actions/mixpanel";
+import Share from "./CustomShareModule";
 
 const onboardingPages = [
   {
@@ -23,7 +24,14 @@ const onboardingPages = [
       "Comparte tu mensaje de presentación cómo embajadora de Elenas con 5 amigos y familiares. ¡Tus conocidos son la mejor forma de comenzar a vender!",
     borderedButton: true,
     callToAction: "Compartir mensaje",
-    action: () => {},
+    action: async () => {
+      // TODO: change content
+      let message = "Hola soy embajadora"
+      let fileNames = ["Providers_1024x1024.jpg"]
+      let priceTags = [""]
+      images = ["https://cdn.shopify.com/s/files/1/0009/1186/7955/files/Providers_1024x1024.jpg?v=1542751666"]
+      await Share.share(message, fileNames, priceTags, images);
+    },
     image: require("../assets/images/onboarding-1.jpg"),
     color: Colors.brandPrimary
   },
