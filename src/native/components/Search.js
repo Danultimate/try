@@ -1,14 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  Platform,
-  StatusBar,
-  StyleSheet
-} from "react-native";
-import {
-  Container,
-  Content
-} from "native-base";
+import { Platform, StatusBar, StyleSheet } from "react-native";
+import { Container, Content } from "native-base";
 import Colors from "../../../native-base-theme/variables/commonColor";
 import ErrorMessages from "../../constants/errors";
 import Error from "./Error";
@@ -29,7 +22,6 @@ import shopify from "../../constants/shopify";
 import { Mixpanel } from "../../actions/mixpanel";
 import { Actions } from "react-native-router-flux";
 
-
 const keyExtractor = item => item.id.toString();
 
 class Search extends React.Component {
@@ -48,7 +40,7 @@ class Search extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({ loadingResults: true });
-    console.log('update props @search ')
+    console.log("update props @search ");
     console.log(nextProps.keyword);
     let runQuery = false;
     let query = "";
@@ -59,30 +51,35 @@ class Search extends React.Component {
         keyword: nextProps.keyword,
         query: nextProps.keyword,
         runQuery: true,
-        filterBarStatus: "Mostrando todas las categorias",
+        filterBarStatus: "Mostrando todas las categorias"
       });
       runQuery = true;
       query = nextProps.keyword;
-
     } else {
-      this.setState({ loadingResults: false, filterBarStatus: "Mostrando todas las categorias" });
+      this.setState({
+        loadingResults: false,
+        filterBarStatus: "Mostrando todas las categorias"
+      });
     }
 
-    if (typeof nextProps.filter != "undefined" && nextProps.filter.handle != "") {
-      console.log('entra al filter')
+    if (
+      typeof nextProps.filter != "undefined" &&
+      nextProps.filter.handle != ""
+    ) {
+      console.log("entra al filter");
       this.setState({
         filter: nextProps.filter.handle,
         query: `${this.state.keyword} tag:["${nextProps.filter.handle}"]`,
         runQuery: true,
-        filterBarStatus: `Mostrando ${nextProps.filter.name}`,
+        filterBarStatus: `Mostrando ${nextProps.filter.name}`
       });
       runQuery = true;
       query = `${this.state.keyword} tag:["${nextProps.filter.handle}"]`;
-    } 
-    
+    }
+
     if (runQuery) {
-      console.log('el query')
-      console.log(query)
+      console.log("el query");
+      console.log(query);
       const collectionQuery = {
         first: 10,
         //query:"variants.price:<=30000"
@@ -91,7 +88,7 @@ class Search extends React.Component {
 
       shopify.product.fetchQuery(collectionQuery).then(res => {
         console.log("resultado");
-        this.setState({ products: res, loadingResults: false});
+        this.setState({ products: res, loadingResults: false });
       });
     }
   }
@@ -103,11 +100,14 @@ class Search extends React.Component {
 
     return (
       <Container style={styles.container}>
-        {Platform.OS === "iOS" && <StatusBar barStyle="dark-content" />}
+        {Platform.OS === "ios" && <StatusBar barStyle="dark-content" />}
         <Content padder>
-          <FilterBar filterBarStatus={this.state.filterBarStatus}/>
-          
-          <ProductList products={this.state.products} eventName="Share Product - Search View"/>
+          <FilterBar filterBarStatus={this.state.filterBarStatus} />
+
+          <ProductList
+            products={this.state.products}
+            eventName="Share Product - Search View"
+          />
         </Content>
       </Container>
     );

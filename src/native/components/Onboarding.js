@@ -1,6 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, Image, Dimensions, TouchableOpacity } from "react-native";
+import {
+  Platform,
+  StatusBar,
+  StyleSheet,
+  Image,
+  Dimensions,
+  TouchableOpacity
+} from "react-native";
 import { Container, Icon, Text, Button, View } from "native-base";
 import OnboardingComponent from "react-native-onboarding-swiper";
 import Colors from "../../../native-base-theme/variables/commonColor";
@@ -16,7 +23,9 @@ const onboardingPages = [
       "Comparte tu mensaje de presentación cómo embajadora de Elenas con 5 amigos y familiares. ¡Tus conocidos son la mejor forma de comenzar a vender!",
     borderedButton: true,
     callToAction: "Compartir mensaje",
-    action: () => {}
+    action: () => {},
+    image: require("../assets/images/onboarding-1.jpg"),
+    color: Colors.brandPrimary
   },
   {
     title: "¡Comparte productos y promociones exclusivas!",
@@ -25,7 +34,9 @@ const onboardingPages = [
       "Los productos más vendidos son una manera segura de despertar el interés de tus posibles clientes. Compártelos con quienes creas que les interese.",
     borderedButton: true,
     callToAction: "Compartir productos",
-    action: () => {}
+    action: () => {},
+    image: require("../assets/images/onboarding-2.jpg"),
+    color: Colors.brandPrimary
   },
   {
     title: "¡Conoce nuestra tienda Elenas y guía a tu cliente!",
@@ -34,15 +45,29 @@ const onboardingPages = [
       "Ingresa en Elenas.la y ayuda a tu cliente a encontrar y elegir el producto que necesita, o guíalo para que pueda completar su pedido sin problemas.",
     borderedButton: true,
     callToAction: "Ir a la tienda",
-    action: () => {}
+    action: () => {
+      Actions.store();
+      console.log(this);
+      // this.flatList.scrollToIndex({
+      //   animated: true,
+      //   index: this.state.currentPage + 1
+      // });
+    },
+    image: require("../assets/images/onboarding-3.jpg"),
+    color: Colors.brandPrimary
   },
   {
     title: "¡Ahora es tu turno de ganar dinero vendiendo!",
-    pretitle: "Ya sabes todo lo que necesitas para comenzar",
+    pretitle: "Es el mejor momento para comenzar",
     text:
       "Pagamos comisiones cada 15 días. Cada comisión será efectiva en cuanto tus clientes completen el pago. Solo debes agregar tu cuenta Nequi.",
+    borderedButton: false,
     callToAction: "¡Comenzar a vender y ganar!",
-    action: () => {}
+    action: () => {
+      Actions.home();
+    },
+    image: require("../assets/images/onboarding-4.jpg"),
+    color: Colors.brandSuccess
   }
 ];
 
@@ -94,9 +119,17 @@ const Next = ({ isLight, nextLabel, ...props }) => (
   </Button>
 );
 
-const Header = ({ pretitle, title }) => (
-  <View>
-    <Text style={[styles.pretitle, styles.primaryMsg, styles.textCenter]}>
+const Banner = ({ image, color }) => (
+  <View style={[styles.onboardingBanner, { backgroundColor: color }]}>
+    <View style={styles.onboardingImgWrapper}>
+      <Image style={styles.onboardingImg} source={image} />
+    </View>
+  </View>
+);
+
+const Header = ({ pretitle, title, color }) => (
+  <View style={{ backgroundColor: "white", width: "100%", paddingTop: 32 }}>
+    <Text style={[styles.pretitle, styles.textCenter, { color: color }]}>
       {pretitle}
     </Text>
     <Text style={[styles.header, styles.textCenter]}>{title}</Text>
@@ -104,9 +137,20 @@ const Header = ({ pretitle, title }) => (
 );
 
 const Body = ({ text, callToAction, action, bordered }) => (
-  <View>
-    <Text style={[styles.textCenter]}>{text}</Text>
-    <Button bordered={bordered} onPress={action()}>
+  <View
+    style={{
+      backgroundColor: "white",
+      paddingBottom: 60,
+      paddingHorizontal: 16
+    }}
+  >
+    <Text style={[styles.onboardingText]}>{text}</Text>
+    <Button
+      style={[styles.callToAction]}
+      success={true}
+      bordered={bordered}
+      onPress={action}
+    >
       <Text style={[styles.textCenter]}>{callToAction}</Text>
     </Button>
   </View>
@@ -116,29 +160,41 @@ const Onboarding = () => {
   Mixpanel.screen("Onboarding");
   return (
     <Container style={styles.container}>
+      {Platform.OS === "ios" && <StatusBar barStyle="light-content" />}
       <OnboardingComponent
         DotComponent={Dot}
         DoneButtonComponent={Done}
         showSkip={false}
         showNext={false}
-        onDone={Actions.home}
+        showDone={false}
         bottomBarHighlight={false}
-        containerViewStyles={{ alignItems: "flex-start" }}
-        imageContainerStyles={{ paddingBottom: 24 }}
-        subTitleStyles={{ paddingHorizontal: 8 }}
+        controlStatusBar={false}
+        containerStyles={{
+          alignItems: "flex-start",
+          justifyContent: "center",
+          backgroundColor: "white"
+        }}
+        imageContainerStyles={{
+          paddingTop: 0,
+          paddingBottom: 0,
+          marginBottom: 0,
+          zIndex: 3,
+          position: "relative"
+        }}
         pages={[
           {
-            backgroundColor: Colors.brandLight,
+            backgroundColor: "white",
             image: (
-              <Image
-                style={styles.onboardingImg}
-                source={require("../assets/images/onboarding-1.png")}
+              <Banner
+                image={onboardingPages[0].image}
+                color={onboardingPages[0].color}
               />
             ),
             title: (
               <Header
                 title={onboardingPages[0].title}
                 pretitle={onboardingPages[0].pretitle}
+                color={onboardingPages[0].color}
               />
             ),
             subtitle: (
@@ -148,79 +204,80 @@ const Onboarding = () => {
                 callToAction={onboardingPages[0].callToAction}
                 bordered={onboardingPages[0].borderedButton}
               />
+            ),
+            titleStyles: { backgroundColor: "white", width: "100%" }
+          },
+          {
+            backgroundColor: "white",
+            image: (
+              <Banner
+                image={onboardingPages[1].image}
+                color={onboardingPages[1].color}
+              />
+            ),
+            title: (
+              <Header
+                title={onboardingPages[1].title}
+                pretitle={onboardingPages[1].pretitle}
+                color={onboardingPages[1].color}
+              />
+            ),
+            subtitle: (
+              <Body
+                text={onboardingPages[1].text}
+                action={onboardingPages[1].action}
+                callToAction={onboardingPages[1].callToAction}
+                bordered={onboardingPages[1].borderedButton}
+              />
             )
           },
           {
-            backgroundColor: "#fff",
+            backgroundColor: "white",
             image: (
-              <Image
-                style={styles.onboardingImg}
-                source={require("../assets/images/onboarding-2.png")}
+              <Banner
+                image={onboardingPages[2].image}
+                color={onboardingPages[2].color}
               />
             ),
             title: (
-              <Text
-                style={[styles.header, styles.primaryMsg, styles.textCenter]}
-              >
-                ¿Como compran mis clientes?
-              </Text>
+              <Header
+                title={onboardingPages[2].title}
+                pretitle={onboardingPages[2].pretitle}
+                color={onboardingPages[2].color}
+              />
             ),
-            subtitle:
-              "Tus clientes compran en nuestra página web. Cada vez que alguien compra usando tu código de embajadora tu ganas una comisión del 30%. Encuentra tú código abajo de tu foto de perfil en la aplicación."
+            subtitle: (
+              <Body
+                text={onboardingPages[2].text}
+                action={onboardingPages[2].action}
+                callToAction={onboardingPages[2].callToAction}
+                bordered={onboardingPages[2].borderedButton}
+              />
+            )
           },
           {
-            backgroundColor: "#fff",
+            backgroundColor: "white",
             image: (
-              <Image
-                style={styles.onboardingImg}
-                source={require("../assets/images/onboarding-3.png")}
+              <Banner
+                image={onboardingPages[3].image}
+                color={onboardingPages[3].color}
               />
             ),
             title: (
-              <Text
-                style={[styles.header, styles.primaryMsg, styles.textCenter]}
-              >
-                ¿Tengo que entregar y cobrar?
-              </Text>
-            ),
-            subtitle:
-              "Nosotros entregamos los productos a tus clientes y cobramos (ofrecemos pago contra entrega para la comodidad de tus clientes)."
-          },
-          {
-            backgroundColor: "#fff",
-            image: (
-              <Image
-                style={styles.onboardingImg}
-                source={require("../assets/images/onboarding-4.png")}
+              <Header
+                title={onboardingPages[3].title}
+                pretitle={onboardingPages[3].pretitle}
+                color={onboardingPages[3].color}
               />
             ),
-            title: (
-              <Text
-                style={[styles.header, styles.primaryMsg, styles.textCenter]}
-              >
-                ¿Como me pagan?
-              </Text>
-            ),
-            subtitle:
-              "Pagamos comisiones cada 15 días a través de la aplicación de Bancolombia Nequi – es súper fácil. En las próximas 24 horas una de nuestras coordinadoras de ventas te va a llamar para explicarlo mejor."
-          },
-          {
-            backgroundColor: Colors.brandPrimary,
-            image: (
-              <Image
-                style={styles.onboardingImg}
-                source={require("../assets/images/onboarding-5.png")}
+            subtitle: (
+              <Body
+                text={onboardingPages[3].text}
+                action={onboardingPages[3].action}
+                callToAction={onboardingPages[3].callToAction}
+                bordered={onboardingPages[3].borderedButton}
               />
-            ),
-            title: (
-              <Text
-                style={[styles.header, styles.textCenter, { color: "white" }]}
-              >
-                ¿Que debo hacer ahora?
-              </Text>
-            ),
-            subtitle:
-              "Comparte los productos o colecciones para generar tus primeras ventas y comenzar como embajadora de Elenas."
+            )
           }
         ]}
       />
@@ -256,7 +313,14 @@ const styles = StyleSheet.create({
     fontFamily: "playfair",
     fontSize: 32,
     marginBottom: 8,
-    lineHeight: 28
+    lineHeight: 28,
+    paddingHorizontal: 8
+  },
+  pretitle: {
+    fontSize: 14,
+    marginBottom: 4,
+    fontWeight: "bold",
+    paddingHorizontal: 8
   },
   meta: {
     fontSize: 10,
@@ -269,13 +333,29 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 12
   },
+  overlay: {
+    backgroundColor: "white"
+  },
   authCard: {
     justifyContent: "center",
     alignItems: "center",
     paddingBottom: 0
   },
-  onboardingImg: {
-    marginTop: 0
+  onboardingBanner: {
+    width: "100%",
+    paddingTop: 48,
+    alignItems: "center",
+    alignSelf: "flex-start",
+    top: 0
+  },
+  onboardingImgWrapper: {
+    marginBottom: -16,
+    paddingBottom: 0,
+    shadowColor: "#2F156B",
+    shadowOpacity: 0.6,
+    shadowOffset: { height: 1 },
+    shadowRadius: 2,
+    elevation: 2
   },
   cardSuccess: {
     borderTopColor: Colors.brandSuccess,
@@ -290,6 +370,14 @@ const styles = StyleSheet.create({
     borderTopColor: "#EBEDF0",
     paddingHorizontal: 0
   },
+  callToAction: {
+    alignSelf: "center",
+    borderRightWidth: 1,
+    borderTopWidth: 1,
+    borderLeftWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: Colors.brandSuccess
+  },
   successMsg: {
     color: Colors.brandSuccess
   },
@@ -301,6 +389,10 @@ const styles = StyleSheet.create({
   },
   textCenter: {
     textAlign: "center"
+  },
+  onboardingText: {
+    textAlign: "center",
+    marginBottom: 12
   },
   supportWidget: {
     flex: 1,
