@@ -26,10 +26,10 @@ const onboardingPages = [
     callToAction: "Compartir mensaje",
     action: async () => {
       // TODO: change content
-      let message = "Hola soy embajadora"
-      let fileNames = ["Providers_1024x1024.jpg"]
-      let priceTags = [""]
-      images = ["https://cdn.shopify.com/s/files/1/0009/1186/7955/files/Providers_1024x1024.jpg?v=1542751666"]
+      let message = "¡Hola, te presento a Elenas!";
+      let fileNames = ["IntroMsg.png"];
+      let priceTags = [""];
+      images = ["https://s3.amazonaws.com/elenas-app/IntroMsg%402x.png"];
       await Share.share(message, fileNames, priceTags, images);
     },
     image: require("../assets/images/onboarding-1.jpg"),
@@ -42,7 +42,14 @@ const onboardingPages = [
       "Los productos más vendidos son una manera segura de despertar el interés de tus posibles clientes. Compártelos con quienes creas que les interese.",
     borderedButton: true,
     callToAction: "Compartir productos",
-    action: () => {},
+    action: async () => {
+      // TODO: change content
+      let message = "¡Conoce los productos más vendidos en Elenas!";
+      let fileNames = ["IntroMsg.png"];
+      let priceTags = [""];
+      images = ["https://s3.amazonaws.com/elenas-app/IntroMsg%402x.png"];
+      await Share.share(message, fileNames, priceTags, images);
+    },
     image: require("../assets/images/onboarding-2.jpg"),
     color: Colors.brandPrimary
   },
