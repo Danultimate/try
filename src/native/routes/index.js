@@ -68,7 +68,6 @@ const Index = (
     <Stack key="root">
       <Scene hideNavBar>
         <Scene key="auth">
-          <Scene key="onboarding" hideNavBar component={OnboardingComponent} />
           <Scene key="welcome" hideNavBar component={WelcomeComponent} />
           <Scene
             key="signUp"
@@ -103,9 +102,7 @@ const Index = (
             {...DefaultProps.navbarProps}
             component={TermsComponent}
           />
-          {/*
           <Scene key="onboarding" hideNavBar component={OnboardingComponent} />
-          */}
         </Scene>
         <Scene hideNavBar activeTintColor="#93a8d5" inactiveTintColor="#3b5998">
           <Tabs

@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
+  Platform,
+  StatusBar,
   StyleSheet,
   Image,
   Dimensions,
@@ -38,7 +40,7 @@ const Welcome = () => {
       Mixpanel.track("Usario con token");
       //TODO: change back to Actions.home() after mocking up FirstOrderModal
       // Actions.firstOrder();
-      Actions.home()
+      Actions.home();
     }
   });
   Mixpanel.screen("Welcome");
@@ -46,6 +48,8 @@ const Welcome = () => {
   return (
     <Container style={styles.container}>
       <Content padder>
+        {Platform.OS === "ios" ? <StatusBar barStyle="dark-content" /> : null}
+
         <AppLogoAuth />
         <Card style={styles.card}>
           <CardItem style={styles.cardBody}>

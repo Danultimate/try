@@ -121,6 +121,7 @@ class App extends React.Component {
       ]),
       Font.loadAsync({
         ...Icon.SimpleLineIcons.font,
+        ...Icon.FontAwesome.font,
         playfair: require("./assets/fonts/PlayfairDisplay-Bold.ttf")
       })
     ]);

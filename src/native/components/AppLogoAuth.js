@@ -13,8 +13,8 @@ const AppLogoAuth = () => {
     >
       <Image
         style={{
-          marginTop: 32,
-          marginBottom: 24
+          marginTop: 24,
+          marginBottom: 16
         }}
         source={require("../assets/images/logo-p.png")}
       />

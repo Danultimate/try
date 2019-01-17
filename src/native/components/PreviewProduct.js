@@ -72,7 +72,7 @@ const PreviewProduct = ({ error, product, sellerCode, eventName }) => {
 
   return (
     <Container style={styles.container}>
-      {Platform.OS === "iOS" && <StatusBar barStyle="dark-content" />}
+      {Platform.OS === "ios" && <StatusBar barStyle="dark-content" />}
       <Content padder>
         <View style={styles.productBar}>
           <Text style={[styles.meta, styles.category, styles.successMsg]}>
@@ -83,7 +83,8 @@ const PreviewProduct = ({ error, product, sellerCode, eventName }) => {
           <Spacer size={8} />
           {product.variants.length && product.variants[0].compare_at_price ? (
             <Text style={styles.productPriceCompare} note>
-              ${Number(product.variants[0].compare_at_price).toLocaleString(
+              $
+              {Number(product.variants[0].compare_at_price).toLocaleString(
                 "es-CO",
                 {
                   maximumFractionDigits: 0,
@@ -91,10 +92,12 @@ const PreviewProduct = ({ error, product, sellerCode, eventName }) => {
                 }
               )}
             </Text>
-          ) : product.variants.edges && product.variants.edges.length &&
-          product.variants.edges[0].node.compareAtPrice ? (
+          ) : product.variants.edges &&
+            product.variants.edges.length &&
+            product.variants.edges[0].node.compareAtPrice ? (
             <Text style={styles.productPriceCompare} note>
-              ${Number(
+              $
+              {Number(
                 product.variants.edges[0].node.compareAtPrice
               ).toLocaleString("es-CO", {
                 maximumFractionDigits: 0,
@@ -103,21 +106,23 @@ const PreviewProduct = ({ error, product, sellerCode, eventName }) => {
             </Text>
           ) : null}
           <Text style={styles.productPrice}>
-            ${product.variants.length && product.variants[0].price
+            $
+            {product.variants.length && product.variants[0].price
               ? Number(product.variants[0].price).toLocaleString("es-CO", {
                   maximumFractionDigits: 0,
                   minimumFractionDigits: 0
                 })
-              : product.variants.edges && product.variants.edges.length &&
+              : product.variants.edges &&
+                product.variants.edges.length &&
                 product.variants.edges[0].node.price
-                ? Number(product.variants.edges[0].node.price).toLocaleString(
-                    "es-CO",
-                    {
-                      maximumFractionDigits: 0,
-                      minimumFractionDigits: 0
-                    }
-                  )
-                : 0}
+              ? Number(product.variants.edges[0].node.price).toLocaleString(
+                  "es-CO",
+                  {
+                    maximumFractionDigits: 0,
+                    minimumFractionDigits: 0
+                  }
+                )
+              : 0}
           </Text>
           <Spacer size={8} />
           {!!product.image && !!product.image.src ? (
@@ -143,7 +148,7 @@ const PreviewProduct = ({ error, product, sellerCode, eventName }) => {
               }}
             />
           ) : !!product.images.edges[0] &&
-          !!product.images.edges[0].node.src ? (
+            !!product.images.edges[0].node.src ? (
             <Image
               source={{ uri: product.images.edges[0].node.src }}
               style={{
@@ -181,8 +186,8 @@ const PreviewProduct = ({ error, product, sellerCode, eventName }) => {
           {product.description
             ? product.description
             : product.body_html
-              ? product.body_html.replace(/<(?:.|\n)*?>/gm, "")
-              : null}
+            ? product.body_html.replace(/<(?:.|\n)*?>/gm, "")
+            : null}
         </Text>
         <Spacer size={40} />
       </Content>
@@ -211,38 +216,42 @@ const PreviewProduct = ({ error, product, sellerCode, eventName }) => {
                 page: "preview_product"
               });
               Mixpanel.track("Share Product: " + product.title);
-              
-              let url = `https://elenas.la/products/${product.handle}`;
-              message = `${url} \n🎁🎄 *20% de descuento* en compras mayores a 100 mil pesos con el código de descuento *NAVIDAD* 🎉🎄.`
-              if (sellerCode)
-                {message += `\nEnvío gratis con mi código de embajadora: *${sellerCode}*`;}
 
-              {product.variants.length ? (
-                price = `$${Number(product.variants[0].price).toLocaleString(
-                    "es-CO",
-                    {
+              let url = `https://elenas.la/products/${product.handle}`;
+              message = `${url} \n🎁🎄 *20% de descuento* en compras mayores a 100 mil pesos con el código de descuento *NAVIDAD* 🎉🎄.`;
+              if (sellerCode) {
+                message += `\nEnvío gratis con mi código de embajadora: *${sellerCode}*`;
+              }
+
+              {
+                product.variants.length
+                  ? (price = `$${Number(
+                      product.variants[0].price
+                    ).toLocaleString("es-CO", {
                       maximumFractionDigits: 0,
                       minimumFractionDigits: 0
-                    }
-                  )}`
-              ) : product.variants.edges && product.variants.edges.length ? (
-                price = `$${Number(
-                    product.variants.edges[0].node.price
-                  ).toLocaleString("es-CO", {
-                    maximumFractionDigits: 0,
-                    minimumFractionDigits: 0
-                  })}`
-              ) : null}
+                    })}`)
+                  : product.variants.edges && product.variants.edges.length
+                  ? (price = `$${Number(
+                      product.variants.edges[0].node.price
+                    ).toLocaleString("es-CO", {
+                      maximumFractionDigits: 0,
+                      minimumFractionDigits: 0
+                    })}`)
+                  : null;
+              }
 
-              //image_url 
-              {!!product.image && !!product.image.src ? (
-                image_url = product.image.src
-              ) : !!product.images[0] && !!product.images[0].src ? (
-                image_url = product.images[0].src
-              ) : !!product.images.edges[0] &&
-              !!product.images.edges[0].node.src ? (
-                image_url = product.images.edges[0].node.src
-              ) : null}
+              //image_url
+              {
+                !!product.image && !!product.image.src
+                  ? (image_url = product.image.src)
+                  : !!product.images[0] && !!product.images[0].src
+                  ? (image_url = product.images[0].src)
+                  : !!product.images.edges[0] &&
+                    !!product.images.edges[0].node.src
+                  ? (image_url = product.images.edges[0].node.src)
+                  : null;
+              }
 
               Share.share(
                 message,
