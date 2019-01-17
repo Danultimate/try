@@ -62,7 +62,7 @@ const onboardingPages = [
     callToAction: "Ir a la tienda",
     action: () => {
       Actions.store();
-      console.log(this);
+      // console.log(this);
       // this.flatList.scrollToIndex({
       //   animated: true,
       //   index: this.state.currentPage + 1

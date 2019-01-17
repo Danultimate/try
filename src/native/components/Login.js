@@ -40,6 +40,7 @@ import axios from "axios";
 
 import publicAPI from "../../constants/api_public";
 import { Mixpanel } from "../../actions/mixpanel";
+import fbLoginFunction from "../../actions/fbLogin";
 
 class Login extends React.Component {
   static propTypes = {
@@ -105,6 +106,32 @@ class Login extends React.Component {
     this.setState({
       [name]: val
     });
+  };
+
+  fbLogin = async () => {
+    console.log("ok entra aqui...")
+    Expo.Facebook.logInWithReadPermissionsAsync(
+      "187940432084793",
+      {
+        permissions: [
+          "public_profile",
+          "email"
+          // "user_location",
+          // "user_birthday"
+        ]
+      }
+    )
+    .then((res) => {
+      console.log(res)
+    })
+    .catch((err)=> console.log(err))
+    // if (typeResponse === "success") {
+    //   const response = await fetch(
+    //     `https://graph.facebook.com/me?access_token=${token}`
+    //   );
+    //   console.log("Login FB success")
+    //   console.log(`Hi ${(await response.json()).name}!`);
+    // }
   };
 
   handleSubmit = () => {

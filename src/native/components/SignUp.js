@@ -34,6 +34,8 @@ import Header from "./Header";
 import AppLogoAuth from "./AppLogoAuth";
 import Spacer from "./Spacer";
 
+import fbLogin from "../../actions/fbLogin";
+
 import { Mixpanel } from "../../actions/mixpanel";
 
 class SignUp extends React.Component {
@@ -68,6 +70,8 @@ class SignUp extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  
 
   handleChange = (name, val) => {
     this.setState({
@@ -146,7 +150,7 @@ class SignUp extends React.Component {
                 <Body style={styles.authCard}>
                   <Button
                     iconLeft
-                    onPress={this.fbLogin}
+                    onPress={fbLogin}
                     style={{ backgroundColor: "#3B5998" }}
                   >
                     <Icon type="FontAwesome" name="facebook-official" />
