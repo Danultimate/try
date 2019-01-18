@@ -241,7 +241,7 @@ const Contents = props => {
               } else {
                 url = ''
               }
-              message = `${url} \n🎁🎄 *20% de descuento* en compras mayores a 100 mil pesos con el código de descuento *NAVIDAD* 🎉🎄.\nEnvío gratis con mi código de embajadora: *${props.sellerCode}*`;
+              message = `${url}\nEnvío gratis con mi código de embajadora: *${props.sellerCode}*`;
 
               const start = async () => {
                 let images = [];

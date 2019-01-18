@@ -168,7 +168,7 @@ const ProductsList = props => {
 
                     let url = `https://elenas.la/products/${item.handle}`;
 
-                    message = `${url} \n🎁🎄 *20% de descuento* en compras mayores a 100 mil pesos con el código de descuento *NAVIDAD* 🎉🎄.`
+                    message = `${url}`
                     if (props.sellerCode)
                       {message += `\nEnvío gratis con mi código de embajadora: *${props.sellerCode}*`;}
 
