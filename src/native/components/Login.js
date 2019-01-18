@@ -40,7 +40,6 @@ import axios from "axios";
 
 import publicAPI from "../../constants/api_public";
 import { Mixpanel } from "../../actions/mixpanel";
-import fbLoginFunction from "../../actions/fbLogin";
 
 class Login extends React.Component {
   static propTypes = {
@@ -52,6 +51,7 @@ class Login extends React.Component {
     success: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     onFormSubmit: PropTypes.func.isRequired,
+    onFormWithFBSubmit: PropTypes.func.isRequired,
     isHidden: PropTypes.bool.isRequired,
     userWithEmail: PropTypes.bool.isRequired,
     checked: PropTypes.bool.isRequired
@@ -110,7 +110,7 @@ class Login extends React.Component {
 
   fbLogin = async () => {
     console.log("ok entra aqui...")
-    Expo.Facebook.logInWithReadPermissionsAsync(
+    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
       "187940432084793",
       {
         permissions: [
@@ -119,12 +119,30 @@ class Login extends React.Component {
           // "user_location",
           // "user_birthday"
         ]
-      }
-    )
-    .then((res) => {
-      console.log(res)
-    })
-    .catch((err)=> console.log(err))
+      },
+    );
+
+    if (type === "success" && token) {
+      const response = await fetch(
+        `https://graph.facebook.com/me?fields=name,email&access_token=${token}`
+      );
+      const resJSON = await response.json()
+      this.setState({email: resJSON.email, token: token})
+      
+      const { onFormWithFBSubmit } = this.props;
+      onFormWithFBSubmit(this.state)
+        .then(data => {
+          //Mixpanel.identify(data.data.uid);
+          //Mixpanel.track("Login Success");
+          console.log("ok funciono login with FB")
+          Actions.home({});
+        })
+        .catch(e => {
+          // Mixpanel.track("Login Error");
+          console.log(`Error: ${e}`);
+        });
+    }
+    
     // if (typeResponse === "success") {
     //   const response = await fetch(
     //     `https://graph.facebook.com/me?access_token=${token}`

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { login } from '../actions/member';
+import { login, fbLogin } from '../actions/member';
 
 class Login extends Component {
   static propTypes = {
@@ -10,6 +10,7 @@ class Login extends Component {
     locale: PropTypes.string,
     member: PropTypes.shape({}).isRequired,
     onFormSubmit: PropTypes.func.isRequired,
+    onFormWithFBSubmit: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
     successMessage: PropTypes.string.isRequired,
   }
@@ -25,6 +26,12 @@ class Login extends Component {
   onFormSubmit = (data) => {
     const { onFormSubmit } = this.props;
     return onFormSubmit(data)
+      .catch((err) => { this.setState({ errorMessage: err }); throw err; });
+  }
+
+  onFormWithFBSubmit = (data) => {
+    const { onFormWithFBSubmit } = this.props;
+    return onFormWithFBSubmit(data)
       .catch((err) => { this.setState({ errorMessage: err }); throw err; });
   }
 
@@ -47,6 +54,7 @@ class Login extends Component {
         error={errorMessage}
         success={successMessage}
         onFormSubmit={this.onFormSubmit}
+        onFormWithFBSubmit={this.onFormWithFBSubmit}
       />
     );
   }
@@ -61,6 +69,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   onFormSubmit: login,
+  onFormWithFBSubmit: fbLogin
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

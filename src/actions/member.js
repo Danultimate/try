@@ -163,8 +163,6 @@ function getUserData(dispatch) {
   });
 }
 
-// TODO: Integrate with dispatch etc
-
 async function getToken() {
   return (await AsyncStorage.getItem("token")) || "none";
 }
@@ -224,6 +222,63 @@ export function setupAxios(dispatch, cellphone, password) {
       // return reject({ message: ErrorMessages.wrongPassword });
     });
 }
+
+/**
+ * Get this User's Details from Backend
+ */
+export function setupAxiosWithFB(dispatch, email, fbToken) {
+  AsyncStorage.removeItem("token");
+  return publicAPI
+    .post(
+      "/login_with_fb",
+      {
+        token: fbToken,
+        email: email
+      },
+      { headers: { common: {} } }
+    )
+    .then(response => {
+      console.log("el token");
+      console.log(response.data.access_token);
+      AsyncStorage.setItem("token", response.data.access_token).then(res => {
+        console.log("set the token");
+        console.log(res);
+        console.log(response.data.access_token);
+        API.defaults.headers.common["Authorization"] = `Bearer ${
+          response.data.access_token
+        }`;
+        // POST the token to your backend server from where you can retrieve it to send push notifications.
+        AsyncStorage.getItem("notificationToken").then(notificationToken => {
+          console.log("El notiification token");
+          console.log(notificationToken);
+          API.put(`/users/${response.data.user.id}`, {
+            user: { device_token: notificationToken }
+          });
+        });
+        console.log("@auth-backend success");
+        getUserData(dispatch);
+      });
+    })
+    .catch(err => {
+      console.log("Error @auth-backend");
+      console.log(err);
+      // await statusMessage(dispatch, "loading", false);
+
+      // Case reset password @backend
+      return publicAPI
+        .post(
+          `https://seller-server-dev.herokuapp.com/api/update_password`,
+          { cellphone: response.data.user.cellphone, password: password||"control1234" },
+          { headers: { common: {} } }
+        )
+        .then(() => {
+          return setupAxios(dispatch, cellphone, password);
+        });
+      // throw ErrorMessages.wrongPassword;
+      // return reject({ message: ErrorMessages.wrongPassword });
+    });
+}
+
 
 export function getMemberData() {
   if (Firebase === null) return () => new Promise(resolve => resolve());
@@ -445,6 +500,218 @@ export function login(formData) {
       }
     });
 }
+
+
+/**
+ * Login to Firebase with Facebook Token
+ */
+export function fbLogin(formData) {
+  const { email, token} = formData;
+  return dispatch =>
+    new Promise(async (resolve, reject) => {
+      await statusMessage(dispatch, "loading", true);
+      // Validation checks
+      console.log(email)
+      if (!email) return reject({ message: ErrorMessages.missingEmail });
+      //TODO: missingToken
+      if (!token) return reject({ message: ErrorMessages.missingCellphone });
+      /* 
+      TODO: part when email has no cellphone
+      if (!userWithEmail) {
+        if (!checked) return reject({ message: ErrorMessages.missingTandC });
+        // Update email at Backend
+        publicAPI.defaults.headers.common = {};
+        return publicAPI
+          .post("https://seller-server-dev.herokuapp.com/api/login", {
+            username: cellphone,
+            password: password
+          })
+          .then(response => {
+            let user_data = response.data.user;
+            console.log("el user_id");
+            console.log(user_data.id);
+            publicAPI.defaults.headers.common["Authorization"] = `Bearer ${
+              response.data.access_token
+            }`;
+            return publicAPI
+              .put(
+                `https://seller-server-dev.herokuapp.com/api/users/${
+                  user_data.id
+                }`,
+                { user: { email: email } }
+              )
+              .then(async uppdatedUserRes => {
+                console.log("entra al update del email");
+                console.log(uppdatedUserRes.data);
+                publicAPI.defaults.headers.common = {};
+                // Sign up then login in Firebase
+                // return dispatch => new Promise(async (resolve, reject) => {
+                //   console.log('entra aca al signup only FB')
+
+                //   await statusMessage(dispatch, 'loading', true);
+
+                // Go to Firebase
+                return Firebase.auth()
+                  .createUserWithEmailAndPassword(email, password)
+                  .then(res => {
+                    console.log(res);
+                    // Send user details to Firebase database
+
+                    if (res && res.user.uid) {
+                      FirebaseRef.child(`users/${res.user.uid}`)
+                        .set({
+                          firstName: user_data.first_name,
+                          lastName: user_data.last_name,
+                          phoneNumber: cellphone,
+                          signedUp: Firebase.database.ServerValue.TIMESTAMP,
+                          lastLoggedIn: Firebase.database.ServerValue.TIMESTAMP
+                        })
+                        .then(async () => {
+                          return await Firebase.auth()
+                            .setPersistence(
+                              Firebase.auth.Auth.Persistence.LOCAL
+                            )
+                            .then(() =>
+                              Firebase.auth()
+                                .signInWithEmailAndPassword(email, password)
+                                .then(async res => {
+                                  const userDetails =
+                                    res && res.user ? res.user : null;
+
+                                  if (userDetails.uid) {
+                                    // Update last logged in data
+                                    FirebaseRef.child(
+                                      `users/${userDetails.uid}`
+                                    ).update({
+                                      lastLoggedIn:
+                                        Firebase.database.ServerValue.TIMESTAMP
+                                    });
+
+                                    // Send verification Email when email hasn't been verified
+                                    if (userDetails.emailVerified === false) {
+                                      Firebase.auth()
+                                        .currentUser.sendEmailVerification()
+                                        .catch(() =>
+                                          console.log(
+                                            "Verification email failed to send"
+                                          )
+                                        );
+                                    }
+
+                                    // Set flask backend bridge
+                                    await setupAxios(
+                                      dispatch,
+                                      cellphone,
+                                      password
+                                    );
+                                    AsyncStorage.getItem("token").then(res => {
+                                      console.log("here's the token");
+                                      console.log(res);
+                                    });
+
+                                    // Get User Data
+                                    //await getUserData(dispatch);
+                                  }
+
+                                  await statusMessage(
+                                    dispatch,
+                                    "loading",
+                                    false
+                                  );
+
+                                  // Send Login data to Redux
+                                  return resolve(
+                                    dispatch({
+                                      type: "USER_LOGIN",
+                                      data: userDetails
+                                    })
+                                  );
+                                })
+                                .catch(reject)
+                            );
+
+                          // return statusMessage(dispatch, "loading", false).then(
+                          //   resolve
+                          // );
+                        });
+                    }
+                    // }).catch(reject);
+                  })
+                  .catch(async err => {
+                    await statusMessage(dispatch, "loading", false);
+                    //throw ErrorMessages.wrongPassword;
+                    return reject({ message: ErrorMessages.wrongPassword });
+                  });
+              });
+          })
+          .catch(async err => {
+            console.log("error accaaaaa");
+            await statusMessage(dispatch, "loading", false);
+            //throw ErrorMessages.wrongPassword;
+            return reject({ message: ErrorMessages.wrongPassword });
+          });
+      }
+      */
+
+      // Go to Firebase
+      const credential = Firebase.auth.FacebookAuthProvider.credential(token);
+        
+      return await Firebase.auth()
+        .setPersistence(Firebase.auth.Auth.Persistence.LOCAL)
+        .then(() =>
+          Firebase.auth()
+            .signInAndRetrieveDataWithCredential(credential)
+            .then(async res => {
+              const userDetails = res && res.user ? res.user : null;
+
+              if (userDetails.uid) {
+                // Update last logged in data
+                FirebaseRef.child(`users/${userDetails.uid}`).update({
+                  lastLoggedIn: Firebase.database.ServerValue.TIMESTAMP
+                });
+
+                // Send verification Email when email hasn't been verified
+                if (userDetails.emailVerified === false) {
+                  Firebase.auth()
+                    .currentUser.sendEmailVerification()
+                    .catch(() =>
+                      console.log("Verification email failed to send")
+                    );
+                }
+
+                // Set flask backend bridge
+                await setupAxiosWithFB(dispatch, email, token);
+                AsyncStorage.getItem("token").then(res => {
+                  console.log("here's the token");
+                  console.log(res);
+                });
+
+                // Get User Data
+                //await getUserData(dispatch);
+              }
+
+              await statusMessage(dispatch, "loading", false);
+
+              // Send Login data to Redux
+              return resolve(
+                dispatch({
+                  type: "USER_LOGIN",
+                  data: userDetails
+                })
+              );
+            })
+            .catch(reject)
+        );
+    }).catch(async err => {
+      await statusMessage(dispatch, "loading", false);
+      if (err.code === "auth/wrong-password") {
+        throw ErrorMessages.wrongPassword;
+      } else {
+        throw err.message;
+      }
+    });
+}
+
 
 /**
  * Reset Password
