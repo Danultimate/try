@@ -213,7 +213,7 @@ const PreviewProduct = ({ error, product, sellerCode, eventName }) => {
               Mixpanel.track("Share Product: " + product.title);
               
               let url = `https://elenas.la/products/${product.handle}`;
-              message = `${url} \n🎁🎄 *20% de descuento* en compras mayores a 100 mil pesos con el código de descuento *NAVIDAD* 🎉🎄.`
+              message = `${url}`
               if (sellerCode)
                 {message += `\nEnvío gratis con mi código de embajadora: *${sellerCode}*`;}
 
